@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('getprovinsi','RajaOngkirController@getProvinsi');
+Route::get('getkota/{id}','RajaOngkirController@getkota');
+Route::get('provinsi','RajaOngkirController@provinsi');
