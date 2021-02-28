@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('getprovinsi','RajaOngkirController@getProvinsi');
 Route::get('getkota/{id}','RajaOngkirController@getkota');
 Route::get('provinsi','RajaOngkirController@provinsi');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
