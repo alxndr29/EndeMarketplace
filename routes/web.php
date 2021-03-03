@@ -19,8 +19,10 @@ Route::get('/', function () {
 
 Route::get('getprovinsi','RajaOngkirController@getProvinsi');
 Route::get('getkota/{id}','RajaOngkirController@getkota');
-Route::get('provinsi','RajaOngkirController@provinsi');
+Route::get('provinsi','RajaOngkirController@provinsi')->name('provinsi')->middleware('verified');;
+
 
 Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
