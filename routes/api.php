@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/midtrans/notification', 'MidtransController@payment_handling');
+Route::get('/midtrans/status', 'MidtransController@getStatus');

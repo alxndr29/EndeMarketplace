@@ -16,13 +16,27 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+//RajaOngkir
 Route::get('getprovinsi','RajaOngkirController@getProvinsi');
 Route::get('getkota/{id}','RajaOngkirController@getkota');
 Route::get('provinsi','RajaOngkirController@provinsi')->name('provinsi')->middleware('verified');;
 
-
+//Auth Bawaan Laravel
 Auth::routes();
 Auth::routes(['verify' => true]);
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Xendit Payment Gateway
+Route::get('/xendit/balance','XenditController@balance')->name('xendit.balance');
+Route::get('/xendit/listva', 'XenditController@getListVA')->name('xendit.getListVA');
+Route::get('/xendit/createva', 'XenditController@createVA')->name('xendit.createVA');
+Route::get('/xendit/showpayment', 'XenditController@showPayment')->name('xendit.showPayment');
+
+//Midtrans Payment Gateway
+Route::get('/midtrans/index','MidtransController@index');
+Route::get('/midtrans/status', 'MidtransController@getStatus');
+Route::get('/midtrans/cancel', 'MidtransController@cancelPayment');
+Route::post('/midtrans/notification', 'MidtransController@payment_handling');
+
+//User Device
+Route::get('/userdevice', 'UserDeviceController@getusersysteminfo')->name('userdevice.getusersysteminfo');

@@ -21,9 +21,9 @@ class ComposerStaticInitf439d4bc3fd811befba430398ad86859
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
@@ -47,6 +47,7 @@ class ComposerStaticInitf439d4bc3fd811befba430398ad86859
         ),
         'X' => 
         array (
+            'Xendit\\' => 7,
             'XdgBaseDir\\' => 11,
         ),
         'W' => 
@@ -117,6 +118,7 @@ class ComposerStaticInitf439d4bc3fd811befba430398ad86859
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Midtrans\\' => 9,
         ),
         'L' => 
         array (
@@ -184,6 +186,10 @@ class ComposerStaticInitf439d4bc3fd811befba430398ad86859
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'Xendit\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xendit/xendit-php/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -369,6 +375,10 @@ class ComposerStaticInitf439d4bc3fd811befba430398ad86859
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Midtrans\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans',
+        ),
         'League\\MimeTypeDetection\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
@@ -492,8 +502,19 @@ class ComposerStaticInitf439d4bc3fd811befba430398ad86859
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Helpers\\UserSystemInfoHelper' => __DIR__ . '/../..' . '/app/Helpers/UserSystemInfoHelper.php',
+        'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
+        'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
+        'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
+        'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
+        'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
+        'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\MidtransController' => __DIR__ . '/../..' . '/app/Http/Controllers/MidtransController.php',
         'App\\Http\\Controllers\\RajaOngkirController' => __DIR__ . '/../..' . '/app/Http/Controllers/RajaOngkirController.php',
+        'App\\Http\\Controllers\\UserDeviceController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserDeviceController.php',
+        'App\\Http\\Controllers\\XenditController' => __DIR__ . '/../..' . '/app/Http/Controllers/XenditController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -2676,6 +2697,14 @@ class ComposerStaticInitf439d4bc3fd811befba430398ad86859
         'League\\MimeTypeDetection\\FinfoMimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/FinfoMimeTypeDetector.php',
         'League\\MimeTypeDetection\\GeneratedExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/GeneratedExtensionToMimeTypeMap.php',
         'League\\MimeTypeDetection\\MimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/MimeTypeDetector.php',
+        'Midtrans\\ApiRequestor' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/ApiRequestor.php',
+        'Midtrans\\Config' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Config.php',
+        'Midtrans\\CoreApi' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/CoreApi.php',
+        'Midtrans\\Notification' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Notification.php',
+        'Midtrans\\Sanitizer' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Sanitizer.php',
+        'Midtrans\\Snap' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Snap.php',
+        'Midtrans\\SnapApiRequestor' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/SnapApiRequestor.php',
+        'Midtrans\\Transaction' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Transaction.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegrationAssertPostConditions' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php',
@@ -4356,6 +4385,7 @@ class ComposerStaticInitf439d4bc3fd811befba430398ad86859
         'Symfony\\Component\\Finder\\Iterator\\FileTypeFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/FileTypeFilterIterator.php',
         'Symfony\\Component\\Finder\\Iterator\\FilecontentFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/FilecontentFilterIterator.php',
         'Symfony\\Component\\Finder\\Iterator\\FilenameFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/FilenameFilterIterator.php',
+        'Symfony\\Component\\Finder\\Iterator\\LazyIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/LazyIterator.php',
         'Symfony\\Component\\Finder\\Iterator\\MultiplePcreFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/MultiplePcreFilterIterator.php',
         'Symfony\\Component\\Finder\\Iterator\\PathFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/PathFilterIterator.php',
         'Symfony\\Component\\Finder\\Iterator\\RecursiveDirectoryIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/RecursiveDirectoryIterator.php',
@@ -4950,6 +4980,30 @@ class ComposerStaticInitf439d4bc3fd811befba430398ad86859
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
+        'Xendit\\ApiOperations\\Create' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/Create.php',
+        'Xendit\\ApiOperations\\Request' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/Request.php',
+        'Xendit\\ApiOperations\\Retrieve' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/Retrieve.php',
+        'Xendit\\ApiOperations\\RetrieveAll' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/RetrieveAll.php',
+        'Xendit\\ApiOperations\\Update' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/Update.php',
+        'Xendit\\ApiRequestor' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiRequestor.php',
+        'Xendit\\Balance' => __DIR__ . '/..' . '/xendit/xendit-php/src/Balance.php',
+        'Xendit\\CardlessCredit' => __DIR__ . '/..' . '/xendit/xendit-php/src/CardlessCredit.php',
+        'Xendit\\Cards' => __DIR__ . '/..' . '/xendit/xendit-php/src/Cards.php',
+        'Xendit\\Disbursements' => __DIR__ . '/..' . '/xendit/xendit-php/src/Disbursements.php',
+        'Xendit\\EWallets' => __DIR__ . '/..' . '/xendit/xendit-php/src/EWallets.php',
+        'Xendit\\Exceptions\\ApiException' => __DIR__ . '/..' . '/xendit/xendit-php/src/Exceptions/ApiException.php',
+        'Xendit\\Exceptions\\ExceptionInterface' => __DIR__ . '/..' . '/xendit/xendit-php/src/Exceptions/ExceptionInterface.php',
+        'Xendit\\Exceptions\\InvalidArgumentException' => __DIR__ . '/..' . '/xendit/xendit-php/src/Exceptions/InvalidArgumentException.php',
+        'Xendit\\HttpClientInterface' => __DIR__ . '/..' . '/xendit/xendit-php/src/HttpClientInterface.php',
+        'Xendit\\HttpClient\\ClientInterface' => __DIR__ . '/..' . '/xendit/xendit-php/src/HttpClient/ClientInterface.php',
+        'Xendit\\HttpClient\\GuzzleClient' => __DIR__ . '/..' . '/xendit/xendit-php/src/HttpClient/GuzzleClient.php',
+        'Xendit\\Invoice' => __DIR__ . '/..' . '/xendit/xendit-php/src/Invoice.php',
+        'Xendit\\Payouts' => __DIR__ . '/..' . '/xendit/xendit-php/src/Payouts.php',
+        'Xendit\\QRCode' => __DIR__ . '/..' . '/xendit/xendit-php/src/QRCode.php',
+        'Xendit\\Recurring' => __DIR__ . '/..' . '/xendit/xendit-php/src/Recurring.php',
+        'Xendit\\Retail' => __DIR__ . '/..' . '/xendit/xendit-php/src/Retail.php',
+        'Xendit\\VirtualAccounts' => __DIR__ . '/..' . '/xendit/xendit-php/src/VirtualAccounts.php',
+        'Xendit\\Xendit' => __DIR__ . '/..' . '/xendit/xendit-php/src/Xendit.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',
