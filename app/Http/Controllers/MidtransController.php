@@ -30,30 +30,28 @@ class MidtransController extends Controller
             'customer_details' => array(
                 'first_name' => 'Alexander',
                 'last_name' => 'Evan',
-                'email' => 'evan.pra@example.com',
+                'email' => 'alexevan2810@gmail.com',
                 'phone' => '08111222333',
             ),
         );
-
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-
-        return view('user.midtrans', compact('snapToken'));
         /*
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        return view('user.midtrans', compact('snapToken'));
+       */
         try {
             // Get Snap Payment Page URL
             $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
-            return $paymentUrl;
             // Redirect to Snap Payment Page
-            //header('Location: ' . $paymentUrl);
+            // header('Location: ' . $paymentUrl);
+            return redirect($paymentUrl);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            return $e->getMessage();
         }
-        */
     }
     public function getStatus()
     {
         $this->config();
-        $status = \Midtrans\Transaction::status(579352019);
+        $status = \Midtrans\Transaction::status(441798310);
         dd($status);
     }
     public function cancelPayment()
@@ -64,7 +62,7 @@ class MidtransController extends Controller
     }
     public function payment_handling(Request $request)
     {
-        
+
         $this->config();
         $notif = new \Midtrans\Notification();
 
@@ -101,6 +99,5 @@ class MidtransController extends Controller
             // TODO set payment status in merchant's database to 'Denied'
             echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.";
         }
-        
     }
 }
