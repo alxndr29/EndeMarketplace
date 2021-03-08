@@ -33,6 +33,24 @@
             </select>
         </div>
 
+        <div class="form-group">
+            <label for="provinsi">Kota Asal</label>
+            <select class="form-control" id="origin">
+                <option>Pilih Kota Asal</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="kotakabupaten">Kota Tujuan</label>
+            <select class="form-control" id="destination">
+                <option>Pilih Kota Tujuan</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="kotakabupaten">Berat (kg) </label>
+            <input class="form-control" type="number" id="berat">
+        </div>
+
     </div>
 </body>
 
@@ -67,7 +85,7 @@
 
     function loadKota(id) {
         $('#spinnerloading').show();
-        
+
         $.ajax({
             url: "{{url('getkota')}}" + "/" + id,
             method: "GET",

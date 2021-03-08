@@ -19,7 +19,8 @@ Route::get('/', function () {
 //RajaOngkir
 Route::get('getprovinsi','RajaOngkirController@getProvinsi');
 Route::get('getkota/{id}','RajaOngkirController@getkota');
-Route::get('provinsi','RajaOngkirController@provinsi')->name('provinsi')->middleware('verified');;
+Route::get('provinsi', 'RajaOngkirController@provinsi')->name('provinsi');
+//Route::get('provinsi','RajaOngkirController@provinsi')->name('provinsi')->middleware('verified');;
 
 //Auth Bawaan Laravel
 Auth::routes();

@@ -34,10 +34,11 @@ class MidtransController extends Controller
                 'phone' => '08111222333',
             ),
         );
-        /*
+        
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         return view('user.midtrans', compact('snapToken'));
-       */
+       
+        /*
         try {
             // Get Snap Payment Page URL
             $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
@@ -46,7 +47,7 @@ class MidtransController extends Controller
             return redirect($paymentUrl);
         } catch (Exception $e) {
             return $e->getMessage();
-        }
+        }*/
     }
     public function getStatus()
     {
