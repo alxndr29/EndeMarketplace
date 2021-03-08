@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::get('getprovinsi','RajaOngkirController@getProvinsi');
 Route::get('getkota/{id}','RajaOngkirController@getkota');
 Route::get('provinsi', 'RajaOngkirController@provinsi')->name('provinsi');
+Route::get('cost/{origin}/{destination}/{courier}/{berat}','RajaOngkirController@cost');
 //Route::get('provinsi','RajaOngkirController@provinsi')->name('provinsi')->middleware('verified');;
 
 //Auth Bawaan Laravel

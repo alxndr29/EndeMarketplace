@@ -45,10 +45,21 @@
                 <option>Pilih Kota Tujuan</option>
             </select>
         </div>
-
         <div class="form-group">
             <label for="kotakabupaten">Berat (kg) </label>
             <input class="form-control" type="number" id="berat">
+        </div>
+        <div class="form-group">
+            <label for="kotakabupaten">Kurir</label>
+            <select class="form-control" id="courier">
+                <option value="jne">JNE</option>
+                <option value="jne">POS Indonesia</option>
+                <option value="jne">TIKI</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="kotakabupaten">Submit</label>
+            <button type="button" class="form-control" id="submit">Primary</button>
         </div>
 
     </div>
@@ -62,9 +73,40 @@
         loadKota(this.value);
         $('#kotakabupaten').empty();
     });
+    $('#submit').click(function() {
+        hitungBiaya();
+    });
+
+    function hitungBiaya() {
+        var origin = $("#origin").val();
+        var destination = $("#destination").val();
+        var courier = $("#courier").val();
+        var berat = $("#berat").val();
+
+        $.ajax({
+            url: "{{url('cost')}}" + "/" + origin + "/" + destination + "/" + courier + "/" + berat,
+            method: "GET",
+            contentType: false,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                /*
+                $('#spinnerloading').hide();
+                for (i = 0; i < data['rajaongkir']['results'].length; i++) {
+                    $('#kotakabupaten').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
+                    $('#origin').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
+                    $('#destination').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
+                }
+                */
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+
+    }
 
     function loadProvinsi() {
-
         $.ajax({
             url: "{{url('getprovinsi/')}}",
             method: "GET",
@@ -75,6 +117,7 @@
                 for (i = 0; i < data['rajaongkir']['results'].length; i++) {
                     //alert(data['rajaongkir']['results'][i]['province_id']);
                     $('#provinsi').append('<option value="' + data['rajaongkir']['results'][i]['province_id'] + '">' + data['rajaongkir']['results'][i]['province'] + '</option>');
+
                 }
             },
             error: function(response) {
@@ -95,6 +138,8 @@
                 $('#spinnerloading').hide();
                 for (i = 0; i < data['rajaongkir']['results'].length; i++) {
                     $('#kotakabupaten').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
+                    $('#origin').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
+                    $('#destination').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
                 }
             },
             error: function(response) {

@@ -16,7 +16,7 @@ class RajaOngkirController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.rajaongkir.com/starter/city?&province=".$id,
+            CURLOPT_URL => "https://api.rajaongkir.com/starter/city?&province=" . $id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -73,6 +73,37 @@ class RajaOngkirController extends Controller
            }
            */
             return $response;
+        }
+    }
+    public function cost($origin, $destination, $courier, $berat)
+    {
+        $param = "origin=".$origin."&destination=".$destination."&weight=".$berat."&courier=".$courier;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $param,
+            CURLOPT_HTTPHEADER => array(
+                "content-type: application/x-www-form-urlencoded",
+                "key: a8b77b96d1644da7c4564341438c61c2"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            return ($response);
         }
     }
 }
