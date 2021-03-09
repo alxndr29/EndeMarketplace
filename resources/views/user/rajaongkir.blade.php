@@ -78,29 +78,37 @@
     });
 
     function hitungBiaya() {
+        
         var origin = $("#origin").val();
         var destination = $("#destination").val();
         var courier = $("#courier").val();
         var berat = $("#berat").val();
-
+        
+       /*
+        var origin = 501;
+        var destination = 114;
+        var courier = "jne";
+        var berat = 1700;
+        */
         $.ajax({
             url: "{{url('cost')}}" + "/" + origin + "/" + destination + "/" + courier + "/" + berat,
             method: "GET",
             contentType: false,
             dataType: "json",
             success: function(data) {
-                console.log(data);
-                /*
-                $('#spinnerloading').hide();
+                //console.log(data);
                 for (i = 0; i < data['rajaongkir']['results'].length; i++) {
-                    $('#kotakabupaten').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
-                    $('#origin').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
-                    $('#destination').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
+                    for (j = 0; j < data['rajaongkir']['results'][i]['costs'].length; j++){
+                        console.log(data['rajaongkir']['results'][i]['costs'][j]['service']);
+                        console.log(data['rajaongkir']['results'][i]['costs'][j]['description']);
+                        console.log(data['rajaongkir']['results'][i]['costs'][j]['cost'][0]['etd']);
+                        console.log(data['rajaongkir']['results'][i]['costs'][j]['cost'][0]['value']);
+                    }
                 }
-                */
+
             },
             error: function(response) {
-                console.log(response);
+                console.table(response);
             }
         });
 
