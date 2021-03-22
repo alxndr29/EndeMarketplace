@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        '/midtrans/notification'
+        '/midtrans/notification',
+        '/userdevice/store'
     ];
 }

@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/token',function(){
+    return csrf_token(); 
+});
 //RajaOngkir
 Route::get('getprovinsi','RajaOngkirController@getProvinsi');
 Route::get('getkota/{id}','RajaOngkirController@getkota');
@@ -42,3 +46,4 @@ Route::post('/midtrans/notification', 'MidtransController@payment_handling');
 
 //User Device
 Route::get('/userdevice', 'UserDeviceController@getusersysteminfo')->name('userdevice.getusersysteminfo');
+Route::post('/userdevice/store', 'UserDeviceController@store')->name('userdevice.store');
