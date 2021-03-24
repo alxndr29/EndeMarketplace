@@ -4,7 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\User;
-
+use Device;
+use DB;
 class CekDevice
 {
     /**

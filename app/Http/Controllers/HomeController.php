@@ -25,6 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('seller.produk.index');
+        return view('seller.index');
     }
 }

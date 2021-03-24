@@ -47,3 +47,6 @@ Route::post('/midtrans/notification', 'MidtransController@payment_handling');
 //User Device
 Route::get('/userdevice', 'UserDeviceController@getusersysteminfo')->name('userdevice.getusersysteminfo');
 Route::post('/userdevice/store', 'UserDeviceController@store')->name('userdevice.store');
+
+//Kategori
+Route::get('seller/kategori','KategoriProdukController@index')->name('kategoriproduk.index');

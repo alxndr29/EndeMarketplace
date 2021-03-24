@@ -173,7 +173,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </div>
 
-                <!-- SidebarSearch Form -->
+                <!-- SidebarSearch Form 
                 <div class="form-inline">
                     <div class="input-group" data-widget="sidebar-search">
                         <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
@@ -183,7 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
@@ -194,15 +194,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Starter Pages
+                                    Master Data
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('kategoriproduk.index')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Active Page</p>
+                                        <p>Kategori Produk</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -311,13 +311,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+               
             });
         });
     </script>
