@@ -20,6 +20,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{asset('adminlte/plugins/toastr/toastr.min.css')}}">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -302,6 +306,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
     <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
     <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+    <!-- Sweetalert -->
+    <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+    <!-- Toastr -->
+    <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
+    
     <script>
         $(function() {
             $("#example1").DataTable({
@@ -311,10 +320,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
-               
+
             });
         });
     </script>
+
+    @yield('js')
+
 </body>
 
 </html>

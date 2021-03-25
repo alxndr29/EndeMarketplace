@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2021 at 05:13 PM
+-- Generation Time: Mar 25, 2021 at 05:23 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -132,7 +132,9 @@ CREATE TABLE `jenisproduk` (
 CREATE TABLE `kategori` (
   `idkategori` int(11) NOT NULL,
   `nama_kategori` varchar(45) NOT NULL,
-  `merchant_idmerchant` int(11) NOT NULL
+  `merchant_idmerchant` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -146,6 +148,31 @@ CREATE TABLE `keranjang` (
   `produk_idproduk` int(11) NOT NULL,
   `jumlah` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `merchant`
+--
+
+CREATE TABLE `merchant` (
+  `idmerchant` int(11) NOT NULL,
+  `nama` varchar(45) NOT NULL,
+  `status` enum('Aktif','NonAktif') DEFAULT 'Aktif',
+  `foto_profil` varchar(45) DEFAULT NULL,
+  `foto_sampul` varchar(45) DEFAULT NULL,
+  `deskripsi` varchar(45) DEFAULT NULL,
+  `users_iduser` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `merchant`
+--
+
+INSERT INTO `merchant` (`idmerchant`, `nama`, `status`, `foto_profil`, `foto_sampul`, `deskripsi`, `users_iduser`, `created_at`, `updated_at`) VALUES
+(6, 'EVAN', 'Aktif', NULL, NULL, NULL, 1, '2021-03-25 15:39:33', '2021-03-25 15:39:33');
 
 -- --------------------------------------------------------
 
@@ -265,7 +292,7 @@ CREATE TABLE `users` (
   `email_verified_at` datetime DEFAULT NULL,
   `foto_profil` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` varchar(45) DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -273,7 +300,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `foto_profil`, `created_at`, `updated_at`) VALUES
-(1, 'Alex', 'alexevan2810@gmail.com', '$2y$10$Y8HKrAwcx6wpRuPxzum0.OIbEWVQFd/MDfTf1C1zMKrIBu5bwQFDe', NULL, '2021-03-22 15:11:15', NULL, '2021-03-22 15:06:40', '2021-03-22 15:11:15');
+(1, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$ccAQAZBlvOmN8xjNLtJj7u9tTU2hrpPN.kmwQy18T.u2pjpTbzIgO', NULL, NULL, NULL, '2021-03-25 14:23:45', '2021-03-25 14:23:45');
 
 -- --------------------------------------------------------
 
@@ -357,6 +384,13 @@ ALTER TABLE `keranjang`
   ADD KEY `fk_user_has_produk_user1_idx` (`users_iduser`);
 
 --
+-- Indexes for table `merchant`
+--
+ALTER TABLE `merchant`
+  ADD PRIMARY KEY (`idmerchant`),
+  ADD KEY `fk_merchant_user1_idx` (`users_iduser`);
+
+--
 -- Indexes for table `obrolan`
 --
 ALTER TABLE `obrolan`
@@ -428,6 +462,18 @@ ALTER TABLE `device`
   MODIFY `iddevice` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `merchant`
+--
+ALTER TABLE `merchant`
+  MODIFY `idmerchant` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -488,6 +534,12 @@ ALTER TABLE `kategori`
 ALTER TABLE `keranjang`
   ADD CONSTRAINT `fk_user_has_produk_produk1` FOREIGN KEY (`produk_idproduk`) REFERENCES `produk` (`idproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_user_has_produk_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `merchant`
+--
+ALTER TABLE `merchant`
+  ADD CONSTRAINT `fk_merchant_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `obrolan`

@@ -29,7 +29,7 @@ Route::get('cost/{origin}/{destination}/{courier}/{berat}','RajaOngkirController
 
 //Auth Bawaan Laravel
 Auth::routes();
-Auth::routes(['verify' => true]);
+Auth::routes(['verify' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Xendit Payment Gateway
@@ -50,3 +50,13 @@ Route::post('/userdevice/store', 'UserDeviceController@store')->name('userdevice
 
 //Kategori
 Route::get('seller/kategori','KategoriProdukController@index')->name('kategoriproduk.index');
+Route::post('seller/kategori/store','KategoriProdukController@store')->name('kategoriproduk.store');
+Route::put('seller/kategori/update/{id}','KategoriProdukController@update')->name('kategoriproduk.update');
+Route::delete('seller/kategori/delete/{id}','KategoriProdukController@destroy')->name('kategoriproduk.destroy');
+
+//Merchant
+Route::get('seller/merchant/daftar','MerchantController@create')->name('merchant.create');
+Route::post('seller/merchant/store','MerchantController@store')->name('merchant.store');
+
+
+
