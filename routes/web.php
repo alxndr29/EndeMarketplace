@@ -13,13 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/user', function () {
+    return view('user.home');
+});
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/token',function(){
     return csrf_token(); 
 });
+
 //RajaOngkir
 Route::get('getprovinsi','RajaOngkirController@getProvinsi');
 Route::get('getkota/{id}','RajaOngkirController@getkota');
@@ -57,6 +60,15 @@ Route::delete('seller/kategori/delete/{id}','KategoriProdukController@destroy')-
 //Merchant
 Route::get('seller/merchant/daftar','MerchantController@create')->name('merchant.create');
 Route::post('seller/merchant/store','MerchantController@store')->name('merchant.store');
+
+//Alamat pembeli
+Route::get('users/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');
+Route::post('users/alamat/store','AlamatPembeliController@store')->name('alamatpembeli.store');
+
+//Produk
+Route::get('seller/produk','ProdukController@index')->name('produk.index');
+Route::get('seller/produk/tambah','ProdukController@create')->name('produk.create');
+
 
 
 
