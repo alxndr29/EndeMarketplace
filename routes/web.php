@@ -68,6 +68,9 @@ Route::post('users/alamat/store','AlamatPembeliController@store')->name('alamatp
 //Produk
 Route::get('seller/produk','ProdukController@index')->name('produk.index');
 Route::get('seller/produk/tambah','ProdukController@create')->name('produk.create');
+Route::post('seller/produk/store','ProdukController@store')->name('produk.store');
+
+Route::get('hapus','ProdukController@removeImage');
 
 
 
