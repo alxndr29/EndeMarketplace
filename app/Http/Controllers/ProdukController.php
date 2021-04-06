@@ -22,17 +22,21 @@ class ProdukController extends Controller
     }
     public function store(Request $request)
     {
-        $gambar = $request->get('gambar');
-        $decode = json_decode($gambar);
-        $test = "";
-        foreach ($decode as $value) {
-            $test = $value;
-            $path = public_path('gambar/'.'test.jpg');
-            Image::make(file_get_contents($test))->save($path);
+        try {
+            $gambar = $request->get('gambar');
+            $decode = json_decode($gambar);
+            $test = "";
+            foreach ($decode as $value) {
+                $test = $value;
+                $path = public_path('gambar/' . 'test.jpg');
+                Image::make(file_get_contents($test))->encode('jpg',85)->save($path);
+            }
+            $response = ['status' => $test];
+            return response()->json($response);
+        } catch (\Exception $e) {
+            $response = ['status' => $test];
+            return response()->json($response);
         }
-        $response = ['status' => $test];
-        return response()->json($response);
-        
     }
     public function edit($id)
     { }
