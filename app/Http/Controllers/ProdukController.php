@@ -22,6 +22,7 @@ class ProdukController extends Controller
     }
     public function store(Request $request)
     {
+        
         try {
             $gambar = $request->get('gambar');
             $decode = json_decode($gambar);
@@ -37,6 +38,7 @@ class ProdukController extends Controller
             $response = ['status' => $test];
             return response()->json($response);
         }
+        
     }
     public function edit($id)
     { }
