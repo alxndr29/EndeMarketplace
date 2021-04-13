@@ -1,5 +1,6 @@
 @extends('layouts.adminlte')
 
+
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -28,7 +29,7 @@
                         </thead>
                         <tbody style="vertical-align: top;">
 
-                        
+
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -41,10 +42,14 @@
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
-        toastr.success('{{session('berhasil')}}');
+        toastr.success('{{session('
+            berhasil ')}}');
         @endif
     });
 </script>
 @endsection
 
 @endsection
+
+
+

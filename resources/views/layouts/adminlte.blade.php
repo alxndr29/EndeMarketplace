@@ -210,9 +210,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('produk.index')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Inactive Page</p>
+                                        <p>Daftar Produk</p>
                                     </a>
                                 </li>
                             </ul>
@@ -240,6 +240,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
+                            @yield('name')
                             <h1 class="m-0">Starter Page</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
