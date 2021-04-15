@@ -22,7 +22,7 @@ class ProdukController extends Controller
     public function create()
     {
         $merchant = new Merchant();
-        $kategori = Kategori::where('merchant_idmerchant','=',$merchant->idmerchant())->get();
+        $kategori = Kategori::where('merchant_users_iduser','=',$merchant->idmerchant())->get();
         return view('seller.produk.tambahproduk', compact('kategori'));
     }
     public function store(Request $request)

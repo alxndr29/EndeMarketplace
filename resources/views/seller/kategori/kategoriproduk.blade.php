@@ -132,6 +132,17 @@
         @if(session('berhasil'))
         toastr.success('{{session('berhasil')}}');
         @endif
+
+        /*
+        var counter = 0;
+        var timer = setInterval(function() {
+            counter++;
+            alert(counter);
+            if (counter >= 10) {
+                clearInterval(timer)
+            }
+        }, 3000);
+        */
     });
 </script>
 @endsection

@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/user', function () {
-    return view('user.home.home');
+    $test = "Hallo";
+    return view('user.keranjang.keranjang',compact('test'));
 });
 Route::get('/', function () {
-    return view('welcome');
+    $test = "Hallo";
+    return view('welcome',compact('test'));
 });
 Route::get('/token',function(){
     return csrf_token(); 
@@ -32,7 +34,7 @@ Route::get('cost/{origin}/{destination}/{courier}/{berat}','RajaOngkirController
 
 //Auth Bawaan Laravel
 Auth::routes();
-Auth::routes(['verify' => false]);
+Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Xendit Payment Gateway
@@ -62,8 +64,19 @@ Route::get('seller/merchant/daftar','MerchantController@create')->name('merchant
 Route::post('seller/merchant/store','MerchantController@store')->name('merchant.store');
 
 //Alamat pembeli
-Route::get('users/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');
-Route::post('users/alamat/store','AlamatPembeliController@store')->name('alamatpembeli.store');
+Route::get('user/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');
+Route::post('user/alamat/store','AlamatPembeliController@store')->name('alamatpembeli.store');
+
+//Keranjang
+Route::get('user/keranjang','KeranjangController@index')->name('keranjang.index');
+Route::post('user/keranjang/store','KeranjangController@store')->name('keranjang.store');
+Route::put('user/keranjang/update/{id}','KeranjangController@update')->name('keranjang.update');
+Route::delete('user/keranjang/delete/{id}','KeranjangController@destroy')->name('keranjang.destroy');
+
+//Wishlist
+Route::get('user/wishlist', 'WishlistController@index')->name('wishlist.index');
+Route::post('user/wishlist/store', 'WishlistController@store')->name('wishlist.store');
+Route::delete('user/wishlist/delete/{id}', 'WishlistController@destroy')->name('wishlist.destroy');
 
 //Produk
 Route::get('seller/produk','ProdukController@index')->name('produk.index');

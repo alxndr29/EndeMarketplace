@@ -14,7 +14,7 @@ class KategoriProdukController extends Controller
     public function index()
     {
         $merchant = new Merchant();
-        $kategori = Kategori::where('merchant_idmerchant','=',$merchant->idmerchant())->get();
+        $kategori = Kategori::where('merchant_users_iduser','=',$merchant->idmerchant())->get();
         return view('seller.kategori.kategoriproduk', compact('kategori'));
     }
     public function create()
@@ -27,9 +27,9 @@ class KategoriProdukController extends Controller
             $merchant = new Merchant();
             $kategori = new Kategori();
             $kategori->nama_kategori = $request->get('namakategori');
-            $kategori->merchant_idmerchant = $merchant->idmerchant();
+            $kategori->merchant_users_iduser = $merchant->idmerchant();
             $kategori->save();
-            return "berhasil";
+            return redirect('seller/kategori')->with('berhasil', 'Berhasil Menambah Data Kategori');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

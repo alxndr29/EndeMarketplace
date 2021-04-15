@@ -9,11 +9,11 @@ class Merchant extends Model
 {
     //
     protected $table = 'merchant';
-    protected $primaryKey = 'idmerchant';
+    //protected $primaryKey = 'idmerchant';
 
     public function idmerchant(){
         $user = new User();
         $merchant = Merchant::where('users_iduser','=',$user->userid())->first();
-        return $merchant->idmerchant;
+        return $merchant->users_iduser;
     }
 }

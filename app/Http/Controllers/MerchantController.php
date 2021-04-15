@@ -15,7 +15,7 @@ class MerchantController extends Controller
     }
     public function create(){
 
-        return view('seller.registrasimerchant');
+        return view('seller.merchant.registrasimerchant');
     }
     public function store(Request $request){
         try{
