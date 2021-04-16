@@ -1,32 +1,167 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
-</head>
-
-<body>
-    <div class="container">
-        <h1>Hello, world!</h1>
-        <form method="post" action="{{route('merchant.store')}}">
-            @csrf
-            <div class="form-group">
-                <label for="exampleInputEmail1">Nama Merchant</label>
-                <input type="text" name="namamerchant" class="form-control">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+@extends('layouts.userlte')
+@section('content')
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-10">
+                    <h3 class="card-title">DataTable with default features</h3>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-tambahkategori">Tambah</button>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-</body>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+        </div>
+        <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped text-center">
+                <thead>
+                    <tr>
+                        <th style="width:10%">No</th>
+                        <th>Nama</th>
+                        <th style="width:5%">Ubah</th>
+                        <th style="width:5%">Hapus</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-</html>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Modal untuk tambah -->
+    <div class="modal fade" id="modal-tambahkategori">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tambah Kategori</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="forminput" method="post" action="{{route('alamatpembeli.store')}}">
+                        @csrf
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Nama Kategori:</label>
+                                    <input type="text" class="form-control" name="name" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Nama Kategori:</label>
+                                    <input type="text" class="form-control" name="namakategori" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal End -->
+
+    <p>Click the button to get your coordinates.</p>
+    <button onclick="getLocation()">Try It</button>
+    <p id="demo"></p>
+
+</div>
+@section('js')
+<script type="text/javascript">
+    /*
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+    }
+*/
+    $(function() {
+        $("#example2").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example1').DataTable({
+
+        });
+    });
+    $(document).ready(function() {
+
+        $("#forminput").submit(function(e) {
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+            var form = $(this);
+            var url = form.attr('action');
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(), // serializes the form's elements.
+                success: function(data) {
+                    jancok(data); // show response from the php script.
+                }
+            });
+        });
+
+        function jancok(kon) {
+            alert(kon);
+        }
+
+        function loadProvinsi() {
+            $.ajax({
+                url: "{{url('getprovinsi/')}}",
+                method: "GET",
+                contentType: false,
+                dataType: "json",
+                success: function(data) {
+                    $('#spinnerloading').hide();
+                    for (i = 0; i < data['rajaongkir']['results'].length; i++) {
+                        //alert(data['rajaongkir']['results'][i]['province_id']);
+                        $('#provinsi').append('<option value="' + data['rajaongkir']['results'][i]['province_id'] + '">' + data['rajaongkir']['results'][i]['province'] + '</option>');
+
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+
+        function loadKota(id) {
+            $('#spinnerloading').show();
+
+            $.ajax({
+                url: "{{url('getkota')}}" + "/" + id,
+                method: "GET",
+                contentType: false,
+                dataType: "json",
+                success: function(data) {
+                    $('#spinnerloading').hide();
+                    for (i = 0; i < data['rajaongkir']['results'].length; i++) {
+                        $('#kotakabupaten').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
+                        $('#origin').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
+                        $('#destination').append('<option value="' + data['rajaongkir']['results'][i]['city_id'] + '">' + data['rajaongkir']['results'][i]['city_name'] + '</option>');
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+    });
+</script>
+@endsection
+@endsection

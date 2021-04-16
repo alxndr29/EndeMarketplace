@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function () {
     $test = "Hallo";
-    return view('user.keranjang.keranjang',compact('test'));
+    return view('user.detailproduk.detailproduk',compact('test'));
 });
 Route::get('/', function () {
     $test = "Hallo";
@@ -66,6 +66,8 @@ Route::post('seller/merchant/store','MerchantController@store')->name('merchant.
 //Alamat pembeli
 Route::get('user/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');
 Route::post('user/alamat/store','AlamatPembeliController@store')->name('alamatpembeli.store');
+Route::put('user/alamat/update/{id}','AlamatPembeliController@update')->name('alamatpembeli.update');
+Route::delete('user/alamat/delete/{id}','AlamatPembeliController@destroy')->name('alamatpembeli.destroy');
 
 //Keranjang
 Route::get('user/keranjang','KeranjangController@index')->name('keranjang.index');

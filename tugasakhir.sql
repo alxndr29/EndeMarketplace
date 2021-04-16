@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2021 at 05:23 PM
+-- Generation Time: Apr 16, 2021 at 07:10 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -29,13 +29,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `alamatmerchant` (
-  `idalamatmerchant` int(11) NOT NULL,
-  `alamat_lengkap` varchar(45) DEFAULT NULL,
-  `kecamatan` varchar(45) DEFAULT NULL,
-  `kota` varchar(45) DEFAULT NULL,
-  `provinsi` varchar(45) DEFAULT NULL,
-  `telepon` varchar(45) DEFAULT NULL,
-  `merchant_idmerchant` int(11) NOT NULL
+  `alamat_lengkap` varchar(45) NOT NULL,
+  `kota` varchar(45) NOT NULL,
+  `provinsi` varchar(45) NOT NULL,
+  `telepon` varchar(45) NOT NULL,
+  `latitude` varchar(45) DEFAULT NULL,
+  `longitude` varchar(45) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `merchant_users_iduser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -46,14 +48,34 @@ CREATE TABLE `alamatmerchant` (
 
 CREATE TABLE `alamatpembeli` (
   `idalamat` int(11) NOT NULL,
-  `simpan_sebagai` varchar(45) DEFAULT NULL,
-  `nama_penerima` varchar(45) DEFAULT NULL,
-  `alamatlengkap` varchar(45) DEFAULT NULL,
-  `kecamatan` varchar(45) DEFAULT NULL,
-  `kota` varchar(45) DEFAULT NULL,
-  `provinsi` varchar(45) DEFAULT NULL,
-  `telepon` varchar(45) DEFAULT NULL,
-  `users_iduser` int(11) NOT NULL
+  `simpan_sebagai` varchar(45) NOT NULL,
+  `nama_penerima` varchar(45) NOT NULL,
+  `alamatlengkap` varchar(45) NOT NULL,
+  `kota` varchar(45) NOT NULL,
+  `provinsi` varchar(45) NOT NULL,
+  `telepon` varchar(45) NOT NULL,
+  `users_iduser` int(11) NOT NULL,
+  `latitude` varchar(45) DEFAULT NULL,
+  `longitude` varchar(45) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `datapengiriman`
+--
+
+CREATE TABLE `datapengiriman` (
+  `iddatapengiriman` int(11) NOT NULL,
+  `koordinat_asal` varchar(45) DEFAULT NULL,
+  `koordinat_tujuan` varchar(45) DEFAULT NULL,
+  `jarak` int(11) DEFAULT NULL,
+  `volume` int(11) DEFAULT NULL,
+  `berat` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -78,10 +100,12 @@ CREATE TABLE `detailtransaksi` (
 
 CREATE TABLE `device` (
   `iddevice` int(11) NOT NULL,
-  `alamatip` varchar(45) DEFAULT NULL,
-  `jenis_perangkat` varchar(45) DEFAULT NULL,
-  `sistem_operasi` varchar(45) DEFAULT NULL,
-  `users_iduser` int(11) NOT NULL
+  `alamatip` varchar(45) NOT NULL,
+  `jenis_perangkat` varchar(45) NOT NULL,
+  `sistem_operasi` varchar(45) NOT NULL,
+  `users_iduser` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -102,14 +126,26 @@ CREATE TABLE `diskusi` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `dukunganpengiriman`
+--
+
+CREATE TABLE `dukunganpengiriman` (
+  `merchant_users_iduser` int(11) NOT NULL,
+  `kurir_idkurir` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `gambarproduk`
 --
 
 CREATE TABLE `gambarproduk` (
   `idgambarproduk` int(11) NOT NULL,
-  `nama` varchar(45) DEFAULT NULL,
-  `ekstensi` varchar(45) DEFAULT NULL,
-  `produk_idproduk` int(11) NOT NULL
+  `nama_file` varchar(45) DEFAULT NULL,
+  `produk_idproduk` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -120,8 +156,17 @@ CREATE TABLE `gambarproduk` (
 
 CREATE TABLE `jenisproduk` (
   `idjenisproduk` int(11) NOT NULL,
-  `nama` varchar(45) DEFAULT NULL
+  `nama` varchar(45) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `jenisproduk`
+--
+
+INSERT INTO `jenisproduk` (`idjenisproduk`, `nama`, `created_at`, `updated_at`) VALUES
+(1, 'Kebutuhan Harian', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -132,10 +177,19 @@ CREATE TABLE `jenisproduk` (
 CREATE TABLE `kategori` (
   `idkategori` int(11) NOT NULL,
   `nama_kategori` varchar(45) NOT NULL,
-  `merchant_idmerchant` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `merchant_users_iduser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `kategori`
+--
+
+INSERT INTO `kategori` (`idkategori`, `nama_kategori`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
+(3, 'eqwe', '2021-04-15 00:00:00', '2021-04-16 00:00:00', 1),
+(5, 'Testing', '2021-04-15 14:11:55', '2021-04-15 14:11:55', 4),
+(6, 'Testong', NULL, NULL, 4);
 
 -- --------------------------------------------------------
 
@@ -152,27 +206,59 @@ CREATE TABLE `keranjang` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `kurir`
+--
+
+CREATE TABLE `kurir` (
+  `idkurir` int(11) NOT NULL,
+  `nama` varchar(45) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `merchant`
 --
 
 CREATE TABLE `merchant` (
-  `idmerchant` int(11) NOT NULL,
   `nama` varchar(45) NOT NULL,
-  `status` enum('Aktif','NonAktif') DEFAULT 'Aktif',
+  `status_merchant` enum('Aktif','NonAktif') DEFAULT 'Aktif',
   `foto_profil` varchar(45) DEFAULT NULL,
   `foto_sampul` varchar(45) DEFAULT NULL,
   `deskripsi` varchar(45) DEFAULT NULL,
-  `users_iduser` int(11) NOT NULL,
+  `status_buka` enum('Ya','Tidak') DEFAULT NULL,
+  `jam_buka` varchar(45) DEFAULT NULL,
+  `jam_tutup` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `users_iduser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `merchant`
 --
 
-INSERT INTO `merchant` (`idmerchant`, `nama`, `status`, `foto_profil`, `foto_sampul`, `deskripsi`, `users_iduser`, `created_at`, `updated_at`) VALUES
-(6, 'EVAN', 'Aktif', NULL, NULL, NULL, 1, '2021-03-25 15:39:33', '2021-03-25 15:39:33');
+INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `foto_sampul`, `deskripsi`, `status_buka`, `jam_buka`, `jam_tutup`, `created_at`, `updated_at`, `users_iduser`) VALUES
+('Merchant Gaje', 'Aktif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+('Merchant Felix', 'Aktif', NULL, NULL, NULL, NULL, NULL, NULL, '2021-04-15 14:03:59', '2021-04-15 14:03:59', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifikasi`
+--
+
+CREATE TABLE `notifikasi` (
+  `idnotifikasi` int(11) NOT NULL,
+  `pesan_notifikasi` varchar(45) NOT NULL,
+  `baca` enum('Ya','Tidak') NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `users_iduser` int(11) NOT NULL,
+  `merchant_idmerchant` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -183,11 +269,11 @@ INSERT INTO `merchant` (`idmerchant`, `nama`, `status`, `foto_profil`, `foto_sam
 CREATE TABLE `obrolan` (
   `idobrolan` int(11) NOT NULL,
   `subject` varchar(45) DEFAULT NULL,
+  `waktu` datetime DEFAULT current_timestamp(),
   `isi_pesan` varchar(45) DEFAULT NULL,
-  `waktu` datetime DEFAULT NULL,
   `status_baca` enum('SudahBaca','BelumBaca') DEFAULT NULL,
   `users_iduser` int(11) NOT NULL,
-  `merchant_idmerchant` int(11) NOT NULL
+  `merchant_users_iduser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -203,7 +289,9 @@ CREATE TABLE `pembayaran` (
   `payment_type` varchar(45) DEFAULT NULL,
   `status_code` varchar(3) DEFAULT NULL,
   `transaction_status` varchar(45) DEFAULT NULL,
-  `settlement_time` datetime DEFAULT NULL
+  `settlement_time` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -220,7 +308,10 @@ CREATE TABLE `pengiriman` (
   `biaya_pengiriman` int(11) DEFAULT NULL,
   `nomor_resi` varchar(45) DEFAULT NULL,
   `status_pengiriman` varchar(45) DEFAULT NULL,
-  `keterangan` varchar(45) DEFAULT NULL
+  `kurir_idkurir` int(11) NOT NULL,
+  `datapengiriman_iddatapengiriman` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -231,16 +322,18 @@ CREATE TABLE `pengiriman` (
 
 CREATE TABLE `produk` (
   `idproduk` int(11) NOT NULL,
-  `nama` varchar(45) DEFAULT NULL,
-  `deskripsi` varchar(45) DEFAULT NULL,
-  `minimum_pemesanan` int(11) DEFAULT NULL,
-  `status` enum('Aktif','TidakAktif') DEFAULT NULL,
-  `stok` int(11) DEFAULT NULL,
-  `berat` int(11) DEFAULT NULL,
-  `preorder` enum('Aktif','TidakAktif') DEFAULT NULL,
-  `merchant_idmerchant` int(11) NOT NULL,
+  `nama` varchar(45) NOT NULL,
+  `deskripsi` varchar(45) NOT NULL,
+  `minimum_pemesanan` int(11) NOT NULL,
+  `status` enum('Aktif','TidakAktif') NOT NULL,
+  `stok` int(11) NOT NULL,
+  `berat` int(11) NOT NULL,
+  `preorder` enum('Aktif','TidakAktif') NOT NULL,
+  `volume` int(11) NOT NULL,
   `kategori_idkategori` int(11) NOT NULL,
-  `jenisproduk_idjenisproduk` int(11) NOT NULL
+  `jenisproduk_idjenisproduk` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -255,7 +348,9 @@ CREATE TABLE `reviewproduk` (
   `komentar_produk` varchar(45) DEFAULT NULL,
   `rating_produk` int(11) DEFAULT NULL,
   `users_iduser` int(11) NOT NULL,
-  `produk_idproduk` int(11) NOT NULL
+  `produk_idproduk` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -272,9 +367,12 @@ CREATE TABLE `transaksi` (
   `jenis_pembayaran` enum('COD','Transfer') DEFAULT NULL,
   `nominal_pembayaran` int(11) DEFAULT NULL,
   `users_iduser` int(11) NOT NULL,
+  `merchant_users_iduser` int(11) NOT NULL,
   `alamatpembeli_idalamat` int(11) NOT NULL,
   `pengiriman_idpengiriman` int(11) NOT NULL,
-  `pembayaran_idpembayaran` int(11) NOT NULL
+  `pembayaran_idpembayaran` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -300,7 +398,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `foto_profil`, `created_at`, `updated_at`) VALUES
-(1, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$ccAQAZBlvOmN8xjNLtJj7u9tTU2hrpPN.kmwQy18T.u2pjpTbzIgO', NULL, NULL, NULL, '2021-03-25 14:23:45', '2021-03-25 14:23:45');
+(1, 'ewq', '@gmail.com', '123', '123', '2021-04-16 00:00:00', '31', '2021-04-07 00:00:00', '2021-04-16 00:00:00'),
+(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$.LvuS27gw18vIkm9nETN../ZDBLLUWQfe1EXu15H/qfkq08w1hX9q', NULL, '2021-04-15 14:02:19', NULL, '2021-04-15 14:01:44', '2021-04-15 14:02:19');
 
 -- --------------------------------------------------------
 
@@ -321,8 +420,8 @@ CREATE TABLE `wishlist` (
 -- Indexes for table `alamatmerchant`
 --
 ALTER TABLE `alamatmerchant`
-  ADD PRIMARY KEY (`idalamatmerchant`),
-  ADD KEY `fk_alamatmerchant_merchant1_idx` (`merchant_idmerchant`);
+  ADD PRIMARY KEY (`merchant_users_iduser`),
+  ADD KEY `fk_alamatmerchant_merchant1_idx` (`merchant_users_iduser`);
 
 --
 -- Indexes for table `alamatpembeli`
@@ -330,6 +429,12 @@ ALTER TABLE `alamatmerchant`
 ALTER TABLE `alamatpembeli`
   ADD PRIMARY KEY (`idalamat`),
   ADD KEY `fk_alamat_user_idx` (`users_iduser`);
+
+--
+-- Indexes for table `datapengiriman`
+--
+ALTER TABLE `datapengiriman`
+  ADD PRIMARY KEY (`iddatapengiriman`);
 
 --
 -- Indexes for table `detailtransaksi`
@@ -356,6 +461,14 @@ ALTER TABLE `diskusi`
   ADD KEY `fk_diskusi_diskusi1_idx` (`balas_ke`);
 
 --
+-- Indexes for table `dukunganpengiriman`
+--
+ALTER TABLE `dukunganpengiriman`
+  ADD PRIMARY KEY (`merchant_users_iduser`,`kurir_idkurir`),
+  ADD KEY `fk_merchant_has_kurir_kurir1_idx` (`kurir_idkurir`),
+  ADD KEY `fk_merchant_has_kurir_merchant1_idx` (`merchant_users_iduser`);
+
+--
 -- Indexes for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
@@ -373,7 +486,7 @@ ALTER TABLE `jenisproduk`
 --
 ALTER TABLE `kategori`
   ADD PRIMARY KEY (`idkategori`),
-  ADD KEY `fk_kategori_merchant1_idx` (`merchant_idmerchant`);
+  ADD KEY `fk_kategori_merchant1_idx` (`merchant_users_iduser`);
 
 --
 -- Indexes for table `keranjang`
@@ -384,11 +497,24 @@ ALTER TABLE `keranjang`
   ADD KEY `fk_user_has_produk_user1_idx` (`users_iduser`);
 
 --
+-- Indexes for table `kurir`
+--
+ALTER TABLE `kurir`
+  ADD PRIMARY KEY (`idkurir`);
+
+--
 -- Indexes for table `merchant`
 --
 ALTER TABLE `merchant`
-  ADD PRIMARY KEY (`idmerchant`),
-  ADD KEY `fk_merchant_user1_idx` (`users_iduser`);
+  ADD PRIMARY KEY (`users_iduser`),
+  ADD KEY `fk_merchant_users1_idx` (`users_iduser`);
+
+--
+-- Indexes for table `notifikasi`
+--
+ALTER TABLE `notifikasi`
+  ADD PRIMARY KEY (`idnotifikasi`),
+  ADD KEY `fk_notifikasi_users1_idx` (`users_iduser`);
 
 --
 -- Indexes for table `obrolan`
@@ -396,7 +522,7 @@ ALTER TABLE `merchant`
 ALTER TABLE `obrolan`
   ADD PRIMARY KEY (`idobrolan`),
   ADD KEY `fk_obrolan_user1_idx` (`users_iduser`),
-  ADD KEY `fk_obrolan_merchant1_idx` (`merchant_idmerchant`);
+  ADD KEY `fk_obrolan_merchant1_idx` (`merchant_users_iduser`);
 
 --
 -- Indexes for table `pembayaran`
@@ -408,14 +534,15 @@ ALTER TABLE `pembayaran`
 -- Indexes for table `pengiriman`
 --
 ALTER TABLE `pengiriman`
-  ADD PRIMARY KEY (`idpengiriman`);
+  ADD PRIMARY KEY (`idpengiriman`),
+  ADD KEY `fk_pengiriman_kurir1_idx` (`kurir_idkurir`),
+  ADD KEY `fk_pengiriman_datapengiriman1_idx` (`datapengiriman_iddatapengiriman`);
 
 --
 -- Indexes for table `produk`
 --
 ALTER TABLE `produk`
   ADD PRIMARY KEY (`idproduk`),
-  ADD KEY `fk_produk_merchant1_idx` (`merchant_idmerchant`),
   ADD KEY `fk_produk_kategori1_idx` (`kategori_idkategori`),
   ADD KEY `fk_produk_jenisproduk1_idx` (`jenisproduk_idjenisproduk`);
 
@@ -435,7 +562,8 @@ ALTER TABLE `transaksi`
   ADD KEY `fk_transaksi_user1_idx` (`users_iduser`),
   ADD KEY `fk_transaksi_alamatpembeli1_idx` (`alamatpembeli_idalamat`),
   ADD KEY `fk_transaksi_pengiriman1_idx` (`pengiriman_idpengiriman`),
-  ADD KEY `fk_transaksi_pembayaran1_idx` (`pembayaran_idpembayaran`);
+  ADD KEY `fk_transaksi_pembayaran1_idx` (`pembayaran_idpembayaran`),
+  ADD KEY `fk_transaksi_merchant1_idx` (`merchant_users_iduser`);
 
 --
 -- Indexes for table `users`
@@ -456,28 +584,100 @@ ALTER TABLE `wishlist`
 --
 
 --
+-- AUTO_INCREMENT for table `alamatpembeli`
+--
+ALTER TABLE `alamatpembeli`
+  MODIFY `idalamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `datapengiriman`
+--
+ALTER TABLE `datapengiriman`
+  MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `device`
 --
 ALTER TABLE `device`
   MODIFY `iddevice` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `diskusi`
+--
+ALTER TABLE `diskusi`
+  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `gambarproduk`
+--
+ALTER TABLE `gambarproduk`
+  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `jenisproduk`
+--
+ALTER TABLE `jenisproduk`
+  MODIFY `idjenisproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `merchant`
+-- AUTO_INCREMENT for table `kurir`
 --
-ALTER TABLE `merchant`
-  MODIFY `idmerchant` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `kurir`
+  MODIFY `idkurir` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notifikasi`
+--
+ALTER TABLE `notifikasi`
+  MODIFY `idnotifikasi` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `obrolan`
+--
+ALTER TABLE `obrolan`
+  MODIFY `idobrolan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `pembayaran`
+--
+ALTER TABLE `pembayaran`
+  MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pengiriman`
+--
+ALTER TABLE `pengiriman`
+  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `produk`
+--
+ALTER TABLE `produk`
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `reviewproduk`
+--
+ALTER TABLE `reviewproduk`
+  MODIFY `idreviewproduk` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -487,7 +687,7 @@ ALTER TABLE `users`
 -- Constraints for table `alamatmerchant`
 --
 ALTER TABLE `alamatmerchant`
-  ADD CONSTRAINT `fk_alamatmerchant_merchant1` FOREIGN KEY (`merchant_idmerchant`) REFERENCES `merchant` (`idmerchant`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_alamatmerchant_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `alamatpembeli`
@@ -517,6 +717,13 @@ ALTER TABLE `diskusi`
   ADD CONSTRAINT `fk_diskusi_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `dukunganpengiriman`
+--
+ALTER TABLE `dukunganpengiriman`
+  ADD CONSTRAINT `fk_merchant_has_kurir_kurir1` FOREIGN KEY (`kurir_idkurir`) REFERENCES `kurir` (`idkurir`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_merchant_has_kurir_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
@@ -526,7 +733,7 @@ ALTER TABLE `gambarproduk`
 -- Constraints for table `kategori`
 --
 ALTER TABLE `kategori`
-  ADD CONSTRAINT `fk_kategori_merchant1` FOREIGN KEY (`merchant_idmerchant`) REFERENCES `merchant` (`idmerchant`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_kategori_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `keranjang`
@@ -539,22 +746,34 @@ ALTER TABLE `keranjang`
 -- Constraints for table `merchant`
 --
 ALTER TABLE `merchant`
-  ADD CONSTRAINT `fk_merchant_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_merchant_users1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `notifikasi`
+--
+ALTER TABLE `notifikasi`
+  ADD CONSTRAINT `fk_notifikasi_users1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `obrolan`
 --
 ALTER TABLE `obrolan`
-  ADD CONSTRAINT `fk_obrolan_merchant1` FOREIGN KEY (`merchant_idmerchant`) REFERENCES `merchant` (`idmerchant`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_obrolan_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_obrolan_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `pengiriman`
+--
+ALTER TABLE `pengiriman`
+  ADD CONSTRAINT `fk_pengiriman_datapengiriman1` FOREIGN KEY (`datapengiriman_iddatapengiriman`) REFERENCES `datapengiriman` (`iddatapengiriman`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_pengiriman_kurir1` FOREIGN KEY (`kurir_idkurir`) REFERENCES `kurir` (`idkurir`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `produk`
 --
 ALTER TABLE `produk`
   ADD CONSTRAINT `fk_produk_jenisproduk1` FOREIGN KEY (`jenisproduk_idjenisproduk`) REFERENCES `jenisproduk` (`idjenisproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_produk_kategori1` FOREIGN KEY (`kategori_idkategori`) REFERENCES `kategori` (`idkategori`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_produk_merchant1` FOREIGN KEY (`merchant_idmerchant`) REFERENCES `merchant` (`idmerchant`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_produk_kategori1` FOREIGN KEY (`kategori_idkategori`) REFERENCES `kategori` (`idkategori`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `reviewproduk`
@@ -568,6 +787,7 @@ ALTER TABLE `reviewproduk`
 --
 ALTER TABLE `transaksi`
   ADD CONSTRAINT `fk_transaksi_alamatpembeli1` FOREIGN KEY (`alamatpembeli_idalamat`) REFERENCES `alamatpembeli` (`idalamat`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_transaksi_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_transaksi_pembayaran1` FOREIGN KEY (`pembayaran_idpembayaran`) REFERENCES `pembayaran` (`idpembayaran`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_transaksi_pengiriman1` FOREIGN KEY (`pengiriman_idpengiriman`) REFERENCES `pengiriman` (`idpengiriman`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_transaksi_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
