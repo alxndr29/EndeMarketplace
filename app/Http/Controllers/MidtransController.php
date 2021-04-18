@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -18,6 +17,7 @@ class MidtransController extends Controller
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
+        
     }
     public function index()
     {
@@ -52,7 +52,7 @@ class MidtransController extends Controller
     public function getStatus()
     {
         $this->config();
-        $status = \Midtrans\Transaction::status(441798310);
+        $status = \Midtrans\Transaction::status(9999);
         dd($status);
     }
     public function cancelPayment()

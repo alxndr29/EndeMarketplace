@@ -24,6 +24,10 @@ Route::get('/', function () {
 Route::get('/token',function(){
     return csrf_token(); 
 });
+Route::get('/map',function(){
+    return view('leaflet');
+});
+
 
 //RajaOngkir
 Route::get('getprovinsi','RajaOngkirController@getProvinsi');
