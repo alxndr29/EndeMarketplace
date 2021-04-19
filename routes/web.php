@@ -69,8 +69,10 @@ Route::post('seller/merchant/store','MerchantController@store')->name('merchant.
 
 //Alamat pembeli
 Route::get('user/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');
+Route::get('user/alamat/edit/{id}', 'AlamatPembeliController@edit')->name('alamatpembeli.edit');
 Route::post('user/alamat/store','AlamatPembeliController@store')->name('alamatpembeli.store');
-Route::put('user/alamat/update/{id}','AlamatPembeliController@update')->name('alamatpembeli.update');
+//Route::put('user/alamat/update/{id}','AlamatPembeliController@update')->name('alamatpembeli.update');
+Route::post('user/alamat/update', 'AlamatPembeliController@update')->name('alamatpembeli.update');
 Route::delete('user/alamat/delete/{id}','AlamatPembeliController@destroy')->name('alamatpembeli.destroy');
 
 //Keranjang

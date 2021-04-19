@@ -16,7 +16,7 @@ class AlamatPembeliController extends Controller
     public function index()
     {
         $user = new User();
-        $alamatpembeli = Alamatpembeli::where('users_iduser','=', $user->userid())->get();
+        $alamatpembeli = Alamatpembeli::where('users_iduser','=', $user->userid())->orderBy('idalamat','desc')->get();
         return view('user.alamat.alamat', compact('alamatpembeli'));
         //return $alamatpembeli;
     }
@@ -51,22 +51,37 @@ class AlamatPembeliController extends Controller
     }
     public function edit($id)
     { 
-        
+        try{
+            $data = DB::table('alamatpembeli')
+            ->join('kabupatenkota','kabupatenkota.idkabupatenkota','=','alamatpembeli.kabupatenkota_idkabupatenkota')
+            ->join('provinsi','provinsi.idprovinsi','=','kabupatenkota.provinsi_idprovinsi')
+            ->where('alamatpembeli.idalamat','=',$id)
+            ->select('alamatpembeli.*','kabupatenkota.idkabupatenkota','kabupatenkota.nama as namakabupatenkota','provinsi.idprovinsi','provinsi.nama as namaprovinsi')
+            ->get();
+            return json_encode($data);
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         try {
-            $alamatPembeli = Alamatpembeli::findOrFail($id);
+            
+            $alamatPembeli = Alamatpembeli::findOrFail($request->get('idalamat'));
             $alamatPembeli->simpan_sebagai = $request->get('simpan_sebagai');
             $alamatPembeli->nama_penerima = $request->get('nama_penerima');
             $alamatPembeli->alamatlengkap = $request->get('alamatlengkap');
-            $alamatPembeli->kota = $request->get('kota');
-            $alamatPembeli->provinsi = $request->get('provinsi');
+            //$alamatPembeli->kota = $request->get('kota');
+            //$alamatPembeli->provinsi = $request->get('provinsi');
             $alamatPembeli->telepon = $request->get('telepon');
             $alamatPembeli->latitude = $request->get('latitude');
             $alamatPembeli->longitude = $request->get('longitude');
+            $alamatPembeli->kabupatenkota_idkabupatenkota = $request->get('kotakabupaten');
             $alamatPembeli->save();
             return "berhasil update";
+            
+            //return $request->all();
+
         } catch (\Exception $e) {
             return $e->getMessage();
         }

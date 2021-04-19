@@ -160,8 +160,7 @@
             $.ajax({
                 url: "{{route('produk.store')}}",
                 type: "POST",
-                dataType: "JSON",
-                data: {
+                data: {-
                     "_token": "{{ csrf_token() }}",
                     "namaProduk": namaProduk,
                     "jenisProduk": jenisProduk,

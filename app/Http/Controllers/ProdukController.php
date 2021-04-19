@@ -23,26 +23,27 @@ class ProdukController extends Controller
     {
         $merchant = new Merchant();
         $kategori = Kategori::where('merchant_users_iduser','=',$merchant->idmerchant())->get();
+        
         return view('seller.produk.tambahproduk', compact('kategori'));
     }
     public function store(Request $request)
     {
         
         try {
-            $produk = new Produk();
-            $produk->nama = $request->get('namaProduk');
-            $produk->deskripsi = $request->get('deskripsiProduk');
-            $produk->minimum_pemesanan = $request->get('minimumPemesananProduk');
-            $produk->status = $request->get('statusProduk');
-            $produk->stok = $request->get('stokProduk');
-            $produk->berat = $request->get('beratProduk');
-            $produk->preorder = $request->get('preorder');
-            $produk->volume = $request->get('volume');
-            $produk->merchant_idmerchant = "idmerchant";
-            $produk->kategori_idkategori = "123";
-            $produk->jenisproduk_idjenisproduk = 123;
-            $produk->save();
-            $produk->idproduk;
+            // $produk = new Produk();
+            // $produk->nama = $request->get('namaProduk');
+            // $produk->deskripsi = $request->get('deskripsiProduk');
+            // $produk->minimum_pemesanan = $request->get('minimumPemesananProduk');
+            // $produk->status = $request->get('statusProduk');
+            // $produk->stok = $request->get('stokProduk');
+            // $produk->berat = $request->get('beratProduk');
+            // $produk->preorder = $request->get('preorder');
+            // $produk->volume = $request->get('volume');
+            // $produk->merchant_idmerchant = "idmerchant";
+            // $produk->kategori_idkategori = "123";
+            // $produk->jenisproduk_idjenisproduk = 123;
+            // $produk->save();
+            // $produk->idproduk;
             /*
             $gambar = $request->get('gambar');
             $decode = json_decode($gambar);
@@ -55,6 +56,7 @@ class ProdukController extends Controller
             $response = ['status' => $test];
             return response()->json($response);
             */
+            return "masuk";
         } catch (\Exception $e) {
             $response = ['status' => $e->getMessage()];
             return response()->json($response);
