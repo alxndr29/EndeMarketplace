@@ -121,6 +121,7 @@
             contentType: false,
             dataType: "json",
             success: function(data) {
+                console.log(data);
                 $('#spinnerloading').hide();
                 for (i = 0; i < data['rajaongkir']['results'].length; i++) {
                     //alert(data['rajaongkir']['results'][i]['province_id']);

@@ -14,7 +14,7 @@ class KeranjangController extends Controller
         $user = new User();
         //$user->userid()
         $keranjang = DB::table('keranjang')->where('users_iduser', $user->userid())->get();
-        return $keranjang;
+        return view('user.keranjang.keranjang',compact('keranjang'));
     }
     public function store(Request $request)
     {

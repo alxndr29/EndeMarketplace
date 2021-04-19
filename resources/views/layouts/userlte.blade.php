@@ -216,6 +216,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                         </div>
                     </li>
+                   
                     <!--
                     <li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
@@ -360,7 +361,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE App -->
     <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{asset('adminlte/dist/js/demo.js')}}"></script>
+    <script src="{{asset('adminlte/dist/js/demo.js')}}"></script>
     <!-- DataTables  & Plugins -->
     <script src="{{asset('adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
