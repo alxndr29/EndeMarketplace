@@ -206,6 +206,7 @@
 
     $(document).ready(function() {
 
+
         $('#checkboxpreorder').change(function() {
             if (this.checked) {
                 //alert(this.checked);
@@ -223,7 +224,7 @@
             var panjangProduk = $("#panjangProduk").val();
             var lebarProduk = $("#lebarProduk").val();
             var tinggiProduk = $("#tinggiProduk").val();
-            var volume = panjangProduk * lebarProduk * tinggiProduk;
+            //var volume = panjangProduk * lebarProduk * tinggiProduk;
 
             $.ajax({
                 url: "{{route('produk.store')}}",
@@ -239,12 +240,21 @@
                     "minimumPemesanan": $("#minimumPemesanan").val(),
                     "statusProduk": $("#statusProduk").val(),
                     "stokProduk": $("#stokProduk").val(),
-                    "volume": volume,
+                    "panjang": $("#panjangProduk").val(),
+                    "lebar": $("#lebarProduk").val(),
+                    "tinggi": $("#tinggiProduk").val(),
                     "waktu_preorder": $("#durasiPreorder").val(),
                     "gambar": myJson
                 },
                 success: function(response) {
-                    console.log(response);
+                    if (response.status == "berhasil") {
+
+                        alert(response.status);
+                        window.location.href = "{{URL::to('seller/produk')}}";
+
+                    } else {
+                        alert(response.status);
+                    }
                 }
             });
 

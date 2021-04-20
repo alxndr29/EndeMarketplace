@@ -88,11 +88,14 @@ Route::delete('user/wishlist/delete/{id}', 'WishlistController@destroy')->name('
 
 //Produk
 Route::get('seller/produk','ProdukController@index')->name('produk.index');
-Route::get('seller/produk/show/{id}', 'ProdukController@show')->name('produk.show');
+Route::get('seller/produk/edit/{id}', 'ProdukController@edit')->name('produk.edit');
+Route::get('seller/produk/gambar/{id}', 'ProdukController@picture')->name('produk.picture');
 Route::get('seller/produk/tambah','ProdukController@create')->name('produk.create');
 Route::post('seller/produk/store','ProdukController@store')->name('produk.store');
+Route::delete('seller/produk/delete/{id}','ProdukController@destroy')->name('produk.destroy');
 
-Route::get('hapus','ProdukController@removeImage');
+Route::get('user/produk/show/{id}', 'ProdukController@show')->name('produk.show');
+//Route::get('hapus','ProdukController@removeImage');
 
 
 

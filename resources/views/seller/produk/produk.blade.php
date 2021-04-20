@@ -23,13 +23,34 @@
                             <tr>
                                 <th style="width:10%">No</th>
                                 <th>Nama</th>
+                                <th>Kategori Produk</th>
+                                <th>Stok</th>
+                                <th>Status</th>
                                 <th style="width:5%">Ubah</th>
                                 <th style="width:5%">Hapus</th>
                             </tr>
                         </thead>
                         <tbody style="vertical-align: top;">
-
-
+                            @foreach ($produk as $key => $value )
+                            <tr>
+                                <td>{{$key+1}}</td>
+                                <td>{{$value->nama}}</td>
+                                <td>{{$value->nama_kategori}}</td>
+                                <td>{{$value->stok}}</td>
+                                <td>{{$value->status}}</td>
+                                <td>
+                                    nan
+                                </td>
+                                <td>
+                                    <form method="post" action="{{route('produk.destroy',$value->idproduk)}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger"> <i class="fas fa-trash"></i> </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -51,5 +72,6 @@
 
 @endsection
 
+@section('name')
 
-
+@endsection

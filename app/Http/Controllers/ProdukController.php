@@ -19,21 +19,27 @@ class ProdukController extends Controller
     //
     public function index()
     {
-        return view('seller.produk.produk');
+        $merchant = new Merchant();
+        $produk = DB::table('produk')
+            ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
+            ->where('produk.merchant_users_iduser', $merchant->idmerchant())
+            ->get();
+        //return $data;
+        return view('seller.produk.produk', compact('produk'));
     }
     public function create()
     {
         $merchant = new Merchant();
-        $kategori = Kategori::where('merchant_users_iduser','=',$merchant->idmerchant())->get();
+        $kategori = Kategori::where('merchant_users_iduser', '=', $merchant->idmerchant())->get();
         $jenisproduk = Jenisproduk::all();
-        return view('seller.produk.tambahproduk', compact('kategori','jenisproduk'));
+        return view('seller.produk.tambahproduk', compact('kategori', 'jenisproduk'));
     }
     public function store(Request $request)
     {
-        
-        try {
-            $merchant = new Merchant();
 
+        try {
+
+            $merchant = new Merchant();
             $produk = new Produk();
             $produk->nama = $request->get('namaProduk');
             $produk->deskripsi = $request->get('deskripsiProduk');
@@ -41,20 +47,23 @@ class ProdukController extends Controller
             $produk->status = $request->get('statusProduk');
             $produk->stok = $request->get('stokProduk');
             $produk->berat = $request->get('beratProduk');
-            if($request->get('preorder') == true){
+            if ($request->get('preorder') == "true") {
                 $produk->preorder = 'Aktif';
                 $produk->waktu_preorder = $request->get('waktu_preorder');
-            }else{
+            } else {
                 $produk->preorder = 'TidakAktif';
                 $produk->waktu_preorder = 0;
             }
-            $produk->volume = $request->get('volume');
+            $produk->panjang = $request->get('panjang');
+            $produk->lebar = $request->get('lebar');
+            $produk->tinggi = $request->get('tinggi');
+
             $produk->merchant_users_iduser = $merchant->idmerchant();
             $produk->kategori_idkategori = $request->get('kategoriProduk');
             $produk->jenisproduk_idjenisproduk = $request->get('jenisProduk');
             $produk->save();
             $produk->idproduk;
-            
+
             $gambar = $request->get('gambar');
             $decode = json_decode($gambar);
             $test = "";
@@ -63,41 +72,74 @@ class ProdukController extends Controller
                 $gambarProduk = new Gambarproduk();
                 $gambarProduk->produk_idproduk = $produk->idproduk;
                 $gambarProduk->save();
-                $path = public_path('gambar/' .$gambarProduk->idgambarproduk.'.jpg');
-                Image::make(file_get_contents($test))->encode('jpg',85)->save($path);
+                $path = public_path('gambar/' . $gambarProduk->idgambarproduk . '.jpg');
+                Image::make(file_get_contents($test))->encode('jpg', 85)->save($path);
             }
 
-            $response = ['status' => $test];
+            $response = ['status' => 'berhasil'];
             return response()->json($response);
-            
-            return $request->all();
         } catch (\Exception $e) {
             $response = ['status' => $e->getMessage()];
             return response()->json($response);
         }
-        
     }
-    public function show($id){
-        $data = DB::table('produk')->join('gambarproduk','gambarproduk.produk_idproduk','produk.idproduk')
-        ->join('kategori', 'kategori.idkategori','=','produk.kategori_idkategori')
-        ->join('jenisproduk','jenisproduk.idjenisproduk','produk.jenisproduk_idjenisproduk')
-        ->where('produk.idproduk', $id)
-        ->get();
+    public function show($id)
+    {
+        $data = DB::table('produk')->join('gambarproduk', 'gambarproduk.produk_idproduk', 'produk.idproduk')
+            ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
+            ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
+            ->where('produk.idproduk', $id)
+            ->get();
         return $data[0]->idproduk;
     }
     public function edit($id)
-    { }
-    public function update(Request $request, $id)
-    { }
-    public function destroy($id)
-    { }
-    public function removeImage()
     {
-        if (\File::exists(public_path('gambar/test.jpg'))) {
+        $merchant = new Merchant();
+        $kategori = Kategori::where('merchant_users_iduser', '=', $merchant->idmerchant())->get();
+        $jenisproduk = Jenisproduk::all();
 
-            \File::delete(public_path('gambar/test.jpg'));
+        $data = DB::table('produk')
+            ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
+            ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
+            ->where('produk.idproduk', $id)
+            ->select('produk.*','kategori.idkategori','kategori.nama_kategori','jenisproduk.idjenisproduk','jenisproduk.nama as nama_jenis')
+            ->first();
+        //dd($data);
+        return view('seller.produk.ubahproduk',compact('data','kategori','jenisproduk'));
+    }
+    public function picture($id){
+        try{
+            $data = Gambarproduk::where('produk_idproduk',$id)->get();
+            return $data;
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+    }
+    public function update(Request $request, $id)
+    { 
+
+    }
+    public function destroy($id)
+    {
+        try {
+            $data =  Gambarproduk::where('produk_idproduk', $id)->get();
+            foreach ($data as $key => $value) {
+                $this->removeImage($value->idgambarproduk);
+            }
+            Gambarproduk::where('produk_idproduk',$id)->delete();
+            Produk::where('idproduk',$id)->delete();
+            return "berhasil";
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    public function removeImage($id)
+    {
+        $name = 'gambar/' . $id . ".jpg";
+        if (\File::exists(public_path($name))) {
+            \File::delete(public_path($name));
         } else {
-            dd('File does not exists.');
+            return ('File does not exists.');
         }
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2021 at 07:05 AM
+-- Generation Time: Apr 20, 2021 at 07:29 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -64,8 +64,9 @@ CREATE TABLE `alamatpembeli` (
 --
 
 INSERT INTO `alamatpembeli` (`idalamat`, `simpan_sebagai`, `nama_penerima`, `alamatlengkap`, `telepon`, `users_iduser`, `latitude`, `longitude`, `created_at`, `updated_at`, `kabupatenkota_idkabupatenkota`) VALUES
-(5, 'Alamat Kos', 'Alexander Evan', 'Kokos raya no 34', '081353522525', 4, '-8.844137', '121.66772759999999', '2021-04-19 04:19:58', '2021-04-19 04:19:58', 122),
-(8, 'Alamat Gusti', 'Gusti BWS', 'Pesona Surya Milenia', '023123981902', 4, '-8.8441527', '121.6677344', '2021-04-19 04:33:47', '2021-04-19 04:33:47', 19);
+(5, 'Alamat Kos', 'Alexander Evan', 'Kokos raya no 34', '081353522525', 4, '-8.848096681737978', '121.66360616683961', '2021-04-19 04:19:58', '2021-04-19 16:54:10', 122),
+(8, 'Alamat Nando', 'Fernando W', 'Rnkut mjt slt', '321', 4, '-7.320648203091388', '112.76708364486696', '2021-04-19 04:33:47', '2021-04-19 16:45:04', 16),
+(9, 'Rumah nico', 'i gede bagus', 'erer', '4333', 4, '-8.844187', '121.66775179999999', '2021-04-19 16:47:56', '2021-04-19 16:47:56', 32);
 
 -- --------------------------------------------------------
 
@@ -149,11 +150,18 @@ CREATE TABLE `dukunganpengiriman` (
 
 CREATE TABLE `gambarproduk` (
   `idgambarproduk` int(11) NOT NULL,
-  `nama_file` varchar(45) DEFAULT NULL,
   `produk_idproduk` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `gambarproduk`
+--
+
+INSERT INTO `gambarproduk` (`idgambarproduk`, `produk_idproduk`, `created_at`, `updated_at`) VALUES
+(9, 17, '2021-04-20 14:47:03', '2021-04-20 14:47:03'),
+(10, 17, '2021-04-20 14:47:03', '2021-04-20 14:47:03');
 
 -- --------------------------------------------------------
 
@@ -173,7 +181,10 @@ CREATE TABLE `jenisproduk` (
 --
 
 INSERT INTO `jenisproduk` (`idjenisproduk`, `nama`, `created_at`, `updated_at`) VALUES
-(1, 'Kebutuhan Harian', NULL, NULL);
+(1, 'Makanan', NULL, NULL),
+(2, 'Minuman', NULL, NULL),
+(3, 'Susu', NULL, NULL),
+(4, 'Beras', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -856,13 +867,24 @@ CREATE TABLE `produk` (
   `status` enum('Aktif','TidakAktif') NOT NULL,
   `stok` int(11) NOT NULL,
   `berat` int(11) NOT NULL,
-  `preorder` enum('Aktif','TidakAktif') NOT NULL,
-  `volume` int(11) NOT NULL,
+  `panjang` int(11) DEFAULT NULL,
+  `lebar` int(11) DEFAULT NULL,
+  `tinggi` int(11) DEFAULT NULL,
+  `preorder` enum('Aktif','TidakAktif') NOT NULL DEFAULT 'TidakAktif',
+  `waktu_preorder` int(11) DEFAULT NULL,
   `kategori_idkategori` int(11) NOT NULL,
   `jenisproduk_idjenisproduk` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `merchant_users_iduser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `produk`
+--
+
+INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `minimum_pemesanan`, `status`, `stok`, `berat`, `panjang`, `lebar`, `tinggi`, `preorder`, `waktu_preorder`, `kategori_idkategori`, `jenisproduk_idjenisproduk`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
+(17, 'Kopi ABC Mokka', 'Makin enak makin panas', 1, 'Aktif', 100, 1, 2, 3, 4, 'TidakAktif', 0, 5, 2, '2021-04-20 14:47:03', '2021-04-20 14:47:03', 4);
 
 -- --------------------------------------------------------
 
@@ -1133,7 +1155,8 @@ ALTER TABLE `pengiriman`
 ALTER TABLE `produk`
   ADD PRIMARY KEY (`idproduk`),
   ADD KEY `fk_produk_kategori1_idx` (`kategori_idkategori`),
-  ADD KEY `fk_produk_jenisproduk1_idx` (`jenisproduk_idjenisproduk`);
+  ADD KEY `fk_produk_jenisproduk1_idx` (`jenisproduk_idjenisproduk`),
+  ADD KEY `fk_produk_merchant1_idx` (`merchant_users_iduser`);
 
 --
 -- Indexes for table `provinsi`
@@ -1181,7 +1204,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `alamatpembeli`
 --
 ALTER TABLE `alamatpembeli`
-  MODIFY `idalamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idalamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `datapengiriman`
@@ -1205,13 +1228,13 @@ ALTER TABLE `diskusi`
 -- AUTO_INCREMENT for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
-  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `jenisproduk`
 --
 ALTER TABLE `jenisproduk`
-  MODIFY `idjenisproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idjenisproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `kategori`
@@ -1253,7 +1276,7 @@ ALTER TABLE `pengiriman`
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `reviewproduk`
@@ -1382,7 +1405,8 @@ ALTER TABLE `pengiriman`
 --
 ALTER TABLE `produk`
   ADD CONSTRAINT `fk_produk_jenisproduk1` FOREIGN KEY (`jenisproduk_idjenisproduk`) REFERENCES `jenisproduk` (`idjenisproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_produk_kategori1` FOREIGN KEY (`kategori_idkategori`) REFERENCES `kategori` (`idkategori`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_produk_kategori1` FOREIGN KEY (`kategori_idkategori`) REFERENCES `kategori` (`idkategori`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_produk_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `reviewproduk`
