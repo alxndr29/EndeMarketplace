@@ -10,6 +10,8 @@ use App\User;
 use DB;
 use App\Kategori;
 use App\Gambarproduk;
+use App\Jenisproduk;
+use Illuminate\Support\Carbon;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class ProdukController extends Controller
@@ -23,45 +25,65 @@ class ProdukController extends Controller
     {
         $merchant = new Merchant();
         $kategori = Kategori::where('merchant_users_iduser','=',$merchant->idmerchant())->get();
-        
-        return view('seller.produk.tambahproduk', compact('kategori'));
+        $jenisproduk = Jenisproduk::all();
+        return view('seller.produk.tambahproduk', compact('kategori','jenisproduk'));
     }
     public function store(Request $request)
     {
         
         try {
-            // $produk = new Produk();
-            // $produk->nama = $request->get('namaProduk');
-            // $produk->deskripsi = $request->get('deskripsiProduk');
-            // $produk->minimum_pemesanan = $request->get('minimumPemesananProduk');
-            // $produk->status = $request->get('statusProduk');
-            // $produk->stok = $request->get('stokProduk');
-            // $produk->berat = $request->get('beratProduk');
-            // $produk->preorder = $request->get('preorder');
-            // $produk->volume = $request->get('volume');
-            // $produk->merchant_idmerchant = "idmerchant";
-            // $produk->kategori_idkategori = "123";
-            // $produk->jenisproduk_idjenisproduk = 123;
-            // $produk->save();
-            // $produk->idproduk;
-            /*
+            $merchant = new Merchant();
+
+            $produk = new Produk();
+            $produk->nama = $request->get('namaProduk');
+            $produk->deskripsi = $request->get('deskripsiProduk');
+            $produk->minimum_pemesanan = $request->get('minimumPemesanan');
+            $produk->status = $request->get('statusProduk');
+            $produk->stok = $request->get('stokProduk');
+            $produk->berat = $request->get('beratProduk');
+            if($request->get('preorder') == true){
+                $produk->preorder = 'Aktif';
+                $produk->waktu_preorder = $request->get('waktu_preorder');
+            }else{
+                $produk->preorder = 'TidakAktif';
+                $produk->waktu_preorder = 0;
+            }
+            $produk->volume = $request->get('volume');
+            $produk->merchant_users_iduser = $merchant->idmerchant();
+            $produk->kategori_idkategori = $request->get('kategoriProduk');
+            $produk->jenisproduk_idjenisproduk = $request->get('jenisProduk');
+            $produk->save();
+            $produk->idproduk;
+            
             $gambar = $request->get('gambar');
             $decode = json_decode($gambar);
             $test = "";
             foreach ($decode as $value) {
                 $test = $value;
-                $path = public_path('gambar/' . 'test.jpg');
+                $gambarProduk = new Gambarproduk();
+                $gambarProduk->produk_idproduk = $produk->idproduk;
+                $gambarProduk->save();
+                $path = public_path('gambar/' .$gambarProduk->idgambarproduk.'.jpg');
                 Image::make(file_get_contents($test))->encode('jpg',85)->save($path);
             }
+
             $response = ['status' => $test];
             return response()->json($response);
-            */
-            return "masuk";
+            
+            return $request->all();
         } catch (\Exception $e) {
             $response = ['status' => $e->getMessage()];
             return response()->json($response);
         }
         
+    }
+    public function show($id){
+        $data = DB::table('produk')->join('gambarproduk','gambarproduk.produk_idproduk','produk.idproduk')
+        ->join('kategori', 'kategori.idkategori','=','produk.kategori_idkategori')
+        ->join('jenisproduk','jenisproduk.idjenisproduk','produk.jenisproduk_idjenisproduk')
+        ->where('produk.idproduk', $id)
+        ->get();
+        return $data[0]->idproduk;
     }
     public function edit($id)
     { }

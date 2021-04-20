@@ -9,6 +9,5 @@ class Alamatpembeli extends Model
     //
     protected $table = 'alamatpembeli';
     protected $primaryKey = 'idalamat';
-
     
 }

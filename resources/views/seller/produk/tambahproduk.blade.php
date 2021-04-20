@@ -18,8 +18,10 @@
                     <div class="form-group">
                         <label>Jenis Produk</label>
                         <select class="form-control" id="jenisProduk">
-                            <option>option 1</option>
-
+                            <option selected>Pilih Jenis Produk</option>
+                            @foreach ($jenisproduk as $key => $value )
+                            <option value="{{$value->idjenisproduk}}">{{$value->nama}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
@@ -115,19 +117,23 @@
                         <input type="number" class="form-control" id="stokProduk" placeholder="Stok">
                     </div>
                     <div class="form-group">
-                        <label for="minimumPembelian">Minimum Pembelian</label>
-                        <input type="number" class="form-control" id="minimumPembelian" placeholder="Minimum Pembelian">
+                        <label for="minimumPembelian">Minimum Pemesanan</label>
+                        <input type="number" class="form-control" id="minimumPemesanan" placeholder="Minimum Pembelian">
                     </div>
                     <div class="form-group">
                         <label>Status Produk</label>
-                        <select class="form-control" id="kategoriProduk">
+                        <select class="form-control" id="statusProduk">
                             <option value="Aktif">Aktif</option>
                             <option value="TidakAktif">Tidak Aktif</option>
                         </select>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <input type="checkbox" class="form-check-input" id="checkboxpreorder">
                         <label class="form-check-label" for="exampleCheck1">Pre Order</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="minimumPembelian">Durasi Preorder</label>
+                        <input type="number" class="form-control" id="durasiPreorder" placeholder="Durasi Preorder">
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -143,39 +149,6 @@
 </div>
 @section('js')
 <script type="text/javascript">
-    $(document).ready(function() {
-
-        $("#btnsubmit").click(function() {
-            var namaProduk = $("#namaProduk").val();
-            var jenisProduk = $("#jenisProduk").val();
-            var kategoriProduk = $("#kategoriProduk").val();
-            var deskripsiProduk = $("#deskripsiProduk").val();
-
-            var beratProduk = $("#beratProduk").val();
-            // rumus volume panjang x lebar x tinggi
-            var panjangProduk = $("#panjangProduk").val();
-            var lebarProduk = $("#lebarProduk").val();
-            var tinggiProduk = $("#tinggiProduk").val();
-
-            $.ajax({
-                url: "{{route('produk.store')}}",
-                type: "POST",
-                data: {-
-                    "_token": "{{ csrf_token() }}",
-                    "namaProduk": namaProduk,
-                    "jenisProduk": jenisProduk,
-                    "kategoriProduk": kategoriProduk,
-                    "deskripsiProduk": deskripsiProduk,
-                    "beratProduk": beratProduk
-                },
-                success: function(response) {
-                    console.log(response);
-                }
-            });
-
-        });
-    });
-
     var gambar = Array();
 
     function readURL(input) {
@@ -229,6 +202,54 @@
                 console.log(response);
             }
         });
+    });
+
+    $(document).ready(function() {
+
+        $('#checkboxpreorder').change(function() {
+            if (this.checked) {
+                //alert(this.checked);
+                $("#durasiPreorder").attr("disabled", false);
+            } else {
+                //alert(this.checked);
+                $("#durasiPreorder").attr("disabled", true);
+            }
+        });
+
+        $("#btnsubmit").click(function() {
+
+            var myJson = JSON.stringify(gambar);
+            // rumus volume panjang x lebar x tinggi
+            var panjangProduk = $("#panjangProduk").val();
+            var lebarProduk = $("#lebarProduk").val();
+            var tinggiProduk = $("#tinggiProduk").val();
+            var volume = panjangProduk * lebarProduk * tinggiProduk;
+
+            $.ajax({
+                url: "{{route('produk.store')}}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "namaProduk": $("#namaProduk").val(),
+                    "jenisProduk": $("#jenisProduk").val(),
+                    "kategoriProduk": $("#kategoriProduk").val(),
+                    "deskripsiProduk": $("#deskripsiProduk").val(),
+                    "beratProduk": $("#beratProduk").val(),
+                    "preorder": $("#checkboxpreorder").is(":checked"),
+                    "minimumPemesanan": $("#minimumPemesanan").val(),
+                    "statusProduk": $("#statusProduk").val(),
+                    "stokProduk": $("#stokProduk").val(),
+                    "volume": volume,
+                    "waktu_preorder": $("#durasiPreorder").val(),
+                    "gambar": myJson
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+
+        });
+
     });
 </script>
 @endsection

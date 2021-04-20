@@ -88,6 +88,7 @@ Route::delete('user/wishlist/delete/{id}', 'WishlistController@destroy')->name('
 
 //Produk
 Route::get('seller/produk','ProdukController@index')->name('produk.index');
+Route::get('seller/produk/show/{id}', 'ProdukController@show')->name('produk.show');
 Route::get('seller/produk/tambah','ProdukController@create')->name('produk.create');
 Route::post('seller/produk/store','ProdukController@store')->name('produk.store');
 
