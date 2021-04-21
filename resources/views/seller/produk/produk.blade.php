@@ -39,7 +39,7 @@
                                 <td>{{$value->stok}}</td>
                                 <td>{{$value->status}}</td>
                                 <td>
-                                    nan
+                                <a href="{{route('produk.edit',$value->idproduk)}}" class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
                                 </td>
                                 <td>
                                     <form method="post" action="{{route('produk.destroy',$value->idproduk)}}">
@@ -63,8 +63,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
-        toastr.success('{{session('
-            berhasil ')}}');
+        //toastr.success('{{session('berhasil')}}');
+        alert('{{session('berhasil')}}');
         @endif
     });
 </script>

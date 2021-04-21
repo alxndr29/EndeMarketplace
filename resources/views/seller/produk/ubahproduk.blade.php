@@ -16,6 +16,10 @@
                         <input type="text" class="form-control" id="namaProduk" placeholder="Nama Produk" value="{{$data->nama}}">
                     </div>
                     <div class="form-group">
+                        <label for="namaProduk">Harga Produk</label>
+                        <input type="number" class="form-control" id="harga" placeholder="Harga Produk" value="{{$data->harga}}">
+                    </div>
+                    <div class="form-group">
                         <label>Jenis Produk</label>
                         <select class="form-control" id="jenisProduk">
                             <option selected value="{{$data->idjenisproduk}}">{{$data->nama_jenis}}</option>
@@ -27,7 +31,7 @@
                     <div class="form-group">
                         <label>Kategori Produk</label>
                         <select class="form-control" id="kategoriProduk">
-                            <option selected value="{{$data->idjenisproduk}}">{{$data->nama_kategori}}</option>
+                            <option selected value="{{$data->idkategori}}">{{$data->nama_kategori}}</option>
                             @foreach($kategori as $key => $value)
                             <option value="{{$value->idkategori}}">{{$value->nama_kategori}}</option>
                             @endforeach
@@ -91,10 +95,12 @@
                         <input type='file' id="imgInp" />
                     </form>
                     <br>
+                    <b>Gambar Baru</b>
                     <div id="preview">
-                        <img src="{{asset('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                        Belum ada gambar
                     </div>
                     <br>
+                    <b>Gambar Sekarang. Untuk menghapus klik pada gambar.</b>
                     <div id="currentPicture">
 
                     </div>
@@ -131,12 +137,22 @@
                         </select>
                     </div>
                     <div class="form-check">
+                        @if($data->preorder == "Aktif")
+                        <input type="checkbox" class="form-check-input" id="checkboxpreorder" checked>
+                        @else
                         <input type="checkbox" class="form-check-input" id="checkboxpreorder">
+                        @endif
                         <label class="form-check-label" for="exampleCheck1">Pre Order</label>
                     </div>
                     <div class="form-group">
-                        <label for="minimumPembelian">Durasi Preorder</label>
+                    <label for="minimumPembelian">Durasi Preorder</label>
+                        @if($data->preorder == "Aktif")
                         <input type="number" class="form-control" id="durasiPreorder" placeholder="Durasi Preorder" value="{{$data->waktu_preorder}}">
+                        @else
+                        <input type="number" class="form-control" id="durasiPreorder" placeholder="Durasi Preorder" value="{{$data->waktu_preorder}}" disabled>
+                        @endif
+                       
+                        
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -154,6 +170,7 @@
 <script type="text/javascript">
     var gambar = Array();
     var currentGambar = Array();
+    var hapusGambar = Array();
 
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -170,6 +187,7 @@
     $("#imgInp").change(function() {
         readURL(this);
     });
+
     function previewGambar() {
         $("#preview").empty();
         for (i = 0; i < gambar.length; i++) {
@@ -178,23 +196,50 @@
     }
 
     $(document).ready(function() {
+        
         getCurrentPicture({{$data->idproduk}});
         //displayCurrentPicture();
+    });
+    $('#checkboxpreorder').change(function() {
+            if (this.checked) {
+                //alert(this.checked);
+               
+                $("#durasiPreorder").attr("disabled", false);
+            } else {
+                //alert(this.checked);
+                 
+                $("#durasiPreorder").attr("disabled", true);
+            }
+    });
+    $("body").on("click", "#preview-gambar", function(e) {
+        var id = $(this).attr('data-id');
+        if (confirm('Ingin menghapus?')) {
+            for (i = 0; i < gambar.length; i++) {
+                if (gambar[i] == id) {
+                    gambar.splice(i, 1);
+                    previewGambar();
+                }
+            }
+           
+        } else {
+
+        }
     });
     $("body").on("click", "#current-gambar", function(e) {
         var id = $(this).attr('data-id');
         if (confirm('Ingin menghapus?')) {
             for (i = 0; i < currentGambar.length; i++) {
                 if (currentGambar[i] == id) {
+                    hapusGambar.push(currentGambar[i]);
                     currentGambar.splice(i, 1);
                     displayCurrentPicture();
                 }
             }
-            alert("Berhasil hapus");
+           
         } else {
 
         }
-        alert(id);
+        
     });
 
     function getCurrentPicture(id) {
@@ -206,7 +251,7 @@
 
             },
             success: function(data) {
-                console.log(data);
+                //console.log(data);
                 for (i = 0; i < data.length; i++) {
                     currentGambar.push(data[i]['idgambarproduk']);
                 }
@@ -230,7 +275,45 @@
             var src = "src=http://localhost:8000/gambar/" + test + '.jpg';
             $('#currentPicture').append('<img ' + src + ' id="current-gambar" style="max-width:100px; max-height:100px;" data-id="' + currentGambar[i] + '">');
         }
+        console.log('gambar yang tampil');
         console.log(currentGambar);
+        console.log('gambar yang dihapus');
+        console.log(hapusGambar);
+    }
+    $('#btnsubmit').click(function(){
+        uploadData();
+    });
+    function uploadData() {
+        $.ajax({
+            url: "{{url('seller/produk/update')}}" + "/" + {{$data->idproduk}},
+            type: "PUT",
+            data: {
+                "namaProduk": $("#namaProduk").val(),
+                "jenisProduk": $("#jenisProduk").val(),
+                "kategoriProduk": $("#kategoriProduk").val(),
+                "deskripsiProduk": $("#deskripsiProduk").val(),
+                "harga": $("#harga").val(),
+                "beratProduk": $("#beratProduk").val(),
+                "preorder": $("#checkboxpreorder").is(":checked"),
+                "minimumPemesanan": $("#minimumPemesanan").val(),
+                "statusProduk": $("#statusProduk").val(),
+                "stokProduk": $("#stokProduk").val(),
+                "panjang": $("#panjangProduk").val(),
+                "lebar": $("#lebarProduk").val(),
+                "tinggi": $("#tinggiProduk").val(),
+                "waktu_preorder": $("#durasiPreorder").val(),
+                "gambar": JSON.stringify(gambar),
+                "hapusGambar": JSON.stringify(hapusGambar)
+            },
+            success: function(response) {
+                alert(response.status);
+                window.location.href = "{{URL::to('seller/produk')}}";
+
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
     }
 </script>
 @endsection

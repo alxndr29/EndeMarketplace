@@ -92,9 +92,11 @@ Route::get('seller/produk/edit/{id}', 'ProdukController@edit')->name('produk.edi
 Route::get('seller/produk/gambar/{id}', 'ProdukController@picture')->name('produk.picture');
 Route::get('seller/produk/tambah','ProdukController@create')->name('produk.create');
 Route::post('seller/produk/store','ProdukController@store')->name('produk.store');
+Route::put('seller/produk/update/{id}','ProdukController@update')->name('produk.update');
 Route::delete('seller/produk/delete/{id}','ProdukController@destroy')->name('produk.destroy');
 
 Route::get('user/produk/show/{id}', 'ProdukController@show')->name('produk.show');
+Route::get('user/produk/cari/{id}','ProdukController@search')->name('produk.search');
 //Route::get('hapus','ProdukController@removeImage');
 
 

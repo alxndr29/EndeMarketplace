@@ -130,7 +130,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
-        toastr.success('{{session('berhasil')}}');
+        //toastr.success('{{session('berhasil')}}');
+        alert('{{session('berhasil')}}');
         @endif
 
         /*

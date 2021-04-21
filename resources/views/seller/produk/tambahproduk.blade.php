@@ -16,6 +16,10 @@
                         <input type="text" class="form-control" id="namaProduk" placeholder="Nama Produk">
                     </div>
                     <div class="form-group">
+                        <label for="namaProduk">Harga Produk</label>
+                        <input type="number" class="form-control" id="harga" placeholder="Harga Produk">
+                    </div>
+                    <div class="form-group">
                         <label>Jenis Produk</label>
                         <select class="form-control" id="jenisProduk">
                             <option selected>Pilih Jenis Produk</option>
@@ -235,6 +239,7 @@
                     "jenisProduk": $("#jenisProduk").val(),
                     "kategoriProduk": $("#kategoriProduk").val(),
                     "deskripsiProduk": $("#deskripsiProduk").val(),
+                    "harga": $("#harga").val(),
                     "beratProduk": $("#beratProduk").val(),
                     "preorder": $("#checkboxpreorder").is(":checked"),
                     "minimumPemesanan": $("#minimumPemesanan").val(),
