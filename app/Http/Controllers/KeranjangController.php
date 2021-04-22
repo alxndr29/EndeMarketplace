@@ -13,8 +13,17 @@ class KeranjangController extends Controller
     {
         $user = new User();
         //$user->userid()
-        $keranjang = DB::table('keranjang')->where('users_iduser', $user->userid())->get();
-        return view('user.keranjang.keranjang', compact('keranjang'));
+        $keranjang = DB::table('keranjang')
+        ->join('produk','keranjang.produk_idproduk','=','produk.idproduk')
+        ->join('gambarproduk','produk.idproduk','=','gambarproduk.produk_idproduk')
+        ->join('merchant','merchant.users_iduser','=','produk.merchant_users_iduser')
+        ->groupBy('produk.idproduk')
+        ->select('produk.*','gambarproduk.*','merchant.nama as nama_merchant','keranjang.*')
+        ->where('keranjang.users_iduser', $user->userid())
+        ->get();
+        //return $wishlist;
+        //return $keranjang;
+        return view('user.keranjang.keranjang',compact('keranjang'));
     }
     public function store(Request $request)
     {
@@ -62,7 +71,7 @@ class KeranjangController extends Controller
         try {
             //$user = new User();
             DB::table('keranjang')->where('produk_idproduk', $id)->delete();
-            return "berhasil";
+            return redirect('user/keranjang')->with('berhasil', 'Berhasil hapus wishlist');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

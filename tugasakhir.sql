@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2021 at 06:55 AM
+-- Generation Time: Apr 22, 2021 at 06:41 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -160,7 +160,9 @@ CREATE TABLE `gambarproduk` (
 --
 
 INSERT INTO `gambarproduk` (`idgambarproduk`, `produk_idproduk`, `created_at`, `updated_at`) VALUES
-(18, 23, '2021-04-21 17:07:02', '2021-04-21 17:07:02');
+(18, 23, '2021-04-21 17:07:02', '2021-04-21 17:07:02'),
+(19, 23, '2021-04-22 14:17:44', '2021-04-22 14:17:44'),
+(20, 24, '2021-04-22 14:37:17', '2021-04-22 14:37:17');
 
 -- --------------------------------------------------------
 
@@ -744,7 +746,7 @@ CREATE TABLE `keranjang` (
 --
 
 INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
-(4, 23, 3);
+(4, 23, 2);
 
 -- --------------------------------------------------------
 
@@ -890,7 +892,8 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesanan`, `status`, `stok`, `berat`, `panjang`, `lebar`, `tinggi`, `preorder`, `waktu_preorder`, `kategori_idkategori`, `jenisproduk_idjenisproduk`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
-(23, 'Product Tester', 'test aja', 5000, 2, 'Aktif', 10, 1, 2, 3, 3, 'TidakAktif', 0, 5, 1, '2021-04-21 17:07:02', '2021-04-21 17:07:02', 4);
+(23, 'Product Tester', 'test aja', 5000, 2, 'Aktif', 10, 1, 2, 3, 3, 'TidakAktif', 0, 5, 1, '2021-04-21 17:07:02', '2021-04-21 17:07:02', 4),
+(24, 'product kedua', 'erwrwerwer', 6500, 5, 'Aktif', 22, 2, 3, 1, 1, 'TidakAktif', 0, 5, 3, '2021-04-22 14:37:17', '2021-04-22 14:37:17', 4);
 
 -- --------------------------------------------------------
 
@@ -1023,7 +1026,8 @@ CREATE TABLE `wishlist` (
 --
 
 INSERT INTO `wishlist` (`users_iduser`, `produk_idproduk`) VALUES
-(4, 23);
+(4, 23),
+(4, 24);
 
 --
 -- Indexes for dumped tables
@@ -1241,7 +1245,7 @@ ALTER TABLE `diskusi`
 -- AUTO_INCREMENT for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
-  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `jenisproduk`
@@ -1289,7 +1293,7 @@ ALTER TABLE `pengiriman`
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `reviewproduk`

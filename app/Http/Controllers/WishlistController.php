@@ -13,8 +13,16 @@ class WishlistController extends Controller
     {
         $user = new User();
         //$user->userid()
-        $keranjang = DB::table('wishlist')->where('users_iduser', $user->userid())->get();
-        return $keranjang;
+        $wishlist = DB::table('wishlist')
+        ->join('produk','wishlist.produk_idproduk','=','produk.idproduk')
+        ->join('gambarproduk','produk.idproduk','=','gambarproduk.produk_idproduk')
+        ->join('merchant','merchant.users_iduser','=','produk.merchant_users_iduser')
+        ->groupBy('produk.idproduk')
+        ->select('produk.*','gambarproduk.*','merchant.nama as nama_merchant')
+        ->where('wishlist.users_iduser', $user->userid())
+        ->get();
+        //return $wishlist;
+        return view('user.wishlist.wishlist',compact('wishlist'));
     }
     public function store(Request $request)
     {
@@ -44,7 +52,7 @@ class WishlistController extends Controller
         try {
             //$user = new User();
             DB::table('wishlist')->where('produk_idproduk', $id)->delete();
-            return "berhasil";
+            return redirect('user/wishlist')->with('berhasil', 'Berhasil hapus wishlist');
         } catch (\Exception $e) {
             return $e->getMessage();
         }
