@@ -14,13 +14,13 @@ class KeranjangController extends Controller
         $user = new User();
         //$user->userid()
         $keranjang = DB::table('keranjang')->where('users_iduser', $user->userid())->get();
-        return view('user.keranjang.keranjang',compact('keranjang'));
+        return view('user.keranjang.keranjang', compact('keranjang'));
     }
     public function store(Request $request)
     {
         $user = new User();
-        //$iduser = $user->userid()
-        $iduser = $request->get('iduser');
+        $iduser = $user->userid();
+        //$iduser = $request->get('iduser');
         $idproduk = $request->get('idproduk');
         $jumlah = $request->get('jumlah');
         try {
@@ -31,28 +31,29 @@ class KeranjangController extends Controller
                         'produk_idproduk' => $idproduk,
                         'jumlah' => $jumlah
                     ]
-            );
-            return "berhasil";
+                );
+            $response = ['status' => 'berhasil'];
+            return response()->json($response);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            $response = ['status' => $e->getMessage()];
+            return response()->json($response);
         }
-       
+        //return $request->all();
     }
     public function update(Request $request, $id)
-    { 
-        try{
+    {
+        try {
             $user = new User();
             //$iduser = $user->userid()
             $iduser = $request->get('iduser');
-        
+
             $keranjang = DB::table('keranjang')
                 ->where('users_iduser', $iduser)
                 ->where('produk_idproduk', $id)
                 ->update(['jumlah' => 5]);
 
             return "berhasil";
-
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
@@ -60,7 +61,7 @@ class KeranjangController extends Controller
     {
         try {
             //$user = new User();
-            DB::table('keranjang')->where('produk_idproduk',$id)->delete();
+            DB::table('keranjang')->where('produk_idproduk', $id)->delete();
             return "berhasil";
         } catch (\Exception $e) {
             return $e->getMessage();

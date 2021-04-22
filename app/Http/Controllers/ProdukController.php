@@ -86,12 +86,21 @@ class ProdukController extends Controller
     }
     public function show($id)
     {
-        $data = DB::table('produk')->join('gambarproduk', 'gambarproduk.produk_idproduk', 'produk.idproduk')
+        $data = DB::table('produk')
             ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
             ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
+            ->join('merchant','merchant.users_iduser','=','produk.merchant_users_iduser')
+            ->select('produk.*','kategori.nama_kategori as nama_kategori','jenisproduk.nama as nama_jenis','merchant.nama as nama_merchant')
             ->where('produk.idproduk', $id)
-            ->get();
-        return $data[0]->idproduk;
+            ->first();
+        $gambar = DB::table('produk')->join('gambarproduk', 'gambarproduk.produk_idproduk', 'produk.idproduk')
+        ->where('produk.idproduk',$id)
+        ->select('gambarproduk.*')
+        ->get();
+        // return $gambar;
+        // return $data[0]->idproduk;
+        //return $data->nama;
+        return view('user.detailproduk.detailproduk',compact('data','gambar'));
     }
     public function edit($id)
     {

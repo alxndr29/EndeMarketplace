@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2021 at 07:22 PM
+-- Generation Time: Apr 22, 2021 at 06:55 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -739,6 +739,13 @@ CREATE TABLE `keranjang` (
   `jumlah` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `keranjang`
+--
+
+INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
+(4, 23, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -1010,6 +1017,13 @@ CREATE TABLE `wishlist` (
   `users_iduser` int(11) NOT NULL,
   `produk_idproduk` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`users_iduser`, `produk_idproduk`) VALUES
+(4, 23);
 
 --
 -- Indexes for dumped tables

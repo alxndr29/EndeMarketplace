@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use DB;
 use App\User;
 use Illuminate\Http\Request;
@@ -18,10 +19,10 @@ class WishlistController extends Controller
     public function store(Request $request)
     {
         $user = new User();
-        //$iduser = $user->userid()
-        $iduser = $request->get('iduser');
+        $iduser = $user->userid();
+        //$iduser = $request->get('iduser');
         $idproduk = $request->get('idproduk');
-       
+
         try {
             DB::table('wishlist')
                 ->updateOrInsert(
@@ -30,12 +31,14 @@ class WishlistController extends Controller
                         'produk_idproduk' => $idproduk
                     ]
                 );
-            return "berhasil";
+            $response = ['status' => 'berhasil'];
+            return response()->json($response);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            $response = ['status' => $e->getMessage()];
+            return response()->json($response);
         }
     }
-   
+
     public function destroy($id)
     {
         try {

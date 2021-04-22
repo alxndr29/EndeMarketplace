@@ -12,9 +12,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
+                                @foreach($gambar as $key => $value)
                                 <div class="col">
-                                    <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
+                                    <img style="width:150px;height:150px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
                                 </div>
+                                @endforeach
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -34,23 +36,28 @@
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-body">
-                            <p class="h5">Iphone 7 32Gb Black Garansi TAM</p>
+                            <p class="h5">{{$data->nama}}</p>
                             <p class="h6">Terjual 10 Unit - 13 Ulasan - 12 Diskusi</p>
-                            <p class="h5">Rp. 2,500,000</p>
-                            <p class="h6">Penjual: Evan Store</p>
-                            <p class="h6">Detail Produk:</p>
-                            <p class="h6">Stok: 10 Unit</p>
+                            <p class="h5">Rp. {{number_format($data->harga)}}</p>
+                            <p class="h6">Penjual: {{$data->nama_merchant}}</p>
+                            <p class="h6">Detail Produk: {{$data->deskripsi}}</p>
+                            <p class="h6">Stok: {{$data->stok}} Unit</p>
                             <div class="row p-1">
                                 <div class="col">
-                                    <button type="button" class="btn btn-block btn-default">Default</button>
+                                    <button type="button" class="btn btn-block btn-default">Chat Penjual</button>
                                 </div>
                                 <div class="col">
-                                    <button type="button" class="btn btn-block btn-default">Default</button>
+                                    <button type="button" class="btn btn-block btn-default" id="wishlist">Wishlist</button>
                                 </div>
                             </div>
                             <div class="row p-1">
-                                <div class="col">
-                                    <button type="button" class="btn btn-block btn-default">Default</button>
+                                <div class="col-10">
+                                    <button type="button" class="btn btn-block btn-default" id="keranjang">Tambah keranjang</button>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" placeholder="Qty" id="qty" value={{$data->minimum_pemesanan}}>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +155,50 @@
 @section('js')
 <script type="text/javascript">
     $(document).ready(function() {
-        alert('hello world!');
+        //alert('hello world!');
+    });
+    $("#keranjang").click(function() {
+        $.ajax({
+                url: "{{route('keranjang.store')}}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "idproduk": {{$data->idproduk}},
+                    'jumlah': $("#qty").val()
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.status == "berhasil") {
+
+                        alert(response.status);
+                        
+
+                    } else {
+                        alert(response.status);
+                    }
+                }
+            });
+    });
+    $("#wishlist").click(function() {
+        $.ajax({
+                url: "{{route('wishlist.store')}}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "idproduk": {{$data->idproduk}}
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.status == "berhasil") {
+
+                        alert(response.status);
+                        
+
+                    } else {
+                        alert(response.status);
+                    }
+                }
+            });
     });
 </script>
 @endsection
