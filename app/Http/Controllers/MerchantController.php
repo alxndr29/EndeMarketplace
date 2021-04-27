@@ -24,7 +24,6 @@ class MerchantController extends Controller
             $merchantid = DB::table('merchant')->where('users_iduser', '=', $user->userid())->get();
             return $merchantid[0]->idmerchant;
             */
-            
             $merchant = new Merchant();
             $user = new User();
             $merchant->nama = $request->get('namamerchant');
@@ -36,8 +35,11 @@ class MerchantController extends Controller
             return $e->getMessage();
         }
     }
-    public function edit($id){
-
+    public function edit(){
+        $user = new User();
+        $merchant = Merchant::where('users_iduser', $user->userid())->first();
+        //return $merchant;
+        return view('seller.merchant.pengaturanmerchant',compact('merchant'));
     }
     public function update(Request $request, $id){
 

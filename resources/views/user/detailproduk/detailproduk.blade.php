@@ -91,7 +91,26 @@
                     <div class="tab-content" id="custom-tabs-tabContent">
                         <div class="tab-pane fade active show" id="custom-tabs-reviewproduk" role="tabpanel">
                             <!-- Review Produk -->
-
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col col-lg-1">
+                                                    <img style="width:75px;height:100px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg">
+                                                </div>
+                                                <div class="col col-lg-11">
+                                                    <b>Gusti Bagus</b>
+                                                    <br>
+                                                    <b>Barang sudah diterima dan bagus</b>
+                                                    <br>
+                                                    <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- End Review Produk -->
                         </div>
                         <div class="tab-pane fade" id="custom-tabs-diskusi" role="tabpanel">
@@ -159,46 +178,54 @@
     });
     $("#keranjang").click(function() {
         $.ajax({
-                url: "{{route('keranjang.store')}}",
-                type: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "idproduk": {{$data->idproduk}},
-                    'jumlah': $("#qty").val()
-                },
-                success: function(response) {
-                    console.log(response);
-                    if (response.status == "berhasil") {
-
-                        alert(response.status);
-                        
-
-                    } else {
-                        alert(response.status);
+            url: "{{route('keranjang.store')}}",
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "idproduk": {
+                    {
+                        $data - > idproduk
                     }
+                },
+                'jumlah': $("#qty").val()
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.status == "berhasil") {
+
+                    alert(response.status);
+
+
+                } else {
+                    alert(response.status);
                 }
-            });
+            }
+        });
     });
     $("#wishlist").click(function() {
         $.ajax({
-                url: "{{route('wishlist.store')}}",
-                type: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "idproduk": {{$data->idproduk}}
-                },
-                success: function(response) {
-                    console.log(response);
-                    if (response.status == "berhasil") {
-
-                        alert(response.status);
-                        
-
-                    } else {
-                        alert(response.status);
+            url: "{{route('wishlist.store')}}",
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "idproduk": {
+                    {
+                        $data - > idproduk
                     }
                 }
-            });
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.status == "berhasil") {
+
+                    alert(response.status);
+
+
+                } else {
+                    alert(response.status);
+                }
+            }
+        });
     });
 </script>
 @endsection

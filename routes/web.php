@@ -66,6 +66,7 @@ Route::delete('seller/kategori/delete/{id}','KategoriProdukController@destroy')-
 //Merchant
 Route::get('seller/merchant/daftar','MerchantController@create')->name('merchant.create');
 Route::post('seller/merchant/store','MerchantController@store')->name('merchant.store');
+Route::get('seller/merchant/edit','MerchantController@edit')->name('merchant.edit');
 
 //Alamat pembeli
 Route::get('user/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');
@@ -98,6 +99,16 @@ Route::delete('seller/produk/delete/{id}','ProdukController@destroy')->name('pro
 Route::get('user/produk/show/{id}', 'ProdukController@show')->name('produk.show');
 Route::get('user/produk/cari/{id}','ProdukController@search')->name('produk.search');
 //Route::get('hapus','ProdukController@removeImage');
+
+//Obrolan User
+Route::get('user/obrolan/index','ObrolanController@indexUser')->name('obrolan.index.user');
+Route::post('user/obrolan/store','ObrolanController@inserObrolanUser')->name('obrolan.user.store');
+Route::get('user/obrolan/get/{id}','ObrolanController@getObrolanUser')->name('obrolan.user.get');
+
+//Obrolan Merchant
+Route::get('seller/obrolan/index','ObrolanController@indexMerchant')->name('obrolan.index.seller');
+Route::post('seller/obrolan/store', 'ObrolanController@insertObrolanMerchant')->name('obrolan.seller.store');
+
 
 
 

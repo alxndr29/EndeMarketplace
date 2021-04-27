@@ -218,6 +218,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
                         <li class="nav-item">
+                            <a href="{{route('merchant.edit')}}" class="nav-link">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    Pengaturan Merchant
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('obrolan.index.seller')}}" class="nav-link">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    Obrolan
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
@@ -311,7 +327,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
     <!-- Toastr -->
     <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
-    
+
     <script>
         $(function() {
             $("#example1").DataTable({

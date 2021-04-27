@@ -14,9 +14,9 @@ class UserDeviceController extends Controller
         $getdevice = UserSystemInfoHelper::get_device();
         $getos = UserSystemInfoHelper::get_os();
 
-        $user = Auth::user();
-        return $user->name;
-        //echo "<center>$getip <br> $getdevice <br> $getbrowser <br> $getos</center>";
+        // $user = Auth::user();
+        // return $user->name;
+        echo "<center>$getip <br> $getdevice <br> $getbrowser <br> $getos</center>";
     }
     public function store(Request $request){
         return $request->nama;
