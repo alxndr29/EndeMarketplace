@@ -196,13 +196,19 @@
             insertObrolan();
         });
         var iduser = 0;
+        var interval = [];
+
         $("body").on("click", "#pilihUser", function(e) {
+            interval.forEach(clearInterval);
             var id = $(this).attr('data-id');
             iduser = id;
             var counter = 0;
-            var timer = setInterval(function() {
+            var i = setInterval(function() {
+                counter++;
+                //alert(counter);
                 loadObrolan(id);
-            }, 1000);
+            }, 100);
+            interval.push(i);
         });
 
         function insertObrolan() {
@@ -227,7 +233,7 @@
 
         function loadObrolan(id) {
             $.ajax({
-                url: "{{url('user/obrolan/get')}}" + "/" + id,
+                url: "{{url('seller/obrolan/get')}}" + "/" + id,
                 type: "GET",
                 success: function(response) {
                     $("#judulChat").html(response[0].nama_user);

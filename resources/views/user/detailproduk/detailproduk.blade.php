@@ -44,7 +44,7 @@
                             <p class="h6">Stok: {{$data->stok}} Unit</p>
                             <div class="row p-1">
                                 <div class="col">
-                                    <button type="button" class="btn btn-block btn-default">Chat Penjual</button>
+                                    <a href="{{route('obrolan.index.user')}}" class="btn btn-block btn-default">Chat Penjual</a>
                                 </div>
                                 <div class="col">
                                     <button type="button" class="btn btn-block btn-default" id="wishlist">Wishlist</button>

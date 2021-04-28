@@ -102,13 +102,14 @@ Route::get('user/produk/cari/{id}','ProdukController@search')->name('produk.sear
 
 //Obrolan User
 Route::get('user/obrolan/index','ObrolanController@indexUser')->name('obrolan.index.user');
+Route::get('user/obrolan/index/{id1}/{id2}', 'ObrolanController@indexUserParameter')->name('obrolan.index.param.user');
 Route::post('user/obrolan/store','ObrolanController@inserObrolanUser')->name('obrolan.user.store');
 Route::get('user/obrolan/get/{id}','ObrolanController@getObrolanUser')->name('obrolan.user.get');
 
 //Obrolan Merchant
 Route::get('seller/obrolan/index','ObrolanController@indexMerchant')->name('obrolan.index.seller');
 Route::post('seller/obrolan/store', 'ObrolanController@insertObrolanMerchant')->name('obrolan.seller.store');
-
+Route::get('seller/obrolan/get/{id}', 'ObrolanController@getObrolanMerchant')->name('obrolan.user.get');
 
 
 

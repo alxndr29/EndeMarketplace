@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2021 at 08:14 PM
+-- Generation Time: Apr 28, 2021 at 07:31 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -817,7 +817,8 @@ CREATE TABLE `obrolan` (
   `subject` varchar(45) DEFAULT NULL,
   `waktu` datetime DEFAULT current_timestamp(),
   `isi_pesan` varchar(45) DEFAULT NULL,
-  `status_baca` enum('SudahBaca','BelumBaca') DEFAULT NULL,
+  `status_baca_user` tinyint(4) DEFAULT NULL,
+  `status_baca_merchant` tinyint(4) DEFAULT NULL,
   `pengirim` enum('Pembeli','Merchant') DEFAULT NULL,
   `users_iduser` int(11) NOT NULL,
   `merchant_users_iduser` int(11) NOT NULL,
@@ -829,11 +830,12 @@ CREATE TABLE `obrolan` (
 -- Dumping data for table `obrolan`
 --
 
-INSERT INTO `obrolan` (`idobrolan`, `subject`, `waktu`, `isi_pesan`, `status_baca`, `pengirim`, `users_iduser`, `merchant_users_iduser`, `created_at`, `updated_at`) VALUES
-(1, 'gak ada', '2021-04-28 02:03:56', 'Hallo teman teman semua', 'BelumBaca', 'Pembeli', 4, 4, NULL, NULL),
-(14, 'cobasubject', '2021-04-28 02:05:40', 'skrg smt brp??', NULL, 'Pembeli', 4, 4, '2021-04-27 18:05:40', '2021-04-27 18:05:40'),
-(15, 'cobasubject', '2021-04-28 02:05:54', 'ingat skripsi :)', NULL, 'Merchant', 4, 4, '2021-04-27 18:05:54', '2021-04-27 18:05:54'),
-(16, 'cobasubject', '2021-04-28 02:07:41', 'Hai', NULL, 'Pembeli', 4, 4, '2021-04-27 18:07:41', '2021-04-27 18:07:41');
+INSERT INTO `obrolan` (`idobrolan`, `subject`, `waktu`, `isi_pesan`, `status_baca_user`, `status_baca_merchant`, `pengirim`, `users_iduser`, `merchant_users_iduser`, `created_at`, `updated_at`) VALUES
+(1, 'gak ada', '2021-04-28 02:03:56', 'Hallo teman teman semua', 1, 1, 'Pembeli', 4, 4, NULL, '2021-04-28 05:04:00'),
+(18, 'cobasubject', '2021-04-28 12:47:19', 'Test dari Merchant', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:19', '2021-04-28 05:04:00'),
+(19, 'cobasubject', '2021-04-28 12:47:39', 'ingat skripsmu ee', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:39', '2021-04-28 05:04:00'),
+(20, 'cobasubject', '2021-04-28 12:53:57', 'p', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:53:57', '2021-04-28 05:04:00'),
+(21, 'cobasubject', '2021-04-28 13:03:43', 'Ya', 1, 1, 'Pembeli', 4, 4, '2021-04-28 05:03:43', '2021-04-28 05:04:00');
 
 -- --------------------------------------------------------
 
@@ -1289,7 +1291,7 @@ ALTER TABLE `notifikasi`
 -- AUTO_INCREMENT for table `obrolan`
 --
 ALTER TABLE `obrolan`
-  MODIFY `idobrolan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idobrolan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`

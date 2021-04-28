@@ -18,7 +18,7 @@ class ObrolanController extends Controller
         $data = DB::table('obrolan')->join('merchant', 'obrolan.merchant_users_iduser', 'merchant.users_iduser')
             ->join('users', 'obrolan.users_iduser', 'users.iduser')
             ->select('obrolan.*', 'users.name as nama_user', 'users.iduser as iduser', 'merchant.nama as nama_merchant', 'merchant.users_iduser as idmerchant')
-            ->orderBy('obrolan.waktu','DESC')
+            ->orderBy('obrolan.waktu','ASC')
             ->where('users.iduser', '=', $user->userid())
             ->groupBy('obrolan.merchant_users_iduser')
             //->where('obrolan.idobrolan','=',function($query) use ($userid) {$query->selectRaw('max(idobrolan)')->from('obrolan')->where('obrolan.users_iduser','=', 'users.iduser');})
@@ -32,7 +32,7 @@ class ObrolanController extends Controller
         $data = DB::table('obrolan')->join('merchant', 'obrolan.merchant_users_iduser', 'merchant.users_iduser')
             ->join('users', 'obrolan.users_iduser', 'users.iduser')
             ->select('obrolan.*', 'users.name as nama_user', 'users.iduser as iduser', 'merchant.nama as nama_merchant', 'merchant.users_iduser as idmerchant')
-            ->orderBy('obrolan.waktu', 'DESC')
+            ->orderBy('obrolan.waktu', 'ASC')
             ->where('merchant.users_iduser', '=', $merchant->idmerchant())
             ->groupBy('obrolan.merchant_users_iduser')
             //->where('obrolan.idobrolan','=',function($query) use ($userid) {$query->selectRaw('max(idobrolan)')->from('obrolan')->where('obrolan.users_iduser','=', 'users.iduser');})
@@ -48,6 +48,8 @@ class ObrolanController extends Controller
             $obrolan->subject = $request->get('subject');
             $obrolan->isi_pesan = $request->get('isipesan');
             $obrolan->pengirim = 'Pembeli';
+            $obrolan->status_baca_user = 1;
+            $obrolan->status_baca_merchant = 0;
             $obrolan->users_iduser = $user->userid();
             $obrolan->merchant_users_iduser = $request->get('idmerchant');
             $obrolan->save();
@@ -66,6 +68,8 @@ class ObrolanController extends Controller
             $obrolan->subject = $request->get('subject');
             $obrolan->isi_pesan = $request->get('isipesan');
             $obrolan->pengirim = 'Merchant';
+            $obrolan->status_baca_user = 0;
+            $obrolan->status_baca_merchant = 1;
             $obrolan->users_iduser = $request->get('iduser');
             $obrolan->merchant_users_iduser = $merchant->idmerchant();
             $obrolan->save();
@@ -79,6 +83,7 @@ class ObrolanController extends Controller
     public function getObrolanUser($id){
         try{
             $user = new User();
+            Obrolan::where('users_iduser',$user->userid())->where('merchant_users_iduser',$id)->update(['status_baca_user' => 1]);
             $data = DB::table('obrolan')->join('merchant', 'obrolan.merchant_users_iduser', 'merchant.users_iduser')
             ->join('users','obrolan.users_iduser','users.iduser')
             ->select('obrolan.*','users.name as nama_user','users.iduser as iduser','merchant.nama as nama_merchant', 'merchant.users_iduser as idmerchant')
@@ -87,6 +92,24 @@ class ObrolanController extends Controller
             ->get();
             return $data;
         }catch(\Exception $e){
+            $response = ['status' => $e->getMessage()];
+            return response()->json($response);
+        }
+    }
+    public function getObrolanMerchant($id)
+    {
+        try {
+            //$user = new User();
+            $merchant = new Merchant();
+            Obrolan::where('users_iduser', $id)->where('merchant_users_iduser', $merchant->idmerchant())->update(['status_baca_merchant' => 1]);
+            $data = DB::table('obrolan')->join('merchant', 'obrolan.merchant_users_iduser', 'merchant.users_iduser')
+                ->join('users', 'obrolan.users_iduser', 'users.iduser')
+                ->select('obrolan.*', 'users.name as nama_user', 'users.iduser as iduser', 'merchant.nama as nama_merchant', 'merchant.users_iduser as idmerchant')
+                ->where('users.iduser', '=', $id)
+                ->where('obrolan.merchant_users_iduser', '=', $id)
+                ->get();
+            return $data;
+        } catch (\Exception $e) {
             $response = ['status' => $e->getMessage()];
             return response()->json($response);
         }
