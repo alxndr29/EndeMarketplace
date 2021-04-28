@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2021 at 07:31 AM
+-- Generation Time: Apr 28, 2021 at 08:43 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -127,10 +127,21 @@ CREATE TABLE `diskusi` (
   `iddiskusi` int(11) NOT NULL,
   `users_iduser` int(11) NOT NULL,
   `produk_idproduk` int(11) NOT NULL,
-  `tanggal` datetime DEFAULT NULL,
+  `tanggal` datetime DEFAULT current_timestamp(),
   `pesandiskusi` varchar(45) DEFAULT NULL,
-  `balas_ke` int(11) NOT NULL
+  `balas_ke` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `diskusi`
+--
+
+INSERT INTO `diskusi` (`iddiskusi`, `users_iduser`, `produk_idproduk`, `tanggal`, `pesandiskusi`, `balas_ke`, `created_at`, `updated_at`) VALUES
+(2, 4, 23, '2021-04-29 01:43:30', 'diskusi pertamaku', NULL, '2021-04-28 17:43:30', '2021-04-28 17:43:30'),
+(4, 4, 23, '2021-04-29 02:30:20', 'balasa ndiskusi pertamaku', 2, '2021-04-28 18:30:20', '2021-04-28 18:30:20'),
+(5, 4, 23, '2021-04-29 02:37:56', 'Diskusi ke 2', NULL, '2021-04-28 18:37:56', '2021-04-28 18:37:56');
 
 -- --------------------------------------------------------
 
@@ -1013,6 +1024,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `telepon` varchar(12) DEFAULT NULL,
   `email_verified_at` datetime DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `foto_profil` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
@@ -1022,9 +1034,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `foto_profil`, `created_at`, `updated_at`) VALUES
-(1, 'ewq', '@gmail.com', '123', '123', '2021-04-16 00:00:00', '31', '2021-04-07 00:00:00', '2021-04-16 00:00:00'),
-(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$.LvuS27gw18vIkm9nETN../ZDBLLUWQfe1EXu15H/qfkq08w1hX9q', NULL, '2021-04-15 14:02:19', NULL, '2021-04-15 14:01:44', '2021-04-15 14:02:19');
+INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `remember_token`, `foto_profil`, `created_at`, `updated_at`) VALUES
+(1, 'ewq', '@gmail.com', '123', '123', '2021-04-16 00:00:00', NULL, '31', '2021-04-07 00:00:00', '2021-04-16 00:00:00'),
+(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$.LvuS27gw18vIkm9nETN../ZDBLLUWQfe1EXu15H/qfkq08w1hX9q', NULL, '2021-04-15 14:02:19', NULL, NULL, '2021-04-15 14:01:44', '2021-04-15 14:02:19'),
+(5, 'Goesti', 'gusti@gusti.com', '$2y$10$qqrqKW5HkHQ0t0R8LXwvg.C1KFgZAM/nmbHVQAb212PijcIXIHqoO', NULL, NULL, NULL, NULL, '2021-04-28 14:54:50', '2021-04-28 14:54:50');
 
 -- --------------------------------------------------------
 
@@ -1255,7 +1268,7 @@ ALTER TABLE `device`
 -- AUTO_INCREMENT for table `diskusi`
 --
 ALTER TABLE `diskusi`
-  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `gambarproduk`
@@ -1327,7 +1340,7 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

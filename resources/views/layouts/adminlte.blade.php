@@ -174,6 +174,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">Alexander Pierce</a>
+                        <a class="d-block" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </div>
                 </div>
 

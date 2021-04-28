@@ -8,6 +8,14 @@
                     Obrolan
                 </div>
                 <div class="card-body">
+                    <div class="input-group input-group-sm">
+                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
                     <ul class="products-list product-list-in-card pl-2 pr-2">
                         @foreach($data as $key => $value)
                         <li class="item">
@@ -18,7 +26,7 @@
                                 <a href="javascript:void(0)" id="pilihMerchant" data-id="{{$value->idmerchant}}" class="product-title">{{$value->nama_merchant}}
                                     @if($value->status_baca_user == 0)
                                     <span class="badge badge-warning float-right">Baru</span></a>
-                                    @endif
+                                @endif
                                 <span class="product-description">
                                     {{$value->isi_pesan}}
                                 </span>
@@ -227,6 +235,7 @@
             }, 100);
             interval.push(i);
         });
+
         function insertObrolan() {
             var pesan = $("#text").val();
             $.ajax({
@@ -245,6 +254,7 @@
                 }
             });
         }
+
         function loadObrolan(id) {
             $.ajax({
                 url: "{{url('user/obrolan/get')}}" + "/" + id,

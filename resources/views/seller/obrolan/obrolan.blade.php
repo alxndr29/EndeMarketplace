@@ -190,8 +190,7 @@
         }, 3000);
         */
         $("#kolomchat").empty();
-        //loadObrolan();
-
+        
         $("#send").click(function() {
             insertObrolan();
         });
@@ -202,10 +201,7 @@
             interval.forEach(clearInterval);
             var id = $(this).attr('data-id');
             iduser = id;
-            var counter = 0;
-            var i = setInterval(function() {
-                counter++;
-                //alert(counter);
+            var i = setInterval(function() { 
                 loadObrolan(id);
             }, 100);
             interval.push(i);

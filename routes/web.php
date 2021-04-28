@@ -111,6 +111,9 @@ Route::get('seller/obrolan/index','ObrolanController@indexMerchant')->name('obro
 Route::post('seller/obrolan/store', 'ObrolanController@insertObrolanMerchant')->name('obrolan.seller.store');
 Route::get('seller/obrolan/get/{id}', 'ObrolanController@getObrolanMerchant')->name('obrolan.user.get');
 
+//Diskusi
+Route::post('diskusi/store/{id}','DiskusiController@storeDiskusi')->name('diskusi.store');
+Route::post('diskusi/balasan/store/{id}/{id2}','DiskusiController@storeBalasanDiskusi')->name('diskusi.balasan.store');
 
 
 

@@ -86,6 +86,14 @@ class ProdukController extends Controller
     }
     public function show($id)
     {
+        $diskusi = DB::table('diskusi')
+        ->join('produk','produk.idproduk','=','diskusi.produk_idproduk')
+        ->join('users','users.iduser','=','diskusi.users_iduser')
+        ->select('diskusi.*','users.name as nama_user')
+        ->where('diskusi.produk_idproduk','=',$id)
+        ->get();
+        
+        //return $diskusi;
         $data = DB::table('produk')
             ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
             ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
@@ -97,10 +105,8 @@ class ProdukController extends Controller
         ->where('produk.idproduk',$id)
         ->select('gambarproduk.*')
         ->get();
-        // return $gambar;
-        // return $data[0]->idproduk;
-        //return $data->nama;
-        return view('user.detailproduk.detailproduk',compact('data','gambar'));
+        return view('user.detailproduk.detailproduk',compact('data','gambar','diskusi'));
+        
     }
     public function edit($id)
     {
@@ -125,7 +131,7 @@ class ProdukController extends Controller
         ->groupBy('produk.idproduk')
         ->where('produk.nama','like','%'.$id.'%')
         ->select('produk.*','merchant.nama as nama_merchant','gambarproduk.idgambarproduk as idgambarproduk')
-        ->get();
+        ->paginate(1);
         //return $data;   
         return view('user.search.search', compact('data'));
     }
