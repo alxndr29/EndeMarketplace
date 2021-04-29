@@ -41,6 +41,9 @@ class MerchantController extends Controller
         //return $merchant;
         return view('seller.merchant.pengaturanmerchant',compact('merchant'));
     }
+    public function show($id){
+        return view('user.merchant.merchant');
+    }
     public function update(Request $request, $id){
 
     }

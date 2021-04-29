@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         //$this->middleware(['auth', 'verified']);
         $this->middleware(['auth']);
-       // $this->middleware(['cekdevice']);
+        $this->middleware(['cekdevice']);
     }
 
     /**
@@ -27,5 +27,8 @@ class HomeController extends Controller
     public function index()
     {
         return view('seller.index');
+    }
+    public function homeUser(){
+        return view('user.home.home');
     }
 }

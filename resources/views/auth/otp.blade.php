@@ -1,5 +1,5 @@
 OTP: {{$otp}}
-
+Value: {{$value}}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,12 +30,15 @@ OTP: {{$otp}}
             <div class="card-body login-card-body">
                 <p id="pesan" class="login-box-msg">Terdeteksi login dari perangkat baru, silahkan mengisi otp</p>
 
+                <div class="d-flex flex-column align-items-center justify-content-center" id="spinnerLoading">
+
+                </div>
 
                 <div class="row">
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary btn-block" id="btnEmail">
                             <i class="far fa-envelope"></i>
-                            Masukan OTP
+                            Lewat Email
                         </button>
                     </div>
                     <!-- /.col -->
@@ -87,8 +90,10 @@ OTP: {{$otp}}
     $(document).ready(function() {
         $("#btnSubmit").hide();
         $("#otpgroup").hide();
+
     });
     $("#btnEmail").click(function() {
+        $("#spinnerLoading").html('<div class="row"> <div class="spinner-border" role = "status"> <span class="sr-only"> Loading... </span> </div> </div> <div class="row" id ="pesanLoading" ><strong> Collecting data </strong> </div>');
         $.ajax({
             url: "{{route('otp.email.send')}}",
             type: "POST",
@@ -96,11 +101,19 @@ OTP: {{$otp}}
                 "_token": "{{ csrf_token() }}"
             },
             success: function(response) {
-                alert(response);
-                $("#btnEmail").hide();
-                $("#btnWhatsapp").hide();
-                $("#btnSubmit").show();
-                $("#otpgroup").show();
+                if (response == "berhasil") {
+                    $("#spinnerLoading").empty();
+                    console.log(response);
+                    $("#btnEmail").hide();
+                    $("#btnWhatsapp").hide();
+                    $("#btnSubmit").show();
+                    $("#otpgroup").show();
+                } else {
+                    console.log(response);
+                }
+            },
+            error: function(response) {
+                console.log(response);
             }
         });
     });
@@ -114,7 +127,11 @@ OTP: {{$otp}}
                 "otp": otp
             },
             success: function(response) {
-                alert(response);
+                if (response != "gagal") {
+                    window.location.href = "{{URL::to('/home')}}";
+                } else {
+                    alert("Kode OTP Yang Dimasukan Salah");
+                }
             },
             error: function(response) {
                 alert(response);

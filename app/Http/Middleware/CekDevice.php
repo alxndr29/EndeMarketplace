@@ -6,6 +6,7 @@ use Closure;
 use App\User;
 use Device;
 use Illuminate\Support\Facades\DB;
+
 class CekDevice
 {
     /**
@@ -25,10 +26,15 @@ class CekDevice
             return $next($request);
         }
         */
-        
+
         //Log::info('otp'); one string line
+        $value = $request->cookie('otp');
+        if ($value == "verified") {
+            return $next($request);
+        }
         $otp = $request->session()->get('otp');
-        return response()->view('auth.otp',compact('otp'));
+        return response()->view('auth.otp', compact('otp', 'value'));
+
         //return response()->view('user.rajaongkir',compact('test'));
     }
 }

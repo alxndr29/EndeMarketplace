@@ -41,6 +41,7 @@ Route::get('cost/{origin}/{destination}/{courier}/{berat}','RajaOngkirController
 Auth::routes();
 Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('user/home', 'HomeController@homeUser')->name('user.home');
 
 //Xendit Payment Gateway
 Route::get('/xendit/balance','XenditController@balance')->name('xendit.balance');
@@ -68,6 +69,8 @@ Route::delete('seller/kategori/delete/{id}','KategoriProdukController@destroy')-
 Route::get('seller/merchant/daftar','MerchantController@create')->name('merchant.create');
 Route::post('seller/merchant/store','MerchantController@store')->name('merchant.store');
 Route::get('seller/merchant/edit','MerchantController@edit')->name('merchant.edit');
+Route::get('user/merchant/profile/{id}','MerchantController@show')->name('merchant.show');
+
 
 //Alamat pembeli
 Route::get('user/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');
