@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
+
 trait AuthenticatesUsers
 {
     use RedirectsUsers, ThrottlesLogins;
@@ -110,6 +111,12 @@ trait AuthenticatesUsers
         if ($response = $this->authenticated($request, $this->guard()->user())) {
             return $response;
         }
+
+        $jumlahDigit = 4;
+        $otp = substr(str_shuffle("0123456789"), 0, $jumlahDigit);
+        $request->session()->put('otp',$otp);
+        //return $request->session()->get('otp');
+        //$request->session()->forget('otp');
 
         return $request->wantsJson()
                     ? new Response('', 204)

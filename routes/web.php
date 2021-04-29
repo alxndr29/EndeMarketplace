@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Route::get('/email','OtpController@send');
 
 Route::get('/user', function () {
     $test = "Hallo";
@@ -114,6 +115,11 @@ Route::get('seller/obrolan/get/{id}', 'ObrolanController@getObrolanMerchant')->n
 //Diskusi
 Route::post('diskusi/store/{id}','DiskusiController@storeDiskusi')->name('diskusi.store');
 Route::post('diskusi/balasan/store/{id}/{id2}','DiskusiController@storeBalasanDiskusi')->name('diskusi.balasan.store');
+
+//OTP
+Route::post('otp/email/send','OtpController@otpEmail')->name('otp.email.send');
+Route::post('otp/whatsapp/send', 'OtpController@otpEmail')->name('otp.whatsapp.send');
+Route::post('/otp/verifikasi','OtpController@verifikasi')->name('otp.verifikasi');
 
 
 

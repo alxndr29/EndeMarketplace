@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         //$this->middleware(['auth', 'verified']);
         $this->middleware(['auth']);
-        $this->middleware(['cekdevice']);
+       // $this->middleware(['cekdevice']);
     }
 
     /**

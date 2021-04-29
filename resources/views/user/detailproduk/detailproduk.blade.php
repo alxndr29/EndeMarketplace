@@ -171,7 +171,6 @@
                                 </div>
                             </div>
                             @foreach ($diskusi as $key => $value)
-                                @if($value->balas_ke == null)
                                 <div class="row">
                                     <div class="col">
                                         <div class="card">
@@ -203,7 +202,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endif
                             @endforeach
                             <!-- End Diskusi Produk -->
                         </div>

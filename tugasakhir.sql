@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2021 at 08:43 PM
+-- Generation Time: Apr 29, 2021 at 07:28 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -842,11 +842,11 @@ CREATE TABLE `obrolan` (
 --
 
 INSERT INTO `obrolan` (`idobrolan`, `subject`, `waktu`, `isi_pesan`, `status_baca_user`, `status_baca_merchant`, `pengirim`, `users_iduser`, `merchant_users_iduser`, `created_at`, `updated_at`) VALUES
-(1, 'gak ada', '2021-04-28 02:03:56', 'Hallo teman teman semua', 1, 1, 'Pembeli', 4, 4, NULL, '2021-04-28 05:04:00'),
-(18, 'cobasubject', '2021-04-28 12:47:19', 'Test dari Merchant', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:19', '2021-04-28 05:04:00'),
-(19, 'cobasubject', '2021-04-28 12:47:39', 'ingat skripsmu ee', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:39', '2021-04-28 05:04:00'),
-(20, 'cobasubject', '2021-04-28 12:53:57', 'p', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:53:57', '2021-04-28 05:04:00'),
-(21, 'cobasubject', '2021-04-28 13:03:43', 'Ya', 1, 1, 'Pembeli', 4, 4, '2021-04-28 05:03:43', '2021-04-28 05:04:00');
+(1, 'gak ada', '2021-04-28 02:03:56', 'Hallo teman teman semua', 1, 1, 'Pembeli', 4, 4, NULL, '2021-04-29 03:36:23'),
+(18, 'cobasubject', '2021-04-28 12:47:19', 'Test dari Merchant', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:19', '2021-04-29 03:36:23'),
+(19, 'cobasubject', '2021-04-28 12:47:39', 'ingat skripsmu ee', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:39', '2021-04-29 03:36:23'),
+(20, 'cobasubject', '2021-04-28 12:53:57', 'p', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:53:57', '2021-04-29 03:36:23'),
+(21, 'cobasubject', '2021-04-28 13:03:43', 'Ya', 1, 1, 'Pembeli', 4, 4, '2021-04-28 05:03:43', '2021-04-29 03:36:23');
 
 -- --------------------------------------------------------
 
