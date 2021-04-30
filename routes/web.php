@@ -85,6 +85,8 @@ Route::get('user/keranjang','KeranjangController@index')->name('keranjang.index'
 Route::post('user/keranjang/store','KeranjangController@store')->name('keranjang.store');
 Route::put('user/keranjang/update/{id}','KeranjangController@update')->name('keranjang.update');
 Route::delete('user/keranjang/delete/{id}','KeranjangController@destroy')->name('keranjang.destroy');
+Route::get('user/keranjang/data','KeranjangController@loadKeranjang')->name('keranjang.data');
+Route::get('user/keranjang/merchant','KeranjangController@loadMerchant')->name('keranjang.merchant.data');
 
 //Wishlist
 Route::get('user/wishlist', 'WishlistController@index')->name('wishlist.index');

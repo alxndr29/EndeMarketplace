@@ -303,11 +303,7 @@
             type: "POST",
             data: {
                 "_token": "{{ csrf_token() }}",
-                "idproduk": {
-                    {
-                        $data - > idproduk
-                    }
-                },
+                "idproduk": {{$data->idproduk}},
                 'jumlah': $("#qty").val()
             },
             success: function(response) {
@@ -326,11 +322,7 @@
             type: "POST",
             data: {
                 "_token": "{{ csrf_token() }}",
-                "idproduk": {
-                    {
-                        $data - > idproduk
-                    }
-                }
+                "idproduk": {{$data->idproduk}}
             },
             success: function(response) {
                 console.log(response);

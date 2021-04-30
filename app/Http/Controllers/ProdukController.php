@@ -131,7 +131,7 @@ class ProdukController extends Controller
         ->groupBy('produk.idproduk')
         ->where('produk.nama','like','%'.$id.'%')
         ->select('produk.*','merchant.nama as nama_merchant','gambarproduk.idgambarproduk as idgambarproduk')
-        ->paginate(1);
+        ->paginate(10);
         //return $data;   
         return view('user.search.search', compact('data'));
     }
