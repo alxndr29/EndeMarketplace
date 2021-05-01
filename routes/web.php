@@ -69,6 +69,7 @@ Route::delete('seller/kategori/delete/{id}','KategoriProdukController@destroy')-
 Route::get('seller/merchant/daftar','MerchantController@create')->name('merchant.create');
 Route::post('seller/merchant/store','MerchantController@store')->name('merchant.store');
 Route::get('seller/merchant/edit','MerchantController@edit')->name('merchant.edit');
+Route::put('seller/merchant/update/{id}','MerchantController@update')->name('merchant.update');
 Route::get('user/merchant/profile/{id}','MerchantController@show')->name('merchant.show');
 
 

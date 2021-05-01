@@ -45,7 +45,33 @@ class MerchantController extends Controller
         return view('user.merchant.merchant');
     }
     public function update(Request $request, $id){
+        //return $id;
+        // if($request->hasFile('fotoProfil')){
+        //     $fileName = $request->fotoProfil->getClientOriginalName();
+        //     return $fileName;
+        // }
+        try{
+            if($request->hasFile('fotoProfil')){
 
+            }
+            if($request->hasFile('fotoSampul')){
+
+            }
+            Merchant::where('users_iduser',$id)
+            ->update([
+                'foto_profil' => null,
+                'foto_sampul' => null,
+                'deskripsi' => $request->get('deskripsiMerchant'),
+                'status_merchant' => $request->get('statusMerchant'),
+                'jam_buka' => $request->get('jamBuka'),
+                'jam_tutup' => $request->get('jamTutup'),
+                'nama' => $request->get('namaMerchant')
+            ]);
+            return redirect('seller/merchant/edit')->with('berhasil','berhasil ubh data merchant');
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+        return $request->all();
     }
     public function destroy($id){
 
