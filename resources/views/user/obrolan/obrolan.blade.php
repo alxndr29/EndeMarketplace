@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-12 col-lg-3">
+        <div class="col-12 col-lg-4">
             <div class="card h-100">
                 <div class="card-header">
                     Obrolan
@@ -38,7 +38,7 @@
             </div>
 
         </div>
-        <div class="col-12 col-lg-9">
+        <div class="col-12 col-lg-8">
             <!-- DIRECT CHAT -->
             <div class="card h-100 direct-chat direct-chat-warning">
                 <div class="card-header">

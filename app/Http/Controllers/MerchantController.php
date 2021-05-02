@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Merchant;
 use App\User;
+use App\Kategori;
 use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,15 +12,16 @@ use Illuminate\Http\Request;
 class MerchantController extends Controller
 {
     //
-    public function index(){
-
-    }
-    public function create(){
+    public function index()
+    { }
+    public function create()
+    {
 
         return view('seller.merchant.registrasimerchant');
     }
-    public function store(Request $request){
-        try{
+    public function store(Request $request)
+    {
+        try {
             /*
             $user = new User();
             $merchantid = DB::table('merchant')->where('users_iduser', '=', $user->userid())->get();
@@ -30,50 +33,75 @@ class MerchantController extends Controller
             $merchant->users_iduser = $user->userid();
             $merchant->save();
             return "berhasil";
-            
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
-    public function edit(){
+    public function edit()
+    {
         $user = new User();
         $merchant = Merchant::where('users_iduser', $user->userid())->first();
         //return $merchant;
-        return view('seller.merchant.pengaturanmerchant',compact('merchant'));
+        return view('seller.merchant.pengaturanmerchant', compact('merchant'));
     }
-    public function show($id){
-        return view('user.merchant.merchant');
-    }
-    public function update(Request $request, $id){
-        //return $id;
-        // if($request->hasFile('fotoProfil')){
-        //     $fileName = $request->fotoProfil->getClientOriginalName();
-        //     return $fileName;
-        // }
+    public function show($id)
+    {
         try{
-            if($request->hasFile('fotoProfil')){
+            $merchant = Merchant::where('users_iduser', $id)->first();
+            $data = DB::table('produk')
+                ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                ->groupBy('produk.idproduk')
+                ->where('produk.merchant_users_iduser', $id)
+                ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                ->get(10);
+            $kategori = Kategori::where('merchant_users_iduser', $id)->get();
+            return view('user.merchant.merchant', compact('merchant'));
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+        
+    }
+    public function update(Request $request, $id)
+    {
+        try {
+            if ($request->hasFile('fotoProfil')) {
+                $extension = $request->fotoProfil->extension();
+                $destinationPath = public_path('fotoProfil');
+                $file = $request->file('fotoProfil');
+                $file->move($destinationPath, 'merchant-fotoprofil-' . $id . "." . $extension);
 
+                Merchant::where('users_iduser', $id)
+                    ->update([
+                        'foto_profil' => 'merchant-fotoprofil-' . $id .".". $extension
+                ]);
             }
-            if($request->hasFile('fotoSampul')){
+            if ($request->hasFile('fotoSampul')) {
+                $extension = $request->fotoSampul->extension();
+                $destinationPath = public_path('fotoSampul');
+                $file = $request->file('fotoSampul');
+                $file->move($destinationPath, 'merchant-fotosampul-' . $id . "." . $extension);
 
+                Merchant::where('users_iduser', $id)
+                    ->update([
+                        'foto_sampul' => 'merchant-fotosampul-' . $id . "." . $extension
+                ]);
             }
             Merchant::where('users_iduser',$id)
             ->update([
-                'foto_profil' => null,
-                'foto_sampul' => null,
                 'deskripsi' => $request->get('deskripsiMerchant'),
                 'status_merchant' => $request->get('statusMerchant'),
                 'jam_buka' => $request->get('jamBuka'),
                 'jam_tutup' => $request->get('jamTutup'),
                 'nama' => $request->get('namaMerchant')
             ]);
-            return redirect('seller/merchant/edit')->with('berhasil','berhasil ubh data merchant');
-        }catch(\Exception $e){
+            return redirect('seller/merchant/edit')->with('berhasil', 'berhasil ubh data merchant');
+
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
         return $request->all();
     }
-    public function destroy($id){
-
-    }
+    public function destroy($id)
+    { }
 }

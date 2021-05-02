@@ -134,26 +134,26 @@
                     $(id).append(
                         //'<div class="card">' +
                         '<div class="row">' +
-                        '<div class="col"> <img style="width:175px;height:200px;" class="rounded mx-auto d-block pt-3 img-fluid" alt="..."' + src + '>' +
-                        '</div>' +
-                        '<div class="col">' +
-                        '<b>' + nama + '</b>' +
-                        '<br> Rp. ' + harga + '-,' +
-                        '<br>' + nama_merchant +
-                        '<br> Jumlah: <input type="number" class="form-control" data-id="' + idproduk + '" placeholder="Qty" id="qty" value=' + jumlah + '>' +
-                        '</div>' +
-                        '<div class="col">' +
-                        '<div class="row p-1">' +
-                        '<div class="col">' +
-                        '<button type="submit" class="btn btn-block btn-default" id="btnHapusKeranjang" data-id="' + idproduk + '">Hapus</button>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="row p-1">' +
-                        '<div class="col">' +
-                        '<a href="' + url + '" class="btn btn-block btn-default">Lihat</a>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
+                            '<div class="col"> <img style="width:175px;height:200px;" class="rounded mx-auto d-block pt-3 img-fluid" alt="..."' + src + '>' +
+                            '</div>' +
+                                '<div class="col">' +
+                                '<b>' + nama + '</b>' +
+                                '<br> Rp. ' + harga + '-,' +
+                                '<br>' + nama_merchant +
+                                '<br> Jumlah: <input type="number" class="form-control" data-id="' + idproduk + '" placeholder="Qty" id="qty" value=' + jumlah + '>' +
+                                '</div>' +
+                                    '<div class="col">' +
+                                        '<div class="row p-1">' +
+                                            '<div class="col">' +
+                                                '<button type="submit" class="btn btn-block btn-default" id="btnHapusKeranjang" data-id="' + idproduk + '">Hapus</button>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '<div class="row p-1">' +
+                                    '<div class="col">' +
+                                        '<a href="' + url + '" class="btn btn-block btn-default">Lihat</a>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
                         '</div>'
                         //'</div>'
                     );
@@ -166,7 +166,6 @@
     }
     $("body").on("click", "#btnHapusKeranjang", function(e) {
         var id = $(this).attr('data-id');
-        //alert(id);
         if (confirm('Ingin menghapus?')) {
             $.ajax({
                 url: "{{url('user/keranjang/delete')}}/" + id,
@@ -193,7 +192,6 @@
         var id = $(this).attr('data-id');
         var val = $(this).val();
         alert(id +" - " +val);
-        //alert(id);
         if (confirm('Ingin menghapus?')) {
 
         } else {

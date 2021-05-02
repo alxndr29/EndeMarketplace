@@ -121,6 +121,7 @@ Route::get('seller/obrolan/get/{id}', 'ObrolanController@getObrolanMerchant')->n
 //Diskusi
 Route::post('diskusi/store/{id}','DiskusiController@storeDiskusi')->name('diskusi.store');
 Route::post('diskusi/balasan/store/{id}/{id2}','DiskusiController@storeBalasanDiskusi')->name('diskusi.balasan.store');
+Route::get('diskusi/data/{id}','DiskusiController@getDataDiskusi')->name('diskusi.data');
 
 //OTP
 Route::post('otp/email/send','OtpController@otpEmail')->name('otp.email.send');

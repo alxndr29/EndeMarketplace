@@ -28,6 +28,11 @@
                                 <div class="col">
                                     <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
                                 </div>
+                                <!-- <div class="col">
+                                    <div style="width:150px;height:150px;"  class="embed-responsive embed-responsive-16by9">
+                                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+                                    </div>
+                                </div> -->
                             </div>
                         </div>
 
@@ -39,7 +44,11 @@
                             <p class="h5">{{$data->nama}}</p>
                             <p class="h6">Terjual 10 Unit - 13 Ulasan - 12 Diskusi</p>
                             <p class="h5">Rp. {{number_format($data->harga)}}</p>
-                            <p class="h6">Penjual: {{$data->nama_merchant}}</p>
+                            <p class="h6">Penjual:
+                                <a href="{{route('merchant.show',$data->merchant_users_iduser)}}">
+                                    {{$data->nama_merchant}}
+                                </a>
+                            </p>
                             <p class="h6">Detail Produk: {{$data->deskripsi}}</p>
                             <p class="h6">Stok: {{$data->stok}} Unit</p>
                             <div class="row p-1">
@@ -122,46 +131,39 @@
                                 </div>
                             </div>
                             <br>
+
                             <!-- Diskusi Produk -->
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col">
                                     <div class="card">
                                         <div class="card-footer card-comments">
                                             <div class="card-comment">
-                                                <!-- User image -->
                                                 <img class="img-circle img-sm" src="{{asset('adminlte/dist/img/user4-128x128.jpg')}}" alt="User Image">
-
                                                 <div class="comment-text">
                                                     <span class="username">
                                                         Maria Gonzales
                                                         <span class="text-muted float-right">8:03 PM Today</span>
-                                                    </span><!-- /.username -->
+                                                    </span>
                                                     It is a long established fact that a reader will be distracted
                                                     by the readable content of a page when looking at its layout.
                                                 </div>
-                                                <!-- /.comment-text -->
                                             </div>
-                                            <!-- /.card-comment -->
                                             <div class="card-comment">
-                                                <!-- User image -->
                                                 <img class="img-circle img-sm" src="{{asset('adminlte/dist/img/user4-128x128.jpg')}}" alt="User Image">
-
                                                 <div class="comment-text">
                                                     <span class="username">
                                                         Luna Stark
                                                         <span class="text-muted float-right">8:03 PM Today</span>
-                                                    </span><!-- /.username -->
+                                                    </span>
                                                     It is a long established fact that a reader will be distracted
                                                     by the readable content of a page when looking at its layout.
                                                 </div>
-                                                <!-- /.comment-text -->
                                             </div>
-                                            <!-- /.card-comment -->
                                         </div>
                                         <div class="card-footer">
                                             <form action="#" method="post">
                                                 <img class="img-fluid img-circle img-sm" src="{{asset('adminlte/dist/img/user4-128x128.jpg')}}" alt="Alt Text">
-                                                <!-- .img-push is used to add margin to elements next to floating images -->
+                                                
                                                 <div class="img-push">
                                                     <input type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">
                                                 </div>
@@ -169,40 +171,41 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            @foreach ($diskusi as $key => $value)
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card">
-                                            <div class="card-footer card-comments">
-                                                <div class="card-comment">
-                                                    <!-- User image -->
-                                                    <img class="img-circle img-sm" src="{{asset('adminlte/dist/img/user4-128x128.jpg')}}" alt="User Image">
-                                                    <div class="comment-text">
-                                                        <span class="username">
-                                                            {{$value->nama_user}}
-                                                            <span class="text-muted float-right">{{$value->tanggal}}</span>
-                                                        </span><!-- /.username -->
-                                                        {{$value->pesandiskusi}}
-                                                    </div>
-                                                    <!-- /.comment-text -->
+                            </div> -->
+
+                            <!-- @foreach ($diskusi as $key => $value)
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-footer card-comments">
+                                            <div class="card-comment">
+                                               
+                                                <img class="img-circle img-sm" src="{{asset('adminlte/dist/img/user4-128x128.jpg')}}" alt="User Image">
+                                                <div class="comment-text">
+                                                    <span class="username">
+                                                        {{$value->nama_user}}
+                                                        <span class="text-muted float-right">{{$value->tanggal}}</span>
+                                                    </span>
+                                                    {{$value->pesandiskusi}}
                                                 </div>
-                                                <!-- /.card-comment -->
+                                              
                                             </div>
-                                            <div class="card-footer">
-                                                <form action="{{route('diskusi.balasan.store',[$data->idproduk, $value->iddiskusi])}}" method="post">
-                                                    @csrf
-                                                    <img class="img-fluid img-circle img-sm" src="{{asset('adminlte/dist/img/user4-128x128.jpg')}}" alt="Alt Text">
-                                                    <!-- .img-push is used to add margin to elements next to floating images -->
-                                                    <div class="img-push">
-                                                        <input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">
-                                                    </div>
-                                                </form>
-                                            </div>
+                                            
+                                        </div>
+                                        <div class="card-footer">
+                                            <form action="{{route('diskusi.balasan.store',[$data->idproduk, $value->iddiskusi])}}" method="post">
+                                                @csrf
+                                                <img class="img-fluid img-circle img-sm" src="{{asset('adminlte/dist/img/user4-128x128.jpg')}}" alt="Alt Text">
+                                                <div class="img-push">
+                                                    <input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
+                            @endforeach -->
+
                             <!-- End Diskusi Produk -->
                         </div>
                         <div class="tab-pane fade" id="custom-tabs-rekomendasiproduk" role="tabpanel">
@@ -289,21 +292,138 @@
 
 @section('js')
 <script type="text/javascript">
-    $(document).ready(function() {
+    var idproduk = {
+        {
+            $data - > idproduk
+        }
+    };
+    var parentBalasan = [];
+    var balasan = [];
 
+    $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
         alert('{{session('
             berhasil ')}}');
         @endif
+        loadKomentar(idproduk);
     });
+
+    function loadKomentar($id) {
+        $.ajax({
+            url: "{{url('diskusi/data')}}" + "/" + idproduk,
+            type: "GET",
+            success: function(response) {
+                for (i = 0; i < response.length; i++) {
+                    balasan[i] = {};
+                    balasan[i].balas_ke = response[i].balas_ke;
+                    balasan[i].iddiskusi = response[i].iddiskusi;
+                    balasan[i].nama_user = response[i].nama_user;
+                    balasan[i].pesandiskusi = response[i].pesandiskusi;
+                    balasan[i].tanggal = response[i].tanggal;
+                    if (response[i].balas_ke == null) {
+                        parentBalasan[i] = {};
+                        parentBalasan[i].iddiskusi = response[i].iddiskusi;
+                        parentBalasan[i].nama_user = response[i].nama_user;
+                        parentBalasan[i].pesandiskusi = response[i].pesandiskusi;
+                        parentBalasan[i].tanggal = response[i].tanggal;
+                    }
+                }
+
+                console.log(balasan);
+                parentBalasan = parentBalasan.filter(Boolean);
+                console.log(parentBalasan);
+
+                for (i = 0; i < parentBalasan.length; i++) {
+                    $("#custom-tabs-diskusi").append(
+                        '<div class="row">' +
+                        '<div class="col">' +
+                        '<div class="card">' +
+                        '<div class="card-footer card-comments" id="parentdiskusi-' + parentBalasan[i].iddiskusi + '">' +
+                        '<div class="card-comment">' +
+                        '<img class="img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">' +
+                        '<div class="comment-text">' +
+                        '<span class="username">' +
+                        parentBalasan[i].nama_user +
+                        '<span class="text-muted float-right">' + parentBalasan[i].tanggal + '</span>' +
+                        '</span>' +
+                        parentBalasan[i].pesandiskusi +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="card-footer">' +
+                        '<form action="{{route("diskusi.balasan.store",[$data->idproduk, $value->iddiskusi])}}" method="post"> @csrf' +
+                        '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
+                        '<div class="img-push">' +
+                        '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
+                        '</div>' +
+                        '</form>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                    );
+                    for (j = 0; j < balasan.length; j++) {
+                        if (balasan[j].balas_ke == parentBalasan[i].iddiskusi) {
+                            var id = parentBalasan[i].iddiskusi;
+                            alert(id);
+                            $("#parentdiskusi-" + id).append(
+                                '<div class="card-comment">' +
+                                '<img class="img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">' +
+                                '<div class="comment-text">' +
+                                '<span class="username">' +
+                                balasan[j].nama_user +
+                                '<span class="text-muted float-right">' + balasan[j].tanggal + '</span>' +
+                                '</span>' +
+                                balasan[j].pesandiskusi +
+                                '</div>' +
+                                '</div>'
+                            );
+                        }
+                    }
+                }
+
+                // $("#custom-tabs-diskusi").append(
+                //     '<div class="row">' +
+                //         '<div class="col">' +
+                //             '<div class="card">' +
+                //                 '<div class="card-footer card-comments">' +
+                //                     '<div class="card-comment">'+
+                //                         '<img class="img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">' +
+                //                         '<div class="comment-text">' +
+                //                             '<span class="username">' +
+                //                                 'Maria Gonzales' +
+                //                                     '<span class="text-muted float-right">8:03 PM Today</span>' +
+                //                                     '</span>' +
+                //                                 'It is a long established fact that a reader will be distracted' +
+                //                         '</div>' +
+                //                     '</div>' +
+                //                 '</div>' +
+                //                 '<div class="card-footer">' +
+                //                     '<form action="#" method="post">' +
+                //                         '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
+                //                             '<div class="img-push">' +
+                //                                 '<input type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
+                //                             '</div>' +
+                //                     '</form>' +
+                //                 '</div>' +
+                //             '</div>' +
+                //         '</div>' +
+                //     '</div>'
+                // );
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    }
     $("#keranjang").click(function() {
         $.ajax({
             url: "{{route('keranjang.store')}}",
             type: "POST",
             data: {
                 "_token": "{{ csrf_token() }}",
-                "idproduk": {{$data->idproduk}},
+                "idproduk": idproduk,
                 'jumlah': $("#qty").val()
             },
             success: function(response) {
@@ -313,6 +433,9 @@
                 } else {
                     alert(response.status);
                 }
+            },
+            error: function(response) {
+                console.log(response);
             }
         });
     });
@@ -322,7 +445,7 @@
             type: "POST",
             data: {
                 "_token": "{{ csrf_token() }}",
-                "idproduk": {{$data->idproduk}}
+                "idproduk": idproduk
             },
             success: function(response) {
                 console.log(response);
@@ -333,6 +456,9 @@
                 } else {
                     alert(response.status);
                 }
+            },
+            error: function(response) {
+                console.log(response);
             }
         });
     });

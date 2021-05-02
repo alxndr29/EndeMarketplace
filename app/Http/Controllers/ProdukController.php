@@ -101,11 +101,13 @@ class ProdukController extends Controller
             ->select('produk.*','kategori.nama_kategori as nama_kategori','jenisproduk.nama as nama_jenis','merchant.nama as nama_merchant')
             ->where('produk.idproduk', $id)
             ->first();
+        
         $gambar = DB::table('produk')->join('gambarproduk', 'gambarproduk.produk_idproduk', 'produk.idproduk')
         ->where('produk.idproduk',$id)
         ->select('gambarproduk.*')
         ->get();
-        return view('user.detailproduk.detailproduk',compact('data','gambar','diskusi'));
+        //return $data->merchant_users_iduser;
+       return view('user.detailproduk.detailproduk',compact('data','gambar','diskusi'));
         
     }
     public function edit($id)

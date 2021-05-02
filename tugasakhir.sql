@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2021 at 08:24 PM
+-- Generation Time: May 02, 2021 at 07:36 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -104,22 +104,6 @@ CREATE TABLE `detailtransaksi` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `device`
---
-
-CREATE TABLE `device` (
-  `iddevice` int(11) NOT NULL,
-  `alamatip` varchar(45) NOT NULL,
-  `jenis_perangkat` varchar(45) NOT NULL,
-  `sistem_operasi` varchar(45) NOT NULL,
-  `users_iduser` int(11) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `diskusi`
 --
 
@@ -141,7 +125,8 @@ CREATE TABLE `diskusi` (
 INSERT INTO `diskusi` (`iddiskusi`, `users_iduser`, `produk_idproduk`, `tanggal`, `pesandiskusi`, `balas_ke`, `created_at`, `updated_at`) VALUES
 (2, 4, 23, '2021-04-29 01:43:30', 'diskusi pertamaku', NULL, '2021-04-28 17:43:30', '2021-04-28 17:43:30'),
 (4, 4, 23, '2021-04-29 02:30:20', 'balasa ndiskusi pertamaku', 2, '2021-04-28 18:30:20', '2021-04-28 18:30:20'),
-(5, 4, 23, '2021-04-29 02:37:56', 'Diskusi ke 2', NULL, '2021-04-28 18:37:56', '2021-04-28 18:37:56');
+(5, 4, 23, '2021-04-29 02:37:56', 'Diskusi ke 2', NULL, '2021-04-28 18:37:56', '2021-04-28 18:37:56'),
+(6, 4, 23, '2021-05-03 00:04:20', 'Balasan diskusi 2', 5, '2021-05-02 16:04:20', '2021-05-02 16:04:20');
 
 -- --------------------------------------------------------
 
@@ -174,7 +159,8 @@ CREATE TABLE `gambarproduk` (
 INSERT INTO `gambarproduk` (`idgambarproduk`, `produk_idproduk`, `created_at`, `updated_at`) VALUES
 (18, 23, '2021-04-21 17:07:02', '2021-04-21 17:07:02'),
 (19, 23, '2021-04-22 14:17:44', '2021-04-22 14:17:44'),
-(20, 24, '2021-04-22 14:37:17', '2021-04-22 14:37:17');
+(20, 24, '2021-04-22 14:37:17', '2021-04-22 14:37:17'),
+(21, 25, '2021-04-30 13:40:30', '2021-04-30 13:40:30');
 
 -- --------------------------------------------------------
 
@@ -758,7 +744,9 @@ CREATE TABLE `keranjang` (
 --
 
 INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
-(4, 23, 2);
+(4, 23, 2),
+(4, 24, 5),
+(4, 25, 2);
 
 -- --------------------------------------------------------
 
@@ -785,7 +773,6 @@ CREATE TABLE `merchant` (
   `foto_profil` varchar(45) DEFAULT NULL,
   `foto_sampul` varchar(45) DEFAULT NULL,
   `deskripsi` varchar(45) DEFAULT NULL,
-  `status_buka` enum('Ya','Tidak') DEFAULT NULL,
   `jam_buka` time DEFAULT NULL,
   `jam_tutup` time DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -797,9 +784,9 @@ CREATE TABLE `merchant` (
 -- Dumping data for table `merchant`
 --
 
-INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `foto_sampul`, `deskripsi`, `status_buka`, `jam_buka`, `jam_tutup`, `created_at`, `updated_at`, `users_iduser`) VALUES
-('Merchant Gaje', 'Aktif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-('Merchant Felix', 'Aktif', NULL, NULL, NULL, NULL, NULL, NULL, '2021-04-15 14:03:59', '2021-04-15 14:03:59', 4);
+INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `foto_sampul`, `deskripsi`, `jam_buka`, `jam_tutup`, `created_at`, `updated_at`, `users_iduser`) VALUES
+('Merchant Gaje', 'Aktif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+('Merchant Felix Update', 'NonAktif', 'merchant-fotoprofil-4.jpg', 'merchant-fotosampul-4.png', NULL, '07:30:00', '13:30:00', '2021-04-15 14:03:59', '2021-05-02 13:40:53', 4);
 
 -- --------------------------------------------------------
 
@@ -842,11 +829,11 @@ CREATE TABLE `obrolan` (
 --
 
 INSERT INTO `obrolan` (`idobrolan`, `subject`, `waktu`, `isi_pesan`, `status_baca_user`, `status_baca_merchant`, `pengirim`, `users_iduser`, `merchant_users_iduser`, `created_at`, `updated_at`) VALUES
-(1, 'gak ada', '2021-04-28 02:03:56', 'Hallo teman teman semua', 1, 1, 'Pembeli', 4, 4, NULL, '2021-04-29 03:36:23'),
-(18, 'cobasubject', '2021-04-28 12:47:19', 'Test dari Merchant', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:19', '2021-04-29 03:36:23'),
-(19, 'cobasubject', '2021-04-28 12:47:39', 'ingat skripsmu ee', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:39', '2021-04-29 03:36:23'),
-(20, 'cobasubject', '2021-04-28 12:53:57', 'p', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:53:57', '2021-04-29 03:36:23'),
-(21, 'cobasubject', '2021-04-28 13:03:43', 'Ya', 1, 1, 'Pembeli', 4, 4, '2021-04-28 05:03:43', '2021-04-29 03:36:23');
+(1, 'gak ada', '2021-04-28 02:03:56', 'Hallo teman teman semua', 1, 1, 'Pembeli', 4, 4, NULL, '2021-05-02 06:33:58'),
+(18, 'cobasubject', '2021-04-28 12:47:19', 'Test dari Merchant', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:19', '2021-05-02 06:33:58'),
+(19, 'cobasubject', '2021-04-28 12:47:39', 'ingat skripsmu ee', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:39', '2021-05-02 06:33:58'),
+(20, 'cobasubject', '2021-04-28 12:53:57', 'p', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:53:57', '2021-05-02 06:33:58'),
+(21, 'cobasubject', '2021-04-28 13:03:43', 'Ya', 1, 1, 'Pembeli', 4, 4, '2021-04-28 05:03:43', '2021-05-02 06:33:58');
 
 -- --------------------------------------------------------
 
@@ -919,7 +906,8 @@ CREATE TABLE `produk` (
 
 INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesanan`, `status`, `stok`, `berat`, `panjang`, `lebar`, `tinggi`, `preorder`, `waktu_preorder`, `kategori_idkategori`, `jenisproduk_idjenisproduk`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
 (23, 'Product Tester', 'test aja', 5000, 2, 'Aktif', 10, 1, 2, 3, 3, 'TidakAktif', 0, 5, 1, '2021-04-21 17:07:02', '2021-04-21 17:07:02', 4),
-(24, 'product kedua', 'erwrwerwer', 6500, 5, 'Aktif', 22, 2, 3, 1, 1, 'TidakAktif', 0, 5, 3, '2021-04-22 14:37:17', '2021-04-22 14:37:17', 4);
+(24, 'product kedua', 'erwrwerwer', 6500, 5, 'Aktif', 22, 2, 3, 1, 1, 'TidakAktif', 0, 5, 3, '2021-04-22 14:37:17', '2021-04-22 14:37:17', 4),
+(25, 'Nestle Milo', 'asdasdasd', 25000, 2, 'Aktif', 19, 1, 2, 3, 4, 'TidakAktif', 0, 5, 3, '2021-04-30 13:40:30', '2021-04-30 13:40:30', 1);
 
 -- --------------------------------------------------------
 
@@ -1094,13 +1082,6 @@ ALTER TABLE `detailtransaksi`
   ADD KEY `fk_produk_has_transaksi_produk1_idx` (`produk_idproduk`);
 
 --
--- Indexes for table `device`
---
-ALTER TABLE `device`
-  ADD PRIMARY KEY (`iddevice`),
-  ADD KEY `fk_device_user1_idx` (`users_iduser`);
-
---
 -- Indexes for table `diskusi`
 --
 ALTER TABLE `diskusi`
@@ -1259,22 +1240,16 @@ ALTER TABLE `datapengiriman`
   MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `device`
---
-ALTER TABLE `device`
-  MODIFY `iddevice` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `diskusi`
 --
 ALTER TABLE `diskusi`
-  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
-  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `jenisproduk`
@@ -1322,7 +1297,7 @@ ALTER TABLE `pengiriman`
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `reviewproduk`
@@ -1372,12 +1347,6 @@ ALTER TABLE `datapengiriman`
 ALTER TABLE `detailtransaksi`
   ADD CONSTRAINT `fk_produk_has_transaksi_produk1` FOREIGN KEY (`produk_idproduk`) REFERENCES `produk` (`idproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_produk_has_transaksi_transaksi1` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `device`
---
-ALTER TABLE `device`
-  ADD CONSTRAINT `fk_device_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `diskusi`
