@@ -62,6 +62,24 @@ class MerchantController extends Controller
         }
         
     }
+    public function etalase($id1,$id2){
+        try {
+            $merchant = Merchant::where('users_iduser', $id1)->first();
+            $data = DB::table('produk')
+                ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                ->groupBy('produk.idproduk')
+                ->where('produk.merchant_users_iduser', $id1)
+                ->where('produk.kategori_idkategori',$id2)
+                ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                ->get();
+            $kategori = Kategori::where('merchant_users_iduser', $id1)->get();
+            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori','id2'));
+            
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
     public function update(Request $request, $id)
     {
         try {

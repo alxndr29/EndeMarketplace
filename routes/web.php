@@ -70,11 +70,13 @@ Route::get('seller/merchant/daftar','MerchantController@create')->name('merchant
 Route::post('seller/merchant/store','MerchantController@store')->name('merchant.store');
 Route::get('seller/merchant/edit','MerchantController@edit')->name('merchant.edit');
 Route::put('seller/merchant/update/{id}','MerchantController@update')->name('merchant.update');
-Route::get('user/merchant/profile/{id}','MerchantController@show')->name('merchant.show');
 
+Route::get('user/merchant/profile/{id}','MerchantController@show')->name('merchant.show');
+Route::get('user/merchant/etalase/{id1}/{id2}', 'MerchantController@etalase')->name('merchant.etalase');
 
 //Alamat pembeli
 Route::get('user/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');
+Route::get('user/alamat/checkout', 'AlamatPembeliController@alamatCheckout')->name('alamatpembeli.checkout');
 Route::get('user/alamat/edit/{id}', 'AlamatPembeliController@edit')->name('alamatpembeli.edit');
 Route::post('user/alamat/store','AlamatPembeliController@store')->name('alamatpembeli.store');
 //Route::put('user/alamat/update/{id}','AlamatPembeliController@update')->name('alamatpembeli.update');
@@ -118,6 +120,7 @@ Route::get('seller/obrolan/index','ObrolanController@indexMerchant')->name('obro
 Route::post('seller/obrolan/store', 'ObrolanController@insertObrolanMerchant')->name('obrolan.seller.store');
 Route::get('seller/obrolan/get/{id}', 'ObrolanController@getObrolanMerchant')->name('obrolan.user.get');
 
+
 //Diskusi
 Route::post('diskusi/store/{id}','DiskusiController@storeDiskusi')->name('diskusi.store');
 Route::post('diskusi/balasan/store/{id}/{id2}','DiskusiController@storeBalasanDiskusi')->name('diskusi.balasan.store');
@@ -127,6 +130,9 @@ Route::get('diskusi/data/{id}','DiskusiController@getDataDiskusi')->name('diskus
 Route::post('otp/email/send','OtpController@otpEmail')->name('otp.email.send');
 Route::post('otp/whatsapp/send', 'OtpController@otpEmail')->name('otp.whatsapp.send');
 Route::post('/otp/verifikasi','OtpController@verifikasi')->name('otp.verifikasi');
+
+//Checkout
+Route::get('user/checkout/{id}','CheckoutController@index')->name('checkout.index');
 
 
 

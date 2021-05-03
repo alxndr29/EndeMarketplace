@@ -51,8 +51,15 @@
                                     <h5>Kategori Produk</h5>
                                     <br>
                                     <div class="list-group" id="listKategori">
-                                        @foreach($kategori as $key => $value)
+                                        <!-- @foreach($kategori as $key => $value)
                                         <a href="javascript:void(0)" id="pilihKategori" data-id="{{$value->idkategori}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
+                                        @endforeach -->
+                                        @foreach($kategori as $key => $value)
+                                        @if($id2 == $value->idkategori)
+                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action active">{{$value->nama_kategori}}</a>
+                                        @else
+                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
+                                        @endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -65,7 +72,7 @@
                                                 </div>
                                                 <div class="col-3">
                                                     <div class="input-group mb-3">
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" id="inputSearch" class="form-control">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text"><i class="fas fa-search"></i></span>
                                                         </div>
@@ -73,19 +80,16 @@
                                                 </div>
                                                 <div class="col-3">
                                                     <div class="form-group">
-                                                        <select class="form-control">
-                                                            <option>option 1</option>
-                                                            <option>option 2</option>
-                                                            <option>option 3</option>
-                                                            <option>option 4</option>
-                                                            <option>option 5</option>
+                                                        <select class="form-control" id="comboboxFilter">
+                                                            <option value="a">option 1</option>
+                                                            <option value="b">option 2</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row">
+                                            <div class="row" id="listProduk">
                                                 @foreach ($data as $key => $value )
                                                 <div class="col-6 col-lg-3">
                                                     <div class="card">
@@ -98,106 +102,7 @@
                                                     </div>
                                                 </div>
                                                 @endforeach
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <div class="card-body text-center">
-                                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
-                                                            <br>
-                                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -232,14 +137,24 @@
     @endif
 
     $(document).ready(function() {
+        //$("#listProduk").append('test');
+    });
+    $("#inputSearch").keyup(function(e) {
+        if (e.keyCode == 13) {
+            var data = $(this).val();
+            alert(data);
+        }
+    });
 
+    $("#comboboxFilter").change(function() {
+        var data = $(this).val();
+        alert(data);
     });
     var kat = "";
     $("body").on("click", "#pilihKategori", function(e) {
         var id = $(this).attr('data-id');
         kat = id;
         alert(id);
-        
         // $(this).addClass('active');
         // $("#pilihKategori").removeClass('active');
     });

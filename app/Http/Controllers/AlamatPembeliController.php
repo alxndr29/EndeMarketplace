@@ -20,6 +20,11 @@ class AlamatPembeliController extends Controller
         return view('user.alamat.alamat', compact('alamatpembeli'));
         //return $alamatpembeli;
     }
+    public function alamatCheckout(){
+        $user = new User();
+        $alamatpembeli = Alamatpembeli::where('users_iduser', '=', $user->userid())->orderBy('idalamat', 'desc')->get();
+        return $alamatpembeli;
+    }
     public function create()
     {
 
