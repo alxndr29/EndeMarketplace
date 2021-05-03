@@ -54,9 +54,9 @@ class MerchantController extends Controller
                 ->groupBy('produk.idproduk')
                 ->where('produk.merchant_users_iduser', $id)
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                ->get(10);
+                ->get();
             $kategori = Kategori::where('merchant_users_iduser', $id)->get();
-            return view('user.merchant.merchant', compact('merchant'));
+            return view('user.merchant.merchant', compact('merchant','data','kategori'));
         }catch(\Exception $e){
             return $e->getMessage();
         }

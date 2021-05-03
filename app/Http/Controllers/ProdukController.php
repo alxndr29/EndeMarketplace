@@ -149,7 +149,6 @@ class ProdukController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            
             $produk = Produk::find($id);
             $produk->nama = $request->get('namaProduk');
             $produk->deskripsi = $request->get('deskripsiProduk');
