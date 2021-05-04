@@ -17,7 +17,9 @@
                             </div>
                             <div class="product-info">
                                 <a href="javascript:void(0)" id="pilihUser" data-id="{{$value->iduser}}" class="product-title">{{$value->nama_user}}
-                                    <span class="badge badge-warning float-right">R</span></a>
+                                    @if($value->status_baca_merchant == 0)
+                                    <span class="badge badge-warning float-right">Baru</span></a>
+                                @endif
                                 <span class="product-description">
                                     {{$value->isi_pesan}}
                                 </span>
@@ -190,7 +192,7 @@
         }, 3000);
         */
         $("#kolomchat").empty();
-        
+
         $("#send").click(function() {
             insertObrolan();
         });
@@ -201,12 +203,11 @@
             interval.forEach(clearInterval);
             var id = $(this).attr('data-id');
             iduser = id;
-            var i = setInterval(function() { 
+            var i = setInterval(function() {
                 loadObrolan(id);
             }, 100);
             interval.push(i);
         });
-
         function insertObrolan() {
             var pesan = $("#text").val();
             $.ajax({
@@ -226,7 +227,6 @@
                 }
             });
         }
-
         function loadObrolan(id) {
             $.ajax({
                 url: "{{url('seller/obrolan/get')}}" + "/" + id,

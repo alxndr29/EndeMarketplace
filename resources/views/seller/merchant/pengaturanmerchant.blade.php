@@ -91,21 +91,25 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>Dukungan Pengiriman</label>
-                            <select class="form-control" name="dukunganPengiriman">
-                                <option>Pilih pengiriman</option>
-                                <option value="KM">Kurir Merchant</option>
-                                <option value="KP">Kurir Pihak 3</option>
-                                <option value="KM-KP">Kurir Merchant & Kurir Pihak 3</option>
-                            </select>
+                            @foreach($kurir as $key => $value)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    {{$value->nama}}
+                                </label>
+                            </div>
+                            @endforeach
                         </div>
                         <div class="form-group">
                             <label>Dukungan Pembayaran</label>
-                            <select class="form-control" name="dukunganPembayaran">
-                                <option>Pilih pembayaran</option>
-                                <option value="TF">Transfer Bank</option>
-                                <option value="COD">Cash On Delivery</option>
-                                <option value="TF-COD">Transfer Bank & Cash On Delivery</option>
-                            </select>
+                            @foreach($tipePembayaran as $key => $value)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    {{$value->nama}}
+                                </label>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

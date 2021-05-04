@@ -133,6 +133,7 @@ Route::post('/otp/verifikasi','OtpController@verifikasi')->name('otp.verifikasi'
 
 //Checkout
 Route::get('user/checkout/{id}','CheckoutController@index')->name('checkout.index');
+Route::post('user/checkout/store','CheckoutController@store')->name('checkout.store');
 
 
 

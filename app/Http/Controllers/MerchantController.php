@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Merchant;
 use App\User;
 use App\Kategori;
+use App\Tipepembayaran;
+use App\Kurir;
 use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class MerchantController extends Controller
 {
@@ -41,9 +44,9 @@ class MerchantController extends Controller
     {
         $user = new User();
         $merchant = Merchant::where('users_iduser', $user->userid())->first();
-
-        //return $merchant;
-        return view('seller.merchant.pengaturanmerchant', compact('merchant'));
+        $kurir = Kurir::all();
+        $tipePembayaran = Tipepembayaran::all();
+        return view('seller.merchant.pengaturanmerchant', compact('merchant','kurir','tipePembayaran'));
     }
     public function show($id)
     {
@@ -131,5 +134,7 @@ class MerchantController extends Controller
         return $request->all();
     }
     public function destroy($id)
-    { }
+    { 
+        
+    }
 }
