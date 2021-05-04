@@ -41,12 +41,13 @@ class MerchantController extends Controller
     {
         $user = new User();
         $merchant = Merchant::where('users_iduser', $user->userid())->first();
+
         //return $merchant;
         return view('seller.merchant.pengaturanmerchant', compact('merchant'));
     }
     public function show($id)
     {
-        try{
+        try {
             $merchant = Merchant::where('users_iduser', $id)->first();
             $data = DB::table('produk')
                 ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
@@ -56,13 +57,13 @@ class MerchantController extends Controller
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                 ->get();
             $kategori = Kategori::where('merchant_users_iduser', $id)->get();
-            return view('user.merchant.merchant', compact('merchant','data','kategori'));
-        }catch(\Exception $e){
+            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori'));
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
-        
     }
-    public function etalase($id1,$id2){
+    public function etalase($id1, $id2)
+    {
         try {
             $merchant = Merchant::where('users_iduser', $id1)->first();
             $data = DB::table('produk')
@@ -70,12 +71,11 @@ class MerchantController extends Controller
                 ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
                 ->groupBy('produk.idproduk')
                 ->where('produk.merchant_users_iduser', $id1)
-                ->where('produk.kategori_idkategori',$id2)
+                ->where('produk.kategori_idkategori', $id2)
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                 ->get();
             $kategori = Kategori::where('merchant_users_iduser', $id1)->get();
-            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori','id2'));
-            
+            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -113,8 +113,18 @@ class MerchantController extends Controller
                 'jam_tutup' => $request->get('jamTutup'),
                 'nama' => $request->get('namaMerchant')
             ]);
+            DB::table('alamatmerchant')
+                ->updateOrInsert(
+                    ['merchant_users_iduser' => $id],
+                    [
+                        'alamat_lengkap' => $request->get('alamatLengkap'),
+                        'telepon' => $request->get('telepon'),
+                        'latitude' => $request->get('dataLatitude'),
+                        'longitude' => $request->get('dataLongitude')
+                    ]
+                );
+            //return $request->all();
             return redirect('seller/merchant/edit')->with('berhasil', 'berhasil ubh data merchant');
-
         } catch (\Exception $e) {
             return $e->getMessage();
         }

@@ -15,6 +15,7 @@ class AlamatPembeliController extends Controller
     //
     public function index()
     {
+       
         $user = new User();
         $alamatpembeli = Alamatpembeli::where('users_iduser','=', $user->userid())->orderBy('idalamat','desc')->get();
         return view('user.alamat.alamat', compact('alamatpembeli'));

@@ -28,9 +28,7 @@
                         </div>
                         <div class="form-group">
                             <label for="deskripsiMerchant">Deskripsi Merchant</label>
-                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="deskripsiMerchant">
-                            {{$merchant->deskripsi}}
-                            </textarea>
+                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="deskripsiMerchant">{{$merchant->deskripsi}}</textarea>
                         </div>
                     </div>
                 </div>
@@ -52,11 +50,11 @@
                         </div>
                         <div class="form-group">
                             <label for="namaProduk">Jam Buka</label>
-                            <input type="time" class="form-control"  name="jamBuka" value="07:30:00">
+                            <input type="time" class="form-control" name="jamBuka" value="07:30:00">
                         </div>
                         <div class="form-group">
                             <label for="namaProduk">Jam Tutup</label>
-                            <input type="time" class="form-control"  name="jamTutup" value="13:30">
+                            <input type="time" class="form-control" name="jamTutup" value="13:30">
                         </div>
                     </div>
                 </div>
@@ -113,6 +111,35 @@
                 </div>
             </div>
         </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Alamat Merchant
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="deskripsiMerchant">Alamat Lengkapt</label>
+                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="alamatLengkap">
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Telepon</label>
+                            <input type="text" class="form-control" name="telepon">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Longitude</label>
+                            <input type="text" class="form-control" name="dataLongitude" id="longitude" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Latitude</label>
+                            <input type="text" class="form-control" name="dataLatitude" id="latitude" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row justify-content-center p-3">
             <button type="submit" class="btn btn-primary" id="btnsubmit">Simpan</button>
         </div>
@@ -121,23 +148,40 @@
 
 @section('js')
 <script type="text/javascript">
+    var lat = "";
+    var lot = "";
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('berhasil')}}');
+        alert('{{session('
+            berhasil ')}}');
         @endif
 
-        /*
-        var counter = 0;
-        var timer = setInterval(function() {
-            counter++;
-            alert(counter);
-            if (counter >= 10) {
-                clearInterval(timer)
-            }
-        }, 3000);
-        */
+
+
+        getLocation();
     });
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        alert("Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude);
+        lat = position.coords.latitude;
+        lot = position.coords.longitude;
+
+        $("#longitude").val(position.coords.latitude);
+        $("#latitude").val(position.coords.longitude);
+        console.log(lat);
+        console.log(lot);
+    }
 </script>
 @endsection
 
