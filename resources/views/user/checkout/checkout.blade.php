@@ -41,7 +41,6 @@
                                                 <div class="form-group">
                                                     <select class="form-control" id="dukunganPengiriman" name="kurir">
                                                         <option selected>Pilih Pengiriman</option>
-
                                                         @foreach ($dukunganpengiriman as $key => $value)
                                                         <option value="{{$value->idkurir}}">{{$value->nama}}</option>
                                                         @endforeach
@@ -49,8 +48,9 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <select class="form-control" id="biayaKurir" name="biayaKurir">
-                                                        <option value="CTC/1-2/10000"> JNE - CTC - 1-2 - 10000</option>
                                                         <option selected>Pilih Biaya Pengiriman</option>
+                                                        <option value="CTC/1-2/10000"> JNE - CTC - 1-2 - 10000</option>
+                                                        <option value="CTCYES/0-1/20000"> JNE - CTCYES - 0-2 - 20000</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -143,12 +143,12 @@
         </div>
     </div>
 </div>
-<button id="test">Buat Transaksi</button>
+
 @section('js')
 <script type="text/javascript">
     var dataAlamat;
     var dataKiriman;
-
+    //var pilihAlamat = false;
     var jumlah = {{$total->jumlah}};
     // var berat = {{$total->berat}};
     // console.log(berat);
@@ -164,8 +164,9 @@
         //hitungBiaya();
         $("#displayNominal").val(jumlah);
         $("#nominalpembayaran").val(jumlah);
+        $("#dukunganPengiriman").attr("disabled", true);
+        $("#biayaKurir").attr("disabled", true);
     });
-
 
     $.ajax({
         url: "{{route('alamatpembeli.checkout')}}",
@@ -197,9 +198,9 @@
     $("body").on("click", "#pilihALamat", function(e) {
         var id = $(this).attr('data-id');
         loadAlamat(id);
+        $("#dukunganPengiriman").attr("disabled", false);
     });
     var idAlamatUser = 0;
-
     function loadAlamat(id) {
         for (i = 0; i < dataAlamat.length; i++) {
             if (dataAlamat[i].idalamat == id) {
@@ -210,27 +211,23 @@
             }
         }
     }
-    $("#test").click(function() {
-        hitungBiaya();
+    $("#biayaKurir").change(function() {
+        var id = $(this).val();
+        var split = id.split("/");
+        var tot = jumlah+parseInt(split[2]);
+        $("#displayNominal").html('Total Pembayaran: Rp.'+ tot);
+        $("#nominalpembayaran").val(jumlah+parseInt(split[2]));
     });
-    $("#biayaKurir").change(function(){
-       var id = $(this).val();
-       var split = id.split("/");
-       console.log(split);
+
+    $("#dukunganPengiriman").change(function(){
+         $("#biayaKurir").attr("disabled", false);
     });
     function hitungBiaya() {
         var origin = {{$alamatMerchant->kabupatenkota_idkabupatenkota}};
         var destination = idAlamatUser;
         //alert(origin + " - " + destination);
         var courier = "jne";
-        var berat = {{$total->berat}};;
-        
-        // /*
-        //  var origin = 501;
-        //  var destination = 114;
-        //  var courier = "jne";
-        //  var berat = 1700;
-        //  */
+        var berat = {{$total->berat}};
         $.ajax({
             url: "{{url('cost')}}" + "/" + origin + "/" + destination + "/" + courier + "/" + berat,
             method: "GET",

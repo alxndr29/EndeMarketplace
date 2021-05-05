@@ -8,6 +8,7 @@ use App\User;
 use DB;
 use App\Alamatpembeli;
 use App\Transaksi;
+use App\Pengiriman;
 use Illuminate\Support\Carbon;
 
 class CheckoutController extends Controller
@@ -53,52 +54,60 @@ class CheckoutController extends Controller
     {
         try{
 
-            // $user = new User();
-            // $keranjang = DB::table('keranjang')
-            //     ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
-            //     ->join('users', 'users.iduser', '=', 'keranjang.users_iduser')
-            //     ->select('keranjang.*', 'produk.harga')
-            //     ->where('produk.merchant_users_iduser', '=', $request->get('idmerchant'))
-            //     ->where('keranjang.users_iduser', '=', $user->userid())
-            //     ->groupBy('keranjang.produk_idproduk')
-            //     ->get();
+            $user = new User();
+            $keranjang = DB::table('keranjang')
+                ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
+                ->join('users', 'users.iduser', '=', 'keranjang.users_iduser')
+                ->select('keranjang.*', 'produk.harga')
+                ->where('produk.merchant_users_iduser', '=', $request->get('idmerchant'))
+                ->where('keranjang.users_iduser', '=', $user->userid())
+                ->groupBy('keranjang.produk_idproduk')
+                ->get();
 
-            // // $transaksi = new Transaksi();
-            // // $transaksi->status_transaksi = 'MenungguKonfirmasi';
-            // // $transaksi->jenis_transaksi = 'Langsung';
-            // // $transaksi->nominal_pembayaran = $request->get('nominalpembayaran');
-            // // $transaksi->users_iduser = $user->userid();
-            // // $transaksi->merchant_users_iduser = $request->get('idmerchant');
-            // // $transaksi->alamatpembeli_idalamat = $request->get('idalamat');
-            // // $transaksi->tipepembayaran_idtipepembayaran = $request->get('tipePembayaran');
-            // // $transaksi->save();
-            // // $id = $transaksi->idtransaksi;
+            $transaksi = new Transaksi();
+            $transaksi->status_transaksi = 'MenungguKonfirmasi';
+            $transaksi->jenis_transaksi = 'Langsung';
+            $transaksi->nominal_pembayaran = $request->get('nominalpembayaran');
+            $transaksi->users_iduser = $user->userid();
+            $transaksi->merchant_users_iduser = $request->get('idmerchant');
+            $transaksi->alamatpembeli_idalamat = $request->get('idalamat');
+            $transaksi->tipepembayaran_idtipepembayaran = $request->get('tipePembayaran');
+            $transaksi->save();
+            $id = $transaksi->idtransaksi;
 
-            // $id = 1;
-            // foreach ($keranjang as $key => $value) {
-            //     DB::table('detailtransaksi')->insert(
-            //         [
-            //             'produk_idproduk' => $value->produk_idproduk,
-            //             'transaksi_idtransaksi' => $id,
-            //             'jumlah' => $value->jumlah,
-            //             'total_harga' => $value->jumlah * $value->harga
-            //         ]
-            //     );
-            // }
-            // $catatanProduk = $request->get('catatanproduk');
-            // foreach ($catatanProduk as $key => $value) {
-            //     // return $k.$v; //24catatan produk 2
-            //     DB::table('detailtransaksi')
-            //         ->where('transaksi_idtransaksi', $id)
-            //         ->where('produk_idproduk', $key)
-            //         ->update(
-            //             [
-            //                 'catatan' => $value
-            //             ]
-            //         );
-            // }
+            //$id = 1;
+            foreach ($keranjang as $key => $value) {
+                DB::table('detailtransaksi')->insert(
+                    [
+                        'produk_idproduk' => $value->produk_idproduk,
+                        'transaksi_idtransaksi' => $id,
+                        'jumlah' => $value->jumlah,
+                        'total_harga' => $value->jumlah * $value->harga
+                    ]
+                );
+            }
+            $catatanProduk = $request->get('catatanproduk');
+            foreach ($catatanProduk as $key => $value) {
+                // return $k.$v; //24catatan produk 2
+                DB::table('detailtransaksi')
+                    ->where('transaksi_idtransaksi', $id)
+                    ->where('produk_idproduk', $key)
+                    ->update(
+                        [
+                            'catatan' => $value
+                        ]
+                    );
+            }
             $biaya = explode("/",$request->get('biayaKurir'));
-            return $biaya;
+            //return $biaya;
+            $pengiriman = new Pengiriman();
+            $pengiriman->kurir_idkurir = $request->get('kurir');
+            $pengiriman->transaksi_idtransaksi = $id;
+            $pengiriman->biaya_pengiriman = $biaya[2];
+            $pengiriman->keterangan = $biaya[0].$biaya[1];
+            $pengiriman->save();
+            
+            return 'hello world!';
             //return $request->all();
         }catch(\Exception $e){
 

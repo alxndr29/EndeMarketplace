@@ -48,6 +48,7 @@ class ProdukController extends Controller
             $produk->status = $request->get('statusProduk');
             $produk->stok = $request->get('stokProduk');
             $produk->berat = $request->get('beratProduk');
+            $produk->video = $request->get('video');
             if ($request->get('preorder') == "true") {
                 $produk->preorder = 'Aktif';
                 $produk->waktu_preorder = $request->get('waktu_preorder');
@@ -157,6 +158,7 @@ class ProdukController extends Controller
             $produk->status = $request->get('statusProduk');
             $produk->stok = $request->get('stokProduk');
             $produk->berat = $request->get('beratProduk');
+            $produk->video = $request->get('video');
             if ($request->get('preorder') == "true") {
                 $produk->preorder = 'Aktif';
                 $produk->waktu_preorder = $request->get('waktu_preorder');

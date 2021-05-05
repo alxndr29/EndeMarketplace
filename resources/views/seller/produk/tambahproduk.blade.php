@@ -41,6 +41,10 @@
                         <label>Deskripsi Produk</label>
                         <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiProduk"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="namaProduk">URL Video</label>
+                        <input type="text" class="form-control" id="video" placeholder="URL Video Produk">
+                    </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
@@ -209,8 +213,6 @@
     });
 
     $(document).ready(function() {
-
-
         $('#checkboxpreorder').change(function() {
             if (this.checked) {
                 //alert(this.checked);
@@ -249,6 +251,7 @@
                     "lebar": $("#lebarProduk").val(),
                     "tinggi": $("#tinggiProduk").val(),
                     "waktu_preorder": $("#durasiPreorder").val(),
+                    "video": $("#video").val(),
                     "gambar": myJson
                 },
                 success: function(response) {

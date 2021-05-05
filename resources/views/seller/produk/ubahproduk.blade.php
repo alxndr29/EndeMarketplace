@@ -41,6 +41,10 @@
                         <label>Deskripsi Produk</label>
                         <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiProduk">{{$data->deskripsi}}</textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="namaProduk">URL Video</label>
+                        <input type="text" class="form-control" id="video" placeholder="URL Video Produk" value="{{$data->video}}">
+                    </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
@@ -145,14 +149,14 @@
                         <label class="form-check-label" for="exampleCheck1">Pre Order</label>
                     </div>
                     <div class="form-group">
-                    <label for="minimumPembelian">Durasi Preorder</label>
+                        <label for="minimumPembelian">Durasi Preorder</label>
                         @if($data->preorder == "Aktif")
                         <input type="number" class="form-control" id="durasiPreorder" placeholder="Durasi Preorder" value="{{$data->waktu_preorder}}">
                         @else
                         <input type="number" class="form-control" id="durasiPreorder" placeholder="Durasi Preorder" value="{{$data->waktu_preorder}}" disabled>
                         @endif
-                       
-                        
+
+
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -196,20 +200,20 @@
     }
 
     $(document).ready(function() {
-        
+
         getCurrentPicture({{$data->idproduk}});
         //displayCurrentPicture();
     });
     $('#checkboxpreorder').change(function() {
-            if (this.checked) {
-                //alert(this.checked);
-               
-                $("#durasiPreorder").attr("disabled", false);
-            } else {
-                //alert(this.checked);
-                 
-                $("#durasiPreorder").attr("disabled", true);
-            }
+        if (this.checked) {
+            //alert(this.checked);
+
+            $("#durasiPreorder").attr("disabled", false);
+        } else {
+            //alert(this.checked);
+
+            $("#durasiPreorder").attr("disabled", true);
+        }
     });
     $("body").on("click", "#preview-gambar", function(e) {
         var id = $(this).attr('data-id');
@@ -220,7 +224,7 @@
                     previewGambar();
                 }
             }
-           
+
         } else {
 
         }
@@ -235,11 +239,11 @@
                     displayCurrentPicture();
                 }
             }
-           
+
         } else {
 
         }
-        
+
     });
 
     function getCurrentPicture(id) {
@@ -280,9 +284,10 @@
         console.log('gambar yang dihapus');
         console.log(hapusGambar);
     }
-    $('#btnsubmit').click(function(){
+    $('#btnsubmit').click(function() {
         uploadData();
     });
+
     function uploadData() {
         $.ajax({
             url: "{{url('seller/produk/update')}}" + "/" + {{$data->idproduk}},
@@ -303,6 +308,7 @@
                 "tinggi": $("#tinggiProduk").val(),
                 "waktu_preorder": $("#durasiPreorder").val(),
                 "gambar": JSON.stringify(gambar),
+                "video": $("#video").val(),
                 "hapusGambar": JSON.stringify(hapusGambar)
             },
             success: function(response) {

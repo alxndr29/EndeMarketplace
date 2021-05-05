@@ -19,20 +19,25 @@
                                 @endforeach
                             </div>
                             <div class="row">
-                                <div class="col">
-                                    <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
-                                </div>
-                                <div class="col">
-                                    <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
-                                </div>
-                                <div class="col">
-                                    <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
-                                </div>
                                 <!-- <div class="col">
-                                    <div style="width:150px;height:150px;"  class="embed-responsive embed-responsive-16by9">
-                                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
-                                    </div>
+                                    <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
+                                </div>
+                                <div class="col">
+                                    <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
+                                </div>
+                                <div class="col">
+                                    <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
                                 </div> -->
+                                @if(isset($data->video))
+                                <div class="col">
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe width="560" height="315" src="{{$data->video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+
+                                @endif
+
+
                             </div>
                         </div>
 
@@ -332,7 +337,7 @@
 
                 for (i = 0; i < parentBalasan.length; i++) {
                     var idddd = parentBalasan[i].iddiskusi;
-                    var action = "http://localhost:8000/diskusi/balasan/store/"+{{$data->idproduk}}+"/"+idddd;
+                    var action = "http://localhost:8000/diskusi/balasan/store/" + {{$data->idproduk}} + "/" + idddd;
                     alert(action);
                     $("#custom-tabs-diskusi").append(
                         '<div class="row">' +
@@ -351,7 +356,7 @@
                         '</div>' +
                         '</div>' +
                         '<div class="card-footer">' +
-                        '@if(isset($value->iddiskusi))<form action="'+action+'" method="post"> @csrf' +
+                        '@if(isset($value->iddiskusi))<form action="' + action + '" method="post"> @csrf' +
                         '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
                         '<div class="img-push">' +
                         '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
@@ -365,7 +370,7 @@
                     for (j = 0; j < balasan.length; j++) {
                         if (balasan[j].balas_ke == parentBalasan[i].iddiskusi) {
                             var id = parentBalasan[i].iddiskusi;
-                            
+
                             $("#parentdiskusi-" + id).append(
                                 '<div class="card-comment">' +
                                 '<img class="img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">' +

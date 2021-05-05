@@ -55,8 +55,12 @@
                                         <a href="javascript:void(0)" id="pilihKategori" data-id="{{$value->idkategori}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
                                         @endforeach -->
                                         @foreach($kategori as $key => $value)
-                                        @if($id2 == $value->idkategori)
-                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action active">{{$value->nama_kategori}}</a>
+                                        @if(isset($id2))
+                                            @if($id2 == $value->idkategori)
+                                            <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action active">{{$value->nama_kategori}}</a>
+                                            @else
+                                            <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
+                                            @endif
                                         @else
                                         <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
                                         @endif

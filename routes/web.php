@@ -136,5 +136,8 @@ Route::post('/otp/verifikasi','OtpController@verifikasi')->name('otp.verifikasi'
 Route::get('user/checkout/{id}','CheckoutController@index')->name('checkout.index');
 Route::post('user/checkout/store','CheckoutController@store')->name('checkout.store');
 
-
-
+//Transaksi Merchant
+Route::get('seller/transaksi/index','TransaksiController@indexMerchant')->name('merchant.transaksi.index');
+Route::get('seller/transaksi/detail/{id}','TransaksiController@detailMerchant')->name('merchant.transaksi.detail');
+//Transaksi User
+Route::get('user/transaksi/index', 'TransaksiController@indexPelanggan')->name('pelanggan.transaksi.index');
