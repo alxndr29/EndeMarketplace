@@ -35,13 +35,13 @@
                                             <form method="post" action="{{route('wishlist.destroy',$value->idproduk)}}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-block btn-default" >Hapus</button>
+                                                <button type="submit" class="btn btn-block btn-default">Hapus</button>
                                             </form>
                                         </div>
                                     </div>
                                     <div class="row p-1">
                                         <div class="col">
-                                            <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-block btn-default" >Lihat</a>
+                                            <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-block btn-default">Lihat</a>
                                         </div>
                                     </div>
 
@@ -60,11 +60,17 @@
 </div>
 @section('js')
 <script type="text/javascript">
-    @if(session('berhasil'))
-    //toastr.success('{{session('berhasil')}}');
-    alert('{{session('
-        berhasil ')}}');
-    @endif
+    $(document).ready(function() {
+        @if(session('berhasil'))
+        toastr.success('{{session('
+            berhasil ')}}');
+        alert('{{session('
+            berhasil ')}}');
+        @endif
+
+       
+
+    });
 </script>
 @endsection
 @endsection

@@ -94,4 +94,16 @@ class KeranjangController extends Controller
         */
         return "a";
     }
+    public function notifikasiKeranjangUser(){
+        $user = new User();
+        $keranjang = DB::table('keranjang')
+            ->join('produk', 'keranjang.produk_idproduk', '=', 'produk.idproduk')
+            ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+            ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+            ->groupBy('produk.idproduk')
+            ->select('produk.*', 'gambarproduk.*', 'merchant.nama as nama_merchant', 'keranjang.*')
+            ->where('keranjang.users_iduser', $user->userid())
+            ->get();
+        return $keranjang;
+    }
 }

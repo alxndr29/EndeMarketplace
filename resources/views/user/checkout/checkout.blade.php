@@ -48,7 +48,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-control" id="biayaPengiriman" name="biayaKurir">
+                                                    <select class="form-control" id="biayaKurir" name="biayaKurir">
                                                         <option value="CTC/1-2/10000"> JNE - CTC - 1-2 - 10000</option>
                                                         <option selected>Pilih Biaya Pengiriman</option>
                                                     </select>
@@ -149,12 +149,11 @@
     var dataAlamat;
     var dataKiriman;
 
-    var jumlah = {
-        {
-            $total - > jumlah
-        }
-    };
+    var jumlah = {{$total->jumlah}};
+    // var berat = {{$total->berat}};
+    // console.log(berat);
     var biayaKurir = 0;
+
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
@@ -214,17 +213,18 @@
     $("#test").click(function() {
         hitungBiaya();
     });
-
+    $("#biayaKurir").change(function(){
+       var id = $(this).val();
+       var split = id.split("/");
+       console.log(split);
+    });
     function hitungBiaya() {
-        var origin = {
-            {
-                $alamatMerchant - > kabupatenkota_idkabupatenkota
-            }
-        };
+        var origin = {{$alamatMerchant->kabupatenkota_idkabupatenkota}};
         var destination = idAlamatUser;
         //alert(origin + " - " + destination);
         var courier = "jne";
-        var berat = 500;
+        var berat = {{$total->berat}};;
+        
         // /*
         //  var origin = 501;
         //  var destination = 114;

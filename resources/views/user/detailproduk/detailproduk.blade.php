@@ -292,11 +292,7 @@
 
 @section('js')
 <script type="text/javascript">
-    var idproduk = {
-        {
-            $data - > idproduk
-        }
-    };
+    var idproduk = {{$data->idproduk}};
     var parentBalasan = [];
     var balasan = [];
 
@@ -335,6 +331,9 @@
                 console.log(parentBalasan);
 
                 for (i = 0; i < parentBalasan.length; i++) {
+                    var idddd = parentBalasan[i].iddiskusi;
+                    var action = "http://localhost:8000/diskusi/balasan/store/"+{{$data->idproduk}}+"/"+idddd;
+                    alert(action);
                     $("#custom-tabs-diskusi").append(
                         '<div class="row">' +
                         '<div class="col">' +
@@ -352,12 +351,12 @@
                         '</div>' +
                         '</div>' +
                         '<div class="card-footer">' +
-                        '<form action="{{route("diskusi.balasan.store",[$data->idproduk, $value->iddiskusi])}}" method="post"> @csrf' +
+                        '@if(isset($value->iddiskusi))<form action="'+action+'" method="post"> @csrf' +
                         '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
                         '<div class="img-push">' +
                         '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
                         '</div>' +
-                        '</form>' +
+                        '</form>@endif' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
@@ -366,7 +365,7 @@
                     for (j = 0; j < balasan.length; j++) {
                         if (balasan[j].balas_ke == parentBalasan[i].iddiskusi) {
                             var id = parentBalasan[i].iddiskusi;
-                            alert(id);
+                            
                             $("#parentdiskusi-" + id).append(
                                 '<div class="card-comment">' +
                                 '<img class="img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">' +
@@ -382,35 +381,6 @@
                         }
                     }
                 }
-
-                // $("#custom-tabs-diskusi").append(
-                //     '<div class="row">' +
-                //         '<div class="col">' +
-                //             '<div class="card">' +
-                //                 '<div class="card-footer card-comments">' +
-                //                     '<div class="card-comment">'+
-                //                         '<img class="img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">' +
-                //                         '<div class="comment-text">' +
-                //                             '<span class="username">' +
-                //                                 'Maria Gonzales' +
-                //                                     '<span class="text-muted float-right">8:03 PM Today</span>' +
-                //                                     '</span>' +
-                //                                 'It is a long established fact that a reader will be distracted' +
-                //                         '</div>' +
-                //                     '</div>' +
-                //                 '</div>' +
-                //                 '<div class="card-footer">' +
-                //                     '<form action="#" method="post">' +
-                //                         '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
-                //                             '<div class="img-push">' +
-                //                                 '<input type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
-                //                             '</div>' +
-                //                     '</form>' +
-                //                 '</div>' +
-                //             '</div>' +
-                //         '</div>' +
-                //     '</div>'
-                // );
             },
             error: function(response) {
                 console.log(response);

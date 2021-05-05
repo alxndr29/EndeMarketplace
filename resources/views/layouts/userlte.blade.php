@@ -79,69 +79,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <!-- Messages Dropdown Menu -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="fas fa-comments"></i>
-                            <span class="badge badge-danger navbar-badge">3</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="{{asset('adminlte/dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Brad Diesel
-                                            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">Call me whenever you can...</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="{{asset('adminlte/dist/img/user8-128x128.jpg')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            John Pierce
-                                            <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">I got your message bro</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="{{asset('adminlte/dist/img/user3-128x128.jpg')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Nora Silvester
-                                            <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">The subject goes here</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                        </div>
-                    </li>
+
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="far fa-bell"></i>
-                            <span class="badge badge-warning navbar-badge">15</span>
+                            <span class="badge badge-warning navbar-badge" id="jumlahNotifikasi">15</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <span class="dropdown-header">15 Notifications</span>
@@ -164,15 +107,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                         </div>
                     </li>
+                    <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="fa fa-shopping-cart"></i>
-                            <span class="badge badge-warning navbar-badge">1</span>
+                            <span class="badge badge-warning navbar-badge" id="jumlahKeranjangNotifikasi">1</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="isiKeranjangNotifikasi">
                             <a href="#" class="dropdown-item">
+                                
                                 <!-- Message Start -->
-                                <div class="media">
+                                <!-- <div class="media">
                                     <img src="{{asset('adminlte/dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                     <div class="media-body">
                                         <h3 class="dropdown-item-title">
@@ -182,12 +127,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <p class="text-sm">Call me whenever you can...</p>
                                         <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- Message End -->
                             </a>
-
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                            <a href="{{route('keranjang.index')}}" class="dropdown-item dropdown-footer">See All Messages</a>
                         </div>
                     </li>
 
@@ -355,10 +299,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <!-- Notifikasi Pelanggan -->
+    <!-- <script src="{{asset('js/notifikasiPelanggan.js')}}"></script> -->
 
     <script type="text/javascript">
         $(document).ready(function() {
-
+            $("#jumlahNotifikasi").html(100);
+            $.ajax({
+                url: "{{route('keranjang.notifikasi')}}",
+                type: "GET",
+                success: function(response) {
+                    //console.log(response);
+                    var jumlahKeranjang = 0;
+                    for (i = 0; i < response.length; i++) {
+                        jumlahKeranjang += response[i].jumlah;
+                        var src = "src=http://localhost:8000/gambar/" + response[i].idgambarproduk + '.jpg';
+                         var url = "http://localhost:8000/user/produk/show/" + response[i].idproduk;
+                        $("#isiKeranjangNotifikasi").prepend(
+                            '<a href="'+ url +'" class="dropdown-item">' +
+                                '<div class="media">' +
+                                   '<img alt="User Avatar" class="img-size-50 mr-3 img-circle"'+ src +'>' +
+                                    '<div class="media-body">' +
+                                        '<h3 class="dropdown-item-title">' +
+                                            response[i].nama +
+                                        '</h3>' +
+                                        '<p class="text-sm">' +
+                                        "Harga: Rp. " + (response[i].harga) + 
+                                        '</p>' +
+                                        '<p class="text-sm">' +
+                                        "Total: Rp. " + (response[i].harga * response[i].jumlah) +" " + response[i].jumlah +"(pcs)"+ 
+                                        '</p>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</a>'
+                        );
+                    }
+                    $("#jumlahKeranjangNotifikasi").html(jumlahKeranjang);
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+            
         });
     </script>
     @yield('js')

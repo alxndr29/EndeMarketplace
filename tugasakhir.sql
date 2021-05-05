@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2021 at 07:17 PM
+-- Generation Time: May 05, 2021 at 08:10 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -139,10 +139,9 @@ CREATE TABLE `diskusi` (
 --
 
 INSERT INTO `diskusi` (`iddiskusi`, `users_iduser`, `produk_idproduk`, `tanggal`, `pesandiskusi`, `balas_ke`, `created_at`, `updated_at`) VALUES
-(2, 4, 23, '2021-04-29 01:43:30', 'diskusi pertamaku', NULL, '2021-04-28 17:43:30', '2021-04-28 17:43:30'),
-(4, 4, 23, '2021-04-29 02:30:20', 'balasa ndiskusi pertamaku', 2, '2021-04-28 18:30:20', '2021-04-28 18:30:20'),
-(5, 4, 23, '2021-04-29 02:37:56', 'Diskusi ke 2', NULL, '2021-04-28 18:37:56', '2021-04-28 18:37:56'),
-(6, 4, 23, '2021-05-03 00:04:20', 'Balasan diskusi 2', 5, '2021-05-02 16:04:20', '2021-05-02 16:04:20');
+(12, 4, 23, '2021-05-05 13:23:54', 'Diskusi 1', NULL, '2021-05-05 13:23:54', '2021-05-05 13:23:54'),
+(13, 4, 23, '2021-05-05 13:30:20', 'balas diskusi 1', 12, '2021-05-05 13:30:20', '2021-05-05 13:30:20'),
+(14, 4, 23, '2021-05-05 13:30:37', 'balas lagi diskusi 1', 12, '2021-05-05 13:30:37', '2021-05-05 13:30:37');
 
 -- --------------------------------------------------------
 
@@ -852,7 +851,8 @@ INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `foto_sampul`,
 CREATE TABLE `notifikasi` (
   `idnotifikasi` int(11) NOT NULL,
   `pesan_notifikasi` varchar(45) NOT NULL,
-  `baca` enum('Ya','Tidak') NOT NULL,
+  `baca` enum('Ya','Tidak') NOT NULL DEFAULT 'Tidak',
+  `tujuan` enum('Merchant','Pembeli') DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `users_iduser` int(11) NOT NULL,
@@ -1344,7 +1344,7 @@ ALTER TABLE `datapengiriman`
 -- AUTO_INCREMENT for table `diskusi`
 --
 ALTER TABLE `diskusi`
-  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `gambarproduk`

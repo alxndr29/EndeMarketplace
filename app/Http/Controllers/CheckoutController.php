@@ -41,7 +41,7 @@ class CheckoutController extends Controller
             ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
             ->where('produk.merchant_users_iduser', '=', $id)
             ->where('keranjang.users_iduser', '=', $user->userid())
-            ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah'))
+            ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
             ->first();
         $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser','=',$id)->select('alamatmerchant.*')->first();
         //return $alamatMerchant->kabupatenkota_idkabupatenkota;

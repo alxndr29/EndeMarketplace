@@ -90,6 +90,7 @@ Route::put('user/keranjang/update/{id}','KeranjangController@update')->name('ker
 Route::delete('user/keranjang/delete/{id}','KeranjangController@destroy')->name('keranjang.destroy');
 Route::get('user/keranjang/data','KeranjangController@loadKeranjang')->name('keranjang.data');
 Route::get('user/keranjang/merchant','KeranjangController@loadMerchant')->name('keranjang.merchant.data');
+Route::get('user/keranjang/notifikasi','KeranjangController@notifikasiKeranjangUser')->name('keranjang.notifikasi');
 
 //Wishlist
 Route::get('user/wishlist', 'WishlistController@index')->name('wishlist.index');
