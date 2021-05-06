@@ -104,13 +104,14 @@ class CheckoutController extends Controller
             $pengiriman->kurir_idkurir = $request->get('kurir');
             $pengiriman->transaksi_idtransaksi = $id;
             $pengiriman->biaya_pengiriman = $biaya[2];
+            $pengiriman->estimasi = $biaya[1];
             $pengiriman->keterangan = $biaya[0].$biaya[1];
             $pengiriman->save();
             
             return 'hello world!';
             //return $request->all();
         }catch(\Exception $e){
-
+            return $e->getMessage();
         }
         
     }

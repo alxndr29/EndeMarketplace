@@ -2,14 +2,14 @@
 @section('content')
 <div class="container-fluid">
 
-    <div class="card">
+    <!-- <div class="card">
         <div class="card-header">
             Daftar Transaksi
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <b>Alamat Pengiriman</b>
+                    <b>Data Transaksi</b>
                     <br> ID Transaksi: TRX-{{$transaksi->idtransaksi}}
                     <br> Tanggal Transaksi:
                     <br> Status Transaksi: {{$transaksi->status_transaksi}}
@@ -61,24 +61,18 @@
         <div class="card-footer">
 
         </div>
-    </div>
+    </div> -->
 
-    <div class="row .d-none invisible">
+    <div class="row">
         <div class="col-12">
-            <div class="callout callout-info">
-                <h5><i class="fas fa-info"></i> Note:</h5>
-                This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
-            </div>
-
-
             <!-- Main content -->
             <div class="invoice p-3 mb-3">
                 <!-- title row -->
                 <div class="row">
                     <div class="col-12">
                         <h4>
-                            <i class="fas fa-globe"></i> AdminLTE, Inc.
-                            <small class="float-right">Date: 2/10/2014</small>
+                            <i class="fas fa-globe"></i> Nama Merchant
+                            <small class="float-right">Tanggal: {{$transaksi->tanggal}}</small>
                         </h4>
                     </div>
                     <!-- /.col -->
@@ -86,33 +80,29 @@
                 <!-- info row -->
                 <div class="row invoice-info">
                     <div class="col-sm-4 invoice-col">
-                        From
+                        Kepada
                         <address>
-                            <strong>Admin, Inc.</strong><br>
-                            795 Folsom Ave, Suite 600<br>
-                            San Francisco, CA 94107<br>
-                            Phone: (804) 123-5432<br>
-                            Email: info@almasaeedstudio.com
+                            <strong>Penerima: {{$alamatPengiriman->nama_penerima}}</strong><br>
+                            Alamat: {{$alamatPengiriman->alamatlengkap}}<br>
+                            Telp: {{$alamatPengiriman->telepon}}<br>
+                            Kode Pos: {{$alamatPengiriman->kode_pos}}<br>
+                            {{$alamatPengiriman->nama_kota}} - {{$alamatPengiriman->nama_provinsi}}
                         </address>
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-4 invoice-col">
-                        To
-                        <address>
-                            <strong>John Doe</strong><br>
-                            795 Folsom Ave, Suite 600<br>
-                            San Francisco, CA 94107<br>
-                            Phone: (555) 539-1037<br>
-                            Email: john.doe@example.com
-                        </address>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-4 invoice-col">
-                        <b>Invoice #007612</b><br>
+                        <b>ID Transaksi: TRX-{{$transaksi->idtransaksi}}</b><br>
                         <br>
-                        <b>Order ID:</b> 4F3S8J<br>
-                        <b>Payment Due:</b> 2/22/2014<br>
-                        <b>Account:</b> 968-34567
+                        Status Transaksi: <b> {{$transaksi->status_transaksi}} </b>
+                        <br>
+                        Tipe Pembayaran: {{$transaksi->tipe_pembayaran}}
+                        <br>
+                        Tanggal Pembayaran:
+                        <br>
+                        <!-- <b>Account:</b> 968-34567 -->
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        
                     </div>
                     <!-- /.col -->
                 </div>
@@ -124,42 +114,29 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Qty</th>
-                                    <th>Product</th>
-                                    <th>Serial #</th>
-                                    <th>Description</th>
+                                    <th>No</th>
+                                    <th>Gambar</th>
+                                    <th>Nama</th>
+                                    <th>Harga</th>
+                                    <th>Jumlah</th>
                                     <th>Subtotal</th>
+                                    <th>Catatan</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($daftarProduk as $key => $value)
                                 <tr>
-                                    <td>1</td>
-                                    <td>Call of Duty</td>
-                                    <td>455-981-221</td>
-                                    <td>El snort testosterone trophy driving gloves handsome</td>
-                                    <td>$64.50</td>
+                                    <td>{{$key+1}}</td>
+                                    <td>
+                                        <img style="width:75px;height:75px;" class="rounded" src="{{asset('gambar/'.$value->gambar.'.jpg')}}">
+                                    </td>
+                                    <td>{{$value->nama_produk}}</td>
+                                    <td>Rp. {{number_format($value->total_harga/$value->jumlah)}}-</td>
+                                    <td>{{$value->jumlah}} pcs</td>
+                                    <td>Rp. {{number_format($value->total_harga)}}-</td>
+                                    <td>{{$value->catatan}}</td>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Need for Speed IV</td>
-                                    <td>247-925-726</td>
-                                    <td>Wes Anderson umami biodiesel</td>
-                                    <td>$50.00</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Monsters DVD</td>
-                                    <td>735-845-642</td>
-                                    <td>Terry Richardson helvetica tousled street art master</td>
-                                    <td>$10.70</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Grown Ups Blue Ray</td>
-                                    <td>422-568-642</td>
-                                    <td>Tousled lomo letterpress</td>
-                                    <td>$25.99</td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -170,39 +147,23 @@
                 <div class="row">
                     <!-- accepted payments column -->
                     <div class="col-6">
-                        <p class="lead">Payment Methods:</p>
-                        <img src="../../dist/img/credit/visa.png" alt="Visa">
-                        <img src="../../dist/img/credit/mastercard.png" alt="Mastercard">
-                        <img src="../../dist/img/credit/american-express.png" alt="American Express">
-                        <img src="../../dist/img/credit/paypal2.png" alt="Paypal">
 
-                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem
-                            plugg
-                            dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
-                        </p>
                     </div>
                     <!-- /.col -->
                     <div class="col-6">
-                        <p class="lead">Amount Due 2/22/2014</p>
-
                         <div class="table-responsive">
                             <table class="table">
                                 <tr>
-                                    <th style="width:50%">Subtotal:</th>
-                                    <td>$250.30</td>
+                                    <th style="width:50%">Total Belanja:</th>
+                                    <td>Rp. {{number_format($transaksi->nominal_pembayaran - $transaksi->biaya_pengiriman)}}</td>
                                 </tr>
                                 <tr>
-                                    <th>Tax (9.3%)</th>
-                                    <td>$10.34</td>
+                                    <th>Biaya Pengiriman:</th>
+                                    <td>Rp. {{number_format($transaksi->biaya_pengiriman)}} - <b>Kurir {{$transaksi->nama_kurir}} </b></td>
                                 </tr>
                                 <tr>
-                                    <th>Shipping:</th>
-                                    <td>$5.80</td>
-                                </tr>
-                                <tr>
-                                    <th>Total:</th>
-                                    <td>$265.24</td>
+                                    <th>Total Pembayaran:</th>
+                                    <td>Rp. {{number_format($transaksi->nominal_pembayaran)}}</td>
                                 </tr>
                             </table>
                         </div>
@@ -214,13 +175,30 @@
                 <!-- this row will not appear when printing -->
                 <div class="row no-print">
                     <div class="col-12">
-                        <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                        <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
-                            Payment
+                        @if($transaksi->status_transaksi == "MenungguKonfirmasi")
+                        <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'PesananDiproses'])}}">
+                            @csrf
+                            @method('put')
+                            <button type="submit" class="btn btn-success float-right">
+                                <i class="far fa-credit-card"></i>
+                                Proses Transaksi
+                            </button>
+                        </form>
+                        <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'Batal'])}}">
+                            @csrf
+                            @method('put')
+                            <button type="submit" class="btn btn-danger float-right" style="margin-right: 5px;">
+                                <i class="fas fa-download"></i> Batalkan Transaksi
+                            </button>
+                        </form>
+                        @elseif($transaksi->status_transaksi == "PesananDiproses")
+                        @if($transaksi->nama_kurir == "JNE")
+                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default">
+                            Masukan Nomor Resi Pengiriman
                         </button>
-                        <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                            <i class="fas fa-download"></i> Generate PDF
-                        </button>
+                        @endif
+                        @else
+                        @endif
                     </div>
                 </div>
             </div>
@@ -228,6 +206,39 @@
         </div><!-- /.col -->
     </div><!-- /.row -->
 </div>
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Default Modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'PesananDikirim'])}}">
+                    @csrf
+                    @method('put')
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nomor Resi</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Masukan Resi" name="nomorResi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tanggal Pengiriman</label>
+                        <input class="form-control" type="date" id="example-date-input" name="tanggalPengiriman" required>
+                    </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="submit" class="btn btn-primary">Simpan Resi</button>
+                </form>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @section('js')
 <script type="text/javascript">

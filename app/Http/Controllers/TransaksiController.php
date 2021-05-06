@@ -45,15 +45,34 @@ class TransaksiController extends Controller
             ->first();
         $transaksi = DB::table('transaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
-            ->join('pengiriman','pengiriman.transaksi_idtransaksi','=','transaksi.idtransaksi')
-            ->join('kurir','kurir.idkurir','=','pengiriman.kurir_idkurir')
-            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran','kurir.nama as nama_kurir')
+            ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
+            ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
+            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.biaya_pengiriman')
             ->where('transaksi.idtransaksi', $id)
             ->first();
         //dd($transaksi);
         //dd($alamatPengiriman);
         //return $daftarProduk;
         //return $id;
-        return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman','transaksi'));
+        return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
+    }
+    public function prosePesananMerchant(Request $request, $id, $action)
+    {
+        try {
+            $transaksi = Transaksi::find($id);
+            if ($action == "PesananDikirim") {
+                Pengiriman::where('transaksi_idtransaksi', $id)->update(
+                    [
+                        'nomor_resi' => $request->get('nomorResi'),
+                        'tanggal_pengiriman' => $request->get('tanggalPengiriman')
+                    ]
+                );
+            }
+            $transaksi->status_transaksi = $action;
+            $transaksi->save();
+            return "berhasil!";
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

@@ -139,5 +139,6 @@ Route::post('user/checkout/store','CheckoutController@store')->name('checkout.st
 //Transaksi Merchant
 Route::get('seller/transaksi/index','TransaksiController@indexMerchant')->name('merchant.transaksi.index');
 Route::get('seller/transaksi/detail/{id}','TransaksiController@detailMerchant')->name('merchant.transaksi.detail');
+Route::put('seller/transaksi/update/{id}/{action}','TransaksiController@prosePesananMerchant')->name('merchant.transaksi.update');
 //Transaksi User
 Route::get('user/transaksi/index', 'TransaksiController@indexPelanggan')->name('pelanggan.transaksi.index');

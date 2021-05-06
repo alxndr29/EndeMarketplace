@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2021 at 08:51 PM
+-- Generation Time: May 06, 2021 at 08:06 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -914,7 +914,7 @@ CREATE TABLE `pembayaran` (
 
 CREATE TABLE `pengiriman` (
   `idpengiriman` int(11) NOT NULL,
-  `tanggal_waktu_pengiriman` datetime DEFAULT NULL,
+  `tanggal_pengiriman` date DEFAULT NULL,
   `estimasi` int(11) DEFAULT NULL,
   `biaya_pengiriman` int(11) NOT NULL,
   `nomor_resi` varchar(45) DEFAULT NULL,
@@ -930,8 +930,8 @@ CREATE TABLE `pengiriman` (
 -- Dumping data for table `pengiriman`
 --
 
-INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_waktu_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `kurir_idkurir`, `created_at`, `updated_at`, `transaksi_idtransaksi`) VALUES
-(1, NULL, NULL, 20000, NULL, NULL, 'CTCYES0-1', 1, '2021-05-06 00:18:46', '2021-05-06 00:18:46', 3),
+INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `kurir_idkurir`, `created_at`, `updated_at`, `transaksi_idtransaksi`) VALUES
+(1, '2021-10-29', NULL, 20000, '98765431', NULL, 'CTCYES0-1', 1, '2021-05-06 00:18:46', '2021-05-06 13:44:53', 3),
 (2, NULL, NULL, 20000, NULL, NULL, 'CTCYES0-1', 1, '2021-05-06 00:35:15', '2021-05-06 00:35:15', 4);
 
 -- --------------------------------------------------------
@@ -1070,7 +1070,7 @@ INSERT INTO `tipepembayaran` (`idtipepembayaran`, `nama`, `created_at`, `updated
 CREATE TABLE `transaksi` (
   `idtransaksi` int(11) NOT NULL,
   `tanggal` datetime DEFAULT current_timestamp(),
-  `status_transaksi` enum('MenungguKonfirmasi','PesananDiproses','PesananDikirim','SampaiTujuan') DEFAULT NULL,
+  `status_transaksi` enum('MenungguKonfirmasi','PesananDiproses','PesananDikirim','SampaiTujuan','Batal') DEFAULT NULL,
   `jenis_transaksi` enum('PreOrder','Langsung') DEFAULT 'Langsung',
   `nominal_pembayaran` int(11) DEFAULT NULL,
   `users_iduser` int(11) NOT NULL,
@@ -1086,7 +1086,7 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`) VALUES
-(3, '2021-05-06 00:18:46', 'MenungguKonfirmasi', 'Langsung', 62500, 4, 4, 5, 2, '2021-05-06 00:18:46', '2021-05-06 00:18:46'),
+(3, '2021-05-06 00:18:46', 'PesananDikirim', 'Langsung', 62500, 4, 4, 5, 2, '2021-05-06 00:18:46', '2021-05-06 13:44:53'),
 (4, '2021-05-06 00:35:15', 'MenungguKonfirmasi', 'Langsung', 62500, 4, 4, 5, 2, '2021-05-06 00:35:15', '2021-05-06 00:35:15');
 
 -- --------------------------------------------------------
