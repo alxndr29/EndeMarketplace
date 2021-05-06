@@ -58,4 +58,7 @@ class DiskusiController extends Controller
             return $e->getMessage();
         }
     }
+    public function indexDiskusiMerchant(){
+        
+    }
 }

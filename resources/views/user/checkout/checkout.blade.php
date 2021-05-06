@@ -110,6 +110,9 @@
                                                 <input type="hidden" name="idmerchant" value="{{$id}}">
                                                 <input type="hidden" name="idalamat" id="idalamat">
                                                 <input type="hidden" name="nominalpembayaran" id="nominalpembayaran">
+                                                <input type="hidden" name="koordinatUser" id="koordinatUser">
+                                                <input type="hidden" name="koordinatMerchant" id="koordinatMerchant">
+
                                                 <button type="submit" class="btn btn-block btn-default" id="btnCheckout">Buat Transaksi</button>
 
                                             </div>
@@ -143,7 +146,8 @@
         </div>
     </div>
 </div>
-
+<div id="debug">
+</div>
 @section('js')
 <script type="text/javascript">
     var dataAlamat;
@@ -154,13 +158,13 @@
     // console.log(berat);
     var biayaKurir = 0;
 
-    $(document).ready(function() {
-        @if(session('berhasil'))
-        //toastr.success('{{session('berhasil')}}');
-        // alert('{{session('
-        //     berhasil ')}}');
-        // @endif
+    var idAlamatUser = 0;
+    var latitudeUser = "";
+    var longitudeUser = "";
 
+    var latitudeMerchant = {{$alamatMerchant->latitude}};
+    var longitudeMerchant = {{$alamatMerchant->longitude}};
+    $(document).ready(function() {
         //hitungBiaya();
         $("#displayNominal").val(jumlah);
         $("#nominalpembayaran").val(jumlah);
@@ -200,7 +204,8 @@
         loadAlamat(id);
         $("#dukunganPengiriman").attr("disabled", false);
     });
-    var idAlamatUser = 0;
+
+
     function loadAlamat(id) {
         for (i = 0; i < dataAlamat.length; i++) {
             if (dataAlamat[i].idalamat == id) {
@@ -208,20 +213,50 @@
                 $("#alamatPengiriman").html(dataAlamat[i].simpan_sebagai + '<br>' + dataAlamat[i].nama_penerima + '<br>' + dataAlamat[i].alamatlengkap);
                 $('#modal-alamat').modal('toggle');
                 idAlamatUser = dataAlamat[i].kabupatenkota_idkabupatenkota;
+                latitudeUser = dataAlamat[i].latitude;
+                longitudeUser = dataAlamat[i].longitude;
             }
         }
     }
     $("#biayaKurir").change(function() {
         var id = $(this).val();
         var split = id.split("/");
-        var tot = jumlah+parseInt(split[2]);
-        $("#displayNominal").html('Total Pembayaran: Rp.'+ tot);
-        $("#nominalpembayaran").val(jumlah+parseInt(split[2]));
+        var tot = jumlah + parseInt(split[2]);
+        $("#displayNominal").html('Total Pembayaran: Rp.' + tot);
+        $("#nominalpembayaran").val(jumlah + parseInt(split[2]));
     });
 
-    $("#dukunganPengiriman").change(function(){
-         $("#biayaKurir").attr("disabled", false);
+    function distance(lat1, lon1, lat2, lon2, unit) {
+        var radlat1 = Math.PI * lat1 / 180
+        var radlat2 = Math.PI * lat2 / 180
+        var theta = lon1 - lon2
+        var radtheta = Math.PI * theta / 180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist)
+        dist = dist * 180 / Math.PI
+        dist = dist * 60 * 1.1515
+        if (unit == "K") {
+            dist = dist * 1.609344
+        }
+        if (unit == "N") {
+            dist = dist * 0.8684
+        }
+        return dist;
+    }
+    $("#dukunganPengiriman").change(function() {
+        $("#biayaKurir").attr("disabled", false);
+        val = $(this).val();
+        if (val == "2") {
+            $("#debug").empty();
+            $("#debug").append('user = ' + latitudeUser + "/" + longitudeUser + "<br>");
+            $("#debug").append('merchant =' + latitudeMerchant + "/" + longitudeMerchant + "<br>");
+            var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
+            $("#debug").append(
+                'jarak =' + result
+            );
+        }
     });
+
     function hitungBiaya() {
         var origin = {{$alamatMerchant->kabupatenkota_idkabupatenkota}};
         var destination = idAlamatUser;
@@ -256,7 +291,6 @@
                 console.table(response);
             }
         });
-
     }
 </script>
 @endsection

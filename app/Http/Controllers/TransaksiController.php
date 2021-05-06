@@ -14,7 +14,9 @@ class TransaksiController extends Controller
 {
     //
     public function indexPelanggan()
-    { }
+    { 
+
+    }
     public function indexMerchant()
     {
         $merchant = new Merchant();
@@ -26,6 +28,19 @@ class TransaksiController extends Controller
             ->get();
         //return $transaksi;
         return view('seller.transaksi.transaksi', compact('transaksi'));
+    }
+    public function indexMerchantFilter($tanggalAwal, $tanggalAkhir){
+        $merchant = new Merchant();
+        //$transaksi = Transaksi::where('merchant_users_iduser',$merchant->idmerchant())->get();
+        $transaksi = DB::table('transaksi')
+            ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
+            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran')
+            ->where('transaksi.merchant_users_iduser', $merchant->idmerchant())
+            ->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
+            ->get();
+         //   return 'masuk';
+        //return $transaksi;
+       return view('seller.transaksi.transaksi', compact('transaksi'));
     }
     public function detailMerchant($id)
     {
@@ -47,7 +62,7 @@ class TransaksiController extends Controller
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
-            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.biaya_pengiriman')
+            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*')
             ->where('transaksi.idtransaksi', $id)
             ->first();
         //dd($transaksi);
@@ -56,6 +71,7 @@ class TransaksiController extends Controller
         //return $id;
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
     }
+    
     public function prosePesananMerchant(Request $request, $id, $action)
     {
         try {
@@ -67,10 +83,22 @@ class TransaksiController extends Controller
                         'tanggal_pengiriman' => $request->get('tanggalPengiriman')
                     ]
                 );
+                $transaksi->status_transaksi = $action;
+                $transaksi->save();
+            } else if ($action == "UpdateResi") {
+                Pengiriman::where('transaksi_idtransaksi', $id)->update(
+                    [
+                        'nomor_resi' => $request->get('updateResi')
+                    ]
+                );
+                $transaksi->save();
+            }else{
+                $transaksi->status_transaksi = $action;
+                $transaksi->save();
             }
-            $transaksi->status_transaksi = $action;
-            $transaksi->save();
+           
             return "berhasil!";
+
         } catch (\Exception $e) {
             return $e->getMessage();
         }

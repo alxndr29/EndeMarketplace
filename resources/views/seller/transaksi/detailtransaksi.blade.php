@@ -102,7 +102,24 @@
                         <!-- <b>Account:</b> 968-34567 -->
                     </div>
                     <div class="col-sm-4 invoice-col">
-                        
+                        @if($transaksi->status_transaksi != "MenungguKonfirmasi" && $transaksi->status_transaksi != "PesananDiproses")
+                        Nama Kurir: {{$transaksi->nama_kurir}}
+                        <br>
+                        Tanggal Pengiriman: {{$transaksi->tanggal_pengiriman}}
+                        <br>
+                        Nomor Resi:
+                        <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'UpdateResi'])}}">
+                            @csrf
+                            @method('put')
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control form-control-sm" value="{{$transaksi->nomor_resi}}" name="updateResi">
+                                <button type="submit" class="btn btn-danger btn-sm" style="margin-right: 5px;">
+                                    Ubah
+                                </button>
+                                <a href="https://cekresi.com/?noresi={{$transaksi->nomor_resi}}" class="btn btn-success btn-sm">Lacak</a>
+                            </div>
+                        </form>
+                        @endif
                     </div>
                     <!-- /.col -->
                 </div>

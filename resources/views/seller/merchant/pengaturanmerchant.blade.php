@@ -181,8 +181,8 @@
         lat = position.coords.latitude;
         lot = position.coords.longitude;
 
-        $("#longitude").val(position.coords.latitude);
-        $("#latitude").val(position.coords.longitude);
+        $("#longitude").val(position.coords.longitude);
+        $("#latitude").val(position.coords.latitude);
         console.log(lat);
         console.log(lot);
     }

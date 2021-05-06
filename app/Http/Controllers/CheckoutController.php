@@ -46,7 +46,6 @@ class CheckoutController extends Controller
             ->first();
         $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser','=',$id)->select('alamatmerchant.*')->first();
         //return $alamatMerchant->kabupatenkota_idkabupatenkota;
-           
         //return $dukunganpembayaran;
         return view('user.checkout.checkout', compact('id', 'keranjang', 'dukunganpengiriman', 'dukunganpembayaran','total','alamatMerchant'));
     }
@@ -113,6 +112,5 @@ class CheckoutController extends Controller
         }catch(\Exception $e){
             return $e->getMessage();
         }
-        
     }
 }

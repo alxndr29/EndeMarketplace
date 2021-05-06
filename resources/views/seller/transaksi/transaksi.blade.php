@@ -28,13 +28,13 @@
 
                         </div>
                         <div class="col-2">
-                            <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                            <input class="form-control" type="date" value="2011-08-19" id="tanggalAwal">
                         </div>
                         <div class="col-2">
-                            <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                            <input class="form-control" type="date" value="2011-08-19" id="tanggalAkhir">
                         </div>
                         <div class="col-2">
-                            <button type="button" class="btn btn-block btn-default">Filter Tanggal</button>
+                            <button type="button" class="btn btn-block btn-default" id="btnFilter">Filter Tanggal</button>
                         </div>
                     </div>
                     <div class="row p-3">
@@ -104,6 +104,15 @@
         //     berhasil ')}}');
         // @endif
 
+    });
+    $("#btnFilter").click(function() {
+        var tglawal = $('#tanggalAwal').val();
+        var tglakhir = $('#tanggalAkhir').val();
+
+        var url = "{{route('merchant.transaksi.index.filter',['tanggalAwal' => 'first' ,'tanggalAkhir'=> 'second' ])}}";
+        url = url.replace('first', tglawal);
+        url = url.replace('second', tglakhir);
+        location.href = url;
     });
 </script>
 @endsection

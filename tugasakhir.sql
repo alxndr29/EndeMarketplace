@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2021 at 08:06 AM
+-- Generation Time: May 06, 2021 at 08:58 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -45,7 +45,7 @@ CREATE TABLE `alamatmerchant` (
 
 INSERT INTO `alamatmerchant` (`alamat_lengkap`, `telepon`, `latitude`, `longitude`, `created_at`, `updated_at`, `merchant_users_iduser`, `kabupatenkota_idkabupatenkota`) VALUES
 ('rte', '1', 'fd', 'gdfg', NULL, NULL, 1, 276),
-('sdfs', '123213', '121.66774649999999', '-8.844184799999999', NULL, NULL, 4, 122);
+('asdas', '21312', '-8.8441821', '121.66775249999999', NULL, NULL, 4, 122);
 
 -- --------------------------------------------------------
 
@@ -135,6 +135,14 @@ CREATE TABLE `diskusi` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `diskusi`
+--
+
+INSERT INTO `diskusi` (`iddiskusi`, `users_iduser`, `produk_idproduk`, `tanggal`, `pesandiskusi`, `balas_ke`, `created_at`, `updated_at`) VALUES
+(16, 4, 23, '2021-05-07 02:43:58', 'Test', NULL, '2021-05-07 02:43:58', '2021-05-07 02:43:58'),
+(17, 4, 23, '2021-05-07 02:44:11', 'Balas test', 16, '2021-05-07 02:44:11', '2021-05-07 02:44:11');
 
 -- --------------------------------------------------------
 
@@ -833,7 +841,7 @@ CREATE TABLE `merchant` (
 
 INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `foto_sampul`, `deskripsi`, `jam_buka`, `jam_tutup`, `created_at`, `updated_at`, `users_iduser`) VALUES
 ('Merchant Gaje', 'Aktif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-('Merchant Ubah', 'Aktif', 'merchant-fotoprofil-4.png', 'merchant-fotosampul-4.png', 'Merchant iki wes dirubah', '07:30:00', '13:30:00', '2021-04-15 14:03:59', '2021-05-04 05:38:35', 4);
+('Merchant Ubah', 'NonAktif', 'merchant-fotoprofil-4.png', 'merchant-fotosampul-4.png', 'Merchant iki wes dirubah', '07:30:00', '13:30:00', '2021-04-15 14:03:59', '2021-05-07 00:05:34', 4);
 
 -- --------------------------------------------------------
 
@@ -931,8 +939,8 @@ CREATE TABLE `pengiriman` (
 --
 
 INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `kurir_idkurir`, `created_at`, `updated_at`, `transaksi_idtransaksi`) VALUES
-(1, '2021-10-29', NULL, 20000, '98765431', NULL, 'CTCYES0-1', 1, '2021-05-06 00:18:46', '2021-05-06 13:44:53', 3),
-(2, NULL, NULL, 20000, NULL, NULL, 'CTCYES0-1', 1, '2021-05-06 00:35:15', '2021-05-06 00:35:15', 4);
+(1, '2021-10-29', 1, 20000, 'TJR1717332365373', NULL, 'CTCYES0-1', 1, '2021-05-06 00:18:46', '2021-05-07 01:02:18', 3),
+(2, '2021-05-07', NULL, 20000, 'Resi Lama', NULL, 'CTCYES0-1', 1, '2021-05-06 00:35:15', '2021-05-07 01:05:45', 4);
 
 -- --------------------------------------------------------
 
@@ -1070,7 +1078,7 @@ INSERT INTO `tipepembayaran` (`idtipepembayaran`, `nama`, `created_at`, `updated
 CREATE TABLE `transaksi` (
   `idtransaksi` int(11) NOT NULL,
   `tanggal` datetime DEFAULT current_timestamp(),
-  `status_transaksi` enum('MenungguKonfirmasi','PesananDiproses','PesananDikirim','SampaiTujuan','Batal') DEFAULT NULL,
+  `status_transaksi` enum('MenungguKonfirmasi','PesananDiproses','PesananDikirim','SampaiTujuan','Selesai','Batal') DEFAULT NULL,
   `jenis_transaksi` enum('PreOrder','Langsung') DEFAULT 'Langsung',
   `nominal_pembayaran` int(11) DEFAULT NULL,
   `users_iduser` int(11) NOT NULL,
@@ -1087,7 +1095,7 @@ CREATE TABLE `transaksi` (
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`) VALUES
 (3, '2021-05-06 00:18:46', 'PesananDikirim', 'Langsung', 62500, 4, 4, 5, 2, '2021-05-06 00:18:46', '2021-05-06 13:44:53'),
-(4, '2021-05-06 00:35:15', 'MenungguKonfirmasi', 'Langsung', 62500, 4, 4, 5, 2, '2021-05-06 00:35:15', '2021-05-06 00:35:15');
+(4, '2021-05-06 00:35:15', 'PesananDikirim', 'Langsung', 62500, 4, 4, 5, 2, '2021-05-06 00:35:15', '2021-05-07 01:05:29');
 
 -- --------------------------------------------------------
 
@@ -1348,7 +1356,7 @@ ALTER TABLE `datapengiriman`
 -- AUTO_INCREMENT for table `diskusi`
 --
 ALTER TABLE `diskusi`
-  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `gambarproduk`
