@@ -145,4 +145,7 @@ Route::put('seller/transaksi/update/{id}/{action}','TransaksiController@prosePes
 Route::get('user/transaksi/index', 'TransaksiController@indexPelanggan')->name('pelanggan.transaksi.index');
 
 //Pengiriman Merchant
-Route::get('seller/pengiriman/index','PengirimanController@index')->name('merchant.pengiriman.index');
+Route::get('seller/pengiriman/index','PengirimanController@indexMerchant')->name('merchant.pengiriman.index');
+Route::get('seller/pengiriman/{tanggalAwal}/{tanggalAkhir}', 'PengirimanController@indexMerhcantParam')->name('merchant.pengiriman.index.filter');
+//Route::get('seller/pengiriman/detail/{id}', 'PengirimanController@detailPengirimanMerchant')->name('merchant.pengiriman.detail');
+Route::get('seller/pengiriman/detail/pengiriman/{id}', 'PengirimanController@detailPengirimanMerchant')->name('merchant.pengiriman.detail');

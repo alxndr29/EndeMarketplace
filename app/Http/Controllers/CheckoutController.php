@@ -44,14 +44,14 @@ class CheckoutController extends Controller
             ->where('keranjang.users_iduser', '=', $user->userid())
             ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
             ->first();
-        $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser','=',$id)->select('alamatmerchant.*')->first();
+        $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser', '=', $id)->select('alamatmerchant.*')->first();
         //return $alamatMerchant->kabupatenkota_idkabupatenkota;
         //return $dukunganpembayaran;
-        return view('user.checkout.checkout', compact('id', 'keranjang', 'dukunganpengiriman', 'dukunganpembayaran','total','alamatMerchant'));
+        return view('user.checkout.checkout', compact('id', 'keranjang', 'dukunganpengiriman', 'dukunganpembayaran', 'total', 'alamatMerchant'));
     }
     public function store(Request $request)
     {
-        try{
+        try {
 
             $user = new User();
             $keranjang = DB::table('keranjang')
@@ -106,10 +106,25 @@ class CheckoutController extends Controller
             $pengiriman->estimasi = $biaya[1];
             $pengiriman->keterangan = $biaya[0].$biaya[1];
             $pengiriman->save();
-            
-            return 'hello world!';
-            //return $request->all();
-        }catch(\Exception $e){
+            $idpengiriman = $pengiriman->idpengiriman;
+
+            if ($request->get('kurir') == 2) {
+                DB::table('datapengiriman')->insert(
+                    [
+                        'koordinat_asal' => $request->get('koordinatMerchant'),
+                        'koordinat_tujuan' => $request->get('koordinatUser'),
+                        'jarak' => $request->get('jarakPengiriman'),
+                        'volume' => 0,
+                        'berat' => 0,
+                        'status' => 'MenungguPengiriman',
+                        'pengiriman_idpengiriman' => $idpengiriman
+                    ]
+                );
+            }
+            return $request->all();
+            // return 'hello world!';
+
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }

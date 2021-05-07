@@ -285,6 +285,7 @@
                 </div>
                 <br>
                 <button type="submit" id="submit-edit" class="btn btn-primary">Simpan</button>
+               
                 <!-- </form> -->
             </div>
             <!-- <div class="modal-footer">
@@ -585,7 +586,7 @@
                     //alert(e.latitude.toString()); e.latlng.lat.toString()
                     $("#inputlatitude_edit").val(e.latlng.lat.toString());
                     $("#inputlongitude_edit").val(e.latlng.lng.toString());
-                   
+
                 }
 
                 function addMarker(e) {

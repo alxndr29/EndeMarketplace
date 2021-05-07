@@ -108,7 +108,6 @@
     $("#btnFilter").click(function() {
         var tglawal = $('#tanggalAwal').val();
         var tglakhir = $('#tanggalAkhir').val();
-
         var url = "{{route('merchant.transaksi.index.filter',['tanggalAwal' => 'first' ,'tanggalAkhir'=> 'second' ])}}";
         url = url.replace('first', tglawal);
         url = url.replace('second', tglakhir);

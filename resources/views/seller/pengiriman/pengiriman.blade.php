@@ -11,13 +11,13 @@
 
                 </div>
                 <div class="col-2">
-                    <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                    <input class="form-control" type="date" id="tanggalAwal">
                 </div>
                 <div class="col-2">
-                    <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                    <input class="form-control" type="date" id="tanggalAkhir">
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-block btn-default">Filter Tanggal</button>
+                    <button type="button" class="btn btn-block btn-default" id="btnFilter">Filter Tanggal</button>
                 </div>
             </div>
             <div class="row">
@@ -27,31 +27,35 @@
                             <tr>
                                 <th style="width:10%">No</th>
                                 <th>ID Transaksi</th>
+                                <th>Nomor Resi</th>
+                                <th>Tanggal Pengiriman</th>
+                                <th>Status Pengiriman</th>
                                 <th>Status</th>
-                                <th>Jenis Transaksi</th>
-                                <th>Jenis Pembayaran</th>
-                                <th>Nomimal</th>
+                                <th>Tipe Pembayaran</th>
                                 <th>Detail</th>
                             </tr>
                         </thead>
                         <tbody style="vertical-align: top;">
-
+                            @foreach($data as $key => $value)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td> </td>
-                                <td></td>
+                                <td>{{$key+1}}</td>
+                                <td>TRX-{{$value->transaksi_idtransaksi}}</td>
+                                <td>{{$value->nomor_resi}}</td>
+                                <td>{{$value->tanggal_pengiriman}}</td>
                                 <td>
-
+                                    {{$value->status_pengiriman}}
                                 </td>
                                 <td>
-
+                                    {{$value->status}}
+                                </td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
+                                    <b> {{$value->tipepembayaran}} </b>
+                                </td>
+                                <td>
+                                    <a href="{{route('merchant.pengiriman.detail',$value->idpengiriman)}}" class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
                                 </td>
                             </tr>
-
-
+                            @endforeach
                         </tbody>
 
                     </table>
@@ -68,12 +72,20 @@
 @section('js')
 <script type="text/javascript">
     $(document).ready(function() {
-                @if(session('berhasil'))
-                //toastr.success('{{session('berhasil')}}');
-                alert('{{session('
-                    berhasil ')}}');
-                @endif
-            }
+        @if(session('berhasil'))
+        //toastr.success('{{session('berhasil')}}');
+        alert('{{session('
+            berhasil ')}}');
+        @endif
+    });
+    $("#btnFilter").click(function() {
+        var tglawal = $('#tanggalAwal').val();
+        var tglakhir = $('#tanggalAkhir').val();
+        var url = "{{route('merchant.pengiriman.index.filter',['tanggalAwal' => 'first' ,'tanggalAkhir'=> 'second' ])}}";
+        url = url.replace('first', tglawal);
+        url = url.replace('second', tglakhir);
+        location.href = url;
+    });
 </script>
 @endsection
 

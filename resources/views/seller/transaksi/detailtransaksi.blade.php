@@ -213,9 +213,17 @@
                         <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default">
                             Masukan Nomor Resi Pengiriman
                         </button>
+                        @else
+                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default2">
+                            Plot Jadwal Pengiriman
+                        </button>
                         @endif
+
                         @else
                         @endif
+                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default2">
+                            Hub Pembeli
+                        </button>
                     </div>
                 </div>
             </div>
@@ -255,7 +263,36 @@
     </div>
 </div>
 
-
+<div class="modal fade" id="modal-default2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Default Modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'PesananDikirim'])}}">
+                    @csrf
+                    @method('put')
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nomor Resi</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Masukan Resi" name="nomorResi" required value="KM-{{ date('Ymd-His') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tanggal Pengiriman</label>
+                        <input class="form-control" type="date" id="example-date-input" name="tanggalPengiriman" required>
+                    </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="submit" class="btn btn-primary">Plot Jadwal</button>
+                </form>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section('js')
 <script type="text/javascript">

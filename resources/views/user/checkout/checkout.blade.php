@@ -112,6 +112,7 @@
                                                 <input type="hidden" name="nominalpembayaran" id="nominalpembayaran">
                                                 <input type="hidden" name="koordinatUser" id="koordinatUser">
                                                 <input type="hidden" name="koordinatMerchant" id="koordinatMerchant">
+                                                <input type="hidden" name="jarakPengiriman" id="jarakPengiriman">
 
                                                 <button type="submit" class="btn btn-block btn-default" id="btnCheckout">Buat Transaksi</button>
 
@@ -254,6 +255,9 @@
             $("#debug").append(
                 'jarak =' + result
             );
+            $("#koordinatUser").val(latitudeUser + "/" + longitudeUser);
+            $("#koordinatMerchant").val(latitudeMerchant + "/" + longitudeMerchant);
+            $("#jarakPengiriman").val(result);
         }
     });
 
