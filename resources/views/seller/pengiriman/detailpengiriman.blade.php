@@ -44,6 +44,18 @@
 
         </div>
     </div>
+    <div class="card">
+        <div class="card-header">
+            Google Maps Pengiriman
+        </div>
+        <div class="card-body">
+            <div id="map" style="height:500px;width100%;">
+            </div>
+        </div>
+        <div class="card-footer">
+
+        </div>
+    </div>
 </div>
 
 @section('js')
@@ -65,7 +77,49 @@
             }
         }, 3000);
         */
+        initMap();
     });
+
+    function initMap() {
+        // const myLatLng = {
+        //     lat: -25.363,
+        //     lng: 131.044
+        // };
+        // const map = new google.maps.Map(document.getElementById("map"), {
+        //     zoom: 4,
+        //     center: myLatLng,
+        // });
+        // new google.maps.Marker({
+        //     position: myLatLng,
+        //     map,
+        //     title: "Hello World!",
+        // });
+        var myLatlng = new google.maps.LatLng(-8.8441821, 121.66775249999999);
+        var latlng = new google.maps.LatLng(-8.83205411124062, 121.67755166994475);
+     
+        var mapOptions = {
+            zoom: 15,
+            center: myLatlng
+        }
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            title: "Hello World!",
+            label: "Lokasi Penjual"
+        });
+
+        // To add the marker to the map, call setMap();
+        marker.setMap(map);
+
+        var marker2 = new google.maps.Marker({
+            position: latlng,
+            title: "Hello World!",
+            label: "Lokasi Pembeli"
+        });
+        marker.setMap(map);
+        marker2.setMap(map);
+    }
 </script>
 @endsection
 
