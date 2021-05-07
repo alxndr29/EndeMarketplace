@@ -115,7 +115,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="isiKeranjangNotifikasi">
                             <a href="#" class="dropdown-item">
-                                
+
                                 <!-- Message Start -->
                                 <!-- <div class="media">
                                     <img src="{{asset('adminlte/dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
@@ -301,6 +301,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <!-- Notifikasi Pelanggan -->
     <!-- <script src="{{asset('js/notifikasiPelanggan.js')}}"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -314,23 +317,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     for (i = 0; i < response.length; i++) {
                         jumlahKeranjang += response[i].jumlah;
                         var src = "src=http://localhost:8000/gambar/" + response[i].idgambarproduk + '.jpg';
-                         var url = "http://localhost:8000/user/produk/show/" + response[i].idproduk;
+                        var url = "http://localhost:8000/user/produk/show/" + response[i].idproduk;
                         $("#isiKeranjangNotifikasi").prepend(
-                            '<a href="'+ url +'" class="dropdown-item">' +
-                                '<div class="media">' +
-                                   '<img alt="User Avatar" class="img-size-50 mr-3 img-circle"'+ src +'>' +
-                                    '<div class="media-body">' +
-                                        '<h3 class="dropdown-item-title">' +
-                                            response[i].nama +
-                                        '</h3>' +
-                                        '<p class="text-sm">' +
-                                        "Harga: Rp. " + (response[i].harga) + 
-                                        '</p>' +
-                                        '<p class="text-sm">' +
-                                        "Total: Rp. " + (response[i].harga * response[i].jumlah) +" " + response[i].jumlah +"(pcs)"+ 
-                                        '</p>' +
-                                    '</div>' +
-                                '</div>' +
+                            '<a href="' + url + '" class="dropdown-item">' +
+                            '<div class="media">' +
+                            '<img alt="User Avatar" class="img-size-50 mr-3 img-circle"' + src + '>' +
+                            '<div class="media-body">' +
+                            '<h3 class="dropdown-item-title">' +
+                            response[i].nama +
+                            '</h3>' +
+                            '<p class="text-sm">' +
+                            "Harga: Rp. " + (response[i].harga) +
+                            '</p>' +
+                            '<p class="text-sm">' +
+                            "Total: Rp. " + (response[i].harga * response[i].jumlah) + " " + response[i].jumlah + "(pcs)" +
+                            '</p>' +
+                            '</div>' +
+                            '</div>' +
                             '</a>'
                         );
                     }
@@ -340,7 +343,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     console.log(response);
                 }
             });
-            
+
         });
     </script>
     @yield('js')

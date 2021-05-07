@@ -111,8 +111,10 @@ class CheckoutController extends Controller
             if ($request->get('kurir') == 2) {
                 DB::table('datapengiriman')->insert(
                     [
-                        'koordinat_asal' => $request->get('koordinatMerchant'),
-                        'koordinat_tujuan' => $request->get('koordinatUser'),
+                        'latitude_user' => $request->get('latitudeUser'),
+                        'longitude_user' => $request->get('longitudeUser'),
+                        'latitude_merchant' => $request->get('latitudeMerchant'),
+                        'longitude_merchant' => $request->get('longitudeMerchant'),
                         'jarak' => $request->get('jarakPengiriman'),
                         'volume' => 0,
                         'berat' => 0,
@@ -120,8 +122,9 @@ class CheckoutController extends Controller
                         'pengiriman_idpengiriman' => $idpengiriman
                     ]
                 );
+                return $request->all();
             }
-            return $request->all();
+           
             // return 'hello world!';
 
         } catch (\Exception $e) {

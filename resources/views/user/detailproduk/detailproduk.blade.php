@@ -341,36 +341,35 @@
                     alert(action);
                     $("#custom-tabs-diskusi").append(
                         '<div class="row">' +
-                        '<div class="col">' +
-                        '<div class="card">' +
-                        '<div class="card-footer card-comments" id="parentdiskusi-' + parentBalasan[i].iddiskusi + '">' +
-                        '<div class="card-comment">' +
-                        '<img class="img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">' +
-                        '<div class="comment-text">' +
-                        '<span class="username">' +
-                        parentBalasan[i].nama_user +
-                        '<span class="text-muted float-right">' + parentBalasan[i].tanggal + '</span>' +
-                        '</span>' +
-                        parentBalasan[i].pesandiskusi +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="card-footer">' +
-                        '@if(isset($value->iddiskusi))<form action="' + action + '" method="post"> @csrf' +
-                        '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
-                        '<div class="img-push">' +
-                        '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
-                        '</div>' +
-                        '</form>@endif' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
+                            '<div class="col">' +
+                                '<div class="card">' +
+                                '<div class="card-header">'+
+                                    '<div class="user-block">'+
+                                        '<img class="img-circle" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">'+
+                                        '<span class="username"><a href="#">'+parentBalasan[i].nama_user+'</a></span>' +
+                                        '<span class="description">'+parentBalasan[i].tanggal+'</span>' +
+                                    '</div>'+
+                                '</div>'+
+                                '<div class="card-body">'+
+                                    '<b>'+ parentBalasan[i].pesandiskusi+'</b>'+ 
+                                    '</div>'+
+                                    '<div class="card-footer card-comments" id="parentdiskusi-' + parentBalasan[i].iddiskusi + '">' +
+                                        '</div>' +
+                                        '<div class="card-footer">' +
+                                            '@if(isset($value->iddiskusi))<form action="' + action + '" method="post"> @csrf' +
+                                            '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
+                                            '<div class="img-push">' +
+                                                '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
+                                            '</div>' +
+                                            '</form>@endif' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
                         '</div>'
                     );
                     for (j = 0; j < balasan.length; j++) {
                         if (balasan[j].balas_ke == parentBalasan[i].iddiskusi) {
                             var id = parentBalasan[i].iddiskusi;
-
                             $("#parentdiskusi-" + id).append(
                                 '<div class="card-comment">' +
                                 '<img class="img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">' +

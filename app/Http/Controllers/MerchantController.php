@@ -43,10 +43,13 @@ class MerchantController extends Controller
     public function edit()
     {
         $user = new User();
+        $merchant = New Merchant();
         $merchant = Merchant::where('users_iduser', $user->userid())->first();
         $kurir = Kurir::all();
         $tipePembayaran = Tipepembayaran::all();
-        return view('seller.merchant.pengaturanmerchant', compact('merchant','kurir','tipePembayaran'));
+        $alamat = DB::table('alamatmerchant')->where('merchant_users_iduser','=',$merchant->idmerchant())->first();
+        //return $alamat->latitude;
+        return view('seller.merchant.pengaturanmerchant', compact('merchant','kurir','tipePembayaran','alamat'));
     }
     public function show($id)
     {

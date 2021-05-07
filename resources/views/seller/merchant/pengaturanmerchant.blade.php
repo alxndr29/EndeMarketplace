@@ -44,17 +44,23 @@
                         <div class="form-group">
                             <label>Status Toko</label>
                             <select class="form-control" id="statusMerchant" name="statusMerchant">
-                                <option value="Aktif" selected>Aktif</option>
+                                @if($merchant->status_merchant == "NonAktif")
                                 <option value="NonAktif" selected>Non Aktif</option>
+                                <option value="Aktif">Aktif</option>
+                                @else
+                                <option value="Aktif" selected>Aktif</option>
+                                <option value="NonAktif">Non Aktif</option>
+                                @endif
+
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="namaProduk">Jam Buka</label>
-                            <input type="time" class="form-control" name="jamBuka" value="07:30:00">
+                            <input type="time" class="form-control" name="jamBuka" value="{{$merchant->jam_buka}}">
                         </div>
                         <div class="form-group">
                             <label for="namaProduk">Jam Tutup</label>
-                            <input type="time" class="form-control" name="jamTutup" value="13:30">
+                            <input type="time" class="form-control" name="jamTutup" value="{{$merchant->jam_tutup}}">
                         </div>
                     </div>
                 </div>
@@ -125,20 +131,22 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="deskripsiMerchant">Alamat Lengkapt</label>
-                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="alamatLengkap">
-                            </textarea>
+                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="alamatLengkap">{{$alamat->alamat_lengkap}}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Telepon</label>
-                            <input type="text" class="form-control" name="telepon">
+                            <input type="text" class="form-control" name="telepon" value="{{$alamat->telepon}}">
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Longitude</label>
-                            <input type="text" class="form-control" name="dataLongitude" id="longitude" readonly>
+                            <input type="text" class="form-control" name="dataLongitude" id="longitude" value="{{$alamat->longitude}}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Latitude</label>
-                            <input type="text" class="form-control" name="dataLatitude" id="latitude" readonly>
+                            <input type="text" class="form-control" name="dataLatitude" id="latitude" value="{{$alamat->latitude}}" readonly>
+                        </div>
+                        <div id="map" style="height:500px;width100%;">
+
                         </div>
                     </div>
                 </div>
@@ -160,11 +168,61 @@
         alert('{{session('
             berhasil ')}}');
         @endif
-
-
-
-        getLocation();
+        // getLocation();
+        //initMap();
     });
+
+    function initMap() {
+        // const myLatLng = {
+        //     lat: -25.363,
+        //     lng: 131.044
+        // };
+        // const map = new google.maps.Map(document.getElementById("map"), {
+        //     zoom: 4,
+        //     center: myLatLng,
+        // });
+        // new google.maps.Marker({
+        //     position: myLatLng,
+        //     map,
+        //     title: "Hello World!",
+        // });
+
+        /// DARI SINI
+        // var myLatlng = new google.maps.LatLng({{$alamat->latitude}}, {{$alamat->longitude}});
+        // var mapOptions = {
+        //     zoom: 15,
+        //     center: myLatlng
+        // }
+        // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        // var marker = new google.maps.Marker({
+        //     position: myLatlng,
+        //     title: "Hello World!",
+        //     label: "Lokasi Pembeli"
+        // });
+        // let infoWindow = new google.maps.InfoWindow({
+        //     content: "Lokasi Anda",
+        //     position: myLatlng,
+        // });
+        // infoWindow.open(map);
+        // // Configure the click listener.
+        // map.addListener("click", (mapsMouseEvent) => {
+        //     // Close the current InfoWindow.
+        //     infoWindow.close();
+        //     // Create a new InfoWindow.
+        //     infoWindow = new google.maps.InfoWindow({
+        //         position: mapsMouseEvent.latLng,
+        //     });
+        //     infoWindow.setContent(
+        //         'Lokasi Baru',
+        //         $("#longitude").val(mapsMouseEvent.latLng.lng().toString()),
+        //         $("#latitude").val(mapsMouseEvent.latLng.lat().toString())
+        //     );
+        //     infoWindow.open(map);
+        // });
+
+        //SAMPE SINI
+
+    }
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -180,7 +238,6 @@
             "<br>Longitude: " + position.coords.longitude);
         lat = position.coords.latitude;
         lot = position.coords.longitude;
-
         $("#longitude").val(position.coords.longitude);
         $("#latitude").val(position.coords.latitude);
         console.log(lat);

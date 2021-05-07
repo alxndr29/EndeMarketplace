@@ -112,7 +112,7 @@
                                 <input type="hidden" id="inputlatitude" name="latitude">
                                 <input type="hidden" id="idalamat" name="idalamat">
                                 <input type="hidden" id="inputlongitude" name="longitude">
-                                <div id="mapid" style="height:200px;">
+                                <div id="mapid" style="height:200px; width100%">
 
                                 </div>
                             </div>
@@ -278,14 +278,14 @@
                     <div class="col">
                         <input type="hidden" id="inputlatitude_edit" name="latitude_edit">
                         <input type="hidden" id="inputlongitude_edit" name="longitude_edit">
-                        <div id="mapidedit" style="height:200px;">
+                        <div id="mapidedit" style="height:200px; width100%">
 
                         </div>
                     </div>
                 </div>
                 <br>
                 <button type="submit" id="submit-edit" class="btn btn-primary">Simpan</button>
-               
+
                 <!-- </form> -->
             </div>
             <!-- <div class="modal-footer">
@@ -434,7 +434,8 @@
                     $('#inputlatitude_edit').val(data[0].latitude);
                     $('#inputlongitude_edit').val(data[0].longitude);
                     $('#idalamat').val(data[0].idalamat);
-                    loadMapParam(data[0].latitude, data[0].longitude, 'edit');
+                    //loadMapParam(data[0].latitude, data[0].longitude, 'edit');
+                    loadParam(data[0].latitude, data[0].longitude, 'edit');
                     $('#modal-editalamat').modal('show');
                 },
                 error: function(response) {
@@ -447,6 +448,8 @@
             e.preventDefault(); // avoid to execute the actual submit of the form.
             var form = $(this);
             var url = form.attr('action');
+            $("#inputlatitude_edit").val(lat);
+            $("#inputlongitude_edit").val(lot);
             $.ajax({
                 type: "POST",
                 url: url,
@@ -481,9 +484,9 @@
             //     'You clicked the button!',
             //     'warning'
             // )
-            loadMapParam(lat, lot, 'start');
-            $('#inputlatitude').val(lat);
-            $('#inputlongitude').val(lot);
+            //loadMapParam(lat, lot, 'start');
+            loadParam(lat, lot, 'load');
+
         });
 
         $("#submit-edit").click(function() {
@@ -508,97 +511,152 @@
             });
         });
 
-        function loadMapParam(a, b, c) {
-            if (c == "start") {
-                var mymap = L.map('mapid').setView([a, b], 30);
-                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-                    maxZoom: 18,
-                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-                        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                    id: 'mapbox/streets-v11',
-                    tileSize: 512,
-                    zoomOffset: -1
-                }).addTo(mymap);
-
-                L.marker([a, b]).addTo(mymap)
-                    .bindPopup("<b>Lokasi Anda!</b><br />").openPopup();
-
-                // L.circle([51.508, -0.11], 500, {
-                //     color: 'red',
-                //     fillColor: '#f03',
-                //     fillOpacity: 0.5
-                // }).addTo(mymap).bindPopup("I am a circle.");
-
-                // L.polygon([
-                //     [51.509, -0.08],
-                //     [51.503, -0.06],
-                //     [51.51, -0.047]
-                // ]).addTo(mymap).bindPopup("I am a polygon.");
-
-                var popup = L.popup();
-
-                function onMapClick(e) {
-                    popup
-                        .setLatLng(e.latlng)
-                        .setContent("You clicked the map at " + e.latlng.toString())
-                        .openOn(mymap);
-
+        function loadParam(a, b, c) {
+            if (c == "edit") {
+                var myLatlng = new google.maps.LatLng(a, b);
+                var mapOptions = {
+                    zoom: 15,
+                    center: myLatlng
                 }
-                mymap.on('click', onMapClick);
-                mymap.invalidateSize();
+                var map = new google.maps.Map(document.getElementById("mapidedit"), mapOptions);
+                // var markerAwal = new google.maps.Marker({
+                //     position: myLatlng,
+                //     title: "Hello World!"
+                // });
+                // markerAwal.setMap(map);
+                let infoWindow = new google.maps.InfoWindow({
+                    content: "Lokasi Anda",
+                    position: myLatlng,
+                });
+
+                infoWindow.open(map);
+                // Configure the click listener.
+                map.addListener("click", (mapsMouseEvent) => {
+                    // Close the current InfoWindow.
+                    infoWindow.close();
+                    // Create a new InfoWindow.
+                    infoWindow = new google.maps.InfoWindow({
+                        position: mapsMouseEvent.latLng,
+                    });
+                    infoWindow.setContent(
+                        //JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                        $("#inputlatitude_edit").val(mapsMouseEvent.latLng.lat().toString()),
+                        $("#inputlongitude_edit").val(mapsMouseEvent.latLng.lng().toString())
+                    );
+                    infoWindow.open(map);
+                });
             } else {
-                // var container = L.DomUtil.get('mapidedit');
-                // if (container != null) {
-                //     container._leaflet_id = null;
-                // }
-                //document.getElementById('mapidedit').innerHTML = "< div id='mapidedit' style='width: 100%; height: 100%;'>";
-
-                var mymap = L.map('mapidedit').setView([a, b], 30);
-
-                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-                    maxZoom: 18,
-                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-                        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                    id: 'mapbox/streets-v11',
-                    tileSize: 512,
-                    zoomOffset: -1
-                }).addTo(mymap);
-
-                L.marker([a, b]).addTo(mymap)
-                    .bindPopup("<b>Lokasi Anda!</b><br />").openPopup();
-
-                var popup = L.popup();
-
-                function onMapClick(e) {
-                    popup
-                        .setLatLng(e.latlng)
-                        .setContent("You clicked the map at " + e.latlng.toString())
-                        .openOn(mymap);
-                    $(".leaflet-marker-icon").remove();
-                    $(".leaflet-popup").remove();
-                    $(".leaflet-pane.leaflet-shadow-pane").remove();
-
-                    // mymap.eachLayer((layer)=>{
-                    //     layer.remove();
-                    // });
-
-                    var newMarker = new L.marker(e.latlng).addTo(mymap).bindPopup("<b>Lokasi Baru Anda!</b><br />").openPopup();
-                    //alert(e.latitude.toString()); e.latlng.lat.toString()
-                    $("#inputlatitude_edit").val(e.latlng.lat.toString());
-                    $("#inputlongitude_edit").val(e.latlng.lng.toString());
-
+                var myLatlng = new google.maps.LatLng(lat, lot);
+                var mapOptions = {
+                    zoom: 15,
+                    center: myLatlng
                 }
+                var map = new google.maps.Map(document.getElementById("mapid"), mapOptions);
+                // var markerAwal = new google.maps.Marker({
+                //     position: myLatlng,
+                //     title: "Hello World!"
+                // });
+                // markerAwal.setMap(map);
+                let infoWindow = new google.maps.InfoWindow({
+                    content: "Lokasi Anda",
+                    position: myLatlng,
+                });
 
-                function addMarker(e) {
-                    // Add marker to map at click location; add popup window
-
-                }
-                // mymap.on('click', addMarker);
-                mymap.on('click', onMapClick);
-                mymap.invalidateSize();
+                infoWindow.open(map);
+                // Configure the click listener.
+                map.addListener("click", (mapsMouseEvent) => {
+                    // Close the current InfoWindow.
+                    infoWindow.close();
+                    // Create a new InfoWindow.
+                    infoWindow = new google.maps.InfoWindow({
+                        position: mapsMouseEvent.latLng,
+                    });
+                    infoWindow.setContent(
+                        //JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                        lat = mapsMouseEvent.latLng.lat().toString(),
+                        lot = mapsMouseEvent.latLng.lng().toString(),
+                        $('#inputlatitude').val(lat),
+                        $('#inputlongitude').val(lot)
+                    );
+                    infoWindow.open(map);
+                });
             }
 
         }
+        // function loadMapParam(a, b, c) {
+        //     if (c == "start") {
+        //         var mymap = L.map('mapid').setView([a, b], 30);
+        //         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        //             maxZoom: 18,
+        //             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+        //                 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        //             id: 'mapbox/streets-v11',
+        //             tileSize: 512,
+        //             zoomOffset: -1
+        //         }).addTo(mymap);
+        //         L.marker([a, b]).addTo(mymap)
+        //             .bindPopup("<b>Lokasi Anda!</b><br />").openPopup();
+        //         // L.circle([51.508, -0.11], 500, {
+        //         //     color: 'red',
+        //         //     fillColor: '#f03',
+        //         //     fillOpacity: 0.5
+        //         // }).addTo(mymap).bindPopup("I am a circle.");
+        //         // L.polygon([
+        //         //     [51.509, -0.08],
+        //         //     [51.503, -0.06],
+        //         //     [51.51, -0.047]
+        //         // ]).addTo(mymap).bindPopup("I am a polygon.");
+        //         var popup = L.popup();
+        //         function onMapClick(e) {
+        //             popup
+        //                 .setLatLng(e.latlng)
+        //                 .setContent("You clicked the map at " + e.latlng.toString())
+        //                 .openOn(mymap);
+        //         }
+        //         mymap.on('click', onMapClick);
+        //         mymap.invalidateSize();
+        //     } else {
+        //         // var container = L.DomUtil.get('mapidedit');
+        //         // if (container != null) {
+        //         //     container._leaflet_id = null;
+        //         // }
+        //         //document.getElementById('mapidedit').innerHTML = "< div id='mapidedit' style='width: 100%; height: 100%;'>";
+        //         var mymap = L.map('mapidedit').setView([a, b], 30);
+        //         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        //             maxZoom: 18,
+        //             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+        //                 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        //             id: 'mapbox/streets-v11',
+        //             tileSize: 512,
+        //             zoomOffset: -1
+        //         }).addTo(mymap);
+        //         L.marker([a, b]).addTo(mymap)
+        //             .bindPopup("<b>Lokasi Anda!</b><br />").openPopup();
+        //         var popup = L.popup();
+        //         function onMapClick(e) {
+        //             popup
+        //                 .setLatLng(e.latlng)
+        //                 .setContent("You clicked the map at " + e.latlng.toString())
+        //                 .openOn(mymap);
+        //             $(".leaflet-marker-icon").remove();
+        //             $(".leaflet-popup").remove();
+        //             $(".leaflet-pane.leaflet-shadow-pane").remove();
+        //             // mymap.eachLayer((layer)=>{
+        //             //     layer.remove();
+        //             // });
+        //             var newMarker = new L.marker(e.latlng).addTo(mymap).bindPopup("<b>Lokasi Baru Anda!</b><br />").openPopup();
+        //             //alert(e.latitude.toString()); e.latlng.lat.toString()
+        //             $("#inputlatitude_edit").val(e.latlng.lat.toString());
+        //             $("#inputlongitude_edit").val(e.latlng.lng.toString());
+        //         }
+        //         function addMarker(e) {
+        //             // Add marker to map at click location; add popup window
+        //         }
+        //         // mymap.on('click', addMarker);
+        //         mymap.on('click', onMapClick);
+        //         mymap.invalidateSize();
+        //     }
+        // }
 
         $('#provinsi').change(function() {
             $('#kotakabupaten').empty();

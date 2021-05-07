@@ -91,6 +91,7 @@ class ProdukController extends Controller
         ->join('produk','produk.idproduk','=','diskusi.produk_idproduk')
         ->join('users','users.iduser','=','diskusi.users_iduser')
         ->select('diskusi.*','users.name as nama_user')
+        ->orderBy('diskusi.iddiskusi','ASC')
         ->where('diskusi.produk_idproduk','=',$id)
         ->get();
         

@@ -221,8 +221,8 @@
 
                         @else
                         @endif
-                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default2">
-                            Hub Pembeli
+                        <button type="submit" class="btn btn-success float-right" style="margin-right: 5px;">
+                            <i class="fas fa-download"></i>Hubungi Pembeli
                         </button>
                     </div>
                 </div>

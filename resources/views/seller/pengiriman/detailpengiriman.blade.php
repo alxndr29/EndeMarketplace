@@ -27,10 +27,7 @@
             <br>
             id data pengiriman = {{$data->iddatapengiriman}}
             <br>
-            koor asal = {{$data->koordinat_asal}}
-            <br>
-            koor tujuan = {{$data->koordinat_tujuan}}
-            <br>
+           
             status = {{$data->status}}
             <br>
             pengiriman id pengiriman = {{$data->pengiriman_idpengiriman}}
@@ -38,7 +35,7 @@
             tipepembayaran = {{$data->tipepembayaran}}
             <br>
 
-            <a href="https://www.google.com/maps/search/?api=1&query={{$data->koordinat_asal}}">Gmaps</a>
+           
         </div>
         <div class="card-footer">
 
@@ -94,31 +91,56 @@
         //     map,
         //     title: "Hello World!",
         // });
-        var myLatlng = new google.maps.LatLng(-8.8441821, 121.66775249999999);
-        var latlng = new google.maps.LatLng(-8.83205411124062, 121.67755166994475);
-     
-        var mapOptions = {
-            zoom: 15,
-            center: myLatlng
-        }
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "Hello World!",
-            label: "Lokasi Penjual"
-        });
+        //DARI SINI
+        
+        // var myLatlng = new google.maps.LatLng({{$data->latitude_user}}, {{$data->longitude_user}});
+        // var latlng = new google.maps.LatLng({{$data->latitude_merchant}}, {{$data->longitude_merchant}});
 
-        // To add the marker to the map, call setMap();
-        marker.setMap(map);
+        // var mapOptions = {
+        //     zoom: 15,
+        //     center: myLatlng
+        // }
+        // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-        var marker2 = new google.maps.Marker({
-            position: latlng,
-            title: "Hello World!",
-            label: "Lokasi Pembeli"
-        });
-        marker.setMap(map);
-        marker2.setMap(map);
+        // var marker = new google.maps.Marker({
+        //     position: myLatlng,
+        //     title: "Hello World!",
+        //     label: "Lokasi Pembeli"
+        // });
+
+        // // To add the marker to the map, call setMap();
+        // marker.setMap(map);
+
+        // var marker2 = new google.maps.Marker({
+        //     position: latlng,
+        //     title: "Hello World!",
+        //     label: "Lokasi Penjual"
+        // });
+        // marker.setMap(map);
+        // marker2.setMap(map);
+
+        //SAMPE SINI
+
+        // let infoWindow = new google.maps.InfoWindow({
+        //     content: "Sentuh Peta Untuk Memilih Lokasi",
+        //     position: myLatlng,
+        // });
+        // infoWindow.open(map);
+        // // Configure the click listener.
+        // map.addListener("click", (mapsMouseEvent) => {
+        //     // Close the current InfoWindow.
+        //     infoWindow.close();
+        //     // Create a new InfoWindow.
+        //     infoWindow = new google.maps.InfoWindow({
+        //         position: mapsMouseEvent.latLng,
+        //     });
+        //     infoWindow.setContent(
+        //         JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+        //     );
+        //     infoWindow.open(map);
+        // });
+
     }
 </script>
 @endsection

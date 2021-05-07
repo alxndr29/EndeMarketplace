@@ -52,6 +52,7 @@ class DiskusiController extends Controller
                 ->join('users', 'users.iduser', '=', 'diskusi.users_iduser')
                 ->select('diskusi.*', 'users.name as nama_user')
                 ->where('diskusi.produk_idproduk', '=', $id)
+                ->orderBy('diskusi.iddiskusi','ASC')
                 ->get();
             return $diskusi;
         } catch (\Exception $e) {

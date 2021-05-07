@@ -110,9 +110,14 @@
                                                 <input type="hidden" name="idmerchant" value="{{$id}}">
                                                 <input type="hidden" name="idalamat" id="idalamat">
                                                 <input type="hidden" name="nominalpembayaran" id="nominalpembayaran">
-                                                <input type="hidden" name="koordinatUser" id="koordinatUser">
-                                                <input type="hidden" name="koordinatMerchant" id="koordinatMerchant">
+
                                                 <input type="hidden" name="jarakPengiriman" id="jarakPengiriman">
+
+                                                <input type="hidden" name="latitudeUser" id="latitudeUser">
+                                                <input type="hidden" name="longitudeUser" id="longitudeUser">
+
+                                                <input type="hidden" name="latitudeMerchant" id="latitudeMerchant">
+                                                <input type="hidden" name="longitudeMerchant" id="longitudeMerchant">
 
                                                 <button type="submit" class="btn btn-block btn-default" id="btnCheckout">Buat Transaksi</button>
 
@@ -165,6 +170,7 @@
 
     var latitudeMerchant = {{$alamatMerchant->latitude}};
     var longitudeMerchant = {{$alamatMerchant->longitude}};
+
     $(document).ready(function() {
         //hitungBiaya();
         $("#displayNominal").val(jumlah);
@@ -255,8 +261,11 @@
             $("#debug").append(
                 'jarak =' + result
             );
-            $("#koordinatUser").val(latitudeUser + "/" + longitudeUser);
-            $("#koordinatMerchant").val(latitudeMerchant + "/" + longitudeMerchant);
+            $("#latitudeUser").val(latitudeUser);
+            $("#longitudeUser").val(longitudeMerchant);
+            $("#latitudeMerchant").val(latitudeMerchant);
+            $("#longitudeMerchant").val(longitudeMerchant);
+
             $("#jarakPengiriman").val(result);
         }
     });
