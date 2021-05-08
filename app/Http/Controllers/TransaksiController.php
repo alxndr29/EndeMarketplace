@@ -15,7 +15,18 @@ class TransaksiController extends Controller
     //
     public function indexPelanggan()
     { 
-
+        $user = new User();
+        $transaksi = DB::table('transaksi')
+        ->join('merchant','merchant.users_iduser','=','transaksi.merchant_users_iduser')
+        ->join('detailtransaksi','detailtransaksi.transaksi_idtransaksi','=','transaksi.idtransaksi')
+        ->join('produk','produk.idproduk','=','detailtransaksi.produk_idproduk')
+        ->join('gambarproduk','gambarproduk.produk_idproduk','=','produk.idproduk')
+        ->groupBy('transaksi.idtransaksi')
+        ->where('transaksi.users_iduser',$user->userid())
+        ->select('transaksi.*','merchant.nama as nama_merchant','produk.nama as nama_produk','gambarproduk.idgambarproduk as gambar','detailtransaksi.*',DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
+        ->paginate(10);
+        //return $transaksi;
+        return view('user.transaksi.transaksi',compact('transaksi'));
     }
     public function indexMerchant()
     {
@@ -72,7 +83,9 @@ class TransaksiController extends Controller
         //return $id;
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
     }
-    
+    public function detailPelanggan($id){
+
+    } 
     public function prosePesananMerchant(Request $request, $id, $action)
     {
         try {

@@ -95,28 +95,34 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <label>Dukungan Pengiriman</label>
-                            @foreach($kurir as $key => $value)
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    {{$value->nama}}
-                                </label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Dukungan Pengiriman</label>
+                                    @foreach($kurir as $key => $value)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                            {{$value->nama}}
+                                        </label>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <div class="form-group">
+                                    <label>Dukungan Pembayaran</label>
+                                    @foreach($tipePembayaran as $key => $value)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                            {{$value->nama}}
+                                        </label>
+                                    </div>
+                                    @endforeach
+                                </div>
                             </div>
-                            @endforeach
+
                         </div>
-                        <div class="form-group">
-                            <label>Dukungan Pembayaran</label>
-                            @foreach($tipePembayaran as $key => $value)
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    {{$value->nama}}
-                                </label>
-                            </div>
-                            @endforeach
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -151,6 +157,60 @@
                     </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+
+                    </div>
+                    <div class="card-body">
+                        <label>Dukungan Tarif Pengiriman</label>
+                        <!-- @foreach($tarifPengiriman as $key => $value)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" data-id="" value="{{$value->idtarifpengiriman}}" name="dukungan_tarif_pengiriman[]" id="checkboxDukunganTarif">
+                            <label class="form-check-label" for="checkboxDukunganTarif">
+                                {{$value->nama}}
+                            </label>
+                            <input type="text" class="form-control" name="minimum_belanja[]" placeholder="Masukan Minimum Pembelian (Rp)">
+                            <input type="text" class="form-control" name="estimasi_pengiriman[]" placeholder="Masukan Estimasi Pengiriman (Hr)">
+                        </div>
+                        @endforeach -->
+
+                        @foreach ($dukungantarifpengiriman as $key => $value )
+                       
+                        @endforeach
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" name="checkboxBebasOngkir" id="checkboxDukunganTarif">
+                            <label class="form-check-label" for="checkboxDukunganTarif">
+                                Bebas Ongkir
+                            </label>
+                            <input type="number" class="form-control" name="minimumBebasOngkir" id="minimumBebasOngkir" placeholder="Masukan Minimum Pembelian (Rp)" required>
+                            <input type="number" class="form-control" name="estimasiBebasOngkir" id="estimasiBebasOngkir" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="2" name="checkboxTarifFlat" id="checkboxDukunganTarifFlat">
+                            <label class="form-check-label" for="checkboxDukunganTarif">
+                                Tarif Flat
+                            </label>
+                            <input type="number" class="form-control" name="minimumTarifFlat" id="minimumTarifFlat" placeholder="Masukan Minimum Pembelian (Rp)" required>
+                            <input type="number" class="form-control" name="estimasiTarifFlat" id="estimasiTarifFlat" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="3" name="checkboxTarifStandar" id="checkboxDukunganTarifStandar">
+                            <label class="form-check-label" for="checkboxDukunganTarif">
+                                Tarif Standar
+                            </label>
+                            <input type="number" class="form-control" name="minimumTarifStandar" id="minimumTarifStandar" placeholder="Masukan Minimum Pembelian (Rp)" required>
+                            <input type="number" class="form-control" name="estimasiTarifStandar" id="estimasiTarifStandar" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                            <input type="number" class="form-control" name="tarifBerat" id="tarifBerat" placeholder="Masukan Tarif per Berat (kg)" required>
+                            <input type="number" class="form-control" name="tarifVolume" id="tarifVolume" placeholder="Masukan Tarif per Volume (m3)" required>
+                            <input type="number" class="form-control" name="tarifJarak" id="tarifJarak" placeholder="Masukan Tarif per Jarak (km)" required>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
         <div class="row justify-content-center p-3">
             <button type="submit" class="btn btn-primary" id="btnsubmit">Simpan</button>
@@ -170,6 +230,55 @@
         @endif
         // getLocation();
         //initMap();
+
+        $("#minimumBebasOngkir").attr("disabled", true);
+        $("#estimasiBebasOngkir").attr("disabled", true);
+
+        $("#minimumTarifFlat").attr("disabled", true);
+        $("#estimasiTarifFlat").attr("disabled", true);
+
+        $("#minimumTarifStandar").attr("disabled", true);
+        $("#estimasiTarifStandar").attr("disabled", true);
+        $("#tarifBerat").attr("disabled", true);
+        $("#tarifVolume").attr("disabled", true);
+        $("#tarifJarak").attr("disabled", true);
+    });
+
+    $('#checkboxDukunganTarif').change(function() {
+        if (this.checked) {
+            $("#minimumBebasOngkir").attr("disabled", false);
+            $("#estimasiBebasOngkir").attr("disabled", false);
+        } else {
+            //alert(this.checked);
+            $("#minimumBebasOngkir").attr("disabled", true);
+            $("#estimasiBebasOngkir").attr("disabled", true);
+        }
+    });
+    $('#checkboxDukunganTarifFlat').change(function() {
+        if (this.checked) {
+            $("#minimumTarifFlat").attr("disabled", false);
+            $("#estimasiTarifFlat").attr("disabled", false);
+        } else {
+            //alert(this.checked);
+            $("#minimumTarifFlat").attr("disabled", true);
+            $("#estimasiTarifFlat").attr("disabled", true);
+        }
+    });
+    $('#checkboxDukunganTarifStandar').change(function() {
+        if (this.checked) {
+            $("#minimumTarifStandar").attr("disabled", false);
+            $("#estimasiTarifStandar").attr("disabled", false);
+            $("#tarifBerat").attr("disabled", false);
+            $("#tarifVolume").attr("disabled", false);
+            $("#tarifJarak").attr("disabled", false);
+        } else {
+            //alert(this.checked);
+            $("#minimumTarifStandar").attr("disabled", true);
+            $("#estimasiTarifStandar").attr("disabled", true);
+            $("#tarifBerat").attr("disabled", true);
+            $("#tarifVolume").attr("disabled", true);
+            $("#tarifJarak").attr("disabled", true);
+        }
     });
 
     function initMap() {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2021 at 08:05 PM
+-- Generation Time: May 08, 2021 at 10:23 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -125,17 +125,6 @@ CREATE TABLE `detailtransaksi` (
 --
 
 INSERT INTO `detailtransaksi` (`produk_idproduk`, `transaksi_idtransaksi`, `jumlah`, `total_harga`, `catatan`) VALUES
-(23, 3, 2, 10000, 'pertama warna biru'),
-(23, 4, 2, 10000, 'pertama warna biru'),
-(23, 5, 2, 10000, 'nando pertama'),
-(23, 6, 2, 10000, NULL),
-(23, 7, 2, 10000, 'sdad'),
-(23, 8, 2, 10000, 'sdad'),
-(24, 3, 5, 32500, 'kedua warna hijau'),
-(24, 4, 5, 32500, 'kedua warna hijau'),
-(24, 5, 5, 32500, 'nando kedua'),
-(24, 6, 5, 32500, NULL),
-(24, 7, 5, 32500, 'dasda'),
 (24, 8, 5, 32500, 'dasda');
 
 -- --------------------------------------------------------
@@ -207,6 +196,29 @@ CREATE TABLE `dukunganpengiriman` (
 INSERT INTO `dukunganpengiriman` (`merchant_users_iduser`, `kurir_idkurir`) VALUES
 (4, 1),
 (4, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dukungantarifpengiriman`
+--
+
+CREATE TABLE `dukungantarifpengiriman` (
+  `merchant_users_iduser` int(11) NOT NULL,
+  `tarifpengiriman_idtarifpengiriman` int(11) NOT NULL,
+  `minimum_belanja` int(11) NOT NULL,
+  `etd` int(11) NOT NULL,
+  `tarif_berat` int(11) DEFAULT NULL,
+  `tarif_volume` int(11) DEFAULT NULL,
+  `tarif_jarak` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `dukungantarifpengiriman`
+--
+
+INSERT INTO `dukungantarifpengiriman` (`merchant_users_iduser`, `tarifpengiriman_idtarifpengiriman`, `minimum_belanja`, `etd`, `tarif_berat`, `tarif_volume`, `tarif_jarak`) VALUES
+(4, 1, 100, 200, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -910,15 +922,15 @@ CREATE TABLE `obrolan` (
 --
 
 INSERT INTO `obrolan` (`idobrolan`, `subject`, `waktu`, `isi_pesan`, `status_baca_user`, `status_baca_merchant`, `pengirim`, `users_iduser`, `merchant_users_iduser`, `created_at`, `updated_at`) VALUES
-(1, 'gak ada', '2021-04-28 02:03:56', 'Hallo teman teman semua', 1, 1, 'Pembeli', 4, 4, NULL, '2021-05-04 23:51:22'),
-(18, 'cobasubject', '2021-04-28 12:47:19', 'Test dari Merchant', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:19', '2021-05-04 23:51:22'),
-(19, 'cobasubject', '2021-04-28 12:47:39', 'ingat skripsmu ee', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:39', '2021-05-04 23:51:22'),
-(20, 'cobasubject', '2021-04-28 12:53:57', 'p', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:53:57', '2021-05-04 23:51:22'),
-(21, 'cobasubject', '2021-04-28 13:03:43', 'Ya', 1, 1, 'Pembeli', 4, 4, '2021-04-28 05:03:43', '2021-05-04 23:51:22'),
-(22, 'cobasubject', '2021-05-04 23:49:14', 'Haii', 1, 1, 'Pembeli', 4, 4, '2021-05-04 23:49:14', '2021-05-04 23:51:22'),
-(23, 'cobasubject', '2021-05-04 23:49:39', 'Arigatou', 1, 1, 'Merchant', 4, 4, '2021-05-04 23:49:39', '2021-05-04 23:51:22'),
-(24, 'cobasubject', '2021-05-04 23:50:02', 'ichi ni san', 1, 1, 'Merchant', 4, 4, '2021-05-04 23:50:02', '2021-05-04 23:51:22'),
-(25, 'cobasubject', '2021-05-04 23:50:20', 'nya', 1, 1, 'Pembeli', 4, 4, '2021-05-04 23:50:20', '2021-05-04 23:51:22');
+(1, 'gak ada', '2021-04-28 02:03:56', 'Hallo teman teman semua', 1, 1, 'Pembeli', 4, 4, NULL, '2021-05-08 15:31:05'),
+(18, 'cobasubject', '2021-04-28 12:47:19', 'Test dari Merchant', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:19', '2021-05-08 15:31:05'),
+(19, 'cobasubject', '2021-04-28 12:47:39', 'ingat skripsmu ee', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:47:39', '2021-05-08 15:31:05'),
+(20, 'cobasubject', '2021-04-28 12:53:57', 'p', 1, 1, 'Merchant', 4, 4, '2021-04-28 04:53:57', '2021-05-08 15:31:05'),
+(21, 'cobasubject', '2021-04-28 13:03:43', 'Ya', 1, 1, 'Pembeli', 4, 4, '2021-04-28 05:03:43', '2021-05-08 15:31:05'),
+(22, 'cobasubject', '2021-05-04 23:49:14', 'Haii', 1, 1, 'Pembeli', 4, 4, '2021-05-04 23:49:14', '2021-05-08 15:31:05'),
+(23, 'cobasubject', '2021-05-04 23:49:39', 'Arigatou', 1, 1, 'Merchant', 4, 4, '2021-05-04 23:49:39', '2021-05-08 15:31:05'),
+(24, 'cobasubject', '2021-05-04 23:50:02', 'ichi ni san', 1, 1, 'Merchant', 4, 4, '2021-05-04 23:50:02', '2021-05-08 15:31:05'),
+(25, 'cobasubject', '2021-05-04 23:50:20', 'nya', 1, 1, 'Pembeli', 4, 4, '2021-05-04 23:50:20', '2021-05-08 15:31:05');
 
 -- --------------------------------------------------------
 
@@ -1075,6 +1087,26 @@ CREATE TABLE `reviewproduk` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tarifpengiriman`
+--
+
+CREATE TABLE `tarifpengiriman` (
+  `idtarifpengiriman` int(11) NOT NULL,
+  `nama` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tarifpengiriman`
+--
+
+INSERT INTO `tarifpengiriman` (`idtarifpengiriman`, `nama`) VALUES
+(1, 'Bebas Ongkir'),
+(2, 'Tarif Flat'),
+(3, 'Tarif Standar');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tipepembayaran`
 --
 
@@ -1118,11 +1150,6 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`) VALUES
-(3, '2021-05-06 00:18:46', 'PesananDikirim', 'Langsung', 62500, 4, 4, 5, 2, '2021-05-06 00:18:46', '2021-05-06 13:44:53'),
-(4, '2021-05-06 00:35:15', 'PesananDikirim', 'Langsung', 62500, 4, 4, 5, 2, '2021-05-06 00:35:15', '2021-05-07 01:05:29'),
-(5, '2021-05-07 11:30:24', 'PesananDikirim', 'Langsung', 52500, 4, 4, 8, 1, '2021-05-07 11:30:24', '2021-05-07 11:47:55'),
-(6, '2021-05-07 23:24:47', 'MenungguKonfirmasi', 'Langsung', 42500, 4, 4, 8, 1, '2021-05-07 23:24:47', '2021-05-07 23:24:47'),
-(7, '2021-05-07 23:28:01', 'PesananDikirim', 'Langsung', 52500, 4, 4, 8, 1, '2021-05-07 23:28:01', '2021-05-07 23:29:16'),
 (8, '2021-05-07 23:32:24', 'PesananDikirim', 'Langsung', 52500, 4, 4, 8, 1, '2021-05-07 23:32:24', '2021-05-07 23:32:48');
 
 -- --------------------------------------------------------
@@ -1233,6 +1260,14 @@ ALTER TABLE `dukunganpengiriman`
   ADD KEY `fk_merchant_has_kurir_merchant1_idx` (`merchant_users_iduser`);
 
 --
+-- Indexes for table `dukungantarifpengiriman`
+--
+ALTER TABLE `dukungantarifpengiriman`
+  ADD PRIMARY KEY (`merchant_users_iduser`,`tarifpengiriman_idtarifpengiriman`),
+  ADD KEY `fk_merchant_has_tarifpengiriman_tarifpengiriman1_idx` (`tarifpengiriman_idtarifpengiriman`),
+  ADD KEY `fk_merchant_has_tarifpengiriman_merchant1_idx` (`merchant_users_iduser`);
+
+--
 -- Indexes for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
@@ -1333,6 +1368,12 @@ ALTER TABLE `reviewproduk`
   ADD PRIMARY KEY (`idreviewproduk`),
   ADD KEY `fk_reviewproduk_user1_idx` (`users_iduser`),
   ADD KEY `fk_reviewproduk_produk1_idx` (`produk_idproduk`);
+
+--
+-- Indexes for table `tarifpengiriman`
+--
+ALTER TABLE `tarifpengiriman`
+  ADD PRIMARY KEY (`idtarifpengiriman`);
 
 --
 -- Indexes for table `tipepembayaran`
@@ -1447,6 +1488,12 @@ ALTER TABLE `reviewproduk`
   MODIFY `idreviewproduk` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tarifpengiriman`
+--
+ALTER TABLE `tarifpengiriman`
+  MODIFY `idtarifpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
@@ -1510,6 +1557,13 @@ ALTER TABLE `dukunganpembayaran`
 ALTER TABLE `dukunganpengiriman`
   ADD CONSTRAINT `fk_merchant_has_kurir_kurir1` FOREIGN KEY (`kurir_idkurir`) REFERENCES `kurir` (`idkurir`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_merchant_has_kurir_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `dukungantarifpengiriman`
+--
+ALTER TABLE `dukungantarifpengiriman`
+  ADD CONSTRAINT `fk_merchant_has_tarifpengiriman_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_merchant_has_tarifpengiriman_tarifpengiriman1` FOREIGN KEY (`tarifpengiriman_idtarifpengiriman`) REFERENCES `tarifpengiriman` (`idtarifpengiriman`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `gambarproduk`

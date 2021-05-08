@@ -46,7 +46,7 @@
             Google Maps Pengiriman
         </div>
         <div class="card-body">
-            <div id="map" style="height:500px;width100%;">
+            <div id="map" style="height:250px;width100%;">
             </div>
         </div>
         <div class="card-footer">
