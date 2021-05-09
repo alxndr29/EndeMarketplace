@@ -1,0 +1,7 @@
+var latitudeMerchant = {{$alamatMerchant->latitude}};
+var longitudeMerchant = {{$alamatMerchant->longitude}};
+var jumlah = {{$total->jumlah}};
+var berat = {{$total->berat}};
+
+var origin = {{$alamatMerchant->kabupatenkota_idkabupatenkota}};
+var berat = {{$total->berat}};

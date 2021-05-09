@@ -4,38 +4,32 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-
+            Detail Pengiriman
         </div>
         <div class="card-body">
-            id pengiriman = {{$data->idpengiriman}}
-            <br>
-            tanggal pengiriman = {{$data->tanggal_pengiriman}}
-            <br>
-            biaya pengiriman = {{$data->biaya_pengiriman}}
-            <br>
-            nomor resi = {{$data->nomor_resi}}
-            <br>
-            status pengiriman = {{$data->status_pengiriman}}
-            <br>
-            keterangan pengiriman = {{$data->idpengiriman}}
-            <br>
-            id pengiriman = {{$data->keterangan}}
-            <br>
-            kurir idkurir = {{$data->kurir_idkurir}}
-            <br>
-            transaksi idtransaksi = {{$data->transaksi_idtransaksi}}
-            <br>
-            id data pengiriman = {{$data->iddatapengiriman}}
-            <br>
-           
-            status = {{$data->status}}
-            <br>
-            pengiriman id pengiriman = {{$data->pengiriman_idpengiriman}}
-            <br>
-            tipepembayaran = {{$data->tipepembayaran}}
-            <br>
+            <div class="row">
+                <div class="col">
+                    ID Transaksi: <b><a href="{{route('merchant.transaksi.detail',$data->transaksi_idtransaksi)}}">TRX-{{$data->transaksi_idtransaksi}}</a></b>
+                    <br>
+                    Tanggal Pengiriman: <b>{{$data->tanggal_pengiriman}}</b>
+                    <br>
+                    Nomor Resi: <b> {{$data->nomor_resi}} </b>
+                    <br>
+                    Status Pengiriman: <b>{{$data->status_pengiriman}}</b>
+                    <br>
+                    Biaya pengiriman: <b> Rp. {{number_format($data->biaya_pengiriman)}} </b>
+                    <br>
+                    Keterangan Pengiriman: <b>{{$data->keterangan}}</b>
+                    <br>
+                    Tipe Pembayaran: <b>{{$data->tipepembayaran}}</b>
+                </div>
+                <div class="col">
 
-           
+                </div>
+            </div>
+
+
+
         </div>
         <div class="card-footer">
 
@@ -56,6 +50,11 @@
 </div>
 
 @section('js')
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
@@ -93,32 +92,32 @@
         // });
 
         //DARI SINI
-        
-        // var myLatlng = new google.maps.LatLng({{$data->latitude_user}}, {{$data->longitude_user}});
-        // var latlng = new google.maps.LatLng({{$data->latitude_merchant}}, {{$data->longitude_merchant}});
 
-        // var mapOptions = {
-        //     zoom: 15,
-        //     center: myLatlng
-        // }
-        // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var myLatlng = new google.maps.LatLng({{$data->latitude_user}}, {{$data->longitude_user}});
+        var latlng = new google.maps.LatLng({{$data->latitude_merchant}}, {{$data->longitude_merchant}});
 
-        // var marker = new google.maps.Marker({
-        //     position: myLatlng,
-        //     title: "Hello World!",
-        //     label: "Lokasi Pembeli"
-        // });
+        var mapOptions = {
+            zoom: 15,
+            center: myLatlng
+        }
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-        // // To add the marker to the map, call setMap();
-        // marker.setMap(map);
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            title: "Hello World!",
+            label: "Lokasi Pembeli"
+        });
 
-        // var marker2 = new google.maps.Marker({
-        //     position: latlng,
-        //     title: "Hello World!",
-        //     label: "Lokasi Penjual"
-        // });
-        // marker.setMap(map);
-        // marker2.setMap(map);
+        // To add the marker to the map, call setMap();
+        marker.setMap(map);
+
+        var marker2 = new google.maps.Marker({
+            position: latlng,
+            title: "Hello World!",
+            label: "Lokasi Penjual"
+        });
+        marker.setMap(map);
+        marker2.setMap(map);
 
         //SAMPE SINI
 

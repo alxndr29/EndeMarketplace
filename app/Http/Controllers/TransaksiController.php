@@ -14,19 +14,34 @@ class TransaksiController extends Controller
 {
     //
     public function indexPelanggan()
-    { 
+    {
         $user = new User();
         $transaksi = DB::table('transaksi')
-        ->join('merchant','merchant.users_iduser','=','transaksi.merchant_users_iduser')
-        ->join('detailtransaksi','detailtransaksi.transaksi_idtransaksi','=','transaksi.idtransaksi')
-        ->join('produk','produk.idproduk','=','detailtransaksi.produk_idproduk')
-        ->join('gambarproduk','gambarproduk.produk_idproduk','=','produk.idproduk')
-        ->groupBy('transaksi.idtransaksi')
-        ->where('transaksi.users_iduser',$user->userid())
-        ->select('transaksi.*','merchant.nama as nama_merchant','produk.nama as nama_produk','gambarproduk.idgambarproduk as gambar','detailtransaksi.*',DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
-        ->paginate(10);
+            ->join('merchant', 'merchant.users_iduser', '=', 'transaksi.merchant_users_iduser')
+            ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
+            ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
+            ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
+            ->groupBy('transaksi.idtransaksi')
+            ->where('transaksi.users_iduser', $user->userid())
+            ->select('transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
+            ->paginate(10);
         //return $transaksi;
-        return view('user.transaksi.transaksi',compact('transaksi'));
+        return view('user.transaksi.transaksi', compact('transaksi'));
+    }
+    public function indesPelangganFilter($tanggalAwal, $tanggalAkhir){
+        $user = new User();
+        $transaksi = DB::table('transaksi')
+            ->join('merchant', 'merchant.users_iduser', '=', 'transaksi.merchant_users_iduser')
+            ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
+            ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
+            ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
+            ->groupBy('transaksi.idtransaksi')
+            ->where('transaksi.users_iduser', $user->userid())
+            ->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
+            ->select('transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
+            ->paginate(10);
+        //return $transaksi;
+        return view('user.transaksi.transaksi', compact('transaksi'));
     }
     public function indexMerchant()
     {
@@ -40,7 +55,8 @@ class TransaksiController extends Controller
         //return $transaksi;
         return view('seller.transaksi.transaksi', compact('transaksi'));
     }
-    public function indexMerchantFilter($tanggalAwal, $tanggalAkhir){
+    public function indexMerchantFilter($tanggalAwal, $tanggalAkhir)
+    {
         $merchant = new Merchant();
         //$transaksi = Transaksi::where('merchant_users_iduser',$merchant->idmerchant())->get();
         $transaksi = DB::table('transaksi')
@@ -49,9 +65,9 @@ class TransaksiController extends Controller
             ->where('transaksi.merchant_users_iduser', $merchant->idmerchant())
             ->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
             ->get();
-         //   return 'masuk';
+        //   return 'masuk';
         //return $transaksi;
-       return view('seller.transaksi.transaksi', compact('transaksi'));
+        return view('seller.transaksi.transaksi', compact('transaksi'));
     }
     public function detailMerchant($id)
     {
@@ -83,9 +99,40 @@ class TransaksiController extends Controller
         //return $id;
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
     }
-    public function detailPelanggan($id){
+    public function detailPelanggan($id)
+    {
+        try {
+            $user = new User();
+            $transaksi = DB::table('transaksi')
+                ->join('merchant', 'transaksi.merchant_users_iduser', '=', 'merchant.users_iduser')
+                ->select('transaksi.*', 'merchant.nama as nama_merchant')
+                ->where('transaksi.idtransaksi', $id)
+                ->get();
+            $produk = DB::table('detailtransaksi')
+                ->join('transaksi', 'transaksi.idtransaksi', '=', 'detailtransaksi.transaksi_idtransaksi')
+                ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
+                ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
+                ->where('detailtransaksi.transaksi_idtransaksi', '=', $id)
+                ->where('transaksi.users_iduser', $user->userid())
+                ->select('detailtransaksi.*', 'produk.nama as nama_produk', 'produk.harga as harga_produk', 'gambarproduk.idgambarproduk as gambar_produk')
+                ->get();
+            $alamat = DB::table('transaksi')
+                ->join('alamatpembeli', 'alamatpembeli.idalamat', '=', 'transaksi.alamatpembeli_idalamat')
+                ->join('kabupatenkota','kabupatenkota.idkabupatenkota','=','alamatpembeli.kabupatenkota_idkabupatenkota')
+                ->join('provinsi','provinsi.idprovinsi','=','kabupatenkota.provinsi_idprovinsi')
+                ->where('transaksi.idtransaksi', $id)
+                ->where('transaksi.users_iduser', $user->userid())
+                ->select('alamatpembeli.*','kabupatenkota.*','provinsi.nama as nama_provinsi')
+                ->get();
+            //return $transaksi;
+            $result = ['produk' => $produk, 'transaksi' => $transaksi,'alamat' => $alamat];
 
-    } 
+            return $result;
+            //return response()->json($result);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
     public function prosePesananMerchant(Request $request, $id, $action)
     {
         try {
@@ -106,13 +153,12 @@ class TransaksiController extends Controller
                     ]
                 );
                 $transaksi->save();
-            }else{
+            } else {
                 $transaksi->status_transaksi = $action;
                 $transaksi->save();
             }
-           
-            return "berhasil!";
 
+            return "berhasil!";
         } catch (\Exception $e) {
             return $e->getMessage();
         }

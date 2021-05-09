@@ -51,7 +51,10 @@
                                             <br>
                                             <b> Rp. {{number_format($value->nominal_pembayaran)}} </b>
                                             <br>
-                                            <button type="submit" class="btn btn-success" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
+                                            <!-- <button type="submit" class="btn btn-success" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
+                                                Detail Transaksi
+                                            </button> -->
+                                            <button type="button" class="btn btn-success" style="margin-right: 5px;" onClick="test({{$value->idtransaksi}})">
                                                 Detail Transaksi
                                             </button>
                                         </div>
@@ -78,18 +81,18 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="modaldetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Detail Transaksi</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col">
+                    <div class="col" id="modal-transaksi">
                         Nomor Transaksi:
                         <br>
                         <b> TRX-00123981</b>
@@ -109,17 +112,17 @@
                     <div class="col border-left ">
                         <div class="row p-1">
                             <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
-                                Detail Transaksi
+                               Tulis Review
                             </button>
                         </div>
                         <div class="row p-1">
                             <button type="submit" class="btn btn-success" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
-                                Detail Transaksi
+                               Lacak
                             </button>
                         </div>
                         <div class="row p-1">
                             <button type="submit" class="btn btn-success" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
-                                Detail Transaksi
+                                Tanya Penjual
                             </button>
                         </div>
 
@@ -127,7 +130,7 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col">
+                    <div class="col" id="modal-daftarproduk">
                         Daftar Produk
                         <br>
                         <div class="row">
@@ -142,14 +145,16 @@
                         </div>
                     </div>
                     <div class="col border-left">
-                        Harga Barang
+                        Total Belanja Produk:
                         <br>
-                        Rp. 270.000
+                        <div id="modal-totalproduk">
+                            Rp. 50,000
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-6 border-left">
+                    <div class="col-6 border-left" id="modal-pengiriman-alamat">
                         Pengiriman:
                         <br>
                         <b> AnterAja - Reguler (Estimasi tiba 19 - 21 Apr) </b>
@@ -192,8 +197,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+
             </div>
         </div>
     </div>
@@ -201,9 +206,95 @@
 
 @section('js')
 <script type="text/javascript">
-    // $(document).ready(function() {
-    //     alert('hello world!');
-    // });
+    $(document).ready(function() {
+        // alert('hello world!');
+    });
+    $("#btnFilter").click(function() {
+        var tglawal = $('#tanggalAwal').val();
+        var tglakhir = $('#tanggalAkhir').val();
+        var url = "{{route('pelanggan.transaksi.index.filter',['tanggalAwal' => 'first' ,'tanggalAkhir'=> 'second' ])}}";
+        url = url.replace('first', tglawal);
+        url = url.replace('second', tglakhir);
+        location.href = url;
+    });
+
+    function test(id) {
+        // $('#myModal').modal('toggle');
+        // $('#myModal').modal('show');
+        // $('#myModal').modal('hide');
+
+        //alert(id);
+        $.ajax({
+            url: "{{url('user/transaksi/detail')}}/" + id,
+            type: 'GET',
+            success: function(response) {
+                console.log(response.produk);
+                console.log(response.transaksi);
+                console.log(response.alamat);
+                //alert(response.produk[0].idalamat);
+                $("#modal-transaksi").html(
+                    'Nomor Transaksi:' +
+                    '<br>' +
+                    '<b> TRX-' + response.transaksi[0].idtransaksi + '</b>' +
+                    '<br>' +
+                    'Status:' +
+                    '<br>' +
+                    '<b>' + response.transaksi[0].status_transaksi + '</b>' +
+                    '<br>' +
+                    'Nama Merchant:' +
+                    '<br>' +
+                    '<b>' + response.transaksi[0].nama_merchant + '</b>' +
+                    '<br>' +
+                    'Tanggal Pembelian:' +
+                    '<br>' +
+                    '<b>' + response.transaksi[0].tanggal + '</b>'
+                );
+
+                $("#modal-pengiriman-alamat").html(
+                    'Pengiriman:' +
+                    '<br>' +
+                    '<b>' + 'AnterAja - Reguler (Estimasi tiba 19 - 21 Apr)' + '</b>' +
+                    '<br>' +
+                    'No. Resi:' + '10001126706829' +
+                    '<br>' +
+                    'Dikirim kepada: <b>' + response.alamat[0].nama_penerima +
+                    '</b> <br>' +
+                    response.alamat[0].alamatlengkap +
+                    '<br>' +
+                    response.alamat[0].nama + ', ' + response.alamat[0].kodepos +
+                    '<br>' +
+                    response.alamat[0].nama_provinsi +
+                    '<br>' +
+                    'Telp: ' + response.alamat[0].telepon
+                );
+
+                $("#modal-daftarproduk").empty();
+                var totalBelanjaProduk = 0;
+                for (i = 0; i < response.produk.length; i++) {
+                    var src = "src=http://localhost:8000/gambar/" + response.produk[i].gambar_produk + '.jpg';
+                    var url = "http://localhost:8000/user/produk/show/" + response.produk[i].produk_idproduk;
+                    $("#modal-daftarproduk").append('<div class="row">' +
+                        '<div class="col-3">' +
+                        '<img style="width:75px;height:100px;" class="rounded" ' + src + '>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        '<b> ' + response.produk[i].nama_produk + ' </b>' +
+                        '<br>' +
+                        response.produk[i].jumlah + ' barang x Rp.' + response.produk[i].total_harga / response.produk[i].jumlah +
+                        '<br> Sub Total: Rp. ' + response.produk[i].total_harga +
+                        '</div>' +
+                        '</div>'
+                    );
+                    totalBelanjaProduk += response.produk[i].total_harga;
+                }
+                $("#modal-totalproduk").html('Rp. ' + totalBelanjaProduk)
+                $("#modaldetail").modal('show');
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    }
 </script>
 @endsection
 @endsection

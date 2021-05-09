@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2021 at 10:23 AM
+-- Generation Time: May 09, 2021 at 09:30 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -93,18 +93,22 @@ CREATE TABLE `datapengiriman` (
   `jarak` double DEFAULT NULL,
   `volume` int(11) DEFAULT NULL,
   `berat` int(11) DEFAULT NULL,
-  `status` enum('MenungguPengiriman','SudahDiantar','SampaiTujuan') DEFAULT NULL,
+  `status` enum('MenungguPengiriman','SedangDiantar','SampaiTujuan') DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `pengiriman_idpengiriman` int(11) NOT NULL
+  `pengiriman_idpengiriman` int(11) NOT NULL,
+  `latitude_sekarang` varchar(45) DEFAULT NULL,
+  `longitude_sekarang` varchar(45) DEFAULT NULL,
+  `jarak_sekarang` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `datapengiriman`
 --
 
-INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`) VALUES
-(2, '-7.320648203091388', '112.76708364486696', '-8.8438137886983', '121.6678360104561', 994.3176266111211, 0, 0, 'MenungguPengiriman', NULL, NULL, 6);
+INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`) VALUES
+(2, '-7.320648203091388', '112.76708364486696', '-8.8438137886983', '121.6678360104561', 994.3176266111211, 0, 0, 'MenungguPengiriman', NULL, NULL, 6, NULL, NULL, NULL),
+(3, '-8.848148880690733', '121.65992669680773', '-8.832791918904743', '121.65873795747757', 1.7125216390082771, 0, 0, 'MenungguPengiriman', NULL, NULL, 7, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -125,7 +129,9 @@ CREATE TABLE `detailtransaksi` (
 --
 
 INSERT INTO `detailtransaksi` (`produk_idproduk`, `transaksi_idtransaksi`, `jumlah`, `total_harga`, `catatan`) VALUES
-(24, 8, 5, 32500, 'dasda');
+(23, 9, 2, 10000, NULL),
+(24, 8, 5, 32500, 'dasda'),
+(24, 9, 5, 32500, NULL);
 
 -- --------------------------------------------------------
 
@@ -976,7 +982,8 @@ CREATE TABLE `pengiriman` (
 --
 
 INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
-(6, '2021-05-08', 1, 10000, 'KM-20210507-233244', 'BelumSelesai', 'CTC1-2', '2021-05-07 23:32:24', '2021-05-07 23:32:48', 2, 8);
+(6, '2021-05-08', 1, 10000, 'KM-20210507-233244', 'BelumSelesai', 'CTC1-2', '2021-05-07 23:32:24', '2021-05-07 23:32:48', 2, 8),
+(7, '2021-05-10', 200, 0, 'KM-20210510-032852', 'BelumSelesai', 'Kurir Merchant-1-Bebas Ongkir-100-200---', '2021-05-10 03:28:19', '2021-05-10 03:28:56', 2, 9);
 
 -- --------------------------------------------------------
 
@@ -1150,7 +1157,8 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`) VALUES
-(8, '2021-05-07 23:32:24', 'PesananDikirim', 'Langsung', 52500, 4, 4, 8, 1, '2021-05-07 23:32:24', '2021-05-07 23:32:48');
+(8, '2021-05-07 23:32:24', 'PesananDikirim', 'Langsung', 52500, 4, 4, 8, 1, '2021-05-07 23:32:24', '2021-05-07 23:32:48'),
+(9, '2021-05-10 03:28:19', 'PesananDikirim', 'Langsung', 42500, 4, 4, 10, 1, '2021-05-10 03:28:19', '2021-05-10 03:28:56');
 
 -- --------------------------------------------------------
 
@@ -1419,7 +1427,7 @@ ALTER TABLE `alamatpembeli`
 -- AUTO_INCREMENT for table `datapengiriman`
 --
 ALTER TABLE `datapengiriman`
-  MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `diskusi`
@@ -1473,7 +1481,7 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT for table `pengiriman`
 --
 ALTER TABLE `pengiriman`
-  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `produk`
@@ -1497,7 +1505,7 @@ ALTER TABLE `tarifpengiriman`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

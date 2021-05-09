@@ -44,10 +44,17 @@ class CheckoutController extends Controller
             ->where('keranjang.users_iduser', '=', $user->userid())
             ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
             ->first();
+        $dukunganTarifPengiriman = DB::table('dukungantarifpengiriman')
+        ->join('tarifpengiriman','tarifpengiriman.idtarifpengiriman','=','dukungantarifpengiriman.tarifpengiriman_idtarifpengiriman')
+        ->where('dukungantarifpengiriman.merchant_users_iduser',$id)
+        ->select('dukungantarifpengiriman.*','tarifpengiriman.*')
+        ->get();
+        //return $dukunganTarifPengiriman;
+
         $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser', '=', $id)->select('alamatmerchant.*')->first();
         //return $alamatMerchant->kabupatenkota_idkabupatenkota;
         //return $dukunganpembayaran;
-        return view('user.checkout.checkout', compact('id', 'keranjang', 'dukunganpengiriman', 'dukunganpembayaran', 'total', 'alamatMerchant'));
+        return view('user.checkout.checkout', compact('id', 'keranjang', 'dukunganpengiriman', 'dukunganpembayaran', 'total', 'alamatMerchant', 'dukunganTarifPengiriman'));
     }
     public function store(Request $request)
     {
@@ -66,7 +73,7 @@ class CheckoutController extends Controller
             $transaksi = new Transaksi();
             $transaksi->status_transaksi = 'MenungguKonfirmasi';
             $transaksi->jenis_transaksi = 'Langsung';
-            $transaksi->nominal_pembayaran = $request->get('nominalpembayaran');
+            $transaksi->nominal_pembayaran = $request->get('nominalpembayaran') + $request->get('biaya_pengiriman');
             $transaksi->users_iduser = $user->userid();
             $transaksi->merchant_users_iduser = $request->get('idmerchant');
             $transaksi->alamatpembeli_idalamat = $request->get('idalamat');
@@ -97,14 +104,14 @@ class CheckoutController extends Controller
                         ]
                     );
             }
-            $biaya = explode("/",$request->get('biayaKurir'));
+            //$biaya = explode("/",$request->get('biayaKurir'));
             //return $biaya;
             $pengiriman = new Pengiriman();
             $pengiriman->kurir_idkurir = $request->get('kurir');
             $pengiriman->transaksi_idtransaksi = $id;
-            $pengiriman->biaya_pengiriman = $biaya[2];
-            $pengiriman->estimasi = $biaya[1];
-            $pengiriman->keterangan = $biaya[0].$biaya[1];
+            $pengiriman->biaya_pengiriman = $request->get('biaya_pengiriman');
+            $pengiriman->estimasi = $request->get('estimasi');
+            $pengiriman->keterangan = $request->get('biayaKurir');
             $pengiriman->save();
             $idpengiriman = $pengiriman->idpengiriman;
 
@@ -122,9 +129,9 @@ class CheckoutController extends Controller
                         'pengiriman_idpengiriman' => $idpengiriman
                     ]
                 );
-                return $request->all();
+               
             }
-           
+            return $request->all();
             // return 'hello world!';
 
         } catch (\Exception $e) {

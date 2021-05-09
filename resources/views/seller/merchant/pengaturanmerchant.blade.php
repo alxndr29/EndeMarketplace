@@ -176,7 +176,7 @@
                         @endforeach -->
 
                         @foreach ($dukungantarifpengiriman as $key => $value )
-                       
+
                         @endforeach
 
                         <div class="form-check">
@@ -219,6 +219,11 @@
 </div>
 
 @section('js')
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
 <script type="text/javascript">
     var lat = "";
     var lot = "";
@@ -296,38 +301,38 @@
         //     title: "Hello World!",
         // });
 
-        /// DARI SINI
-        // var myLatlng = new google.maps.LatLng({{$alamat->latitude}}, {{$alamat->longitude}});
-        // var mapOptions = {
-        //     zoom: 15,
-        //     center: myLatlng
-        // }
-        // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        // var marker = new google.maps.Marker({
-        //     position: myLatlng,
-        //     title: "Hello World!",
-        //     label: "Lokasi Pembeli"
-        // });
-        // let infoWindow = new google.maps.InfoWindow({
-        //     content: "Lokasi Anda",
-        //     position: myLatlng,
-        // });
-        // infoWindow.open(map);
-        // // Configure the click listener.
-        // map.addListener("click", (mapsMouseEvent) => {
-        //     // Close the current InfoWindow.
-        //     infoWindow.close();
-        //     // Create a new InfoWindow.
-        //     infoWindow = new google.maps.InfoWindow({
-        //         position: mapsMouseEvent.latLng,
-        //     });
-        //     infoWindow.setContent(
-        //         'Lokasi Baru',
-        //         $("#longitude").val(mapsMouseEvent.latLng.lng().toString()),
-        //         $("#latitude").val(mapsMouseEvent.latLng.lat().toString())
-        //     );
-        //     infoWindow.open(map);
-        // });
+        // DARI SINI
+        var myLatlng = new google.maps.LatLng({{$alamat->latitude}}, {{$alamat->longitude}});
+        var mapOptions = {
+            zoom: 15,
+            center: myLatlng
+        }
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            title: "Hello World!",
+            label: "Lokasi Pembeli"
+        });
+        let infoWindow = new google.maps.InfoWindow({
+            content: "Lokasi Anda",
+            position: myLatlng,
+        });
+        infoWindow.open(map);
+        // Configure the click listener.
+        map.addListener("click", (mapsMouseEvent) => {
+            // Close the current InfoWindow.
+            infoWindow.close();
+            // Create a new InfoWindow.
+            infoWindow = new google.maps.InfoWindow({
+                position: mapsMouseEvent.latLng,
+            });
+            infoWindow.setContent(
+                'Lokasi Baru',
+                $("#longitude").val(mapsMouseEvent.latLng.lng().toString()),
+                $("#latitude").val(mapsMouseEvent.latLng.lat().toString())
+            );
+            infoWindow.open(map);
+        });
 
         //SAMPE SINI
 

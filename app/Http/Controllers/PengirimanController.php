@@ -21,6 +21,7 @@ class PengirimanController extends Controller
         ->join('kurir','kurir.idkurir','=','pengiriman.kurir_idkurir')
         ->where('transaksi.merchant_users_iduser','=',$merchant->idmerchant())
         ->where('kurir.idkurir','=',2)
+        ->where('pengiriman.nomor_resi','!=',null)
         ->select('pengiriman.*','datapengiriman.*','tipepembayaran.nama as tipepembayaran')
         ->get();
         //return $data;
@@ -35,7 +36,8 @@ class PengirimanController extends Controller
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
             ->where('transaksi.merchant_users_iduser', '=', $merchant->idmerchant())
             ->where('kurir.idkurir', '=', 2)
-            ->whereBetween('pengiriman.tanggal_pengiriman',[$tglAwal,$tglAkhir])
+            ->where('pengiriman.nomor_resi', '!=', null)
+            ->whereBetween('pengiriman.tanggal_pengiriman', [$tglAwal, $tglAkhir])
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->get();
         //return $data;
@@ -53,6 +55,7 @@ class PengirimanController extends Controller
             ->where('pengiriman.idpengiriman', '=', $id)
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->first();
+            //dd($data);
         return view('seller.pengiriman.detailpengiriman', compact('data'));
         //dd($data);
         //return 'hello world!';

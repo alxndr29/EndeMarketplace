@@ -49,8 +49,8 @@
                                                 <div class="form-group">
                                                     <select class="form-control" id="biayaKurir" name="biayaKurir">
                                                         <option selected>Pilih Biaya Pengiriman</option>
-                                                        <option value="CTC/1-2/10000"> JNE - CTC - 1-2 - 10000</option>
-                                                        <option value="CTCYES/0-1/20000"> JNE - CTCYES - 0-2 - 20000</option>
+                                                        <!-- <option value="CTC/1-2/10000"> JNE - CTC - 1-2 - 10000</option>
+                                                        <option value="CTCYES/0-1/20000"> JNE - CTCYES - 0-2 - 20000</option> -->
                                                     </select>
                                                 </div>
                                             </div>
@@ -102,7 +102,17 @@
                                     <div class="card-body">
                                         <div class="row pb-3">
                                             <div class="col" id="displayNominal">
-                                                Total Pembayaran: Rp. {{number_format($total->jumlah)}}
+                                                Total Produk: Rp. {{number_format($total->jumlah)}}
+                                            </div>
+                                        </div>
+                                        <div class="row pb-3">
+                                            <div class="col" id="displayNominalPengiriman">
+                                                Total Pengiriman: Rp. 0
+                                            </div>
+                                        </div>
+                                        <div class="row pb-3">
+                                            <div class="col" id="displayNominalTotal">
+                                                Total Keseluruhan: Rp. 0
                                             </div>
                                         </div>
                                         <div class="row">
@@ -119,8 +129,10 @@
                                                 <input type="hidden" name="latitudeMerchant" id="latitudeMerchant">
                                                 <input type="hidden" name="longitudeMerchant" id="longitudeMerchant">
 
-                                                <button type="submit" class="btn btn-block btn-default" id="btnCheckout">Buat Transaksi</button>
+                                                <input type="hidden" name="biaya_pengiriman" id="biaya">
+                                                <input type="hidden" name="estimasi" id="estimasi">
 
+                                                <button type="submit" class="btn btn-block btn-default" id="btnCheckout">Buat Transaksi</button>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +171,7 @@
     var dataAlamat;
     var dataKiriman;
     //var pilihAlamat = false;
-    var jumlah = {{$total->jumlah}};
+
     // var berat = {{$total->berat}};
     // console.log(berat);
     var biayaKurir = 0;
@@ -170,6 +182,9 @@
 
     var latitudeMerchant = {{$alamatMerchant->latitude}};
     var longitudeMerchant = {{$alamatMerchant->longitude}};
+    var jumlah = {{$total->jumlah}};
+    var berat = {{$total->berat}};
+
 
     $(document).ready(function() {
         //hitungBiaya();
@@ -177,6 +192,8 @@
         $("#nominalpembayaran").val(jumlah);
         $("#dukunganPengiriman").attr("disabled", true);
         $("#biayaKurir").attr("disabled", true);
+
+
     });
 
     $.ajax({
@@ -201,18 +218,18 @@
                 );
             }
             dataAlamat = response;
+            console.log(dataAlamat);
         },
         error: function(response) {
             console.log(response);
         }
     });
+
     $("body").on("click", "#pilihALamat", function(e) {
         var id = $(this).attr('data-id');
         loadAlamat(id);
         $("#dukunganPengiriman").attr("disabled", false);
     });
-
-
     function loadAlamat(id) {
         for (i = 0; i < dataAlamat.length; i++) {
             if (dataAlamat[i].idalamat == id) {
@@ -222,16 +239,14 @@
                 idAlamatUser = dataAlamat[i].kabupatenkota_idkabupatenkota;
                 latitudeUser = dataAlamat[i].latitude;
                 longitudeUser = dataAlamat[i].longitude;
+
+                $("#latitudeUser").val(latitudeUser);
+                $("#longitudeUser").val(longitudeUser);
+                $("#latitudeMerchant").val(latitudeMerchant);
+                $("#longitudeMerchant").val(longitudeMerchant);
             }
         }
     }
-    $("#biayaKurir").change(function() {
-        var id = $(this).val();
-        var split = id.split("/");
-        var tot = jumlah + parseInt(split[2]);
-        $("#displayNominal").html('Total Pembayaran: Rp.' + tot);
-        $("#nominalpembayaran").val(jumlah + parseInt(split[2]));
-    });
 
     function distance(lat1, lon1, lat2, lon2, unit) {
         var radlat1 = Math.PI * lat1 / 180
@@ -250,39 +265,112 @@
         }
         return dist;
     }
+    var dukunganPengiriman = "";
     $("#dukunganPengiriman").change(function() {
         $("#biayaKurir").attr("disabled", false);
+        //$("#biayaKurir").empty();
         val = $(this).val();
         if (val == "2") {
-            $("#debug").empty();
-            $("#debug").append('user = ' + latitudeUser + "/" + longitudeUser + "<br>");
-            $("#debug").append('merchant =' + latitudeMerchant + "/" + longitudeMerchant + "<br>");
-            var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
-            $("#debug").append(
-                'jarak =' + result
-            );
-            $("#latitudeUser").val(latitudeUser);
-            $("#longitudeUser").val(longitudeMerchant);
-            $("#latitudeMerchant").val(latitudeMerchant);
-            $("#longitudeMerchant").val(longitudeMerchant);
+            dukunganPengiriman = "2";
+            $("#biayaKurir").empty();
+            $("#biayaKurir").append('<option selected>Pilih Biaya Pengiriman</option>');
+            @foreach($dukunganTarifPengiriman as $key => $value)
+            // alert('{{$value->nama}}');
+            $("#biayaKurir").append(
+                '<option value="' + 'Kurir Merchant' + '-' + '{{$value->tarifpengiriman_idtarifpengiriman}}' + '-' + '{{$value->nama}}' + '-' + '{{$value->minimum_belanja}}' + '-' +
+                '{{$value->etd}}' + '-' + '{{$value->tarif_berat}}' + '-' + '{{$value->tarif_volume}}' + '-' + '{{$value->tarif_jarak}}' + '">' +
 
-            $("#jarakPengiriman").val(result);
+                '{{$value->nama}}' + '- ETD: ' +
+                '{{$value->etd}} Hari' + '</option>'
+            );
+            @endforeach
+
+          
+          
         }
+        if (val == 1) {
+            dukunganPengiriman = "1";
+            $("#biayaKurir").empty();
+            $("#biayaKurir").append('<option selected>Pilih Biaya Pengiriman</option>');
+            hitungBiaya();
+
+            // $("#debug").empty();
+            // $("#debug").append('user = ' + latitudeUser + "/" + longitudeUser + "<br>");
+            // $("#debug").append('merchant =' + latitudeMerchant + "/" + longitudeMerchant + "<br>");
+            // var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
+            // $("#debug").append(
+            //     'jarak =' + result
+            // );
+            // $("#latitudeUser").val(latitudeUser);
+            // $("#longitudeUser").val(longitudeMerchant);
+            // $("#latitudeMerchant").val(latitudeMerchant);
+            // $("#longitudeMerchant").val(longitudeMerchant);
+            // $("#jarakPengiriman").val(result);
+        }
+    });
+    $("#biayaKurir").change(function() {
+        var id = $(this).val();
+        if (dukunganPengiriman == "2") {
+            var split = id.split("-");
+            if (split[1] == "1") {
+                $("#displayNominalPengiriman").html(' Biaya Pengiriman: Rp. ' + biayaKurir);
+                $("#displayNominalTotal").html( 'Total Keseluruhan Rp. '  + jumlah);
+                $("#biaya").val(0);
+                $("#estimasi").val(split[4]);
+
+                var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
+                $("#debug").append(
+                    'jarak =' + result
+                );
+                $("#jarakPengiriman").val(result);
+                //alert(split[0] + " " + split[2] + " " + split[3] + split[4] + " " + split[5] + " " + split[6] + " " + split[7]);
+            } else if (split[1] == "2") {
+                biayaKurir = split[5];
+                $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + (biayaKurir));
+                var te = parseInt(biayaKurir) + parseInt(jumlah);
+                $("#displayNominalTotal").html( 'Total Keseluruhan Rp. ' + te);
+                alert(te);
+                $("#biaya").val(biayaKurir);
+                $("#estimasi").val(split[4]);
+
+                var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
+                $("#debug").append(
+                    'jarak =' + result
+                );
+                
+                $("#jarakPengiriman").val(result);
+            } else {
+
+            }
+        }
+        if(dukunganPengiriman == "1"){
+            var split2 = id.split("/");
+            $("#biaya").val(split2[2]);
+            $("#estimasi").val(split2[1]);
+            var ta = parseInt(split2[2]) + parseInt(jumlah);
+            $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + split2[2]);
+            $("#displayNominalTotal").html( 'Total Keseluruhan Rp. ' + ta );
+            
+        }
+
+        // var split = id.split("/");
+        // var tot = jumlah + parseInt(split[2]);
+        // $("#displayNominal").html('Total Pembayaran: Rp.' + tot);
+        // $("#nominalpembayaran").val(jumlah + parseInt(split[2]));
     });
 
     function hitungBiaya() {
-        var origin = {{$alamatMerchant->kabupatenkota_idkabupatenkota}};
+       var origin = {{$alamatMerchant->kabupatenkota_idkabupatenkota}};
         var destination = idAlamatUser;
         //alert(origin + " - " + destination);
         var courier = "jne";
-        var berat = {{$total->berat}};
+
         $.ajax({
             url: "{{url('cost')}}" + "/" + origin + "/" + destination + "/" + courier + "/" + berat,
             method: "GET",
             contentType: false,
             dataType: "json",
-            success: function(data) {
-
+            success: function(data) {           
                 for (i = 0; i < data['rajaongkir']['results'].length; i++) {
                     for (j = 0; j < data['rajaongkir']['results'][i]['costs'].length; j++) {
                         // console.log(data['rajaongkir']['results'][i]['costs'][j]['service']);
@@ -293,7 +381,7 @@
                         var b = data['rajaongkir']['results'][i]['costs'][j]['cost'][0]['etd'];
                         var c = data['rajaongkir']['results'][i]['costs'][j]['cost'][0]['value'];
                         var merge = a + "/" + b + "/" + c;
-                        $("#biayaPengiriman").append('<option value="' + merge + '"> JNE - ' + a + '  - ' + b + '  - ' + c + '</option>')
+                        $("#biayaKurir").append('<option value="' + merge + '"> JNE - ' + a + '  - ' + b + '  - ' + c + '</option>')
                     }
                 }
                 dataKiriman = data;

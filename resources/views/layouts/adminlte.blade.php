@@ -205,14 +205,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{route('merchant.pengiriman.index')}}" class="nav-link">
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>
                                     Pengiriman
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('merchant.pengiriman.index')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Daftar Pengiriman
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('produk.index')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Daftar Pengantaran</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
                         <li class="nav-item">
                             <a href="{{route('merchant.edit')}}" class="nav-link">
                                 <i class="nav-icon fas fa-edit"></i>
