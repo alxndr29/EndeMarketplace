@@ -24,7 +24,9 @@
                     Tipe Pembayaran: <b>{{$data->tipepembayaran}}</b>
                 </div>
                 <div class="col">
-
+                    <a href="{{route('merchant.status.ubah',[$data->idpengiriman,'ProsesKeKurir'])}}" class="btn btn-success" style="margin-right: 5px;">
+                        <i class="fas fa-edit"></i>Siap Diantar
+                    </a>
                 </div>
             </div>
 
@@ -51,10 +53,11 @@
 
 @section('js')
 
+<!-- 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
     </script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
+
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
@@ -93,31 +96,31 @@
 
         //DARI SINI
 
-        var myLatlng = new google.maps.LatLng({{$data->latitude_user}}, {{$data->longitude_user}});
-        var latlng = new google.maps.LatLng({{$data->latitude_merchant}}, {{$data->longitude_merchant}});
+        // var myLatlng = new google.maps.LatLng({{$data->latitude_user}}, {{$data->longitude_user}});
+        // var latlng = new google.maps.LatLng({{$data->latitude_merchant}}, {{$data->longitude_merchant}});
 
-        var mapOptions = {
-            zoom: 15,
-            center: myLatlng
-        }
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        // var mapOptions = {
+        //     zoom: 15,
+        //     center: myLatlng
+        // }
+        // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "Hello World!",
-            label: "Lokasi Pembeli"
-        });
+        // var marker = new google.maps.Marker({
+        //     position: myLatlng,
+        //     title: "Hello World!",
+        //     label: "Lokasi Pembeli"
+        // });
 
-        // To add the marker to the map, call setMap();
-        marker.setMap(map);
+        // // To add the marker to the map, call setMap();
+        // marker.setMap(map);
 
-        var marker2 = new google.maps.Marker({
-            position: latlng,
-            title: "Hello World!",
-            label: "Lokasi Penjual"
-        });
-        marker.setMap(map);
-        marker2.setMap(map);
+        // var marker2 = new google.maps.Marker({
+        //     position: latlng,
+        //     title: "Hello World!",
+        //     label: "Lokasi Penjual"
+        // });
+        // marker.setMap(map);
+        // marker2.setMap(map);
 
         //SAMPE SINI
 

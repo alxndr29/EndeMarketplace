@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2021 at 09:30 PM
+-- Generation Time: May 10, 2021 at 09:43 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -93,7 +93,7 @@ CREATE TABLE `datapengiriman` (
   `jarak` double DEFAULT NULL,
   `volume` int(11) DEFAULT NULL,
   `berat` int(11) DEFAULT NULL,
-  `status` enum('MenungguPengiriman','SedangDiantar','SampaiTujuan') DEFAULT NULL,
+  `status` enum('MenungguPengiriman','ProsesKeKurir','SedangDiantar','SampaiTujuan') DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `pengiriman_idpengiriman` int(11) NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE `datapengiriman` (
 
 INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`) VALUES
 (2, '-7.320648203091388', '112.76708364486696', '-8.8438137886983', '121.6678360104561', 994.3176266111211, 0, 0, 'MenungguPengiriman', NULL, NULL, 6, NULL, NULL, NULL),
-(3, '-8.848148880690733', '121.65992669680773', '-8.832791918904743', '121.65873795747757', 1.7125216390082771, 0, 0, 'MenungguPengiriman', NULL, NULL, 7, NULL, NULL, NULL);
+(3, '-8.848148880690733', '121.65992669680773', '-8.832791918904743', '121.65873795747757', 1.7125216390082771, 0, 0, 'ProsesKeKurir', NULL, NULL, 7, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 

@@ -5,3 +5,28 @@ var berat = {{$total->berat}};
 
 var origin = {{$alamatMerchant->kabupatenkota_idkabupatenkota}};
 var berat = {{$total->berat}};
+
+
+Koordinat perumnas ke wolowona
+
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+  
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(
+            function (position) {
+                alert(position.coords.latitude +"x"+ position.coords.longitude);
+                //Geo.lng = position.coords.longitude;
+            },
+            function () {
+                alert("Geocoder failed");
+            },{ enableHighAccuracy: true });
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+          }
+}
+
+
+</script>
