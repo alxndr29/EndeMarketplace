@@ -145,6 +145,8 @@ Route::put('seller/transaksi/update/{id}/{action}','TransaksiController@prosePes
 Route::get('user/transaksi/index', 'TransaksiController@indexPelanggan')->name('pelanggan.transaksi.index');
 Route::get('user/transaksi/index/{tanggalAwal}/{tanggalAkhir}', 'TransaksiController@indesPelangganFilter')->name('pelanggan.transaksi.index.filter');
 Route::get('user/transaksi/detail/{id}','TransaksiController@detailPelanggan')->name('pelanggan.transaksi.detail');
+Route::get('user/transaksi/tracking/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('pelanggan.transaksi.tracking');
+Route::get('user/tracking/lokasi/kurir/{id}','PengirimanController@getLokasiKurir')->name('pelanggan.tracking.lokasi.kurir');
 
 //Pengiriman Merchant
 Route::get('seller/pengiriman/index','PengirimanController@indexMerchant')->name('merchant.pengiriman.index');
@@ -154,7 +156,8 @@ Route::get('seller/pengiriman/detail/pengiriman/{id}', 'PengirimanController@det
 Route::get('seller/pengiriman/status/{id}/{status}','PengirimanController@updateStatus')->name('merchant.status.ubah');
 //Pengantaran Merchant
 Route::get('seller/pengantaran/index','PengirimanController@pengantaranMerchant')->name('merchant.pengantaran.index');
-Route::get('seller/pengantaran/detail/{id}/{idtransaksi}','PengirimanController@detailPengantaran')->name('merchant.pengantaran.detail');
+Route::get('seller/pengantaran/detail/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('merchant.pengantaran.detail');
+Route::post('seller/pengantaran/lokasi/update','PengirimanController@updateLokasiKurir')->name('nerchant.lokasikurir.update');
 
 //Tracking Coba
 Route::get('tracking/index','TrackingController@index');

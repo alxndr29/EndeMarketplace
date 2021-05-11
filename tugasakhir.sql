@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2021 at 09:43 PM
+-- Generation Time: May 11, 2021 at 08:12 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -108,7 +108,7 @@ CREATE TABLE `datapengiriman` (
 
 INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`) VALUES
 (2, '-7.320648203091388', '112.76708364486696', '-8.8438137886983', '121.6678360104561', 994.3176266111211, 0, 0, 'MenungguPengiriman', NULL, NULL, 6, NULL, NULL, NULL),
-(3, '-8.848148880690733', '121.65992669680773', '-8.832791918904743', '121.65873795747757', 1.7125216390082771, 0, 0, 'ProsesKeKurir', NULL, NULL, 7, NULL, NULL, NULL);
+(3, '-8.848148880690733', '121.65992669680773', '-8.832791918904743', '121.65873795747757', 0.9661823767161382, 0, 0, 'SedangDiantar', NULL, NULL, 7, '-8.8441297', '121.6677297', '0.966778969897444');
 
 -- --------------------------------------------------------
 

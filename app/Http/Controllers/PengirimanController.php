@@ -63,9 +63,10 @@ class PengirimanController extends Controller
     }
     public function updateStatus($id, $status)
     {
+        //return $id.$status;
         try {
             DB::table('datapengiriman')->where('pengiriman_idpengiriman', $id)->update(['status' => $status]);
-            return $id . $status;
+            return 'berhasil';
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -86,8 +87,9 @@ class PengirimanController extends Controller
             ->get();
         return view('seller.pengiriman.pengantaran', compact('data'));
     }
-    public function detailPengantaran($id, $idtransaksi)
+    public function detailPengantaran($idpengiriman, $idtransaksi, $jenis)
     {
+
         $merchant = new Merchant();
         $data = DB::table('pengiriman')
             ->leftJoin('datapengiriman', 'datapengiriman.pengiriman_idpengiriman', '=', 'pengiriman.idpengiriman')
@@ -95,22 +97,55 @@ class PengirimanController extends Controller
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
             ->where('transaksi.merchant_users_iduser', '=', $merchant->idmerchant())
-            ->where('pengiriman.idpengiriman', '=', $id)
+            ->where('pengiriman.idpengiriman', '=', $idpengiriman)
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->first();
         $alamatPengiriman = DB::table('transaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
-            ->join('pengiriman','pengiriman.transaksi_idtransaksi','=','transaksi.idtransaksi')
+            ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('alamatpembeli', 'alamatpembeli.idalamat', '=', 'transaksi.alamatpembeli_idalamat')
             ->join('kabupatenkota', 'alamatpembeli.kabupatenkota_idkabupatenkota', 'kabupatenkota.idkabupatenkota')
             ->join('provinsi', 'kabupatenkota.provinsi_idprovinsi', '=', 'provinsi.idprovinsi')
             ->where('transaksi.idtransaksi', $idtransaksi)
-            ->select('tipepembayaran.idtipepembayaran as idtipepembayaran','tipepembayaran.nama as namatipepembayaran','transaksi.nominal_pembayaran as nominal_pembayaran','pengiriman.biaya_pengiriman as biaya_pengiriman',
-            'alamatpembeli.*', 'kabupatenkota.nama as nama_kota', 'kabupatenkota.kodepos as kode_pos', 'provinsi.nama as nama_provinsi')
+            ->select(
+                'tipepembayaran.idtipepembayaran as idtipepembayaran',
+                'tipepembayaran.nama as namatipepembayaran',
+                'transaksi.nominal_pembayaran as nominal_pembayaran',
+                'pengiriman.biaya_pengiriman as biaya_pengiriman',
+                'alamatpembeli.*',
+                'kabupatenkota.nama as nama_kota',
+                'kabupatenkota.kodepos as kode_pos',
+                'provinsi.nama as nama_provinsi'
+            )
             ->first();
-
-        // dd($alamatPengiriman);
-        // return view('seller.pengiriman.detailpengiriman', compact('data'));
-        return view('seller.pengiriman.detailpengantaran', compact('data', 'alamatPengiriman'));
+        if ($jenis == "merchant") { 
+            return view('seller.pengiriman.detailpengantaran', compact('data', 'alamatPengiriman', 'idpengiriman'));
+        }else{
+            return view('user.transaksi.lacak', compact('data', 'alamatPengiriman', 'idpengiriman'));
+        }
+       
+    }
+    public function getLokasiKurir($idpengiriman)
+    { 
+        try{
+            $data = DB::table('dataPengiriman')->where('pengiriman_idpengiriman',$idpengiriman)->get();
+            return $data;
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+    }
+    public function updateLokasiKurir(Request $request)
+    {
+        try {
+            DB::table('datapengiriman')->where('pengiriman_idpengiriman', $request->get('idpengiriman'))
+                ->update([
+                    'latitude_sekarang' => $request->get('latitude_sekarang'),
+                    'longitude_sekarang' => $request->get('longitude_sekarang'),
+                    'jarak_sekarang' => $request->get('jarak')
+                ]);
+            return "berhasil";
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

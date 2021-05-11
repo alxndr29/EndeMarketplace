@@ -36,7 +36,7 @@
                                     <b> {{$value->tipepembayaran}} </b>
                                 </td>
                                 <td>
-                                    <a href="{{route('merchant.pengantaran.detail',[$value->idpengiriman,$value->transaksi_idtransaksi])}}" class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
+                                    <a href="{{route('merchant.pengantaran.detail',[$value->idpengiriman,$value->transaksi_idtransaksi,'merchant'])}}" class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
                                 </td>
                             </tr>
                             @endforeach

@@ -34,12 +34,17 @@
                     <br>
                     Nominal Penagihan: <b>Rp. {{number_format($alamatPengiriman->nominal_pembayaran)}}</b>
                     <br>
-                    <a href="#" class="btn btn-success" style="margin-right: 5px;">
-                        <i class="fas fa-edit"></i>Sudah Bayar
-                    </a>
-                    <!-- <a href="#" class="btn btn-success" style="margin-right: 5px;">
-                        <i class="fas fa-edit"></i>Batal
-                    </a> -->
+                    <br>
+                    @if($data->status == "ProsesKeKurir")
+                    <button type="button" class="btn btn-success" id="antarSekarang" style="margin-right: 5px;">
+                        <i class="fas fa-edit"></i>Antar Sekarang
+                    </button>
+                    @endif
+
+                    <button id="selesaiAntar"class="btn btn-success" style="margin-right: 5px;" disabled>
+                        <i class="fas fa-edit"></i>Selesai Pengantaran
+                    </button>
+                    
                 </div>
             </div>
             
@@ -66,47 +71,25 @@
 <script type="text/javascript">
     var latitude = "";
     var longitude = "";
-    var latitude_origin = {
-        {
-            $data - > latitude_merchant
-        }
-    };
-    var longitude_origin = {
-        {
-            $data - > longitude_merchant
-        }
-    };
-    var latitude_destination = {
-        {
-            $data - > latitude_user
-        }
-    };
-    var longitude_destination = {
-        {
-            $data - > longitude_user
-        }
-    };
+    var jarak = 0;
+    var latitude_origin = {{$data->latitude_merchant}};
+    var longitude_origin = {{$data->longitude_merchant}};
+    var latitude_destination = {{$data->latitude_user}};
+    var longitude_destination = {{$data->longitude_user}};
 
-    var loc = false;
+    var loc = true;
     var second = 0;
 
     $(document).ready(function() {
         //getLocation();
-
-
+        if("{{$data->status}}" == "SedangDiantar"){
+            getLocation();
+        }
     });
 
     function getLocation() {
         if (navigator.geolocation) {
-            setInterval(function() {
-                second++;
-                if (second == 10) {
-                    loc = true;
-                    second = 0;
-                } else {
-                    loc = false;
-                }
-            }, 1000);
+
             navigator.geolocation.watchPosition(
                 function(position) {
                     //alert(position.coords.latitude +"x"+ position.coords.longitude);
@@ -120,9 +103,18 @@
                 function() {
                     alert("Geocoder failed");
                 }, {
-                    timeout: 10000,
+                    timeout: 100000,
                     enableHighAccuracy: true
                 });
+                setInterval(function() {
+                second++;
+                if (second == 10) {
+                    loc = true;
+                    second = 0;
+                } else {
+                    loc = false;
+                }
+            }, 1000);
             iniatMap();
 
         } else {
@@ -151,7 +143,6 @@
         map = new google.maps.Map(document.getElementById("map"), mapOptions);
         $("#demo").append('Jarak Kurir ke tujuan = ' + jarakKeTujuan(latitude, longitude, latitude_destination, longitude_destination, 'K') + ' Kilometer <br>');
         test();
-
     }
 
     function test() {
@@ -214,6 +205,23 @@
         });
         marker3.setMap(map);
         $("#demo").html('Jarak Kurir ke tujuan = ' + jarakKeTujuan(latitude, longitude, latitude_destination, longitude_destination, 'K') + ' Kilometer <br>');
+        $.ajax({
+            url: "{{route('nerchant.lokasikurir.update')}}",
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "idpengiriman": "{{$idpengiriman}}",
+                "latitude_sekarang": latitude,
+                "longitude_sekarang": longitude,
+                "jarak": jarak
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
     }
 
     function jarakKeTujuan(lat1, lon1, lat2, lon2, unit) {
@@ -236,8 +244,27 @@
         } else {
             $("#demo2").html('masih jauh');
         }
+        jarak = dist;
         return dist;
     }
+    $("#antarSekarang").click(function(){
+        $("#antarSekarang").prop('disabled', true);
+        $('#selesaiAntar').prop('disabled', false);
+
+        $.ajax({
+            url: "{{url('seller/pengiriman/status')}}/" + {{$idpengiriman}}+ "/" +"SedangDiantar",
+            type: "GET", 
+            success: function(response) {
+               if(response == "berhasil"){
+                getLocation();
+               }
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    });
+
 </script>
 @endsection
 

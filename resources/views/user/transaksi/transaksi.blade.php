@@ -57,6 +57,9 @@
                                             <button type="button" class="btn btn-success" style="margin-right: 5px;" onClick="test({{$value->idtransaksi}})">
                                                 Detail Transaksi
                                             </button>
+                                            <a href="{{route('pelanggan.transaksi.tracking',[$value->idpengiriman,$value->idtransaksi,'Pelanggan'])}}" class="btn btn-success" style="margin-right: 5px;" >
+                                                Lacak
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

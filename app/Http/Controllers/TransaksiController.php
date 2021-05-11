@@ -18,12 +18,13 @@ class TransaksiController extends Controller
         $user = new User();
         $transaksi = DB::table('transaksi')
             ->join('merchant', 'merchant.users_iduser', '=', 'transaksi.merchant_users_iduser')
+            ->join('pengiriman','pengiriman.transaksi_idtransaksi','transaksi.idtransaksi')
             ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
             ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
             ->groupBy('transaksi.idtransaksi')
             ->where('transaksi.users_iduser', $user->userid())
-            ->select('transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
+            ->select('pengiriman.idpengiriman as idpengiriman','transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
             ->paginate(10);
         //return $transaksi;
         return view('user.transaksi.transaksi', compact('transaksi'));
@@ -124,15 +125,14 @@ class TransaksiController extends Controller
                 ->where('transaksi.users_iduser', $user->userid())
                 ->select('alamatpembeli.*','kabupatenkota.*','provinsi.nama as nama_provinsi')
                 ->get();
-            //return $transaksi;
             $result = ['produk' => $produk, 'transaksi' => $transaksi,'alamat' => $alamat];
-
             return $result;
             //return response()->json($result);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
+
     public function prosePesananMerchant(Request $request, $id, $action)
     {
         try {
