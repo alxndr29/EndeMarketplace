@@ -42,4 +42,8 @@ class User extends Authenticatable implements MustVerifyEmail
         $user = Auth::user();
         return $user->iduser;
     }
+    public function useremail(){
+        $user = Auth::user();
+        return $user->email;
+    }
 }

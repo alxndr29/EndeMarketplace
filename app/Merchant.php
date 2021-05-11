@@ -16,4 +16,7 @@ class Merchant extends Model
         $merchant = Merchant::where('users_iduser','=',$user->userid())->first();
         return $merchant->users_iduser;
     }
+    public function emailmerchant(){
+        
+    }
 }

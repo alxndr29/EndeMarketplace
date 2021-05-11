@@ -57,9 +57,26 @@
                                             <button type="button" class="btn btn-success" style="margin-right: 5px;" onClick="test({{$value->idtransaksi}})">
                                                 Detail Transaksi
                                             </button>
-                                            <a href="{{route('pelanggan.transaksi.tracking',[$value->idpengiriman,$value->idtransaksi,'Pelanggan'])}}" class="btn btn-success" style="margin-right: 5px;" >
-                                                Lacak
+                                            
+                                            @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "PesananDiproses" )
+                                         
+                                                @if($value->idkurir == "1")
+                                                <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;" >
+                                                    Lacak
+                                                </a>
+                                                @else
+                                                <a href="{{route('pelanggan.transaksi.tracking',[$value->idpengiriman,$value->idtransaksi,'Pelanggan'])}}" class="btn btn-success" style="margin-right: 5px;" >
+                                                    Lacak
+                                                </a>
+                                                @endif
+
+                                            @endif
+
+                                            @if($value->status_transaksi == "SampaiTujuan" || $value->idkurir == "1" && $value->status_transaksi != "Selesai")
+                                            <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;" >
+                                                Selesai
                                             </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -120,15 +137,9 @@
                         </div>
                         <div class="row p-1">
                             <button type="submit" class="btn btn-success" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
-                               Lacak
-                            </button>
-                        </div>
-                        <div class="row p-1">
-                            <button type="submit" class="btn btn-success" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
                                 Tanya Penjual
                             </button>
                         </div>
-
                     </div>
                 </div>
                 <br>
@@ -179,15 +190,15 @@
                     <div class="col">
                         <b> Pembayaran </b>
                         <br>
-                        Total Harga (1 barang)
+                        Total Harga:
                         <br>
-                        Total Ongkos Kirim (970 gr)
+                        Total Ongkos Kirim:
                         <br>
                         Total Bayar
                         <br>
                         Metode Pembayaran
                     </div>
-                    <div class="col border-left">
+                    <div class="col border-left" id="pembayaran">
                         <br>
                         Rp 270.000
                         <br>
@@ -211,6 +222,10 @@
 <script type="text/javascript">
     $(document).ready(function() {
         // alert('hello world!');
+        @if(session('berhasil'))
+        //toastr.success('{{session('berhasil')}}');
+        alert('{{session('berhasil')}}');
+        @endif
     });
     $("#btnFilter").click(function() {
         var tglawal = $('#tanggalAwal').val();
@@ -234,6 +249,7 @@
                 console.log(response.produk);
                 console.log(response.transaksi);
                 console.log(response.alamat);
+                console.log(response.pembayaran);
                 //alert(response.produk[0].idalamat);
                 $("#modal-transaksi").html(
                     'Nomor Transaksi:' +
@@ -256,11 +272,14 @@
                 $("#modal-pengiriman-alamat").html(
                     'Pengiriman:' +
                     '<br>' +
-                    '<b>' + 'AnterAja - Reguler (Estimasi tiba 19 - 21 Apr)' + '</b>' +
+                    '<b>' + response.alamat[0].keterangan + '</b>' +
+                    '<br> Estimasi: ' + response.alamat[0].estimasi +
+                    ' Hari <br> Tanggal Pengiriman: ' + response.alamat[0].tanggal_pengiriman+
                     '<br>' +
-                    'No. Resi:' + '10001126706829' +
-                    '<br>' +
-                    'Dikirim kepada: <b>' + response.alamat[0].nama_penerima +
+                    'No. Resi: <b>' + response.alamat[0].nomor_resi +
+                    '</b>' +
+                    '<br> Status Pengiriman: ' + response.alamat[0].status_pengiriman +
+                    '<br> Dikirim kepada: <b>' + response.alamat[0].nama_penerima +
                     '</b> <br>' +
                     response.alamat[0].alamatlengkap +
                     '<br>' +
@@ -290,6 +309,12 @@
                     );
                     totalBelanjaProduk += response.produk[i].total_harga;
                 }
+                $("#pembayaran").html(
+                    '<br> Rp. ' + (response.pembayaran[0].nominal_pembayaran - response.pembayaran[0].biaya_pengiriman) +
+                    '<br> Rp. ' + response.pembayaran[0].biaya_pengiriman +
+                    '<br> Rp. ' + response.pembayaran[0].nominal_pembayaran +
+                    '<br> ' + response.pembayaran[0].namatipepembayaran
+                );
                 $("#modal-totalproduk").html('Rp. ' + totalBelanjaProduk)
                 $("#modaldetail").modal('show');
             },

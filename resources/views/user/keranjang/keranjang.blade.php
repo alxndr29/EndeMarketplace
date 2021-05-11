@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-9">
+        <div class="col-9 ">
             <div class="card">
                 <div class="card-header">
                     <div class="card-tittle">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <!-- <div class="col">
             <div class="card">
                 <div class="card-header">
                     <div class="card-tittle">
@@ -67,7 +67,7 @@
 
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 @section('js')
@@ -87,6 +87,7 @@
                     dataMerchant[i].nama_merchant = data[i].nama_merchant;
                 }
                 console.log(dataMerchant);
+                
             },
             error: function(response) {
                 console.log(response);
@@ -113,13 +114,15 @@
                 console.log(response);
             }
         });
-
+        
     });
 
     function tampil() {
         $("#isikeranjang").empty();
         for (j = 0; j < dataMerchant.length; j++) {
-            $("#isikeranjang").append('<div class="card" id="' + dataMerchant[j].idmerchant + '"> <div class="card-header"> ' + dataMerchant[j].nama_merchant + '</div>');
+            var rout = "{{url('user/checkout')}}" +"/"+ dataMerchant[j].idmerchant;
+
+            $("#isikeranjang").append('<div class="card" id="' + dataMerchant[j].idmerchant + '"> <div class="card-header"> <div class="row"> <div class="col-9">' + dataMerchant[j].nama_merchant +' </div> <div class="col-3"> <a href="'+rout+'" class="btn btn-block btn-default"> Checkout </a> </div>'+ '</div></div>');
             for (i = 0; i < dataKeranjang.length; i++) {
                 if (dataKeranjang[i].nama_merchant == dataMerchant[j].nama_merchant) {
                     var idproduk = dataKeranjang[i].idproduk;

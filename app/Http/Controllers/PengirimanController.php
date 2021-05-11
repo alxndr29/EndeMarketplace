@@ -66,6 +66,13 @@ class PengirimanController extends Controller
         //return $id.$status;
         try {
             DB::table('datapengiriman')->where('pengiriman_idpengiriman', $id)->update(['status' => $status]);
+            if($status == "SelesaiAntar"){
+                DB::table('pengiriman')->where('idpengiriman',$id)->update(['status_pengiriman'=>'Selesai']);
+                DB::table('transaksi')
+                ->join('pengiriman','pengiriman.transaksi_idtransaksi','=','transaksi.idtransaksi')
+                ->where('pengiriman.idpengiriman',$id)
+                ->update(['transaksi.status_transaksi'=>'SampaiTujuan']);
+            }
             return 'berhasil';
         } catch (\Exception $e) {
             return $e->getMessage();

@@ -34,16 +34,19 @@
                     <br>
                     Nominal Penagihan: <b>Rp. {{number_format($alamatPengiriman->nominal_pembayaran)}}</b>
                     <br>
+                    Status: <b>{{$data->status}}</b>
                     <br>
                     @if($data->status == "ProsesKeKurir")
                     <button type="button" class="btn btn-success" id="antarSekarang" style="margin-right: 5px;">
                         <i class="fas fa-edit"></i>Antar Sekarang
                     </button>
                     @endif
-
+                    @if($data->status != "SelesaiAntar")
                     <button id="selesaiAntar"class="btn btn-success" style="margin-right: 5px;" disabled>
                         <i class="fas fa-edit"></i>Selesai Pengantaran
                     </button>
+                    @endif
+                   
                     
                 </div>
             </div>
@@ -79,11 +82,14 @@
 
     var loc = true;
     var second = 0;
+    var timer;
 
     $(document).ready(function() {
         //getLocation();
         if("{{$data->status}}" == "SedangDiantar"){
             getLocation();
+        }else{
+            $("#map").html('Map Non Aktif karena tidak ada aktivitas pengantaran');
         }
     });
 
@@ -106,7 +112,7 @@
                     timeout: 100000,
                     enableHighAccuracy: true
                 });
-                setInterval(function() {
+               timer =  setInterval(function() {
                 second++;
                 if (second == 10) {
                     loc = true;
@@ -132,7 +138,7 @@
     var marker3;
 
     function iniatMap() {
-        alert('sekali doang');
+        //alert('sekali doang');
         myLatlng = new google.maps.LatLng(latitude_destination, longitude_destination);
         latlng = new google.maps.LatLng(latitude_origin, longitude_origin);
         lokasiKurir = new google.maps.LatLng(latitude, longitude);
@@ -239,8 +245,10 @@
         if (unit == "N") {
             dist = dist * 0.8684
         }
-        if (dist < 0.3) {
+        if (dist < 1.0) {
             $("#demo2").html('kirim notif kalau sdh dekat');
+            $('#selesaiAntar').prop('disabled', false);
+            alert(dist);
         } else {
             $("#demo2").html('masih jauh');
         }
@@ -249,14 +257,27 @@
     }
     $("#antarSekarang").click(function(){
         $("#antarSekarang").prop('disabled', true);
-        $('#selesaiAntar').prop('disabled', false);
-
         $.ajax({
             url: "{{url('seller/pengiriman/status')}}/" + {{$idpengiriman}}+ "/" +"SedangDiantar",
             type: "GET", 
             success: function(response) {
                if(response == "berhasil"){
                 getLocation();
+               }
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    });
+    $("#selesaiAntar").click(function(){
+        $.ajax({
+        url: "{{url('seller/pengiriman/status')}}/" + {{$idpengiriman}}+ "/" +"SelesaiAntar",
+            type: "GET", 
+            success: function(response) {
+               if(response == "berhasil"){
+                clearInterval(timer);
+                alert("Selesai melakukan pengantaran");
                }
             },
             error: function(response) {

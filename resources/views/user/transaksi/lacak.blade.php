@@ -34,7 +34,7 @@
                     <br>
                     Nominal Penagihan: <b>Rp. {{number_format($alamatPengiriman->nominal_pembayaran)}}</b>
                     <br>
-                    Status: {{$data->status}}
+                    Status Pengiriman: <b>{{$data->status}}</b>
                     <br>
                     <br>
                     @if($data->status == "ProsesKeKurir")
@@ -90,6 +90,9 @@
     var marker2;
     var marker3;
 
+    var timer;
+    var status ="";
+
     function iniatMap() {
         alert('sekali doang');
         myLatlng = new google.maps.LatLng(latitude_destination, longitude_destination);
@@ -114,13 +117,13 @@
         });
         marker.setMap(map);
         marker2.setMap(map);
-
+        
         if("{{$data->status}}" == "SedangDiantar"){
-            setInterval(function(){ 
+            timer = setInterval(function(){ 
                 loadKurir();
             }, 10000);
         }
-        
+       
     }
     function loadKurir(){
         $.ajax({
@@ -129,8 +132,15 @@
             success: function(response) {
                latitude = response[0].latitude_sekarang;
                longitude = response[0].longitude_sekarang;
+               if(jarak < 1.0){
+                   alert('kurir sudah dekat');
+               }
                jarak = response[0].jarak_sekarang;
-               alert(latitude+longitude+jarak);
+               if(response[0].status == "SampaiTujuan"){
+                    clearInterval(timer);
+                    alert("Kurir Anda sudah sampai tujuan");
+               }
+               //alert(latitude+longitude+jarak);
                updateLokasiKurir();
             },
             error: function(response) {
@@ -154,8 +164,6 @@
 
     $(document).ready(function() {
         iniatMap();
-       
-        
     });
 
     

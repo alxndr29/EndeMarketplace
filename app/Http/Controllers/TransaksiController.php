@@ -18,18 +18,19 @@ class TransaksiController extends Controller
         $user = new User();
         $transaksi = DB::table('transaksi')
             ->join('merchant', 'merchant.users_iduser', '=', 'transaksi.merchant_users_iduser')
-            ->join('pengiriman','pengiriman.transaksi_idtransaksi','transaksi.idtransaksi')
+            ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', 'transaksi.idtransaksi')
             ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
             ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
             ->groupBy('transaksi.idtransaksi')
             ->where('transaksi.users_iduser', $user->userid())
-            ->select('pengiriman.idpengiriman as idpengiriman','transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
+            ->select('pengiriman.nomor_resi as nomorresi','pengiriman.kurir_idkurir as idkurir','pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
             ->paginate(10);
         //return $transaksi;
         return view('user.transaksi.transaksi', compact('transaksi'));
     }
-    public function indesPelangganFilter($tanggalAwal, $tanggalAkhir){
+    public function indesPelangganFilter($tanggalAwal, $tanggalAkhir)
+    {
         $user = new User();
         $transaksi = DB::table('transaksi')
             ->join('merchant', 'merchant.users_iduser', '=', 'transaksi.merchant_users_iduser')
@@ -119,20 +120,37 @@ class TransaksiController extends Controller
                 ->get();
             $alamat = DB::table('transaksi')
                 ->join('alamatpembeli', 'alamatpembeli.idalamat', '=', 'transaksi.alamatpembeli_idalamat')
-                ->join('kabupatenkota','kabupatenkota.idkabupatenkota','=','alamatpembeli.kabupatenkota_idkabupatenkota')
-                ->join('provinsi','provinsi.idprovinsi','=','kabupatenkota.provinsi_idprovinsi')
+                ->join('kabupatenkota', 'kabupatenkota.idkabupatenkota', '=', 'alamatpembeli.kabupatenkota_idkabupatenkota')
+                ->join('provinsi', 'provinsi.idprovinsi', '=', 'kabupatenkota.provinsi_idprovinsi')
+                ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
                 ->where('transaksi.idtransaksi', $id)
                 ->where('transaksi.users_iduser', $user->userid())
-                ->select('alamatpembeli.*','kabupatenkota.*','provinsi.nama as nama_provinsi')
+                ->select('pengiriman.*', 'alamatpembeli.*', 'kabupatenkota.*', 'provinsi.nama as nama_provinsi')
                 ->get();
-            $result = ['produk' => $produk, 'transaksi' => $transaksi,'alamat' => $alamat];
+            $pembayaran = DB::table('transaksi')
+                ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
+                ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
+                ->where('transaksi.idtransaksi', $id)
+                ->where('transaksi.users_iduser', $user->userid())
+                ->select('pengiriman.biaya_pengiriman as biaya_pengiriman', 'transaksi.nominal_pembayaran as nominal_pembayaran', 'tipepembayaran.nama as namatipepembayaran')
+                ->get();
+            $result = ['produk' => $produk, 'transaksi' => $transaksi, 'alamat' => $alamat, 'pembayaran' => $pembayaran];
             return $result;
             //return response()->json($result);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
-
+    public function selesaiPesanan($id)
+    {
+        try {
+            DB::table('transaksi')->where('idtransaksi',$id)->update(['status_transaksi' => 'Selesai']);
+            //return $id;
+            return redirect('user/transaksi/index')->with('berhasil','pesanan anda selesai');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
     public function prosePesananMerchant(Request $request, $id, $action)
     {
         try {

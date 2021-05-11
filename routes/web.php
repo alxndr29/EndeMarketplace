@@ -28,7 +28,10 @@ Route::get('/token',function(){
 Route::get('/map',function(){
     return view('leaflet');
 });
-
+Route::get('/review', function () {
+   
+    return view('user.review.review');
+});
 
 //RajaOngkir
 Route::get('getprovinsi','RajaOngkirController@getProvinsi');
@@ -147,6 +150,7 @@ Route::get('user/transaksi/index/{tanggalAwal}/{tanggalAkhir}', 'TransaksiContro
 Route::get('user/transaksi/detail/{id}','TransaksiController@detailPelanggan')->name('pelanggan.transaksi.detail');
 Route::get('user/transaksi/tracking/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('pelanggan.transaksi.tracking');
 Route::get('user/tracking/lokasi/kurir/{id}','PengirimanController@getLokasiKurir')->name('pelanggan.tracking.lokasi.kurir');
+Route::get('user/transaksi/selesai/{id}','TransaksiController@selesaiPesanan')->name('pelanggan.transaksi.selesai');
 
 //Pengiriman Merchant
 Route::get('seller/pengiriman/index','PengirimanController@indexMerchant')->name('merchant.pengiriman.index');

@@ -10,6 +10,7 @@ use App\Alamatpembeli;
 use App\Transaksi;
 use App\Pengiriman;
 use Illuminate\Support\Carbon;
+use App\Mail\CheckoutMail;
 
 class CheckoutController extends Controller
 {
@@ -61,6 +62,8 @@ class CheckoutController extends Controller
         try {
 
             $user = new User();
+            $dataUser = User::where('iduser',$user->userid())->first();
+
             $keranjang = DB::table('keranjang')
                 ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
                 ->join('users', 'users.iduser', '=', 'keranjang.users_iduser')
@@ -128,9 +131,16 @@ class CheckoutController extends Controller
                         'status' => 'MenungguPengiriman',
                         'pengiriman_idpengiriman' => $idpengiriman
                     ]
-                );
-               
+                );       
             }
+
+            $details = [
+                'title' => 'Checkout Pesanan TRX-'.$transaksi->idtransaksi,
+                'body' => 'Hallo, '.$dataUser->name.' Checkout anda berhasil. klik link berikut untuk melihat status transaksi anda! Terimakasih!'
+            ];
+
+            \Mail::to($user->useremail())->send(new \App\Mail\CheckoutMail($details));
+            
             return $request->all();
             // return 'hello world!';
 

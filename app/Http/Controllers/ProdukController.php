@@ -108,6 +108,10 @@ class ProdukController extends Controller
         ->where('produk.idproduk',$id)
         ->select('gambarproduk.*')
         ->get();
+
+        $jumlahTerjual;
+        $jumlahUlasan;
+        $jumlahDiskusi;
         //return $data->merchant_users_iduser;
        return view('user.detailproduk.detailproduk',compact('data','gambar','diskusi'));
         
