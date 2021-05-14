@@ -2,6 +2,68 @@
 @section('content')
 <div class="container">
     <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">CPU Traffic</span>
+                    <span class="info-box-number">
+                        10
+                        <small>%</small>
+                    </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Likes</span>
+                    <span class="info-box-number">41,410</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Sales</span>
+                    <span class="info-box-number">760</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">New Members</span>
+                    <span class="info-box-number">2,000</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    
+    <div class="row">
         <div class="col">
             <div class="card">
                 <div class="card-header">
@@ -57,23 +119,23 @@
                                             <button type="button" class="btn btn-success" style="margin-right: 5px;" onClick="test({{$value->idtransaksi}})">
                                                 Detail Transaksi
                                             </button>
-                                            
+
                                             @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "PesananDiproses" )
-                                         
-                                                @if($value->idkurir == "1")
-                                                <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;" >
-                                                    Lacak
-                                                </a>
-                                                @else
-                                                <a href="{{route('pelanggan.transaksi.tracking',[$value->idpengiriman,$value->idtransaksi,'Pelanggan'])}}" class="btn btn-success" style="margin-right: 5px;" >
-                                                    Lacak
-                                                </a>
-                                                @endif
+
+                                            @if($value->idkurir == "1")
+                                            <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Lacak
+                                            </a>
+                                            @else
+                                            <a href="{{route('pelanggan.transaksi.tracking',[$value->idpengiriman,$value->idtransaksi,'Pelanggan'])}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Lacak
+                                            </a>
+                                            @endif
 
                                             @endif
 
                                             @if($value->status_transaksi == "SampaiTujuan" || $value->idkurir == "1" && $value->status_transaksi != "Selesai")
-                                            <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;" >
+                                            <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
                                                 Selesai
                                             </a>
                                             @endif
@@ -132,7 +194,7 @@
                     <div class="col border-left ">
                         <div class="row p-1">
                             <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
-                               Tulis Review
+                                Tulis Review
                             </button>
                         </div>
                         <div class="row p-1">
@@ -224,7 +286,8 @@
         // alert('hello world!');
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('berhasil')}}');
+        alert('{{session('
+            berhasil ')}}');
         @endif
     });
     $("#btnFilter").click(function() {
@@ -274,7 +337,7 @@
                     '<br>' +
                     '<b>' + response.alamat[0].keterangan + '</b>' +
                     '<br> Estimasi: ' + response.alamat[0].estimasi +
-                    ' Hari <br> Tanggal Pengiriman: ' + response.alamat[0].tanggal_pengiriman+
+                    ' Hari <br> Tanggal Pengiriman: ' + response.alamat[0].tanggal_pengiriman +
                     '<br>' +
                     'No. Resi: <b>' + response.alamat[0].nomor_resi +
                     '</b>' +

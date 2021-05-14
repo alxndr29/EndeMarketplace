@@ -54,13 +54,14 @@
                                         <!-- @foreach($kategori as $key => $value)
                                         <a href="javascript:void(0)" id="pilihKategori" data-id="{{$value->idkategori}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
                                         @endforeach -->
+
                                         @foreach($kategori as $key => $value)
                                         @if(isset($id2))
-                                            @if($id2 == $value->idkategori)
-                                            <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action active">{{$value->nama_kategori}}</a>
-                                            @else
-                                            <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
-                                            @endif
+                                        @if($id2 == $value->idkategori)
+                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action active">{{$value->nama_kategori}}</a>
+                                        @else
+                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
+                                        @endif
                                         @else
                                         <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
                                         @endif
@@ -106,15 +107,18 @@
                                                     </div>
                                                 </div>
                                                 @endforeach
-
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="d-flex">
+                                                <div class="mx-auto">
+                                                    {{ $data->links() }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
-
                         </div>
                         <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
                             Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.

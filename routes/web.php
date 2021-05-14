@@ -75,7 +75,7 @@ Route::get('seller/merchant/edit','MerchantController@edit')->name('merchant.edi
 Route::put('seller/merchant/update/{id}','MerchantController@update')->name('merchant.update');
 
 Route::get('user/merchant/profile/{id}','MerchantController@show')->name('merchant.show');
-Route::get('user/merchant/etalase/{id1}/{id2}', 'MerchantController@etalase')->name('merchant.etalase');
+Route::get('user/merchant/etalase/{id1}/{id2}/{id3?}', 'MerchantController@etalase')->name('merchant.etalase');
 
 //Alamat pembeli
 Route::get('user/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');
@@ -110,7 +110,7 @@ Route::put('seller/produk/update/{id}','ProdukController@update')->name('produk.
 Route::delete('seller/produk/delete/{id}','ProdukController@destroy')->name('produk.destroy');
 
 Route::get('user/produk/show/{id}', 'ProdukController@show')->name('produk.show');
-Route::get('user/produk/cari/{id}','ProdukController@search')->name('produk.search');
+Route::get('user/produk/cari/{key}/{filter?}','ProdukController@search')->name('produk.search');
 //Route::get('hapus','ProdukController@removeImage');
 
 //Obrolan User

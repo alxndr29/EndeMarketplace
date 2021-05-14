@@ -17,7 +17,9 @@ class MerchantController extends Controller
 {
     //
     public function index()
-    { }
+    {
+
+     }
     public function create()
     {
 
@@ -65,14 +67,14 @@ class MerchantController extends Controller
                 ->groupBy('produk.idproduk')
                 ->where('produk.merchant_users_iduser', $id)
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                ->get();
+                ->paginate(10);
             $kategori = Kategori::where('merchant_users_iduser', $id)->get();
             return view('user.merchant.merchant', compact('merchant', 'data', 'kategori'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
-    public function etalase($id1, $id2)
+    public function etalase($id1, $id2, $id3 = null)
     {
         try {
             $merchant = Merchant::where('users_iduser', $id1)->first();
@@ -83,7 +85,7 @@ class MerchantController extends Controller
                 ->where('produk.merchant_users_iduser', $id1)
                 ->where('produk.kategori_idkategori', $id2)
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                ->get();
+                ->paginate(10);
             $kategori = Kategori::where('merchant_users_iduser', $id1)->get();
             return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2'));
         } catch (\Exception $e) {
@@ -165,5 +167,7 @@ class MerchantController extends Controller
         //return $request->all();
     }
     public function destroy($id)
-    { }
+    { 
+        
+    }
 }

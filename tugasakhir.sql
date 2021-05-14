@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2021 at 08:46 PM
+-- Generation Time: May 14, 2021 at 08:28 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -943,6 +943,18 @@ INSERT INTO `obrolan` (`idobrolan`, `subject`, `waktu`, `isi_pesan`, `status_bac
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pembayaran`
 --
 
@@ -1159,7 +1171,7 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`) VALUES
-(10, '2021-05-11 23:13:39', 'SampaiTujuan', 'Langsung', 47244, 4, 4, 5, 1, '2021-05-11 23:13:39', '2021-05-11 23:22:52'),
+(10, '2021-05-11 23:13:39', 'Selesai', 'Langsung', 47244, 4, 4, 5, 1, '2021-05-11 23:13:39', '2021-05-11 23:22:52'),
 (11, '2021-05-12 01:58:32', 'Selesai', 'Langsung', 95500, 4, 4, 15, 1, '2021-05-12 01:58:32', '2021-05-12 02:11:22');
 
 -- --------------------------------------------------------
@@ -1187,7 +1199,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `remember_token`, `foto_profil`, `created_at`, `updated_at`) VALUES
 (1, 'ewq', '@gmail.com', '123', '123', '2021-04-16 00:00:00', NULL, '31', '2021-04-07 00:00:00', '2021-04-16 00:00:00'),
-(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$.LvuS27gw18vIkm9nETN../ZDBLLUWQfe1EXu15H/qfkq08w1hX9q', NULL, '2021-04-15 14:02:19', NULL, NULL, '2021-04-15 14:01:44', '2021-04-15 14:02:19'),
+(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', '081353532525', '2021-04-15 14:02:19', 'VLkuYWbLdhf4kHjHsU3MvOPy4b0Ktem9TK24NSzilQq2gqYL0JxynkfsH8kn', NULL, '2021-04-15 14:01:44', '2021-05-14 11:42:44'),
 (5, 'Goesti', 'gusti@gusti.com', '$2y$10$qqrqKW5HkHQ0t0R8LXwvg.C1KFgZAM/nmbHVQAb212PijcIXIHqoO', NULL, NULL, NULL, NULL, '2021-04-28 14:54:50', '2021-04-28 14:54:50');
 
 -- --------------------------------------------------------

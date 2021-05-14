@@ -301,13 +301,17 @@
     var parentBalasan = [];
     var balasan = [];
 
+    var login = false;
+
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
         alert('{{session('
             berhasil ')}}');
         @endif
+
         loadKomentar(idproduk);
+             
     });
 
     function loadKomentar($id) {

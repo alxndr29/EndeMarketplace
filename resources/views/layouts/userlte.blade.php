@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Top Navigation</title>
+    <title>Ende Marketplace</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -27,6 +27,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 
+    <!-- bootstrap slider -->
+    <link rel="stylesheet" href="{{asset('adminlte/plugins/bootstrap-slider/css/bootstrap-slider.min.css')}}">
+
 </head>
 
 <body class="hold-transition sidebar-collapse layout-top-nav">
@@ -35,9 +38,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
-                <a href="../../index3.html" class="navbar-brand">
+                <a href="{{route('user.home')}}" class="navbar-brand">
                     <img src="{{asset('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                    <span class="brand-text font-weight-light">AdminLTE 3</span>
+                    <span class="brand-text font-weight-light">Ende Marketplace</span>
                 </a>
 
                 <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     <!-- SEARCH FORM -->
                     <!-- <form class="form-inline ml-0 ml-md-3" method="get"> -->
-                    <div class="input-group input-group-sm">
+                    <!-- <div class="input-group input-group-sm">
                         <select class="form-control" id="pilihKategori">
                             <option>option 1</option>
                             <option>option 2</option>
@@ -65,11 +68,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <option>option 4</option>
                             <option>option 5</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" id="txtPencarian">
+                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" id="txtSearchProduk">
                         <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit" id="btnSearch">
+                            <button class="btn btn-navbar" type="submit" id="btnSearchProduk">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -79,6 +82,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+
 
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
@@ -107,34 +111,74 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                         </div>
                     </li>
+
+
+
+                    <!-- notifikasi keranjang -->
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="fa fa-shopping-cart"></i>
                             <span class="badge badge-warning navbar-badge" id="jumlahKeranjangNotifikasi">1</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="isiKeranjangNotifikasi">
-                            <a href="#" class="dropdown-item">
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <span class="dropdown-header" id="jumlahKeranjangDalam">15 Notifications</span>
+                            <div class="list-keranjang" id="isiKeranjangNotifikasi">
 
-                                <!-- Message Start -->
-                                <!-- <div class="media">
-                                    <img src="{{asset('adminlte/dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Brad Diesel
-                                            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">Call me whenever you can...</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div> -->
-                                <!-- Message End -->
-                            </a>
+                            </div>
+
+
                             <div class="dropdown-divider"></div>
-                            <a href="{{route('keranjang.index')}}" class="dropdown-item dropdown-footer">See All Messages</a>
+                            <a href="{{route('keranjang.index')}}" class="dropdown-item dropdown-footer">Lihat Semua Keranjang</a>
                         </div>
                     </li>
 
+                    <!-- notifikasi user -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="far fa-user"></i>
+                            <span class="badge badge-warning navbar-badge"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <a href="#" class="dropdown-item">
+                                <div class="media">
+                                    <img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            {{ Auth::user()->name }}
+                                            <p> {{ Auth::user()->email }} </p>
+                                            <p> {{ Auth::user()->telepon }} </p>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-cog mr-2"></i> Akun
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{route('pelanggan.transaksi.index')}}" class="dropdown-item">
+                                <i class="fas fa-list-alt mr-2"></i> Daftar Transaksi
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> Pesan
+                                <span class="float-right text-muted text-sm">12 hours</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-file mr-2"></i> 3 new reports
+                                <span class="float-right text-muted text-sm">2 days</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <!-- <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
+                            <a class="dropdown-item dropdown-footer" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                        </div>
+                    </li>
                     <!--
                     <li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
@@ -172,7 +216,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="input-group" data-widget="sidebar-search">
                         <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
-                            <button class="btn btn-sidebar">
+                            <button type="button" class="btn btn-sidebar">
                                 <i class="fas fa-search fa-fw"></i>
                             </button>
                         </div>
@@ -319,7 +363,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         jumlahKeranjang += response[i].jumlah;
                         var src = "src=http://localhost:8000/gambar/" + response[i].idgambarproduk + '.jpg';
                         var url = "http://localhost:8000/user/produk/show/" + response[i].idproduk;
-                        $("#isiKeranjangNotifikasi").prepend(
+                        $("#isiKeranjangNotifikasi").append(
                             '<a href="' + url + '" class="dropdown-item">' +
                             '<div class="media">' +
                             '<img alt="User Avatar" class="img-size-50 mr-3 img-circle"' + src + '>' +
@@ -338,13 +382,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             '</a>'
                         );
                     }
+                    $("#jumlahKeranjangDalam").html('Total ' + jumlahKeranjang + ' Produk');
                     $("#jumlahKeranjangNotifikasi").html(jumlahKeranjang);
                 },
                 error: function(response) {
                     console.log(response);
                 }
             });
-
+        });
+        $("#btnSearchProduk").click(function() {
+            var url = "{{url('user/produk/cari')}}/" + $("#txtSearchProduk").val();
+            alert(url);
+            window.location.href = url;
         });
     </script>
     @yield('js')

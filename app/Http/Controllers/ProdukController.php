@@ -131,13 +131,14 @@ class ProdukController extends Controller
         //dd($data);
         return view('seller.produk.ubahproduk', compact('data', 'kategori', 'jenisproduk'));
     }
-    public function search($id)
+    public function search($key, $filter = null)
     {
+
         $data = DB::table('produk')
         ->join('merchant','merchant.users_iduser','=','produk.merchant_users_iduser')
         ->join('gambarproduk','produk.idproduk','=','gambarproduk.produk_idproduk')
         ->groupBy('produk.idproduk')
-        ->where('produk.nama','like','%'.$id.'%')
+        ->where('produk.nama','like','%'.$key.'%')
         ->select('produk.*','merchant.nama as nama_merchant','gambarproduk.idgambarproduk as idgambarproduk')
         ->paginate(10);
         //return $data;   
