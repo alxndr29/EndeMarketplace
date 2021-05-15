@@ -328,7 +328,7 @@
                 $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + (biayaKurir));
                 var te = parseInt(biayaKurir) + parseInt(jumlah);
                 $("#displayNominalTotal").html( 'Total Keseluruhan Rp. ' + te);
-                alert(te);
+                //alert(te);
                 $("#biaya").val(biayaKurir);
                 $("#estimasi").val(split[4]);
                 var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
@@ -346,7 +346,7 @@
                 //alert(parseInt(biayaKurir);
                 var te = parseInt(biayaKurir) + parseInt(jumlah);
                 $("#displayNominalTotal").html( 'Total Keseluruhan Rp. ' + te);
-                alert(te);
+                //alert(te);
                 $("#biaya").val(biayaKurir);
                 $("#estimasi").val(split[4]);
                 $("#debug").append(

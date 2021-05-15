@@ -30,6 +30,11 @@ class CheckoutController extends Controller
             ->where('dukunganpembayaran.merchant_users_iduser', '=', $id)
             ->select('tipepembayaran.idtipepembayaran as id', 'tipepembayaran.nama as nama')
             ->get();
+        $dukunganTarifPengiriman = DB::table('dukungantarifpengiriman')
+            ->join('tarifpengiriman', 'tarifpengiriman.idtarifpengiriman', '=', 'dukungantarifpengiriman.tarifpengiriman_idtarifpengiriman')
+            ->where('dukungantarifpengiriman.merchant_users_iduser', $id)
+            ->select('dukungantarifpengiriman.*', 'tarifpengiriman.*')
+            ->get();
         $keranjang = DB::table('keranjang')
             ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
             ->join('users', 'users.iduser', '=', 'keranjang.users_iduser')
@@ -45,11 +50,7 @@ class CheckoutController extends Controller
             ->where('keranjang.users_iduser', '=', $user->userid())
             ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
             ->first();
-        $dukunganTarifPengiriman = DB::table('dukungantarifpengiriman')
-        ->join('tarifpengiriman','tarifpengiriman.idtarifpengiriman','=','dukungantarifpengiriman.tarifpengiriman_idtarifpengiriman')
-        ->where('dukungantarifpengiriman.merchant_users_iduser',$id)
-        ->select('dukungantarifpengiriman.*','tarifpengiriman.*')
-        ->get();
+        
         //return $dukunganTarifPengiriman;
 
         $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser', '=', $id)->select('alamatmerchant.*')->first();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2021 at 08:28 AM
+-- Generation Time: May 15, 2021 at 07:42 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -224,9 +224,9 @@ CREATE TABLE `dukungantarifpengiriman` (
 --
 
 INSERT INTO `dukungantarifpengiriman` (`merchant_users_iduser`, `tarifpengiriman_idtarifpengiriman`, `minimum_belanja`, `etd`, `tarif_berat`, `tarif_volume`, `tarif_jarak`) VALUES
-(4, 1, 50000, 1, 0, 0, 0),
-(4, 2, 70000, 1, 15000, 15000, 15000),
-(4, 3, 0, 1, 1000, 2000, 3000);
+(4, 1, 0, 0, NULL, NULL, NULL),
+(4, 2, 0, 0, NULL, NULL, NULL),
+(4, 3, 0, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 

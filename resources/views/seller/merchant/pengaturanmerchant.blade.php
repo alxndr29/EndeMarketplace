@@ -99,25 +99,75 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label>Dukungan Pengiriman</label>
-                                    @foreach($kurir as $key => $value)
+
+                                    @if($dukunganJNE != null)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                        <label class="form-check-label" for="defaultCheck1">
-                                            {{$value->nama}}
+                                        <input class="form-check-input" name="checkboxJNE" type="checkbox" value="1" checked>
+                                        <label class="form-check-label">
+                                            JNE
                                         </label>
                                     </div>
-                                    @endforeach
+                                    @else
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="checkboxJNE" type="checkbox" value="1">
+                                        <label class="form-check-label">
+                                            JNE
+                                        </label>
+                                    </div>
+                                    @endif
+
+                                    @if($dukunganKurirMerchant != null)
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="checkboxKurirMerchant" type="checkbox" value="2" checked>
+                                        <label class="form-check-label">
+                                            Kurir Merchant
+                                        </label>
+                                    </div>
+                                    @else
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="checkboxKurirMerchant" type="checkbox" value="2">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                            Kurir Merchant
+                                        </label>
+                                    </div>
+                                    @endif
+
                                 </div>
                                 <div class="form-group">
                                     <label>Dukungan Pembayaran</label>
-                                    @foreach($tipePembayaran as $key => $value)
+                                    @if($dukunganCOD != null)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                        <label class="form-check-label" for="defaultCheck1">
-                                            {{$value->nama}}
+                                        <input class="form-check-input" name="checkboxCOD" type="checkbox" value="1" checked>
+                                        <label class="form-check-label">
+                                            Cash On Delivery
                                         </label>
                                     </div>
-                                    @endforeach
+                                    @else
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="checkboxCOD" type="checkbox" value="1">
+                                        <label class="form-check-label">
+                                            Cash On Delivery
+                                        </label>
+                                    </div>
+                                    @endif
+
+                                    @if($dukunganBank != null)
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="checkboxBank" type="checkbox" value="2" checked>
+                                        <label class="form-check-label">
+                                            Bank Transfer
+                                        </label>
+                                    </div>
+                                    @else
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="checkboxBank" type="checkbox" value="2">
+                                        <label class="form-check-label">
+                                            Bank Transfer
+                                        </label>
+                                    </div>
+                                    @endif
+
+
                                 </div>
                             </div>
 
@@ -175,37 +225,139 @@
                         </div>
                         @endforeach -->
 
-                        @foreach ($dukungantarifpengiriman as $key => $value )
+                        @if($dukunganBebas != null)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" name="checkboxBebasOngkir" id="checkboxDukunganTarif" checked>
+                            <label class="form-check-label" for="checkboxDukunganTarif">
+                                Bebas Ongkir
+                            </label>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Minimum Pembelian</label>
+                                <input type="number" class="form-control" value="{{$dukunganBebas->minimum_belanja}}" name="minimumBebasOngkir" id="minimumBebasOngkir" placeholder="Masukan Minimum Pembelian (Rp)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Estimasi</label>
+                                <input type="number" class="form-control" value="{{$dukunganBebas->etd}}" name="estimasiBebasOngkir" id="estimasiBebasOngkir" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                            </div>
+                        </div>
 
-                        @endforeach
-
+                        @else
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" name="checkboxBebasOngkir" id="checkboxDukunganTarif">
                             <label class="form-check-label" for="checkboxDukunganTarif">
                                 Bebas Ongkir
                             </label>
-                            <input type="number" class="form-control" name="minimumBebasOngkir" id="minimumBebasOngkir" placeholder="Masukan Minimum Pembelian (Rp)" required>
-                            <input type="number" class="form-control" name="estimasiBebasOngkir" id="estimasiBebasOngkir" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Minimum Pembelian</label>
+                                <input type="number" class="form-control" name="minimumBebasOngkir" id="minimumBebasOngkir" placeholder="Masukan Minimum Pembelian (Rp)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Estimasi</label>
+                                <input type="number" class="form-control" name="estimasiBebasOngkir" id="estimasiBebasOngkir" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                            </div>
+
                         </div>
+                        @endif
+
+                        @if($dukunganFlat != null)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="2" name="checkboxTarifFlat" id="checkboxDukunganTarifFlat" checked>
+                            <label class="form-check-label" for="checkboxDukunganTarif">
+                                Tarif Flat
+                            </label>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Minimum Pembelian</label>
+                                <input type="number" class="form-control" value="{{$dukunganFlat->minimum_belanja}}" name="minimumTarifFlat" id="minimumTarifFlat" placeholder="Masukan Minimum Pembelian (Rp)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Estimasi</label>
+                                <input type="number" class="form-control" value="{{$dukunganFlat->etd}}" name="estimasiTarifFlat" id="estimasiTarifFlat" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tarif Pengiriman</label>
+                                <input type="number" class="form-control" value="{{$dukunganFlat->tarif_berat}}" name="tarifTarifFlat" id="tarifTarifFlat" placeholder="Masukan Tarif Pengiriman (Rp)" required>
+                            </div>
+
+                        </div>
+                        @else
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="2" name="checkboxTarifFlat" id="checkboxDukunganTarifFlat">
                             <label class="form-check-label" for="checkboxDukunganTarif">
                                 Tarif Flat
                             </label>
-                            <input type="number" class="form-control" name="minimumTarifFlat" id="minimumTarifFlat" placeholder="Masukan Minimum Pembelian (Rp)" required>
-                            <input type="number" class="form-control" name="estimasiTarifFlat" id="estimasiTarifFlat" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Minimum Pembelian</label>
+                                <input type="number" class="form-control" name="minimumTarifFlat" id="minimumTarifFlat" placeholder="Masukan Minimum Pembelian (Rp)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Estimasi</label>
+                                <input type="number" class="form-control" name="estimasiTarifFlat" id="estimasiTarifFlat" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tarif</label>
+                                <input type="number" class="form-control" name="tarifTarifFlat" id="tarifTarifFlat" placeholder="Masukan Tarif Pengiriman (Rp)" required>
+                            </div>
                         </div>
+                        @endif
+
+                        @if($dukunganNormal != null)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="3" name="checkboxTarifStandar" id="checkboxDukunganTarifStandar" checked>
+                            <label class="form-check-label" for="checkboxDukunganTarif">
+                                Tarif Standar
+                            </label>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Minimum Pembelian</label>
+                                <input type="number" class="form-control" value="{{$dukunganNormal->minimum_belanja}}" name="minimumTarifStandar" id="minimumTarifStandar" placeholder="Masukan Minimum Pembelian (Rp)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Estimasi</label>
+                                <input type="number" class="form-control" value="{{$dukunganNormal->etd}}" name="estimasiTarifStandar" id="estimasiTarifStandar" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tarif Berat</label>
+                                <input type="number" class="form-control" value="{{$dukunganNormal->tarif_berat}}" name="tarifBerat" id="tarifBerat" placeholder="Masukan Tarif per Berat (kg)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tarif Volume</label>
+                                <input type="number" class="form-control" value="{{$dukunganNormal->tarif_volume}}" name="tarifVolume" id="tarifVolume" placeholder="Masukan Tarif per Volume (m3)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tarif Jarak</label>
+                                <input type="number" class="form-control" value="{{$dukunganNormal->tarif_jarak}}" name="tarifJarak" id="tarifJarak" placeholder="Masukan Tarif per Jarak (km)" required>
+                            </div>
+                        </div>
+                        @else
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="3" name="checkboxTarifStandar" id="checkboxDukunganTarifStandar">
                             <label class="form-check-label" for="checkboxDukunganTarif">
                                 Tarif Standar
                             </label>
-                            <input type="number" class="form-control" name="minimumTarifStandar" id="minimumTarifStandar" placeholder="Masukan Minimum Pembelian (Rp)" required>
-                            <input type="number" class="form-control" name="estimasiTarifStandar" id="estimasiTarifStandar" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
-                            <input type="number" class="form-control" name="tarifBerat" id="tarifBerat" placeholder="Masukan Tarif per Berat (kg)" required>
-                            <input type="number" class="form-control" name="tarifVolume" id="tarifVolume" placeholder="Masukan Tarif per Volume (m3)" required>
-                            <input type="number" class="form-control" name="tarifJarak" id="tarifJarak" placeholder="Masukan Tarif per Jarak (km)" required>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Minimum Pembelian</label>
+                                <input type="number" class="form-control" name="minimumTarifStandar" id="minimumTarifStandar" placeholder="Masukan Minimum Pembelian (Rp)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Estimasi</label>
+                                <input type="number" class="form-control" name="estimasiTarifStandar" id="estimasiTarifStandar" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tarif Berat</label>
+                                <input type="number" class="form-control" name="tarifBerat" id="tarifBerat" placeholder="Masukan Tarif per Berat (kg)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tarif Volume</label>
+                                <input type="number" class="form-control" name="tarifVolume" id="tarifVolume" placeholder="Masukan Tarif per Volume (m3)" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tarif Jarak</label>
+                                <input type="number" class="form-control" name="tarifJarak" id="tarifJarak" placeholder="Masukan Tarif per Jarak (km)" required>
+                            </div>
                         </div>
+                        @endif
 
                     </div>
                 </div>
@@ -220,9 +372,9 @@
 
 @section('js')
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
 </script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
 
 <script type="text/javascript">
     var lat = "";
@@ -241,6 +393,7 @@
 
         $("#minimumTarifFlat").attr("disabled", true);
         $("#estimasiTarifFlat").attr("disabled", true);
+        $("#tarifTarifFlat").attr("disabled", true);
 
         $("#minimumTarifStandar").attr("disabled", true);
         $("#estimasiTarifStandar").attr("disabled", true);
@@ -263,10 +416,12 @@
         if (this.checked) {
             $("#minimumTarifFlat").attr("disabled", false);
             $("#estimasiTarifFlat").attr("disabled", false);
+            $("#tarifTarifFlat").attr("disabled", false);
         } else {
             //alert(this.checked);
             $("#minimumTarifFlat").attr("disabled", true);
             $("#estimasiTarifFlat").attr("disabled", true);
+            $("#tarifTarifFlat").attr("disabled", true);
         }
     });
     $('#checkboxDukunganTarifStandar').change(function() {
@@ -302,37 +457,45 @@
         // });
 
         // DARI SINI
-        var myLatlng = new google.maps.LatLng({{$alamat->latitude}}, {{$alamat->longitude}});
-        var mapOptions = {
-            zoom: 15,
-            center: myLatlng
-        }
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "Hello World!",
-            label: "Lokasi Pembeli"
-        });
-        let infoWindow = new google.maps.InfoWindow({
-            content: "Lokasi Anda",
-            position: myLatlng,
-        });
-        infoWindow.open(map);
-        // Configure the click listener.
-        map.addListener("click", (mapsMouseEvent) => {
-            // Close the current InfoWindow.
-            infoWindow.close();
-            // Create a new InfoWindow.
-            infoWindow = new google.maps.InfoWindow({
-                position: mapsMouseEvent.latLng,
-            });
-            infoWindow.setContent(
-                'Lokasi Baru',
-                $("#longitude").val(mapsMouseEvent.latLng.lng().toString()),
-                $("#latitude").val(mapsMouseEvent.latLng.lat().toString())
-            );
-            infoWindow.open(map);
-        });
+        // var myLatlng = new google.maps.LatLng({
+        //     {
+        //         $alamat - > latitude
+        //     }
+        // }, {
+        //     {
+        //         $alamat - > longitude
+        //     }
+        // });
+        // var mapOptions = {
+        //     zoom: 15,
+        //     center: myLatlng
+        // }
+        // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        // var marker = new google.maps.Marker({
+        //     position: myLatlng,
+        //     title: "Hello World!",
+        //     label: "Lokasi Pembeli"
+        // });
+        // let infoWindow = new google.maps.InfoWindow({
+        //     content: "Lokasi Anda",
+        //     position: myLatlng,
+        // });
+        // infoWindow.open(map);
+        // // Configure the click listener.
+        // map.addListener("click", (mapsMouseEvent) => {
+        //     // Close the current InfoWindow.
+        //     infoWindow.close();
+        //     // Create a new InfoWindow.
+        //     infoWindow = new google.maps.InfoWindow({
+        //         position: mapsMouseEvent.latLng,
+        //     });
+        //     infoWindow.setContent(
+        //         'Lokasi Baru',
+        //         $("#longitude").val(mapsMouseEvent.latLng.lng().toString()),
+        //         $("#latitude").val(mapsMouseEvent.latLng.lat().toString())
+        //     );
+        //     infoWindow.open(map);
+        // });
 
         //SAMPE SINI
 
