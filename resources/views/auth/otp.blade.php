@@ -23,7 +23,7 @@ Value: {{$value}}
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Admin</b>LTE</a>
+            <a href="../../index2.html"><b>ENDE's</b>Market</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -117,6 +117,9 @@ Value: {{$value}}
             }
         });
     });
+    $("#btnWhatsapp").click(function() {
+        alert('saat ini belum bisa lewat whatsapp');
+    });
     $("#btnSubmit").click(function() {
         var otp = $("#inputotp").val();
         $.ajax({
@@ -124,10 +127,13 @@ Value: {{$value}}
             type: "POST",
             data: {
                 "_sstoken": "{{ csrf_token() }}",
-                "otp": otp
+                "otp": otp,
+                "email": "{{$email}}"
             },
             success: function(response) {
+                console.log(response);
                 if (response != "gagal") {
+
                     window.location.href = "{{URL::to('/home')}}";
                 } else {
                     alert("Kode OTP Yang Dimasukan Salah");

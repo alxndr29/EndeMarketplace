@@ -103,8 +103,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <span class="float-right text-muted text-sm">12 hours</span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-file mr-2"></i> 3 new reports
+                            <a href="{{route('merchant.index')}}" class="dropdown-item">
+                                <i class="fas fa-file mr-2"></i> Merchant Anda
                                 <span class="float-right text-muted text-sm">2 days</span>
                             </a>
                             <div class="dropdown-divider"></div>
@@ -167,9 +167,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <span class="float-right text-muted text-sm">12 hours</span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-file mr-2"></i> 3 new reports
-                                <span class="float-right text-muted text-sm">2 days</span>
+                            <a href="{{route('merchant.index')}}" class="dropdown-item">
+                                <i class="fas fa-file mr-2"></i> Merchant Anda
+                                <span class="float-right text-muted text-sm"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <!-- <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
@@ -177,6 +177,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </div>
                     </li>
                     <!--
@@ -274,9 +277,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Layout</a></li>
-                                <li class="breadcrumb-item active">Top Navigation</li>
+                                <li class="breadcrumb-item"><a href="{{route('user.home')}}">Home</a></li>
+                                @yield('breadcrumb')
+                               
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -306,7 +309,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                Anything you want
+                Ende Marketplace
             </div>
             <!-- Default to the left -->
             <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.

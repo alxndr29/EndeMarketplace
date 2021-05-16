@@ -5,9 +5,13 @@
 </div>
 @section('js')
 <script type="text/javascript">
-    $(document).ready(function() {
-        //alert('hello world!');
-    });
+  $(document).ready(function() {
+    //alert('hello world!');
+  });
 </script>
 @endsection
+@endsection
+
+@section('breadcrumb')
+
 @endsection

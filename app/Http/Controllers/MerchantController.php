@@ -16,8 +16,18 @@ use Illuminate\Support\Carbon;
 class MerchantController extends Controller
 {
     //
+    public function __construct()
+    {
+        //$this->middleware(['auth', 'verified']);
+        $this->middleware(['auth']);
+        $this->middleware(['cekdevice']);
+        $this->middleware(['cekmerchant']);
+    }
+    
     public function index()
-    { }
+    { 
+       return "hello world!";
+    }
     public function create()
     {
 

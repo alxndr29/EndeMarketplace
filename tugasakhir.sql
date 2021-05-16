@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2021 at 07:42 AM
+-- Generation Time: May 16, 2021 at 08:28 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -1199,8 +1199,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `remember_token`, `foto_profil`, `created_at`, `updated_at`) VALUES
 (1, 'ewq', '@gmail.com', '123', '123', '2021-04-16 00:00:00', NULL, '31', '2021-04-07 00:00:00', '2021-04-16 00:00:00'),
-(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', '081353532525', '2021-04-15 14:02:19', 'VLkuYWbLdhf4kHjHsU3MvOPy4b0Ktem9TK24NSzilQq2gqYL0JxynkfsH8kn', NULL, '2021-04-15 14:01:44', '2021-05-14 11:42:44'),
-(5, 'Goesti', 'gusti@gusti.com', '$2y$10$qqrqKW5HkHQ0t0R8LXwvg.C1KFgZAM/nmbHVQAb212PijcIXIHqoO', NULL, NULL, NULL, NULL, '2021-04-28 14:54:50', '2021-04-28 14:54:50');
+(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', '081353532525', '2021-04-15 14:02:19', '1oymh1skjDyF7e2r7ftckLbRyHRZWbQUn7L0z1TQbvdzomVYW88aZqdmGuVN', NULL, '2021-04-15 14:01:44', '2021-05-14 11:42:44'),
+(5, 'Goesti', 'gusti@gusti.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', NULL, '2021-04-15 14:02:19', NULL, NULL, '2021-04-28 14:54:50', '2021-04-28 14:54:50'),
+(6, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$zqqGrUDj2YZphPmE736wL.fIbFlt.GrzGel1HajadTBQbXpu8KLUi', NULL, NULL, NULL, NULL, '2021-05-16 22:51:05', '2021-05-16 22:51:05');
 
 -- --------------------------------------------------------
 
@@ -1525,7 +1526,7 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

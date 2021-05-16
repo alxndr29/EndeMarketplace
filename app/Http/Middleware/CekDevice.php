@@ -19,7 +19,7 @@ class CekDevice
     public function handle($request, Closure $next)
     {
         /*
-        $user = User::find(1);
+       
         if ($user->iduser) {
             return $next($request);
         } else {
@@ -28,12 +28,18 @@ class CekDevice
         */
 
         //Log::info('otp'); one string line
+        $user = new User();
+        $data = User::where('iduser',$user->userid())->first();
+        $email = $data->email;
+
         $value = $request->cookie('otp');
-        if ($value == "verified") {
+        $hasil = explode("/",$value);
+
+        if ($hasil[1] == "verified" && $hasil[0] == $email) {
             return $next($request);
         }
         $otp = $request->session()->get('otp');
-        return response()->view('auth.otp', compact('otp', 'value'));
+        return response()->view('auth.otp', compact('otp', 'value', 'email'));
 
         //return response()->view('user.rajaongkir',compact('test'));
     }

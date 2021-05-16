@@ -408,3 +408,7 @@
 </script>
 @endsection
 @endsection
+
+@section('breadcrumb')
+<li class="breadcrumb-item active">Checkout</li>
+@endsection

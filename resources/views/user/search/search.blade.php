@@ -108,3 +108,7 @@
 </script>
 @endsection
 @endsection
+
+@section('breadcrumb')
+<li class="breadcrumb-item active">Cari Produk</li>
+@endsection

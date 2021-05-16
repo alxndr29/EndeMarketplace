@@ -7,7 +7,7 @@
     <h1>{{ $details['title'] }}</h1>
     <p>{{ $details['body'] }}</p>
     <p> {{route('pelanggan.transaksi.index')}}
-    <p>Thank you</p>
+    <p>Terima kasih!</p>
 </body>
 
 </html>

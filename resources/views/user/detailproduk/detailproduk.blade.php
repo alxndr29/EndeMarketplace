@@ -311,7 +311,7 @@
         @endif
 
         loadKomentar(idproduk);
-             
+
     });
 
     function loadKomentar($id) {
@@ -341,34 +341,38 @@
 
                 for (i = 0; i < parentBalasan.length; i++) {
                     var idddd = parentBalasan[i].iddiskusi;
-                    var action = "http://localhost:8000/diskusi/balasan/store/" + {{$data->idproduk}} + "/" + idddd;
+                    var action = "http://localhost:8000/diskusi/balasan/store/" + {
+                        {
+                            $data - > idproduk
+                        }
+                    } + "/" + idddd;
                     alert(action);
                     $("#custom-tabs-diskusi").append(
                         '<div class="row">' +
-                            '<div class="col">' +
-                                '<div class="card">' +
-                                '<div class="card-header">'+
-                                    '<div class="user-block">'+
-                                        '<img class="img-circle" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">'+
-                                        '<span class="username"><a href="#">'+parentBalasan[i].nama_user+'</a></span>' +
-                                        '<span class="description">'+parentBalasan[i].tanggal+'</span>' +
-                                    '</div>'+
-                                '</div>'+
-                                '<div class="card-body">'+
-                                    '<b>'+ parentBalasan[i].pesandiskusi+'</b>'+ 
-                                    '</div>'+
-                                    '<div class="card-footer card-comments" id="parentdiskusi-' + parentBalasan[i].iddiskusi + '">' +
-                                        '</div>' +
-                                        '<div class="card-footer">' +
-                                            '@if(isset($value->iddiskusi))<form action="' + action + '" method="post"> @csrf' +
-                                            '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
-                                            '<div class="img-push">' +
-                                                '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
-                                            '</div>' +
-                                            '</form>@endif' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
+                        '<div class="col">' +
+                        '<div class="card">' +
+                        '<div class="card-header">' +
+                        '<div class="user-block">' +
+                        '<img class="img-circle" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="User Image">' +
+                        '<span class="username"><a href="#">' + parentBalasan[i].nama_user + '</a></span>' +
+                        '<span class="description">' + parentBalasan[i].tanggal + '</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="card-body">' +
+                        '<b>' + parentBalasan[i].pesandiskusi + '</b>' +
+                        '</div>' +
+                        '<div class="card-footer card-comments" id="parentdiskusi-' + parentBalasan[i].iddiskusi + '">' +
+                        '</div>' +
+                        '<div class="card-footer">' +
+                        '@if(isset($value->iddiskusi))<form action="' + action + '" method="post"> @csrf' +
+                        '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
+                        '<div class="img-push">' +
+                        '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
+                        '</div>' +
+                        '</form>@endif' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
                         '</div>'
                     );
                     for (j = 0; j < balasan.length; j++) {
@@ -442,4 +446,8 @@
     });
 </script>
 @endsection
+@endsection
+
+@section('breadcrumb')
+<li class="breadcrumb-item active">Detail Produk</li>
 @endsection

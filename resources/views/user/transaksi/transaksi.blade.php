@@ -62,7 +62,7 @@
         </div>
         <!-- /.col -->
     </div>
-    
+
     <div class="row">
         <div class="col">
             <div class="card">
@@ -388,4 +388,8 @@
     }
 </script>
 @endsection
+@endsection
+
+@section('breadcrumb')
+<li class="breadcrumb-item active">Top Navigation</li>
 @endsection
