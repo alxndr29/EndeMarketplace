@@ -88,33 +88,32 @@ class ProdukController extends Controller
     public function show($id)
     {
         $diskusi = DB::table('diskusi')
-        ->join('produk','produk.idproduk','=','diskusi.produk_idproduk')
-        ->join('users','users.iduser','=','diskusi.users_iduser')
-        ->select('diskusi.*','users.name as nama_user')
-        ->orderBy('diskusi.iddiskusi','ASC')
-        ->where('diskusi.produk_idproduk','=',$id)
-        ->get();
-        
+            ->join('produk', 'produk.idproduk', '=', 'diskusi.produk_idproduk')
+            ->join('users', 'users.iduser', '=', 'diskusi.users_iduser')
+            ->select('diskusi.*', 'users.name as nama_user')
+            ->orderBy('diskusi.iddiskusi', 'ASC')
+            ->where('diskusi.produk_idproduk', '=', $id)
+            ->get();
+
         //return $diskusi;
         $data = DB::table('produk')
             ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
             ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
-            ->join('merchant','merchant.users_iduser','=','produk.merchant_users_iduser')
-            ->select('produk.*','kategori.nama_kategori as nama_kategori','jenisproduk.nama as nama_jenis','merchant.nama as nama_merchant')
+            ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+            ->select('produk.*', 'kategori.nama_kategori as nama_kategori', 'jenisproduk.nama as nama_jenis', 'merchant.nama as nama_merchant')
             ->where('produk.idproduk', $id)
             ->first();
-        
+
         $gambar = DB::table('produk')->join('gambarproduk', 'gambarproduk.produk_idproduk', 'produk.idproduk')
-        ->where('produk.idproduk',$id)
-        ->select('gambarproduk.*')
-        ->get();
+            ->where('produk.idproduk', $id)
+            ->select('gambarproduk.*')
+            ->get();
 
         $jumlahTerjual;
         $jumlahUlasan;
         $jumlahDiskusi;
         //return $data->merchant_users_iduser;
-       return view('user.detailproduk.detailproduk',compact('data','gambar','diskusi'));
-        
+        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'diskusi'));
     }
     public function edit($id)
     {
@@ -131,16 +130,24 @@ class ProdukController extends Controller
         //dd($data);
         return view('seller.produk.ubahproduk', compact('data', 'kategori', 'jenisproduk'));
     }
-    public function search($key, $filter = null)
+    public function search($key = null, $filter = null)
     {
-
-        $data = DB::table('produk')
-        ->join('merchant','merchant.users_iduser','=','produk.merchant_users_iduser')
-        ->join('gambarproduk','produk.idproduk','=','gambarproduk.produk_idproduk')
-        ->groupBy('produk.idproduk')
-        ->where('produk.nama','like','%'.$key.'%')
-        ->select('produk.*','merchant.nama as nama_merchant','gambarproduk.idgambarproduk as idgambarproduk')
-        ->paginate(10);
+        if ($key == null) {
+            $data = DB::table('produk')
+                ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                ->groupBy('produk.idproduk')
+                ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                ->paginate(10);
+        } else {
+            $data = DB::table('produk')
+                ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                ->groupBy('produk.idproduk')
+                ->where('produk.nama', 'like', '%' . $key . '%')
+                ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                ->paginate(10);
+        }
         //return $data;   
         return view('user.search.search', compact('data'));
     }
@@ -178,9 +185,9 @@ class ProdukController extends Controller
             $produk->kategori_idkategori = $request->get('kategoriProduk');
             $produk->jenisproduk_idjenisproduk = $request->get('jenisProduk');
             $produk->save();
-            
-            if($request->has('hapusGambar')){
-                
+
+            if ($request->has('hapusGambar')) {
+
                 $hapusGambar = $request->get('hapusGambar');
                 $decode = json_decode($hapusGambar);
                 $test = "";
@@ -190,7 +197,7 @@ class ProdukController extends Controller
                     $this->removeImage($test);
                 }
             }
-            if($request->has('gambar')){
+            if ($request->has('gambar')) {
                 $gambar = $request->get('gambar');
                 $decode = json_decode($gambar);
                 $test = "";

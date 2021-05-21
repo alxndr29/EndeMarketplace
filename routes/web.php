@@ -110,7 +110,7 @@ Route::put('seller/produk/update/{id}','ProdukController@update')->name('produk.
 Route::delete('seller/produk/delete/{id}','ProdukController@destroy')->name('produk.destroy');
 
 Route::get('user/produk/show/{id}', 'ProdukController@show')->name('produk.show');
-Route::get('user/produk/cari/{key}/{filter?}','ProdukController@search')->name('produk.search');
+Route::get('user/produk/cari/{key?}/{filter?}','ProdukController@search')->name('produk.search');
 //Route::get('hapus','ProdukController@removeImage');
 
 //Obrolan User

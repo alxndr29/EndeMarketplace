@@ -8,22 +8,37 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-2">
-                            <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
+                            <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded-circle mx-auto d-block img-fluid" alt="...">
                         </div>
                         <div class="col">
-                            <p class="h5">{{$merchant->nama}}</p>
-                            <p class="h5">{{$merchant->foto_profil}}</p>
-                            <p class="h5">{{$merchant->foto_sampul}}</p>
-                            <p class="h5">{{$merchant->deskripsi}}</p>
-                            <p class="h5">{{$merchant->jam_buka}}</p>
-                            <p class="h5">{{$merchant->jam_tutup}}</p>
+                            <div class="align-middle">
+                                <p class="h5">{{$merchant->nama}}</p>
+                                <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modaldetail">
+                                    Chat Penjual
+                                </button>
+                                <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modaldetail">
+                                    Info Merchant
+                                </button>
+                                <!-- <p class="h5">{{$merchant->foto_profil}}</p>
+                                <p class="h5">{{$merchant->foto_sampul}}</p>
+                                <p class="h5">{{$merchant->deskripsi}}</p>
+                                <p class="h5">{{$merchant->jam_buka}}</p>
+                                <p class="h5">{{$merchant->jam_tutup}}</p> -->
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                Produk Terjual:
+                            </div>
+                            <div class="row">
+                                9.7k
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col">
             <div class="card">
@@ -31,16 +46,10 @@
                     <!-- <h4>Custom Content Below</h4> -->
                     <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true">Home</a>
+                            <a class="nav-link active" id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true">Produk</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-content-below-messages-tab" data-toggle="pill" href="#custom-content-below-messages" role="tab" aria-controls="custom-content-below-messages" aria-selected="false">Messages</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-content-below-settings-tab" data-toggle="pill" href="#custom-content-below-settings" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">Settings</a>
+                            <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Ulasan</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="custom-content-below-tabContent">
@@ -48,13 +57,12 @@
                             <br>
                             <div class="row">
                                 <div class="col-3">
-                                    <h5>Kategori Produk</h5>
-                                    <br>
+                                  
                                     <div class="list-group" id="listKategori">
-                                        <!-- @foreach($kategori as $key => $value)
-                                        <a href="javascript:void(0)" id="pilihKategori" data-id="{{$value->idkategori}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
-                                        @endforeach -->
 
+                                        <a href="{{route('merchant.show',$merchant->users_iduser)}}" class="list-group-item list-group-item-action">
+                                            Semua
+                                        </a>
                                         @foreach($kategori as $key => $value)
                                         @if(isset($id2))
                                         @if($id2 == $value->idkategori)
@@ -72,29 +80,22 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-9">
                                                     <h5>Daftar Produk</h5>
                                                 </div>
                                                 <div class="col-3">
-                                                    <div class="input-group mb-3">
+                                                    <div class="input-group">
                                                         <input type="text" id="inputSearch" class="form-control">
                                                         <div class="input-group-append">
-                                                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                                            <span class="input-group-text"><i id="btnSearch" class="fas fa-search"></i></span>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-3">
-                                                    <div class="form-group">
-                                                        <select class="form-control" id="comboboxFilter">
-                                                            <option value="a">option 1</option>
-                                                            <option value="b">option 2</option>
-                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-body">
                                             <div class="row" id="listProduk">
+                                                @if(count($data) > 0)
                                                 @foreach ($data as $key => $value )
                                                 <div class="col-6 col-lg-3">
                                                     <div class="card">
@@ -107,6 +108,12 @@
                                                     </div>
                                                 </div>
                                                 @endforeach
+                                                @else
+                                                <div class="col text-center">
+                                                    Tidak ada produk dengan kata kunci tersebut
+                                                </div>
+                                                @endif
+
                                             </div>
                                         </div>
                                         <div class="card-footer">
@@ -121,13 +128,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
-                            Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
-                        </div>
-                        <div class="tab-pane fade" id="custom-content-below-messages" role="tabpanel" aria-labelledby="custom-content-below-messages-tab">
-                            Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
-                        </div>
-                        <div class="tab-pane fade" id="custom-content-below-settings" role="tabpanel" aria-labelledby="custom-content-below-settings-tab">
-                            Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                            Ulasan Produk
                         </div>
                     </div>
                 </div>
@@ -136,36 +137,85 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modaldetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <b>Deskripsi:</b>
+                        <br>
+                        {{$merchant->deskripsi}}
+                        <br>
+                        <b>Jam Operasional:</b>
+                        <br>
+                        Pukul {{$merchant->jam_buka}} sampai {{$merchant->jam_tutup}}
+                        <br>
+                        <b>Lokasi:</b>
+                        <br>
+                        {{$alamat->alamat_lengkap}}
+                        <br>
+                        {{$alamat->nama_kabupaten}}, {{$alamat->kode_pos}}
+                        <br>
+                        {{$alamat->nama_provinsi}}
+                        <br>
+                        <br>
+                        <a href="https://www.google.com/maps/search/?api=1&query={{$alamat->latitude}},{{$alamat->longitude}}" class="btn btn-success">
+                            Buka Peta
+                        </a>
+                    </div>
+                    <div class="col border-left ">
+                        <b>Dukungan Pengiriman:</b>
+                        @foreach($pengiriman as $key => $value)
+                        <br>
+                        <i class="fa fa-check-circle"></i>
+                        {{$value->nama_kurir}}
+                        @endforeach
+                    </div>
+                    <div class="col border-left ">
+                        <b>Dukungan Pembayaran:</b>
+                        @foreach($pembayaran as $key => $value)
+                        <br>
+                        <i class="fa fa-check-circle"></i>
+                        {{$value->nama_pembayaran}}
+                        @endforeach
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section('js')
 <script type="text/javascript">
-    @if(session('berhasil'))
-    //toastr.success('{{session('berhasil')}}');
-    alert('{{session('
-        berhasil ')}}');
-    @endif
-
     $(document).ready(function() {
-        //$("#listProduk").append('test');
+
     });
     $("#inputSearch").keyup(function(e) {
         if (e.keyCode == 13) {
-            var data = $(this).val();
-            alert(data);
+            var url = "{{url('user/merchant/etalase')}}/" + "{{$merchant->users_iduser}}" + "/" + "{{$id2}}" + "/" + $("#inputSearch").val();
+            window.location = url;
         }
     });
-
-    $("#comboboxFilter").change(function() {
-        var data = $(this).val();
-        alert(data);
-    });
-    var kat = "";
-    $("body").on("click", "#pilihKategori", function(e) {
-        var id = $(this).attr('data-id');
-        kat = id;
-        alert(id);
-        // $(this).addClass('active');
-        // $("#pilihKategori").removeClass('active');
+    $("#btnSearch").click(function() {
+        var url = "{{url('user/merchant/etalase')}}/" + "{{$merchant->users_iduser}}" + "/" + "{{$id2}}" + "/" + $("#inputSearch").val();
+        window.location = url;
     });
 </script>
 @endsection
+@endsection
+
+@section('breadcrumb')
+<li class="breadcrumb-item active">Cari Produk</li>
 @endsection

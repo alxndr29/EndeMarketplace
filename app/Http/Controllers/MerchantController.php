@@ -21,7 +21,7 @@ class MerchantController extends Controller
         //$this->middleware(['auth', 'verified']);
         $this->middleware(['auth']);
         $this->middleware(['cekdevice']);
-        $this->middleware(['cekmerchant']);
+       // $this->middleware(['cekmerchant']);
     }
     
     public function index()
@@ -122,6 +122,25 @@ class MerchantController extends Controller
     {
         try {
             $merchant = Merchant::where('users_iduser', $id)->first();
+
+            $alamat = DB::table('alamatmerchant')
+            ->join('kabupatenkota','kabupatenkota.idkabupatenkota','=','alamatmerchant.kabupatenkota_idkabupatenkota')
+            ->join('provinsi','provinsi.idprovinsi','kabupatenkota.provinsi_idprovinsi')
+            ->where('alamatmerchant.merchant_users_iduser','=',$id)
+            ->select('alamatmerchant.*','kabupatenkota.nama as nama_kabupaten','kabupatenkota.kodepos as kode_pos','provinsi.nama as nama_provinsi')
+            ->first();
+            $pembayaran = DB::table('dukunganpembayaran')
+                ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'dukunganpembayaran.tipepembayaran_idtipepembayaran')
+                ->where('dukunganpembayaran.merchant_users_iduser', $id)
+                ->select('tipepembayaran.nama as nama_pembayaran')
+                ->get();
+
+            $pengiriman = DB::table('dukunganpengiriman')
+                ->join('kurir', 'kurir.idkurir', '=', 'dukunganpengiriman.kurir_idkurir')
+                ->where('dukunganpengiriman.merchant_users_iduser', $id)
+                ->select('kurir.nama as nama_kurir')
+                ->get();
+
             $data = DB::table('produk')
                 ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                 ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
@@ -130,7 +149,7 @@ class MerchantController extends Controller
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                 ->paginate(10);
             $kategori = Kategori::where('merchant_users_iduser', $id)->get();
-            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori'));
+            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori','alamat', 'pembayaran', 'pengiriman'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -139,16 +158,48 @@ class MerchantController extends Controller
     {
         try {
             $merchant = Merchant::where('users_iduser', $id1)->first();
-            $data = DB::table('produk')
-                ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
-                ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
-                ->groupBy('produk.idproduk')
-                ->where('produk.merchant_users_iduser', $id1)
-                ->where('produk.kategori_idkategori', $id2)
-                ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                ->paginate(10);
+
+            $alamat = DB::table('alamatmerchant')
+                ->join('kabupatenkota', 'kabupatenkota.idkabupatenkota', '=', 'alamatmerchant.kabupatenkota_idkabupatenkota')
+                ->join('provinsi', 'provinsi.idprovinsi', 'kabupatenkota.provinsi_idprovinsi')
+                ->where('alamatmerchant.merchant_users_iduser', '=', $id1)
+                ->select('alamatmerchant.*', 'kabupatenkota.nama as nama_kabupaten', 'kabupatenkota.kodepos as kode_pos', 'provinsi.nama as nama_provinsi')
+                ->first();
+            $pembayaran = DB::table('dukunganpembayaran')
+                ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'dukunganpembayaran.tipepembayaran_idtipepembayaran')
+                ->where('dukunganpembayaran.merchant_users_iduser', $id1)
+                ->select('tipepembayaran.nama as nama_pembayaran')
+                ->get();
+
+            $pengiriman = DB::table('dukunganpengiriman')
+                ->join('kurir', 'kurir.idkurir', '=', 'dukunganpengiriman.kurir_idkurir')
+                ->where('dukunganpengiriman.merchant_users_iduser', $id1)
+                ->select('kurir.nama as nama_kurir')
+                ->get();
             $kategori = Kategori::where('merchant_users_iduser', $id1)->get();
-            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2'));
+
+            if($id3 == null){
+                $data = DB::table('produk')
+                    ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                    ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                    ->groupBy('produk.idproduk')
+                    ->where('produk.merchant_users_iduser', $id1)
+                    ->where('produk.kategori_idkategori', $id2)
+                    ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                    ->paginate(10);
+            }else{
+                $data = DB::table('produk')
+                    ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                    ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                    ->groupBy('produk.idproduk')
+                    ->where('produk.merchant_users_iduser', $id1)
+                    ->where('produk.kategori_idkategori', $id2)
+                    ->where('produk.nama', 'like', '%' . $id3 . '%')
+                    ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                    ->paginate(10);
+            }
+
+            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2','alamat', 'pembayaran', 'pengiriman'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }

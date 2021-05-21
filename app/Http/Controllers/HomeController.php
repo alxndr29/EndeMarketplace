@@ -27,7 +27,8 @@ class HomeController extends Controller
     public function index()
     {
         //return view('seller.index');
-        return redirect('seller/merchant');
+        //return redirect('seller/merchant');
+        return redirect('user/home');
     }
     public function homeUser(){
         return view('user.home.home');

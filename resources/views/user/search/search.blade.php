@@ -11,20 +11,40 @@
                     </div>
                 </div>
                 <div class="card-body">
-
                     <div class="form-group">
                         <label for="exampleInputEmail1">Range Harga</label>
                         <input type="text" id="sliderRangeHarga" value="" class="slider form-control" data-slider-min="0" data-slider-max="100000" data-slider-step="10000" data-slider-value="[0,1000000]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show">
                         <div class="row pt-2">
                             <div class="col">
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                <input type="number" class="form-control" id="rangeHargaMin" disabled>
                             </div>
                             <div class="col">
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                <input type="number" class="form-control" id="rangeHargaMax" disabled>
                             </div>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Dukungan Pengiriman</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox">
+                            <label class="form-check-label">Kurir Instant</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox">
+                            <label class="form-check-label">Kurir JNE</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Dukungan Pembayaran</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox">
+                            <label class="form-check-label">Cash On Delivery</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox">
+                            <label class="form-check-label">Transfer Bank</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <div class="d-flex">
@@ -62,7 +82,10 @@
                             <div class="card">
                                 <div class="card-body text-center">
                                     <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                    <b>{{$value->nama}}</b> <br> Rp. {{number_format($value->harga)}}-,
+                                    <b>{{$value->nama}}</b>
+                                    <br> Rp. {{number_format($value->harga)}}-,
+                                    <br>
+                                    <small class="text-muted">Oleh: {{$value->nama_merchant}}</small>
                                     <br>
                                     <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
                                 </div>
@@ -90,7 +113,6 @@
         $('.slider').bootstrapSlider()
     });
     $(document).ready(function() {
-
         alert('hello world!');
     });
     $("#comboboxFilter").change(function() {
@@ -98,12 +120,20 @@
         alert(val);
     });
     $("#btnFilter").click(function() {
-        var min = $('#sliderRangeHarga').data('sliderMin');
-        var max = $('#sliderRangeHarga').data('sliderMax');
+        // var min = $('#sliderRangeHarga').data('sliderMin');
+        // var max = $('#sliderRangeHarga').data('sliderMax');
         //alert(min + " " + max);
+
+        // var data = $('#sliderRangeHarga').val();
+        // var split = data.split(",");
+        // alert(split[0] + " R " + split[1]);
+    });
+    $("#sliderRangeHarga").change(function() {
         var data = $('#sliderRangeHarga').val();
         var split = data.split(",");
-        alert(split[0] + " R " + split[1]);
+        // alert(split[0] + " R " + split[1]);
+        $("#rangeHargaMin").val(split[0]);
+        $("#rangeHargaMax").val(split[1]);
     });
 </script>
 @endsection
