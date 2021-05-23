@@ -26,7 +26,6 @@ class TransaksiController extends Controller
             ->where('transaksi.users_iduser', $user->userid())
             ->select('pengiriman.nomor_resi as nomorresi','pengiriman.kurir_idkurir as idkurir','pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
             ->paginate(10);
-        //return $transaksi;
         return view('user.transaksi.transaksi', compact('transaksi'));
     }
     public function indesPelangganFilter($tanggalAwal, $tanggalAkhir)
@@ -42,33 +41,27 @@ class TransaksiController extends Controller
             ->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
             ->select('transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
             ->paginate(10);
-        //return $transaksi;
         return view('user.transaksi.transaksi', compact('transaksi'));
     }
     public function indexMerchant()
     {
         $merchant = new Merchant();
-        //$transaksi = Transaksi::where('merchant_users_iduser',$merchant->idmerchant())->get();
         $transaksi = DB::table('transaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran')
             ->where('transaksi.merchant_users_iduser', $merchant->idmerchant())
             ->get();
-        //return $transaksi;
         return view('seller.transaksi.transaksi', compact('transaksi'));
     }
     public function indexMerchantFilter($tanggalAwal, $tanggalAkhir)
     {
         $merchant = new Merchant();
-        //$transaksi = Transaksi::where('merchant_users_iduser',$merchant->idmerchant())->get();
         $transaksi = DB::table('transaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran')
             ->where('transaksi.merchant_users_iduser', $merchant->idmerchant())
             ->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
             ->get();
-        //   return 'masuk';
-        //return $transaksi;
         return view('seller.transaksi.transaksi', compact('transaksi'));
     }
     public function detailMerchant($id)
@@ -95,10 +88,6 @@ class TransaksiController extends Controller
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*')
             ->where('transaksi.idtransaksi', $id)
             ->first();
-        //dd($transaksi);
-        //dd($alamatPengiriman);
-        //return $daftarProduk;
-        //return $id;
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
     }
     public function detailPelanggan($id)
@@ -136,7 +125,6 @@ class TransaksiController extends Controller
                 ->get();
             $result = ['produk' => $produk, 'transaksi' => $transaksi, 'alamat' => $alamat, 'pembayaran' => $pembayaran];
             return $result;
-            //return response()->json($result);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -145,7 +133,6 @@ class TransaksiController extends Controller
     {
         try {
             DB::table('transaksi')->where('idtransaksi',$id)->update(['status_transaksi' => 'Selesai']);
-            //return $id;
             return redirect('user/transaksi/index')->with('berhasil','pesanan anda selesai');
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -180,5 +167,8 @@ class TransaksiController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+    }
+    public function reviewProduk(){
+        
     }
 }

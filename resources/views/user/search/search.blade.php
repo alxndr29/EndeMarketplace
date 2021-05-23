@@ -12,6 +12,13 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
+                        <label>Kategori</label>
+                        <select class="form-control">
+                            <option>Makanan & Minuman</option>
+                            <option>Perawatan Kendaraan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Range Harga</label>
                         <input type="text" id="sliderRangeHarga" value="" class="slider form-control" data-slider-min="0" data-slider-max="100000" data-slider-step="10000" data-slider-value="[0,1000000]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show">
                         <div class="row pt-2">

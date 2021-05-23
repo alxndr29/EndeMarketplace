@@ -50,12 +50,8 @@ class CheckoutController extends Controller
             ->where('keranjang.users_iduser', '=', $user->userid())
             ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
             ->first();
-        
-        //return $dukunganTarifPengiriman;
-
         $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser', '=', $id)->select('alamatmerchant.*')->first();
-        //return $alamatMerchant->kabupatenkota_idkabupatenkota;
-        //return $dukunganpembayaran;
+    
         return view('user.checkout.checkout', compact('id', 'keranjang', 'dukunganpengiriman', 'dukunganpembayaran', 'total', 'alamatMerchant', 'dukunganTarifPengiriman'));
     }
     public function store(Request $request)
@@ -143,7 +139,6 @@ class CheckoutController extends Controller
             \Mail::to($user->useremail())->send(new \App\Mail\CheckoutMail($details));
             
             return $request->all();
-            // return 'hello world!';
 
         } catch (\Exception $e) {
             return $e->getMessage();

@@ -21,12 +21,12 @@ class MerchantController extends Controller
         //$this->middleware(['auth', 'verified']);
         $this->middleware(['auth']);
         $this->middleware(['cekdevice']);
-       // $this->middleware(['cekmerchant']);
+        $this->middleware(['cekmerchant']);
     }
     
     public function index()
     { 
-       return "hello world!";
+       return view('seller.index');
     }
     public function create()
     {
@@ -120,6 +120,7 @@ class MerchantController extends Controller
     }
     public function show($id)
     {
+        $id2 = null;
         try {
             $merchant = Merchant::where('users_iduser', $id)->first();
 
@@ -149,12 +150,12 @@ class MerchantController extends Controller
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                 ->paginate(10);
             $kategori = Kategori::where('merchant_users_iduser', $id)->get();
-            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori','alamat', 'pembayaran', 'pengiriman'));
+            return view('user.merchant.merchant', compact('merchant','id2','data', 'kategori','alamat', 'pembayaran', 'pengiriman'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
-    public function etalase($id1, $id2, $id3 = null)
+    public function etalase($id1, $id2=null, $id3 = null)
     {
         try {
             $merchant = Merchant::where('users_iduser', $id1)->first();

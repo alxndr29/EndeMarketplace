@@ -193,15 +193,15 @@
                     </div>
                     <div class="col border-left ">
                         <div class="row p-1">
-                            <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
+                            <button type="submit" id="buttonReview" class="btn btn-success text-right" style="margin-right: 5px;">
                                 Tulis Review
                             </button>
                         </div>
-                        <div class="row p-1">
+                        <!-- <div class="row p-1">
                             <button type="submit" class="btn btn-success" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
                                 Tanya Penjual
                             </button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <br>
@@ -280,6 +280,35 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalreview">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Default Modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="daftarProdukReview">
+                <div class="row">
+                    <div class="col-3">
+                        <img style="width:75px;height:100px;" class="rounded pt-3" alt="..." src="http://localhost:8000/gambar/18.jpg">
+                    </div>
+                    <div class="col">
+                        <b> AVOMETER DIGITAL ZOTEK ZT98 / MULTITESTER DIGITAL ZT98ORIGINAL </b>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @section('js')
 <script type="text/javascript">
     $(document).ready(function() {
@@ -297,6 +326,10 @@
         url = url.replace('first', tglawal);
         url = url.replace('second', tglakhir);
         location.href = url;
+    });
+    $("#buttonReview").click(function() {
+        $("#modaldetail").modal('hide');
+        $("#modalreview").modal('show');
     });
 
     function test(id) {
@@ -354,10 +387,17 @@
                 );
 
                 $("#modal-daftarproduk").empty();
+                $("#daftarProdukReview").empty();
                 var totalBelanjaProduk = 0;
                 for (i = 0; i < response.produk.length; i++) {
                     var src = "src=http://localhost:8000/gambar/" + response.produk[i].gambar_produk + '.jpg';
                     var url = "http://localhost:8000/user/produk/show/" + response.produk[i].produk_idproduk;
+                    var catatan = "";
+                    if (response.produk[i].catatan == null) {
+                        catatan = "-";
+                    } else {
+                        catatan = response.produk[i].catatan;
+                    }
                     $("#modal-daftarproduk").append('<div class="row">' +
                         '<div class="col-3">' +
                         '<img style="width:75px;height:100px;" class="rounded" ' + src + '>' +
@@ -367,11 +407,23 @@
                         '<br>' +
                         response.produk[i].jumlah + ' barang x Rp.' + response.produk[i].total_harga / response.produk[i].jumlah +
                         '<br> Sub Total: Rp. ' + response.produk[i].total_harga +
+                        '<br> Catatan: ' + catatan +
                         '</div>' +
                         '</div>'
                     );
                     totalBelanjaProduk += response.produk[i].total_harga;
+                    $("#daftarProdukReview").append(
+                        '<div class="row">' +
+                        '<div class="col-3">' +
+                        '<img style="width:75px;height:100px;" class="rounded" ' + src + '>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        '<b> ' + response.produk[i].nama_produk + ' </b>' +
+                        '</div>' +
+                        '</div>'
+                    );
                 }
+
                 $("#pembayaran").html(
                     '<br> Rp. ' + (response.pembayaran[0].nominal_pembayaran - response.pembayaran[0].biaya_pengiriman) +
                     '<br> Rp. ' + response.pembayaran[0].biaya_pengiriman +

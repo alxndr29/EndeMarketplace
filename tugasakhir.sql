@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2021 at 08:28 PM
+-- Generation Time: May 23, 2021 at 07:26 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -45,7 +45,7 @@ CREATE TABLE `alamatmerchant` (
 
 INSERT INTO `alamatmerchant` (`alamat_lengkap`, `telepon`, `latitude`, `longitude`, `created_at`, `updated_at`, `merchant_users_iduser`, `kabupatenkota_idkabupatenkota`) VALUES
 ('rte', '1', '121.66775249999999', '121.66775249999999', NULL, NULL, 1, 276),
-('dasdas', 'asdasd', '-8.832791918904743', '121.65873795747757', NULL, NULL, 4, 122);
+('Jln. Kokos Raya No. 34', 'asdasd', '-8.832791918904743', '121.65873795747757', NULL, NULL, 4, 122);
 
 -- --------------------------------------------------------
 
