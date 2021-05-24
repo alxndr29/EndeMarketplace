@@ -24,7 +24,7 @@ class TransaksiController extends Controller
             ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
             ->groupBy('transaksi.idtransaksi')
             ->where('transaksi.users_iduser', $user->userid())
-            ->select('pengiriman.nomor_resi as nomorresi','pengiriman.kurir_idkurir as idkurir','pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
+            ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
             ->paginate(10);
         return view('user.transaksi.transaksi', compact('transaksi'));
     }
@@ -123,7 +123,15 @@ class TransaksiController extends Controller
                 ->where('transaksi.users_iduser', $user->userid())
                 ->select('pengiriman.biaya_pengiriman as biaya_pengiriman', 'transaksi.nominal_pembayaran as nominal_pembayaran', 'tipepembayaran.nama as namatipepembayaran')
                 ->get();
-            $result = ['produk' => $produk, 'transaksi' => $transaksi, 'alamat' => $alamat, 'pembayaran' => $pembayaran];
+            $hitungReview = DB::table('reviewproduk')->where('transaksi_idtransaksi',$id)->count();
+
+            $result = [
+                'produk' => $produk,
+                'transaksi' => $transaksi,
+                'alamat' => $alamat,
+                'pembayaran' => $pembayaran,
+                'hitungReview' => $hitungReview
+            ];
             return $result;
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -132,8 +140,8 @@ class TransaksiController extends Controller
     public function selesaiPesanan($id)
     {
         try {
-            DB::table('transaksi')->where('idtransaksi',$id)->update(['status_transaksi' => 'Selesai']);
-            return redirect('user/transaksi/index')->with('berhasil','pesanan anda selesai');
+            DB::table('transaksi')->where('idtransaksi', $id)->update(['status_transaksi' => 'Selesai']);
+            return redirect('user/transaksi/index')->with('berhasil', 'pesanan anda selesai');
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -168,7 +176,24 @@ class TransaksiController extends Controller
             return $e->getMessage();
         }
     }
-    public function reviewProduk(){
-        
+    public function reviewProduk(Request $request)
+    {
+        $komentarProduk = $request->get('komentarproduk');
+        $ratingProduk = $request->get('ratingproduk');
+        foreach ($komentarProduk as $key => $value) {
+            //return $key.$value;
+            DB::table('reviewproduk')->updateOrInsert(
+                ['produk_idproduk' => $key, 'transaksi_idtransaksi' => $request->get('idtransaksi')],
+                ['komentar' => $value]
+            );
+        }
+        foreach ($ratingProduk as $key => $value) {
+            //return $key.$value;
+            DB::table('reviewproduk')->updateOrInsert(
+                ['produk_idproduk' => $key, 'transaksi_idtransaksi' => $request->get('idtransaksi')],
+                ['rating' => $value]
+            );
+        }
+        //return $request->all();
     }
 }

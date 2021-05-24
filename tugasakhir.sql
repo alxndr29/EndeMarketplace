@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2021 at 07:26 PM
+-- Generation Time: May 24, 2021 at 08:41 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -107,7 +107,7 @@ CREATE TABLE `datapengiriman` (
 --
 
 INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`) VALUES
-(4, '-8.8438137886983', '121.6678360104561', '-8.832791918904743', '121.65873795747757', 1.5814820863158874, 0, 0, 'SelesaiAntar', NULL, NULL, 8, '-8.8441007', '121.6677168', '0.03448547434715484');
+(4, '-8.8438137886983', '121.6678360104561', '-8.832791918904743', '121.65873795747757', 1.5814820863158874, 0, 0, 'SelesaiAntar', NULL, NULL, 8, '-8.844147699999999', '121.66774009999997', '0.038593983135194');
 
 -- --------------------------------------------------------
 
@@ -162,7 +162,10 @@ INSERT INTO `diskusi` (`iddiskusi`, `users_iduser`, `produk_idproduk`, `tanggal`
 (20, 4, 23, '2021-05-08 00:49:17', 'Oke dah', 18, '2021-05-08 00:49:17', '2021-05-08 00:49:17'),
 (21, 4, 23, '2021-05-08 00:52:18', 'Lagi', 18, '2021-05-08 00:52:18', '2021-05-08 00:52:18'),
 (22, 4, 26, '2021-05-08 00:56:19', 'Komen pertama di id 26', NULL, '2021-05-08 00:56:19', '2021-05-08 00:56:19'),
-(23, 1, 26, '2021-05-08 00:56:54', 'YAH KEDULUAN', 22, NULL, NULL);
+(23, 1, 26, '2021-05-08 00:56:54', 'YAH KEDULUAN', 22, NULL, NULL),
+(24, 4, 26, '2021-05-25 01:01:35', 'komen ke 2 id 26', NULL, '2021-05-25 01:01:35', '2021-05-25 01:01:35'),
+(25, 4, 25, '2021-05-25 01:03:08', 'komen di nestle milo', NULL, '2021-05-25 01:03:08', '2021-05-25 01:03:08'),
+(26, 4, 25, '2021-05-25 01:03:16', 'bales lah', 25, '2021-05-25 01:03:16', '2021-05-25 01:03:16');
 
 -- --------------------------------------------------------
 
@@ -1095,15 +1098,20 @@ INSERT INTO `provinsi` (`idprovinsi`, `nama`) VALUES
 --
 
 CREATE TABLE `reviewproduk` (
-  `idreviewproduk` int(11) NOT NULL,
-  `tanggal` datetime NOT NULL,
-  `komentar_produk` varchar(45) DEFAULT NULL,
-  `rating_produk` int(11) NOT NULL,
-  `users_iduser` int(11) NOT NULL,
   `produk_idproduk` int(11) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `transaksi_idtransaksi` int(11) NOT NULL,
+  `tanggal_waktu` datetime DEFAULT current_timestamp(),
+  `komentar` varchar(45) DEFAULT NULL,
+  `rating` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reviewproduk`
+--
+
+INSERT INTO `reviewproduk` (`produk_idproduk`, `transaksi_idtransaksi`, `tanggal_waktu`, `komentar`, `rating`) VALUES
+(23, 10, '2021-05-25 00:51:58', 'komen 1 raring 1', 1),
+(24, 10, '2021-05-25 00:51:58', 'komen produk 2 rating 3', 3);
 
 -- --------------------------------------------------------
 
@@ -1171,7 +1179,7 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`) VALUES
-(10, '2021-05-11 23:13:39', 'Selesai', 'Langsung', 47244, 4, 4, 5, 1, '2021-05-11 23:13:39', '2021-05-11 23:22:52'),
+(10, '2021-05-11 23:13:39', 'SampaiTujuan', 'Langsung', 47244, 4, 4, 5, 1, '2021-05-11 23:13:39', '2021-05-11 23:22:52'),
 (11, '2021-05-12 01:58:32', 'Selesai', 'Langsung', 95500, 4, 4, 15, 1, '2021-05-12 01:58:32', '2021-05-12 02:11:22');
 
 -- --------------------------------------------------------
@@ -1199,7 +1207,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `remember_token`, `foto_profil`, `created_at`, `updated_at`) VALUES
 (1, 'ewq', '@gmail.com', '123', '123', '2021-04-16 00:00:00', NULL, '31', '2021-04-07 00:00:00', '2021-04-16 00:00:00'),
-(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', '081353532525', '2021-04-15 14:02:19', '1oymh1skjDyF7e2r7ftckLbRyHRZWbQUn7L0z1TQbvdzomVYW88aZqdmGuVN', NULL, '2021-04-15 14:01:44', '2021-05-14 11:42:44'),
+(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', '081353532525', '2021-04-15 14:02:19', '7UpDMf3fChTux2oqQbp5PcWUy6lkWxetrjM79WcZ3KTEvINNQxv6DwGfB1Lk', NULL, '2021-04-15 14:01:44', '2021-05-14 11:42:44'),
 (5, 'Goesti', 'gusti@gusti.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', NULL, '2021-04-15 14:02:19', NULL, NULL, '2021-04-28 14:54:50', '2021-04-28 14:54:50'),
 (6, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$zqqGrUDj2YZphPmE736wL.fIbFlt.GrzGel1HajadTBQbXpu8KLUi', NULL, NULL, NULL, NULL, '2021-05-16 22:51:05', '2021-05-16 22:51:05');
 
@@ -1388,9 +1396,9 @@ ALTER TABLE `provinsi`
 -- Indexes for table `reviewproduk`
 --
 ALTER TABLE `reviewproduk`
-  ADD PRIMARY KEY (`idreviewproduk`),
-  ADD KEY `fk_reviewproduk_user1_idx` (`users_iduser`),
-  ADD KEY `fk_reviewproduk_produk1_idx` (`produk_idproduk`);
+  ADD PRIMARY KEY (`produk_idproduk`,`transaksi_idtransaksi`),
+  ADD KEY `fk_produk_has_transaksi_transaksi2_idx` (`transaksi_idtransaksi`),
+  ADD KEY `fk_produk_has_transaksi_produk2_idx` (`produk_idproduk`);
 
 --
 -- Indexes for table `tarifpengiriman`
@@ -1448,7 +1456,7 @@ ALTER TABLE `datapengiriman`
 -- AUTO_INCREMENT for table `diskusi`
 --
 ALTER TABLE `diskusi`
-  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `gambarproduk`
@@ -1503,12 +1511,6 @@ ALTER TABLE `pengiriman`
 --
 ALTER TABLE `produk`
   MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
---
--- AUTO_INCREMENT for table `reviewproduk`
---
-ALTER TABLE `reviewproduk`
-  MODIFY `idreviewproduk` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tarifpengiriman`
@@ -1658,8 +1660,8 @@ ALTER TABLE `produk`
 -- Constraints for table `reviewproduk`
 --
 ALTER TABLE `reviewproduk`
-  ADD CONSTRAINT `fk_reviewproduk_produk1` FOREIGN KEY (`produk_idproduk`) REFERENCES `produk` (`idproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_reviewproduk_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_produk_has_transaksi_produk2` FOREIGN KEY (`produk_idproduk`) REFERENCES `produk` (`idproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_produk_has_transaksi_transaksi2` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `transaksi`

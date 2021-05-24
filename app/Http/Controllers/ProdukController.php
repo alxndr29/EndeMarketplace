@@ -109,11 +109,18 @@ class ProdukController extends Controller
             ->select('gambarproduk.*')
             ->get();
 
-        $jumlahTerjual;
-        $jumlahUlasan;
-        $jumlahDiskusi;
+        $reviewProduk = DB::table('reviewproduk')
+        ->join('transaksi','transaksi.idtransaksi','=','reviewproduk.transaksi_idtransaksi')
+        ->join('users','users.iduser','=','transaksi.users_iduser')
+        ->where('reviewproduk.produk_idproduk',$id)
+        ->select('reviewproduk.*','users.name as nama_user')
+        ->get();
+        //return $reviewProduk;
+        // $jumlahTerjual;
+        // $jumlahUlasan;
+        // $jumlahDiskusi;
         //return $data->merchant_users_iduser;
-        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'diskusi'));
+        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'diskusi','reviewProduk'));
     }
     public function edit($id)
     {

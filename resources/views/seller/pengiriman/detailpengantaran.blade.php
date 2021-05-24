@@ -95,7 +95,6 @@
 
     function getLocation() {
         if (navigator.geolocation) {
-
             navigator.geolocation.watchPosition(
                 function(position) {
                     //alert(position.coords.latitude +"x"+ position.coords.longitude);

@@ -131,12 +131,12 @@ class CheckoutController extends Controller
                 );       
             }
 
-            $details = [
-                'title' => 'Checkout Pesanan TRX-'.$transaksi->idtransaksi,
-                'body' => 'Hallo, '.$dataUser->name.' Checkout anda berhasil. klik link berikut untuk melihat status transaksi anda! Terimakasih!'
-            ];
+            // $details = [
+            //     'title' => 'Checkout Pesanan TRX-'.$transaksi->idtransaksi,
+            //     'body' => 'Hallo, '.$dataUser->name.' Checkout anda berhasil. klik link berikut untuk melihat status transaksi anda! Terimakasih!'
+            // ];
 
-            \Mail::to($user->useremail())->send(new \App\Mail\CheckoutMail($details));
+            // \Mail::to($user->useremail())->send(new \App\Mail\CheckoutMail($details));
             
             return $request->all();
 

@@ -197,11 +197,7 @@
                                 Tulis Review
                             </button>
                         </div>
-                        <!-- <div class="row p-1">
-                            <button type="submit" class="btn btn-success" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
-                                Tanya Penjual
-                            </button>
-                        </div> -->
+                        
                     </div>
                 </div>
                 <br>
@@ -284,25 +280,27 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Default Modal</h4>
+                <h4 class="modal-title">Review Produk</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="daftarProdukReview">
-                <div class="row">
-                    <div class="col-3">
-                        <img style="width:75px;height:100px;" class="rounded pt-3" alt="..." src="http://localhost:8000/gambar/18.jpg">
-                    </div>
-                    <div class="col">
-                        <b> AVOMETER DIGITAL ZOTEK ZT98 / MULTITESTER DIGITAL ZT98ORIGINAL </b>
-                    </div>
+            <form method="post" action="{{route('pelanggan.transaksi.review')}}">
+                @csrf
+                <div class="modal-body" id="daftarProdukReview">
+                    <!-- <div class="row">
+                        <div class="col-3">
+                            <img style="width:75px;height:100px;" class="rounded pt-3" alt="..." src="http://localhost:8000/gambar/18.jpg">
+                        </div>
+                        <div class="col">
+                            <b> AVOMETER DIGITAL ZOTEK ZT98 / MULTITESTER DIGITAL ZT98ORIGINAL </b>
+                        </div>
+                    </div> -->
                 </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary">Simpan Perubahan</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -346,6 +344,11 @@
                 console.log(response.transaksi);
                 console.log(response.alamat);
                 console.log(response.pembayaran);
+                console.log(response.hitungReview);
+
+                if(response.hitungReview != 0){
+                    $( "#buttonReview" ).prop( "disabled", true );
+                }
                 //alert(response.produk[0].idalamat);
                 $("#modal-transaksi").html(
                     'Nomor Transaksi:' +
@@ -419,8 +422,13 @@
                         '</div>' +
                         '<div class="col">' +
                         '<b> ' + response.produk[i].nama_produk + ' </b>' +
+                        '<br>' +
+                        'Catatan: ' + catatan +
+                        '<div class="form-group"> <div class="row"> <div class="col-8"> '  + '<input type="text" placeholder="komentar produk"class="form-control" name=komentarproduk['+response.produk[i].produk_idproduk+']> </div>' +  '<div class="col"> <input type="number" placeholder="rating" class="form-control" name=ratingproduk['+response.produk[i].produk_idproduk+']>' +'</div> </div> </div>' +
+                        
                         '</div>' +
                         '</div>'
+                        + '<input type="hidden" name="idtransaksi" value=10>'
                     );
                 }
 

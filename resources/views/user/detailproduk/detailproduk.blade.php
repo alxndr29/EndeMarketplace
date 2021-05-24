@@ -109,18 +109,22 @@
                                 <div class="col">
                                     <div class="card">
                                         <div class="card-body">
+                                            @foreach($reviewProduk as $key => $value)
                                             <div class="row">
                                                 <div class="col col-lg-1">
                                                     <img style="width:75px;height:100px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg">
                                                 </div>
                                                 <div class="col col-lg-11">
-                                                    <b>Gusti Bagus</b>
+                                                    <b>{{$value->nama_user}}</b>
+                                                    <br>{{$value->tanggal_waktu}}
                                                     <br>
-                                                    <b>Barang sudah diterima dan bagus</b>
+                                                    {{$value->komentar}}
                                                     <br>
-                                                    <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                                                    Jumlah bintang: {{$value->rating}}
+                                                    <!-- <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p> -->
                                                 </div>
                                             </div>
+                                            @endforeach   
                                         </div>
                                     </div>
                                 </div>
@@ -178,38 +182,7 @@
                                 </div>
                             </div> -->
 
-                            <!-- @foreach ($diskusi as $key => $value)
-                            <div class="row">
-                                <div class="col">
-                                    <div class="card">
-                                        <div class="card-footer card-comments">
-                                            <div class="card-comment">
-                                               
-                                                <img class="img-circle img-sm" src="{{asset('adminlte/dist/img/user4-128x128.jpg')}}" alt="User Image">
-                                                <div class="comment-text">
-                                                    <span class="username">
-                                                        {{$value->nama_user}}
-                                                        <span class="text-muted float-right">{{$value->tanggal}}</span>
-                                                    </span>
-                                                    {{$value->pesandiskusi}}
-                                                </div>
-                                              
-                                            </div>
-                                            
-                                        </div>
-                                        <div class="card-footer">
-                                            <form action="{{route('diskusi.balasan.store',[$data->idproduk, $value->iddiskusi])}}" method="post">
-                                                @csrf
-                                                <img class="img-fluid img-circle img-sm" src="{{asset('adminlte/dist/img/user4-128x128.jpg')}}" alt="Alt Text">
-                                                <div class="img-push">
-                                                    <input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach -->
+                           
 
                             <!-- End Diskusi Produk -->
                         </div>
@@ -306,8 +279,7 @@
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('
-            berhasil ')}}');
+        alert('{{session('berhasil')}}');
         @endif
 
         loadKomentar(idproduk);
@@ -341,11 +313,7 @@
 
                 for (i = 0; i < parentBalasan.length; i++) {
                     var idddd = parentBalasan[i].iddiskusi;
-                    var action = "http://localhost:8000/diskusi/balasan/store/" + {
-                        {
-                            $data - > idproduk
-                        }
-                    } + "/" + idddd;
+                    var action = "http://localhost:8000/diskusi/balasan/store/" + {{$data->idproduk}} + "/" + idddd;
                     alert(action);
                     $("#custom-tabs-diskusi").append(
                         '<div class="row">' +
@@ -364,12 +332,12 @@
                         '<div class="card-footer card-comments" id="parentdiskusi-' + parentBalasan[i].iddiskusi + '">' +
                         '</div>' +
                         '<div class="card-footer">' +
-                        '@if(isset($value->iddiskusi))<form action="' + action + '" method="post"> @csrf' +
+                        '<form action="' + action + '" method="post"> @csrf' +
                         '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
                         '<div class="img-push">' +
                         '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
                         '</div>' +
-                        '</form>@endif' +
+                        '</form>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
