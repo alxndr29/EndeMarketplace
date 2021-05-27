@@ -13,6 +13,8 @@ use App\Gambarproduk;
 use App\Jenisproduk;
 use Illuminate\Support\Carbon;
 use Intervention\Image\ImageManagerStatic as Image;
+use Phpml\Association\Apriori;
+
 
 class ProdukController extends Controller
 {
@@ -87,6 +89,55 @@ class ProdukController extends Controller
     }
     public function show($id)
     {
+        // $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
+        // $ar1 = array();
+        // $ar2 = array();
+       
+        // for ($i = 0; $i < count($da); $i++) {
+        //     if ($i == 0) {
+        //         array_push($ar2, $da[$i]->produk_idproduk);
+        //     } else if ($da[$i]->transaksi_idtransaksi == $da[$i - 1]->transaksi_idtransaksi) {
+        //         array_push($ar2, $da[$i]->produk_idproduk);
+        //         if ($i == (count($da) - 1)) {
+        //             array_push($ar1, $ar2);
+        //         }
+        //     } else {
+        //         array_push($ar1, $ar2);
+        //         foreach ($ar2 as $key => $value) {
+        //             unset($ar2[$key]);
+        //         }
+        //         array_push($ar2, $da[$i]->produk_idproduk);
+        //         if ($i == (count($da) - 1)) {
+        //             array_push($ar1, $ar2);
+        //         }
+        //     }
+        // }
+        // //return $ar2;
+        // return $ar1;
+
+        //$samples = [['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta'], ['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta']];
+        // $samples = [
+        //     ['pena', 'roti', 'mentega'], 
+        //     ['roti', 'mentega', 'telur'], 
+        //     ['buncis', 'telur', 'susu'], 
+        //     ['roti', 'mentega'],
+        //     ['roti','mentega','kecap','telur','susu']
+        // ];
+        // $samples = [
+        //     ['1', '2'], 
+        //     ['1', '2'],
+        //     ['3']
+        // ];
+        // $labels  = [];
+
+        // $support = 0;
+        // $confidence = 0;
+        // $associator = new Apriori($support, $confidence);
+        // $associator->train($samples, $labels);
+        // $data =  $associator->getRules();
+        // return $data;
+
+
         $diskusi = DB::table('diskusi')
             ->join('produk', 'produk.idproduk', '=', 'diskusi.produk_idproduk')
             ->join('users', 'users.iduser', '=', 'diskusi.users_iduser')
@@ -115,11 +166,11 @@ class ProdukController extends Controller
         ->where('reviewproduk.produk_idproduk',$id)
         ->select('reviewproduk.*','users.name as nama_user')
         ->get();
-        //return $reviewProduk;
+
         // $jumlahTerjual;
         // $jumlahUlasan;
         // $jumlahDiskusi;
-        //return $data->merchant_users_iduser;
+       
         return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'diskusi','reviewProduk'));
     }
     public function edit($id)

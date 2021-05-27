@@ -151,9 +151,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Pilih Alamat</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                </button> -->
             </div>
             <div class="modal-body" id="daftarAlamat">
 
@@ -192,8 +192,6 @@
         $("#nominalpembayaran").val(jumlah);
         $("#dukunganPengiriman").attr("disabled", true);
         $("#biayaKurir").attr("disabled", true);
-
-
     });
 
     $.ajax({
@@ -201,6 +199,7 @@
         type: "GET",
         success: function(response) {
             console.log(response);
+            console.log(response.length);
             for (i = 0; i < response.length; i++) {
                 $("#daftarAlamat").append(
                     '<div class="row border p-3">' +
@@ -231,6 +230,7 @@
         $("#dukunganPengiriman").attr("disabled", false);
     });
     function loadAlamat(id) {
+        
         for (i = 0; i < dataAlamat.length; i++) {
             if (dataAlamat[i].idalamat == id) {
                 $("#idalamat").val(id);

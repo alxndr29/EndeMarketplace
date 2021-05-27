@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '11dcc7d3d848bcf98a511240157a559cafd67f90',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -426,12 +426,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '11dcc7d3d848bcf98a511240157a559cafd67f90',
     ),
     'laravel/tinker' => 
     array (
@@ -571,6 +571,15 @@
       array (
       ),
       'reference' => 'bae7c545bef187884426f042434e561ab1ddb182',
+    ),
+    'php-ai/php-ml' => 
+    array (
+      'pretty_version' => '0.9.0',
+      'version' => '0.9.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'fd8b70629e16ed67307fe150ba25738449b9a6b2',
     ),
     'phpdocumentor/reflection-common' => 
     array (
