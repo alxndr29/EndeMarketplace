@@ -54,9 +54,11 @@ Route::get('/xendit/showpayment', 'XenditController@showPayment')->name('xendit.
 
 //Midtrans Payment Gateway
 Route::get('/midtrans/index','MidtransController@index');
+Route::get('/midtrans/getToken/{id}', 'MidtransController@getToken');
 Route::get('/midtrans/status', 'MidtransController@getStatus');
 Route::get('/midtrans/cancel', 'MidtransController@cancelPayment');
 Route::post('/midtrans/notification', 'MidtransController@payment_handling');
+
 
 //User Device
 Route::get('/userdevice', 'UserDeviceController@getusersysteminfo')->name('userdevice.getusersysteminfo');

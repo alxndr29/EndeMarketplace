@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Alamatpembeli;
 use App\Transaksi;
@@ -15,6 +16,18 @@ use App\Mail\CheckoutMail;
 class CheckoutController extends Controller
 {
     //
+    public function config()
+    {
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = 'SB-Mid-server-NQzZhOE4mVPzJPoeY5CIObIU';
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+    }
+
     public function index($id)
     {
         $user = new User();
@@ -57,6 +70,7 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         try {
+            
 
             $user = new User();
             $dataUser = User::where('iduser',$user->userid())->first();
@@ -71,7 +85,11 @@ class CheckoutController extends Controller
                 ->get();
 
             $transaksi = new Transaksi();
-            $transaksi->status_transaksi = 'MenungguKonfirmasi';
+            if($request->get('tipePembayaran') == "2"){
+                $transaksi->status_transaksi = 'MenungguPembayaran';
+            }else{
+                $transaksi->status_transaksi = 'MenungguKonfirmasi';
+            }
             $transaksi->jenis_transaksi = 'Langsung';
             $transaksi->nominal_pembayaran = $request->get('nominalpembayaran') + $request->get('biaya_pengiriman');
             $transaksi->users_iduser = $user->userid();
@@ -131,6 +149,27 @@ class CheckoutController extends Controller
                 );       
             }
 
+            if ($request->get('tipePembayaran') == "2") {
+                $this->config();
+                $user = Auth::user();
+                $params = array(
+                    'transaction_details' => array(
+                        'order_id' => rand(),
+                        'gross_amount' => $request->get('nominalpembayaran') + $request->get('biaya_pengiriman'),
+                    ),
+                    'customer_details' => array(
+                        'first_name' => $user->name,
+                        'email' => $user->email,
+                        'phone' => $user->telepon,
+                    ),
+                );
+                $snapToken = \Midtrans\Snap::getSnapToken($params);
+                DB::table('pembayaran')->insert([
+                    'token' => $snapToken,
+                    'transaksi_idtransaksi' => $id
+                ]);
+            }
+
             // $details = [
             //     'title' => 'Checkout Pesanan TRX-'.$transaksi->idtransaksi,
             //     'body' => 'Hallo, '.$dataUser->name.' Checkout anda berhasil. klik link berikut untuk melihat status transaksi anda! Terimakasih!'
@@ -138,7 +177,9 @@ class CheckoutController extends Controller
 
             // \Mail::to($user->useremail())->send(new \App\Mail\CheckoutMail($details));
             
-            return $request->all();
+            //return $request->all();
+            
+            return redirect('user/transaksi/index');
 
         } catch (\Exception $e) {
             return $e->getMessage();

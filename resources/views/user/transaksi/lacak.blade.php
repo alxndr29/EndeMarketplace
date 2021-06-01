@@ -123,6 +123,7 @@
                 loadKurir();
             }, 10000);
         }
+        
        
     }
     function loadKurir(){
@@ -160,6 +161,7 @@
             label: "Lokasi Kurir"
         });
         marker3.setMap(map);
+        console.log('update kurir');
     }
 
     $(document).ready(function() {

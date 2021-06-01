@@ -121,7 +121,6 @@
                                             </button>
 
                                             @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "PesananDiproses" )
-
                                             @if($value->idkurir == "1")
                                             <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;">
                                                 Lacak
@@ -134,10 +133,16 @@
 
                                             @endif
 
-                                            @if($value->status_transaksi == "SampaiTujuan" || $value->idkurir == "1" && $value->status_transaksi != "Selesai")
+                                            @if($value->status_transaksi == "SampaiTujuan" || $value->idkurir == "1")
+                                            @if($value->status_transaksi != "MenungguPembayaran")
                                             <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
                                                 Selesai
                                             </a>
+                                            @else
+                                            <button onClick="bayar({{$value->idtransaksi}})" class="btn btn-success" style="margin-right: 5px;">
+                                                Bayar
+                                            </button>
+                                            @endif
                                             @endif
                                         </div>
                                     </div>
@@ -197,7 +202,7 @@
                                 Tulis Review
                             </button>
                         </div>
-                        
+
                     </div>
                 </div>
                 <br>
@@ -308,13 +313,13 @@
 
 
 @section('js')
+
 <script type="text/javascript">
     $(document).ready(function() {
         // alert('hello world!');
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('
-            berhasil ')}}');
+        alert('{{session('berhasil')}}');
         @endif
     });
     $("#btnFilter").click(function() {
@@ -330,11 +335,40 @@
         $("#modalreview").modal('show');
     });
 
+    function bayar(id) {
+        $.ajax({
+            url: "{{url('midtrans/getToken')}}/" + id,
+            type: 'GET',
+            success: function(response) {
+                console.log(response);
+                snap.pay(response, {
+                    onSuccess: function(result) {
+                        console.log('success');
+                        console.log(result);
+                    },
+                    onPending: function(result) {
+                        console.log('pending');
+                        console.log(result);
+                    },
+                    onError: function(result) {
+                        console.log('error');
+                        console.log(result);
+                    },
+                    onClose: function() {
+                        console.log('customer closed the popup without finishing the payment');
+                    }
+                })
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    }
+
     function test(id) {
         // $('#myModal').modal('toggle');
         // $('#myModal').modal('show');
         // $('#myModal').modal('hide');
-
         //alert(id);
         $.ajax({
             url: "{{url('user/transaksi/detail')}}/" + id,
@@ -346,8 +380,8 @@
                 console.log(response.pembayaran);
                 console.log(response.hitungReview);
 
-                if(response.hitungReview != 0){
-                    $( "#buttonReview" ).prop( "disabled", true );
+                if (response.hitungReview != 0) {
+                    $("#buttonReview").prop("disabled", true);
                 }
                 //alert(response.produk[0].idalamat);
                 $("#modal-transaksi").html(
@@ -424,11 +458,11 @@
                         '<b> ' + response.produk[i].nama_produk + ' </b>' +
                         '<br>' +
                         'Catatan: ' + catatan +
-                        '<div class="form-group"> <div class="row"> <div class="col-8"> '  + '<input type="text" placeholder="komentar produk"class="form-control" name=komentarproduk['+response.produk[i].produk_idproduk+']> </div>' +  '<div class="col"> <input type="number" placeholder="rating" class="form-control" name=ratingproduk['+response.produk[i].produk_idproduk+']>' +'</div> </div> </div>' +
-                        
+                        '<div class="form-group"> <div class="row"> <div class="col-8"> ' + '<input type="text" placeholder="komentar produk"class="form-control" name=komentarproduk[' + response.produk[i].produk_idproduk + ']> </div>' + '<div class="col"> <input type="number" placeholder="rating" class="form-control" name=ratingproduk[' + response.produk[i].produk_idproduk + ']>' + '</div> </div> </div>' +
+
                         '</div>' +
-                        '</div>'
-                        + '<input type="hidden" name="idtransaksi" value=10>'
+                        '</div>' +
+                        '<input type="hidden" name="idtransaksi" value=10>'
                     );
                 }
 

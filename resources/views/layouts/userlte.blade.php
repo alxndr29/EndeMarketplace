@@ -30,6 +30,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- bootstrap slider -->
     <link rel="stylesheet" href="{{asset('adminlte/plugins/bootstrap-slider/css/bootstrap-slider.min.css')}}">
 
+
 </head>
 
 <body class="hold-transition sidebar-collapse layout-top-nav">
@@ -279,7 +280,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{route('user.home')}}">Home</a></li>
                                 @yield('breadcrumb')
-                               
+
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -352,6 +353,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
     </script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
+
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-ZXG2YBvaF0n8pvHq"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

@@ -100,7 +100,7 @@
                     //alert(position.coords.latitude +"x"+ position.coords.longitude);
                     latitude = position.coords.latitude;
                     longitude = position.coords.longitude;
-                    if (loc == true) {
+                    if (loc = true) {
                         updateLokasiKurir();
                         alert('detik');
                     }

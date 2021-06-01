@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use DB;
 class MidtransController extends Controller
 {
     //
@@ -21,49 +21,50 @@ class MidtransController extends Controller
     }
     public function index()
     {
-        $this->config();
+        $this->config();   
         $params = array(
             'transaction_details' => array(
-                'order_id' => rand(),
+                'order_id' => 2012,
                 'gross_amount' => 20000,
             ),
             'customer_details' => array(
                 'first_name' => 'Alexander',
-                'last_name' => 'Evan',
                 'email' => 'alexevan2810@gmail.com',
                 'phone' => '08111222333',
             ),
         );
-        
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         return view('user.midtrans', compact('snapToken'));
-       
-        /*
-        try {
-            // Get Snap Payment Page URL
-            $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
-            // Redirect to Snap Payment Page
-            // header('Location: ' . $paymentUrl);
-            return redirect($paymentUrl);
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }*/
+
+        // try {
+        //     $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
+        //     // Redirect to Snap Payment Page
+        //     //header('Location: ' . $paymentUrl);
+        //     return redirect($paymentUrl);
+        // } catch (Exception $e) {
+        //     return $e->getMessage();
+        // }
+        
+    }
+    public function getToken($id){
+        $data = DB::table('pembayaran')->where('transaksi_idtransaksi',$id)->first();
+        return $data->token;
     }
     public function getStatus()
     {
         $this->config();
-        $status = \Midtrans\Transaction::status(9999);
+        $status = \Midtrans\Transaction::status(201);
         dd($status);
+        
     }
     public function cancelPayment()
     {
         $this->config();
-        $cancel = \Midtrans\Transaction::cancel(1906485419);
+        $cancel = \Midtrans\Transaction::cancel(1);
         dd($cancel);
     }
     public function payment_handling(Request $request)
     {
-
         $this->config();
         $notif = new \Midtrans\Notification();
 
@@ -87,6 +88,12 @@ class MidtransController extends Controller
         } else if ($transaction == 'settlement') {
             // TODO set payment status in merchant's database to 'Settlement'
             echo "Transaction order_id: " . $order_id . " successfully transfered using " . $type;
+            DB::table('transaksi')->where('idtransaksi',$order_id)->update([
+                'status_transaksi' => "MenungguKonfirmasi"
+            ]);
+            DB::table('pembayaran')->where('transaksi_idtransaksi',$order_id)->update([
+                'status' => $transaction
+            ]);
         } else if ($transaction == 'pending') {
             // TODO set payment status in merchant's database to 'Pending'
             echo "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;

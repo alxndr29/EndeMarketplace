@@ -96,14 +96,13 @@ class PengirimanController extends Controller
     }
     public function detailPengantaran($idpengiriman, $idtransaksi, $jenis)
     {
-
         $merchant = new Merchant();
         $data = DB::table('pengiriman')
             ->leftJoin('datapengiriman', 'datapengiriman.pengiriman_idpengiriman', '=', 'pengiriman.idpengiriman')
             ->join('transaksi', 'transaksi.idtransaksi', '=', 'pengiriman.transaksi_idtransaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
-            ->where('transaksi.merchant_users_iduser', '=', $merchant->idmerchant())
+            //->where('transaksi.merchant_users_iduser', '=', $merchant->idmerchant())
             ->where('pengiriman.idpengiriman', '=', $idpengiriman)
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->first();

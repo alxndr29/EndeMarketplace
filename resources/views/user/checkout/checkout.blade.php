@@ -200,6 +200,9 @@
         success: function(response) {
             console.log(response);
             console.log(response.length);
+            if(response.length == 0){
+                 $("#daftarAlamat").html('Anda belum memiliki alamat. Klik <a href="'+"{{route('alamatpembeli.index')}}"+ '">Disini</a> untuk menambah alamat baru');
+            }
             for (i = 0; i < response.length; i++) {
                 $("#daftarAlamat").append(
                     '<div class="row border p-3">' +
