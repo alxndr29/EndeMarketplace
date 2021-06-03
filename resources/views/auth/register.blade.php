@@ -77,6 +77,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="input-group mb-3">
+                        <input id="telepon" type="number" class="form-control @error('telepon') is-invalid @enderror" placeholder="Telepon" name="telepon" value="{{ old('telepon') }}">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-phone"></span>
+                            </div>
+                        </div>
+                        @error('telepon')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
                     <div class="row">
                         <div class="col">
                             <button type="submit" class="btn btn-primary btn-block">Daftar</button>

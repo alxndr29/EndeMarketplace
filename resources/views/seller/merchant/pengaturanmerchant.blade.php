@@ -187,19 +187,19 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="deskripsiMerchant">Alamat Lengkapt</label>
-                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="alamatLengkap">{{$alamat->alamat_lengkap}}</textarea>
+                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="alamatLengkap">{{$alamat->alamat_lengkap ?? ""}}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Telepon</label>
-                            <input type="text" class="form-control" name="telepon" value="{{$alamat->telepon}}">
+                            <input type="text" class="form-control" name="telepon" value="{{$alamat->telepon ?? ''}}">
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Longitude</label>
-                            <input type="text" class="form-control" name="dataLongitude" id="longitude" value="{{$alamat->longitude}}" readonly>
+                            <input type="text" class="form-control" name="dataLongitude" id="longitude" value="{{$alamat->longitude ?? ''}}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Latitude</label>
-                            <input type="text" class="form-control" name="dataLatitude" id="latitude" value="{{$alamat->latitude}}" readonly>
+                            <input type="text" class="form-control" name="dataLatitude" id="latitude" value="{{$alamat->latitude ?? ''}}" readonly>
                         </div>
                         <div id="map" style="height:500px;width100%;">
 
@@ -372,9 +372,9 @@
 
 @section('js')
 
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
 </script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
 <script type="text/javascript">
     var lat = "";
@@ -385,8 +385,9 @@
         alert('{{session('
             berhasil ')}}');
         @endif
-        // getLocation();
-        //initMap();
+        
+        getLocation();
+
 
         $("#minimumBebasOngkir").attr("disabled", true);
         $("#estimasiBebasOngkir").attr("disabled", true);
@@ -456,46 +457,39 @@
         //     title: "Hello World!",
         // });
 
-        // DARI SINI
-        // var myLatlng = new google.maps.LatLng({
-        //     {
-        //         $alamat - > latitude
-        //     }
-        // }, {
-        //     {
-        //         $alamat - > longitude
-        //     }
-        // });
-        // var mapOptions = {
-        //     zoom: 15,
-        //     center: myLatlng
-        // }
-        // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        // var marker = new google.maps.Marker({
-        //     position: myLatlng,
-        //     title: "Hello World!",
-        //     label: "Lokasi Pembeli"
-        // });
-        // let infoWindow = new google.maps.InfoWindow({
-        //     content: "Lokasi Anda",
-        //     position: myLatlng,
-        // });
-        // infoWindow.open(map);
-        // // Configure the click listener.
-        // map.addListener("click", (mapsMouseEvent) => {
-        //     // Close the current InfoWindow.
-        //     infoWindow.close();
-        //     // Create a new InfoWindow.
-        //     infoWindow = new google.maps.InfoWindow({
-        //         position: mapsMouseEvent.latLng,
-        //     });
-        //     infoWindow.setContent(
-        //         'Lokasi Baru',
-        //         $("#longitude").val(mapsMouseEvent.latLng.lng().toString()),
-        //         $("#latitude").val(mapsMouseEvent.latLng.lat().toString())
-        //     );
-        //     infoWindow.open(map);
-        // });
+        //DARI SINI
+
+        var myLatlng = new google.maps.LatLng(lat, lot);
+        var mapOptions = {
+            zoom: 15,
+            center: myLatlng
+        }
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            title: "Hello World!",
+            label: "Lokasi Pembeli"
+        });
+        let infoWindow = new google.maps.InfoWindow({
+            content: "Lokasi Anda",
+            position: myLatlng,
+        });
+        infoWindow.open(map);
+        // Configure the click listener.
+        map.addListener("click", (mapsMouseEvent) => {
+            // Close the current InfoWindow.
+            infoWindow.close();
+            // Create a new InfoWindow.
+            infoWindow = new google.maps.InfoWindow({
+                position: mapsMouseEvent.latLng,
+            });
+            infoWindow.setContent(
+                'Lokasi Baru',
+                $("#longitude").val(mapsMouseEvent.latLng.lng().toString()),
+                $("#latitude").val(mapsMouseEvent.latLng.lat().toString())
+            );
+            infoWindow.open(map);
+        });
 
         //SAMPE SINI
 
@@ -519,6 +513,7 @@
         $("#latitude").val(position.coords.latitude);
         console.log(lat);
         console.log(lot);
+        initMap();
     }
 </script>
 @endsection

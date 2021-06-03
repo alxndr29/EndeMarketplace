@@ -21,8 +21,8 @@ class CekMerchant
         if($data != 0){
             return $next($request);
         }else{
-
             return response()->view('seller.merchant.registrasimerchant');
+            //return redirect('seller/merchant/daftar');
         }
        
     }

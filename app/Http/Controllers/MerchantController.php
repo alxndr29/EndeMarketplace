@@ -21,7 +21,7 @@ class MerchantController extends Controller
         //$this->middleware(['auth', 'verified']);
         $this->middleware(['auth']);
         $this->middleware(['cekdevice']);
-        $this->middleware(['cekmerchant']);
+        //$this->middleware(['cekmerchant']);
     }
     
     public function index()
@@ -41,12 +41,18 @@ class MerchantController extends Controller
             $merchantid = DB::table('merchant')->where('users_iduser', '=', $user->userid())->get();
             return $merchantid[0]->idmerchant;
             */
-            $merchant = new Merchant();
-            $user = new User();
-            $merchant->nama = $request->get('namamerchant');
-            $merchant->users_iduser = $user->userid();
-            $merchant->save();
-            return "berhasil";
+            try{
+                $merchant = new Merchant();
+                $user = new User();
+                $merchant->nama = $request->get('namamerchant');
+                $merchant->users_iduser = $user->userid();
+                $merchant->save();
+                //return "berhasil";
+                return redirect('seller/merchant');
+            }catch(\Exception $e){
+                return $e->getMessage();
+            }
+           
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -209,89 +215,89 @@ class MerchantController extends Controller
     {
         try {
 
-            // if ($request->hasFile('fotoProfil')) {
-            //     $extension = $request->fotoProfil->extension();
-            //     $destinationPath = public_path('fotoProfil');
-            //     $file = $request->file('fotoProfil');
-            //     $file->move($destinationPath, 'merchant-fotoprofil-' . $id . "." . $extension);
+            if ($request->hasFile('fotoProfil')) {
+                $extension = $request->fotoProfil->extension();
+                $destinationPath = public_path('fotoProfil');
+                $file = $request->file('fotoProfil');
+                $file->move($destinationPath, 'merchant-fotoprofil-' . $id . "." . $extension);
 
-            //     Merchant::where('users_iduser', $id)
-            //         ->update([
-            //             'foto_profil' => 'merchant-fotoprofil-' . $id .".". $extension
-            //     ]);
-            // }
-            // if ($request->hasFile('fotoSampul')) {
-            //     $extension = $request->fotoSampul->extension();
-            //     $destinationPath = public_path('fotoSampul');
-            //     $file = $request->file('fotoSampul');
-            //     $file->move($destinationPath, 'merchant-fotosampul-' . $id . "." . $extension);
+                Merchant::where('users_iduser', $id)
+                    ->update([
+                        'foto_profil' => 'merchant-fotoprofil-' . $id .".". $extension
+                ]);
+            }
+            if ($request->hasFile('fotoSampul')) {
+                $extension = $request->fotoSampul->extension();
+                $destinationPath = public_path('fotoSampul');
+                $file = $request->file('fotoSampul');
+                $file->move($destinationPath, 'merchant-fotosampul-' . $id . "." . $extension);
 
-            //     Merchant::where('users_iduser', $id)
-            //         ->update([
-            //             'foto_sampul' => 'merchant-fotosampul-' . $id . "." . $extension
-            //     ]);
-            // }
-            // Merchant::where('users_iduser',$id)
-            // ->update([
-            //     'deskripsi' => $request->get('deskripsiMerchant'),
-            //     'status_merchant' => $request->get('statusMerchant'),
-            //     'jam_buka' => $request->get('jamBuka'),
-            //     'jam_tutup' => $request->get('jamTutup'),
-            //     'nama' => $request->get('namaMerchant')
-            // ]);
-            // DB::table('alamatmerchant')
-            //     ->updateOrInsert(
-            //         ['merchant_users_iduser' => $id],
-            //         [
-            //             'alamat_lengkap' => $request->get('alamatLengkap'),
-            //             'telepon' => $request->get('telepon'),
-            //             'latitude' => $request->get('dataLatitude'),
-            //             'longitude' => $request->get('dataLongitude')
-            //         ]
-            //     );
-            // return redirect('seller/merchant/edit')->with('berhasil', 'berhasil ubh data merchant');
+                Merchant::where('users_iduser', $id)
+                    ->update([
+                        'foto_sampul' => 'merchant-fotosampul-' . $id . "." . $extension
+                ]);
+            }
+            Merchant::where('users_iduser',$id)
+            ->update([
+                'deskripsi' => $request->get('deskripsiMerchant'),
+                'status_merchant' => $request->get('statusMerchant'),
+                'jam_buka' => $request->get('jamBuka'),
+                'jam_tutup' => $request->get('jamTutup'),
+                'nama' => $request->get('namaMerchant')
+            ]);
+            DB::table('alamatmerchant')
+                ->updateOrInsert(
+                    ['merchant_users_iduser' => $id],
+                    [
+                        'alamat_lengkap' => $request->get('alamatLengkap'),
+                        'telepon' => $request->get('telepon'),
+                        'latitude' => $request->get('dataLatitude'),
+                        'longitude' => $request->get('dataLongitude')
+                    ]
+                );
+           
 
-            // if ($request->has('checkboxBebasOngkir')) {
-            //     DB::table('dukungantarifpengiriman')->updateOrInsert(
-            //         ['merchant_users_iduser' => $id, 'tarifpengiriman_idtarifpengiriman' => $request->get('checkboxBebasOngkir')],
-            //         ['minimum_belanja' => $request->get('minimumBebasOngkir'), 'etd' => $request->get('estimasiBebasOngkir')]
-            //     );
-            // } else {
-            //     DB::table('dukungantarifpengiriman')->where('merchant_users_iduser', '=', $id)->where('tarifpengiriman_idtarifpengiriman', '=', 1)->delete();
-            // }
-            // if ($request->has('checkboxTarifFlat')) {
-            //     DB::table('dukungantarifpengiriman')->updateOrInsert(
-            //         ['merchant_users_iduser' => $id, 'tarifpengiriman_idtarifpengiriman' => $request->get('checkboxTarifFlat')],
-            //         ['minimum_belanja' => $request->get('minimumTarifFlat'), 'etd' => $request->get('estimasiTarifFlat'), 'tarif_berat' => $request->get('tarifTarifFlat'), 'tarif_volume' => $request->get('tarifTarifFlat'), 'tarif_jarak' => $request->get('tarifTarifFlat')]
-            //     );
-            // } else {
-            //     DB::table('dukungantarifpengiriman')->where('merchant_users_iduser', '=', $id)->where('tarifpengiriman_idtarifpengiriman', '=', 2)->delete();
-            // }
-            // if ($request->has('checkboxTarifStandar')) {
-            //     DB::table('dukungantarifpengiriman')->updateOrInsert(
-            //         ['merchant_users_iduser' => $id, 'tarifpengiriman_idtarifpengiriman' => $request->get('checkboxTarifStandar')],
-            //         ['minimum_belanja' => $request->get('minimumTarifStandar'), 'etd' => $request->get('estimasiTarifStandar'), 'tarif_berat' => $request->get('tarifBerat'), 'tarif_volume' => $request->get('tarifVolume'), 'tarif_jarak' => $request->get('tarifJarak')]
-            //     );
-            // } else {
-            //     DB::table('dukungantarifpengiriman')->where('merchant_users_iduser', '=', $id)->where('tarifpengiriman_idtarifpengiriman', '=', 3)->delete();
-            // }
+            if ($request->has('checkboxBebasOngkir')) {
+                DB::table('dukungantarifpengiriman')->updateOrInsert(
+                    ['merchant_users_iduser' => $id, 'tarifpengiriman_idtarifpengiriman' => $request->get('checkboxBebasOngkir')],
+                    ['minimum_belanja' => $request->get('minimumBebasOngkir'), 'etd' => $request->get('estimasiBebasOngkir')]
+                );
+            } else {
+                DB::table('dukungantarifpengiriman')->where('merchant_users_iduser', '=', $id)->where('tarifpengiriman_idtarifpengiriman', '=', 1)->delete();
+            }
+            if ($request->has('checkboxTarifFlat')) {
+                DB::table('dukungantarifpengiriman')->updateOrInsert(
+                    ['merchant_users_iduser' => $id, 'tarifpengiriman_idtarifpengiriman' => $request->get('checkboxTarifFlat')],
+                    ['minimum_belanja' => $request->get('minimumTarifFlat'), 'etd' => $request->get('estimasiTarifFlat'), 'tarif_berat' => $request->get('tarifTarifFlat'), 'tarif_volume' => $request->get('tarifTarifFlat'), 'tarif_jarak' => $request->get('tarifTarifFlat')]
+                );
+            } else {
+                DB::table('dukungantarifpengiriman')->where('merchant_users_iduser', '=', $id)->where('tarifpengiriman_idtarifpengiriman', '=', 2)->delete();
+            }
+            if ($request->has('checkboxTarifStandar')) {
+                DB::table('dukungantarifpengiriman')->updateOrInsert(
+                    ['merchant_users_iduser' => $id, 'tarifpengiriman_idtarifpengiriman' => $request->get('checkboxTarifStandar')],
+                    ['minimum_belanja' => $request->get('minimumTarifStandar'), 'etd' => $request->get('estimasiTarifStandar'), 'tarif_berat' => $request->get('tarifBerat'), 'tarif_volume' => $request->get('tarifVolume'), 'tarif_jarak' => $request->get('tarifJarak')]
+                );
+            } else {
+                DB::table('dukungantarifpengiriman')->where('merchant_users_iduser', '=', $id)->where('tarifpengiriman_idtarifpengiriman', '=', 3)->delete();
+            }
 
-            // if($request->has('checkboxJNE')){
-            //     DB::table('dukunganpengiriman')->updateOrInsert([
-            //         'merchant_users_iduser' => $id,
-            //         'kurir_idkurir' => 1
-            //     ]);
-            // }else{
-            //     DB::table('dukunganpengiriman')->where('merchant_users_iduser',$id)->where('kurir_idkurir',1)->delete();
-            // }
-            // if ($request->has('checkboxKurirMerchant')) {
-            //     DB::table('dukunganpengiriman')->updateOrInsert([
-            //         'merchant_users_iduser' => $id,
-            //         'kurir_idkurir' => 2
-            //     ]);
-            // } else {
-            //     DB::table('dukunganpengiriman')->where('merchant_users_iduser', $id)->where('kurir_idkurir', 2)->delete();
-            // }
+            if($request->has('checkboxJNE')){
+                DB::table('dukunganpengiriman')->updateOrInsert([
+                    'merchant_users_iduser' => $id,
+                    'kurir_idkurir' => 1
+                ]);
+            }else{
+                DB::table('dukunganpengiriman')->where('merchant_users_iduser',$id)->where('kurir_idkurir',1)->delete();
+            }
+            if ($request->has('checkboxKurirMerchant')) {
+                DB::table('dukunganpengiriman')->updateOrInsert([
+                    'merchant_users_iduser' => $id,
+                    'kurir_idkurir' => 2
+                ]);
+            } else {
+                DB::table('dukunganpengiriman')->where('merchant_users_iduser', $id)->where('kurir_idkurir', 2)->delete();
+            }
  
             if ($request->has('checkboxCOD')) {
                 DB::table('dukunganpembayaran')->updateOrInsert([
@@ -309,6 +315,8 @@ class MerchantController extends Controller
             } else {
                 DB::table('dukunganpembayaran')->where('merchant_users_iduser', $id)->where('tipepembayaran_idtipepembayaran', 2)->delete();
             }
+
+            return redirect('seller/merchant/edit')->with('berhasil', 'berhasil ubh data merchant');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

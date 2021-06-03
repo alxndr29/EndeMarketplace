@@ -70,14 +70,19 @@ Route::post('seller/kategori/store','KategoriProdukController@store')->name('kat
 Route::put('seller/kategori/update/{id}','KategoriProdukController@update')->name('kategoriproduk.update');
 Route::delete('seller/kategori/delete/{id}','KategoriProdukController@destroy')->name('kategoriproduk.destroy');
 
-//Merchant
-Route::get('seller/merchant','MerchantController@index')->name('merchant.index');
-Route::get('seller/merchant/daftar','MerchantController@create')->name('merchant.create');
-Route::post('seller/merchant/store','MerchantController@store')->name('merchant.store');
-Route::get('seller/merchant/edit','MerchantController@edit')->name('merchant.edit');
-Route::put('seller/merchant/update/{id}','MerchantController@update')->name('merchant.update');
-Route::get('user/merchant/profile/{id}','MerchantController@show')->name('merchant.show');
+
+
+Route::post('seller/merchant/store', 'MerchantController@store')->name('merchant.store');
+Route::get('user/merchant/profile/{id}', 'MerchantController@show')->name('merchant.show');
 Route::get('user/merchant/etalase/{id1}/{id2}/{id3?}', 'MerchantController@etalase')->name('merchant.etalase');
+
+Route::group(['middleware' => ['cekmerchant']], function () {
+    //Merchant
+    Route::get('seller/merchant', 'MerchantController@index')->name('merchant.index');
+    Route::get('seller/merchant/daftar', 'MerchantController@create')->name('merchant.create');
+    Route::get('seller/merchant/edit', 'MerchantController@edit')->name('merchant.edit');
+    Route::put('seller/merchant/update/{id}', 'MerchantController@update')->name('merchant.update');
+});
 
 //Alamat pembeli
 Route::get('user/alamat','AlamatPembeliController@index')->name('alamatpembeli.index');

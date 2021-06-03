@@ -60,10 +60,10 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Anda Belum Memiliki Merchant yang Terdaftar. <b>Silahkan isi data dibawah ini untuk membuka toko </b> </p>
 
-                <form action="login.html" method="post">
-                   
+                <form action="{{route('merchant.store')}}" method="post">
+                    @csrf
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nama Merchant">
+                        <input type="text" class="form-control" name="namamerchant" placeholder="Nama Merchant">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>

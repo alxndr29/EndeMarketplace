@@ -163,7 +163,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <span class="float-right text-muted text-sm">3 mins</span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
+                            <a href="{{route('obrolan.index.user')}}" class="dropdown-item">
                                 <i class="fas fa-envelope mr-2"></i> Pesan
                                 <span class="float-right text-muted text-sm">12 hours</span>
                             </a>
@@ -398,7 +398,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
         $("#btnSearchProduk").click(function() {
             var url = "{{url('user/produk/cari')}}/" + $("#txtSearchProduk").val();
-            alert(url);
+            //alert(url);
             window.location.href = url;
         });
     </script>
