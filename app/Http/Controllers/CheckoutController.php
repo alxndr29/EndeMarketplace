@@ -12,6 +12,7 @@ use App\Transaksi;
 use App\Pengiriman;
 use Illuminate\Support\Carbon;
 use App\Mail\CheckoutMail;
+use App\Produk;
 
 class CheckoutController extends Controller
 {
@@ -70,8 +71,6 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         try {
-            
-
             $user = new User();
             $dataUser = User::where('iduser',$user->userid())->first();
 
@@ -83,7 +82,23 @@ class CheckoutController extends Controller
                 ->where('keranjang.users_iduser', '=', $user->userid())
                 ->groupBy('keranjang.produk_idproduk')
                 ->get();
+            foreach ($keranjang as $key => $value) {
+                $produk = Produk::find($value->produk_idproduk);
+                if ($produk->stok < $value->jumlah) {
+                    return "stok kurang, silahkan ubah qty product";
+                }
+            } 
+            foreach($keranjang as $key => $value){
+                $produk = Produk::find($value->produk_idproduk);
+                $produk->stok = $produk->stok - $value->jumlah;
+                if($produk->stok - $value->jumlah == 0){
+                    $produk->status = "TidakAktif";
+                }
+                $produk->save();
+                DB::table('keranjang')->where('users_iduser', $user->userid())->where('produk_idproduk',$value->produk_idproduk)->delete();
+            }
 
+            
             $transaksi = new Transaksi();
             if($request->get('tipePembayaran') == "2"){
                 $transaksi->status_transaksi = 'MenungguPembayaran';
@@ -154,7 +169,7 @@ class CheckoutController extends Controller
                 $user = Auth::user();
                 $params = array(
                     'transaction_details' => array(
-                        'order_id' => rand(),
+                        'order_id' => $id,
                         'gross_amount' => $request->get('nominalpembayaran') + $request->get('biaya_pengiriman'),
                     ),
                     'customer_details' => array(
@@ -170,6 +185,7 @@ class CheckoutController extends Controller
                 ]);
             }
 
+
             // $details = [
             //     'title' => 'Checkout Pesanan TRX-'.$transaksi->idtransaksi,
             //     'body' => 'Hallo, '.$dataUser->name.' Checkout anda berhasil. klik link berikut untuk melihat status transaksi anda! Terimakasih!'
@@ -180,7 +196,7 @@ class CheckoutController extends Controller
             //return $request->all();
             
             return redirect('user/transaksi/index');
-
+            
         } catch (\Exception $e) {
             return $e->getMessage();
         }

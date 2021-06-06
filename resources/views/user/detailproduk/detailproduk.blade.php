@@ -58,7 +58,8 @@
                             <p class="h6">Stok: {{$data->stok}} Unit</p>
                             <div class="row p-1">
                                 <div class="col">
-                                    <a href="{{route('obrolan.index.user')}}" class="btn btn-block btn-default">Chat Penjual</a>
+                                    <!-- <a href="{{route('obrolan.index.user')}}" class="btn btn-block btn-default">Chat Penjual</a> -->
+                                    <button type="button" class="btn btn-block btn-default" id="chatpenjual">Chat Penjual</button>
                                 </div>
                                 <div class="col">
                                     <button type="button" class="btn btn-block btn-default" id="wishlist">Wishlist</button>
@@ -124,7 +125,7 @@
                                                     <!-- <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p> -->
                                                 </div>
                                             </div>
-                                            @endforeach   
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -182,7 +183,7 @@
                                 </div>
                             </div> -->
 
-                           
+
 
                             <!-- End Diskusi Produk -->
                         </div>
@@ -268,9 +269,36 @@
 </div>
 <!-- Modal End -->
 
+
+<!-- Modal -->
+<div class="modal fade" id="modal-chatpenjual" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pesan ke Penjual</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Kirim ke: <span class="badge badge-secondary"> {{$data->nama_merchant}}</span></p>
+                <div class="form-group">
+                    <textarea class="form-control" name="pesan" id="txtpesan" rows="3">Link Produk: {{ Request::fullUrl() }}</textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="button" id="kirimPesan" class="btn btn-primary">Kirim</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 @section('js')
 <script type="text/javascript">
-    var idproduk = {{$data->idproduk}};
+    var idproduk = "{{$data->idproduk}}";
     var parentBalasan = [];
     var balasan = [];
 
@@ -279,11 +307,10 @@
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('berhasil')}}');
+        alert("{{session('berhasil')}}");
         @endif
 
         loadKomentar(idproduk);
-
     });
 
     function loadKomentar($id) {
@@ -313,7 +340,7 @@
 
                 for (i = 0; i < parentBalasan.length; i++) {
                     var idddd = parentBalasan[i].iddiskusi;
-                    var action = "http://localhost:8000/diskusi/balasan/store/" + {{$data->idproduk}} + "/" + idddd;
+                    var action = "http://localhost:8000/diskusi/balasan/store/" + "{{$data->idproduk}}" + "/" + idddd;
                     alert(action);
                     $("#custom-tabs-diskusi").append(
                         '<div class="row">' +
@@ -380,6 +407,7 @@
                 console.log(response);
                 if (response.status == "berhasil") {
                     alert(response.status);
+                    loadKeranjang();
                 } else {
                     alert(response.status);
                 }
@@ -405,6 +433,32 @@
 
                 } else {
                     alert(response.status);
+                }
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    });
+    $("#chatpenjual").click(function() {
+        $("#modal-chatpenjual").modal('show');
+    });
+    $("#kirimPesan").click(function() {
+        var pesan = $("#txtpesan").val();
+        var idmerchant = "{{$data->merchant_users_iduser}}";
+        $.ajax({
+            url: "{{route('obrolan.user.store')}}",
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "subject": "cobasubject",
+                "isipesan": pesan,
+                "idmerchant": idmerchant
+            },
+            success: function(response) {
+                if (response.status == "berhasil") {
+                    alert('Pesan berhasil dikirim');
+                    $("#modal-chatpenjual").modal('hide');
                 }
             },
             error: function(response) {

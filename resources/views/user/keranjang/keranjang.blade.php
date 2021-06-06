@@ -88,32 +88,33 @@
                 }
                 console.log(dataMerchant);
 
+                $.ajax({
+                    url: "{{url('user/keranjang/data')}}",
+                    method: "GET",
+                    success: function(data) {
+                        for (i = 0; i < data.length; i++) {
+                            dataKeranjang[i] = {};
+                            dataKeranjang[i].idproduk = data[i].idproduk;
+                            dataKeranjang[i].nama_merchant = data[i].nama_merchant;
+                            dataKeranjang[i].idgambarproduk = data[i].idgambarproduk;
+                            dataKeranjang[i].jumlah = data[i].jumlah;
+                            dataKeranjang[i].harga = data[i].harga;
+                            dataKeranjang[i].nama = data[i].nama;
+                        }
+                        console.log(dataKeranjang);
+                        tampil();
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+                
             },
             error: function(response) {
                 console.log(response);
             }
         });
 
-        $.ajax({
-            url: "{{url('user/keranjang/data')}}",
-            method: "GET",
-            success: function(data) {
-                for (i = 0; i < data.length; i++) {
-                    dataKeranjang[i] = {};
-                    dataKeranjang[i].idproduk = data[i].idproduk;
-                    dataKeranjang[i].nama_merchant = data[i].nama_merchant;
-                    dataKeranjang[i].idgambarproduk = data[i].idgambarproduk;
-                    dataKeranjang[i].jumlah = data[i].jumlah;
-                    dataKeranjang[i].harga = data[i].harga;
-                    dataKeranjang[i].nama = data[i].nama;
-                }
-                console.log(dataKeranjang);
-                tampil();
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
 
     });
 
@@ -130,14 +131,14 @@
                     var jumlah = dataKeranjang[i].jumlah;
                     var harga = dataKeranjang[i].harga;
                     var nama = dataKeranjang[i].nama;
-                    var src = "src=http://localhost:8000/gambar/" + dataKeranjang[i].idgambarproduk + '.jpg';
-                    var url = "http://localhost:8000/user/produk/show/" + idproduk;
+                    var src = "src=" + "{{asset('/')}}" + "gambar/" + dataKeranjang[i].idgambarproduk + '.jpg';
+                    var url = "{{asset('/')}}user/produk/show/" + idproduk;
                     totalBelanja += dataKeranjang[i].jumlah * dataKeranjang[i].harga;
                     var id = "#" + dataMerchant[j].idmerchant;
                     $(id).append(
                         //'<div class="card">' +
                         '<div class="row">' +
-                        '<div class="col"> <img style="width:175px;height:200px;" class="rounded mx-auto d-block pt-3 img-fluid" alt="..."' + src + '>' +
+                        '<div class="col"> <img style="width:175px;height:200px;" class="rounded mx-auto d-block p-3 img-fluid" alt="..."' + src + '>' +
                         '</div>' +
                         '<div class="col">' +
                         '<b>' + nama + '</b>' +
@@ -158,7 +159,6 @@
                         '</div>' +
                         '</div>' +
                         '</div>'
-                        //'</div>'
                     );
                 }
 
@@ -178,9 +178,11 @@
                 },
                 success: function(response) {
                     console.log(response);
-                    // location.reload();
-                    if (response == "a") {
+                    if (response == "berhasil") {
                         alert('masuk');
+                        location.reload();
+                    } else {
+                        alert(response);
                     }
                 },
                 error: function(response) {
@@ -194,7 +196,6 @@
     $("body").on("change", "#qty", function(e) {
         var id = $(this).attr('data-id');
         var val = $(this).val();
-        alert(id + " - " + val);
         if (confirm('Ingin menghapus?')) {
 
         } else {

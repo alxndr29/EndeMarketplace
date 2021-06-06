@@ -205,7 +205,7 @@
             iduser = id;
             var i = setInterval(function() {
                 loadObrolan(id);
-            }, 100);
+            }, 1000);
             interval.push(i);
         });
         function insertObrolan() {

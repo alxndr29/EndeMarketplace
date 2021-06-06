@@ -102,7 +102,7 @@
                     longitude = position.coords.longitude;
                     if (loc = true) {
                         updateLokasiKurir();
-                        alert('detik');
+                        //alert('detik');
                     }
                 },
                 function() {
@@ -247,7 +247,7 @@
         if (dist < 1.0) {
             $("#demo2").html('kirim notif kalau sdh dekat');
             $('#selesaiAntar').prop('disabled', false);
-            alert(dist);
+            //alert(dist);
         } else {
             $("#demo2").html('masih jauh');
         }

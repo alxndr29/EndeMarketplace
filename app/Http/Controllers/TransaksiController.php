@@ -106,6 +106,7 @@ class TransaksiController extends Controller
                 ->where('detailtransaksi.transaksi_idtransaksi', '=', $id)
                 ->where('transaksi.users_iduser', $user->userid())
                 ->select('detailtransaksi.*', 'produk.nama as nama_produk', 'produk.harga as harga_produk', 'gambarproduk.idgambarproduk as gambar_produk')
+                ->groupBy('produk.idproduk')
                 ->get();
             $alamat = DB::table('transaksi')
                 ->join('alamatpembeli', 'alamatpembeli.idalamat', '=', 'transaksi.alamatpembeli_idalamat')

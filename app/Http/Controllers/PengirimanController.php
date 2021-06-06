@@ -134,7 +134,7 @@ class PengirimanController extends Controller
     public function getLokasiKurir($idpengiriman)
     { 
         try{
-            $data = DB::table('dataPengiriman')->where('pengiriman_idpengiriman',$idpengiriman)->get();
+            $data = DB::table('datapengiriman')->where('pengiriman_idpengiriman',$idpengiriman)->get();
             return $data;
         }catch(\Exception $e){
             return $e->getMessage();

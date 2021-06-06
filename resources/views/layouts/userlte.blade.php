@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ende Marketplace</title>
+    <title> Marketplace</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -359,16 +359,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script type="text/javascript">
         $(document).ready(function() {
             $("#jumlahNotifikasi").html(100);
+            loadKeranjang();
+        });
+        function loadKeranjang() {
             $.ajax({
                 url: "{{route('keranjang.notifikasi')}}",
                 type: "GET",
                 success: function(response) {
-                    //console.log(response);
                     var jumlahKeranjang = 0;
                     for (i = 0; i < response.length; i++) {
                         jumlahKeranjang += response[i].jumlah;
-                        var src = "src=http://localhost:8000/gambar/" + response[i].idgambarproduk + '.jpg';
-                        var url = "http://localhost:8000/user/produk/show/" + response[i].idproduk;
+                        var src = "src="+"{{asset('/')}}gambar/" + response[i].idgambarproduk + '.jpg';
+                        var url = "{{asset('/')}}user/produk/show/" + response[i].idproduk;
                         $("#isiKeranjangNotifikasi").append(
                             '<a href="' + url + '" class="dropdown-item">' +
                             '<div class="media">' +
@@ -395,10 +397,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     console.log(response);
                 }
             });
-        });
+        }
         $("#btnSearchProduk").click(function() {
             var url = "{{url('user/produk/cari')}}/" + $("#txtSearchProduk").val();
-            //alert(url);
             window.location.href = url;
         });
     </script>

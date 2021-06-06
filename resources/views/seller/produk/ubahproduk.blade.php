@@ -276,7 +276,7 @@
             // var src = "{{asset('gambar/" + ${test} + ".jpg')}}";
             // alert(src);
 
-            var src = "src=http://localhost:8000/gambar/" + test + '.jpg';
+            var src = "src="+ "{{asset('/')}}"+"gambar/" + test + '.jpg';
             $('#currentPicture').append('<img ' + src + ' id="current-gambar" style="max-width:100px; max-height:100px;" data-id="' + currentGambar[i] + '">');
         }
         console.log('gambar yang tampil');

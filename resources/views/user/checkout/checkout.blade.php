@@ -278,7 +278,6 @@
             $("#biayaKurir").empty();
             $("#biayaKurir").append('<option selected>Pilih Biaya Pengiriman</option>');
             @foreach($dukunganTarifPengiriman as $key => $value)
-            // alert('{{$value->nama}}');
             $("#biayaKurir").append(
                 '<option value="' + 'Kurir Merchant' + '-' + '{{$value->tarifpengiriman_idtarifpengiriman}}' + '-' + '{{$value->nama}}' + '-' + '{{$value->minimum_belanja}}' + '-' +
                 '{{$value->etd}}' + '-' + '{{$value->tarif_berat}}' + '-' + '{{$value->tarif_volume}}' + '-' + '{{$value->tarif_jarak}}' + '">' +
@@ -287,9 +286,6 @@
                 '{{$value->etd}} Hari' + '</option>'
             );
             @endforeach
-
-          
-          
         }
         if (val == 1) {
             dukunganPengiriman = "1";
@@ -316,6 +312,7 @@
         if (dukunganPengiriman == "2") {
             var split = id.split("-");
             if (split[1] == "1") {
+                //tarif bebas ongkor
                 $("#displayNominalPengiriman").html(' Biaya Pengiriman: Rp. ' + biayaKurir);
                 $("#displayNominalTotal").html( 'Total Keseluruhan Rp. '  + jumlah);
                 $("#biaya").val(0);
@@ -327,6 +324,7 @@
                 $("#jarakPengiriman").val(result);
                 //alert(split[0] + " " + split[2] + " " + split[3] + split[4] + " " + split[5] + " " + split[6] + " " + split[7]);
             } else if (split[1] == "2") {
+                //tarif flat
                 biayaKurir = split[5];
                 $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + (biayaKurir));
                 var te = parseInt(biayaKurir) + parseInt(jumlah);
@@ -339,12 +337,13 @@
                 );
                 $("#jarakPengiriman").val(result);
             } else {
+                //pake jarak
                 var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
                 var t_berat = split[5];
                 var t_volume = split[6];
                 var t_jarak = split[7];
-                biayaKurir = t_jarak * result;
-                alert('jarak' + result + " tarif jarak " + t_jarak + ' adalah: ' + biayaKurir);
+                biayaKurir = Math.round(t_jarak * result);
+                alert('jarak' + result + " tarif jarak " + t_jarak + ' adalah: ' + biayaKurir + " note: dibulatkan keatas");
                 $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + parseInt(biayaKurir) );
                 
                 var te = parseInt(biayaKurir) + parseInt(jumlah);

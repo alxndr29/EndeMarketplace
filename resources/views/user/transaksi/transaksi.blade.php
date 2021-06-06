@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-1">
-                                            <img style="width:75px;height:100px;" class="rounded pt-3" alt="..." src="{{asset('gambar/'.$value->gambar.'.jpg')}}">
+                                            <img style="width:75px;height:100px;" class="rounded" alt="..." src="{{asset('gambar/'.$value->gambar.'.jpg')}}">
                                         </div>
                                         <div class="col-6">
                                             <b> {{$value->nama_produk}} </b>
@@ -107,7 +107,18 @@
                                             + {{$value->totalbarang}} lainnya.
                                         </div>
                                         <div class="col-5">
-                                            <b> <span class="badge bg-primary">{{$value->status_transaksi}}</span> </b>
+                                            <b>
+                                                @if($value->status_transaksi == "Batal")
+                                                <span class="badge bg-danger">
+                                                    {{$value->status_transaksi}}
+                                                </span>
+                                                @else
+                                                <span class="badge bg-primary">
+                                                    {{$value->status_transaksi}}
+                                                </span>
+                                                @endif
+                                            </b>
+
                                             <br>
                                             Total Belanja:
                                             <br>
@@ -120,7 +131,7 @@
                                                 Detail Transaksi
                                             </button>
 
-                                            @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "PesananDiproses" )
+                                            @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "PesananDiproses" && $value->status_transaksi != "Batal" )
                                             @if($value->idkurir == "1")
                                             <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;">
                                                 Lacak
@@ -130,20 +141,26 @@
                                                 Lacak
                                             </a>
                                             @endif
-
                                             @endif
 
-                                            @if($value->status_transaksi == "SampaiTujuan" || $value->idkurir == "1")
-                                            @if($value->status_transaksi != "MenungguPembayaran")
+                                            @if($value->status_transaksi == "SampaiTujuan")
                                             <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
                                                 Selesai
                                             </a>
-                                            @else
+                                            @endif
+
+                                            @if($value->idkurir == "1" && $value->status_transaksi == "PesananDikirim")
+                                            <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Terima Paket
+                                            </a>
+                                            @endif
+
+                                            @if($value->status_transaksi == "MenungguPembayaran")
                                             <button onClick="bayar({{$value->idtransaksi}})" class="btn btn-success" style="margin-right: 5px;">
                                                 Bayar
                                             </button>
                                             @endif
-                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -151,8 +168,6 @@
                         </div>
                     </div>
                     @endforeach
-
-
                 </div>
                 <div class="card-footer">
                     <div class="d-flex">
@@ -212,7 +227,7 @@
                         <br>
                         <div class="row">
                             <div class="col-3">
-                                <img style="width:75px;height:100px;" class="rounded pt-3" alt="..." src="http://localhost:8000/gambar/18.jpg">
+                                <!-- <img style="width:75px;height:100px;" class="rounded pt-3" alt="..." src="http://localhost:8000/gambar/18.jpg"> -->
                             </div>
                             <div class="col">
                                 <b> AVOMETER DIGITAL ZOTEK ZT98 / MULTITESTER DIGITAL ZT98ORIGINAL </b>
@@ -319,7 +334,8 @@
         // alert('hello world!');
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('berhasil')}}');
+        alert('{{session('
+            berhasil ')}}');
         @endif
     });
     $("#btnFilter").click(function() {
@@ -380,9 +396,11 @@
                 console.log(response.pembayaran);
                 console.log(response.hitungReview);
 
-                if (response.hitungReview != 0) {
-                    $("#buttonReview").prop("disabled", true);
+                $("#buttonReview").prop("disabled", true);
+                if (response.hitungReview == 0 && response.transaksi[0].status_transaksi == "Selesai") {
+                    $("#buttonReview").prop("disabled", false);
                 }
+
                 //alert(response.produk[0].idalamat);
                 $("#modal-transaksi").html(
                     'Nomor Transaksi:' +
@@ -402,14 +420,26 @@
                     '<b>' + response.transaksi[0].tanggal + '</b>'
                 );
 
+                var tanggal = "";
+                var noresi = "";
+                if (response.alamat[0].tanggal_pengiriman == null) {
+                    tanggal = " - ";
+                } else {
+                    tanggal = response.alamat[0].tanggal_pengiriman;
+                }
+                if (response.alamat[0].nomor_resi == null) {
+                    noresi = " - ";
+                } else {
+                    noresi = response.alamat[0].nomor_resi;
+                }
                 $("#modal-pengiriman-alamat").html(
                     'Pengiriman:' +
                     '<br>' +
                     '<b>' + response.alamat[0].keterangan + '</b>' +
                     '<br> Estimasi: ' + response.alamat[0].estimasi +
-                    ' Hari <br> Tanggal Pengiriman: ' + response.alamat[0].tanggal_pengiriman +
+                    ' Hari <br> Tanggal Pengiriman: ' + tanggal +
                     '<br>' +
-                    'No. Resi: <b>' + response.alamat[0].nomor_resi +
+                    'No. Resi: <b>' + noresi +
                     '</b>' +
                     '<br> Status Pengiriman: ' + response.alamat[0].status_pengiriman +
                     '<br> Dikirim kepada: <b>' + response.alamat[0].nama_penerima +
@@ -427,8 +457,8 @@
                 $("#daftarProdukReview").empty();
                 var totalBelanjaProduk = 0;
                 for (i = 0; i < response.produk.length; i++) {
-                    var src = "src=http://localhost:8000/gambar/" + response.produk[i].gambar_produk + '.jpg';
-                    var url = "http://localhost:8000/user/produk/show/" + response.produk[i].produk_idproduk;
+                    var src = "src=" + "{{asset('/')}}" + "gambar/" + response.produk[i].gambar_produk + '.jpg';
+                    var url = "{{asset('/')}}" + "user/produk/show/" + response.produk[i].produk_idproduk;
                     var catatan = "";
                     if (response.produk[i].catatan == null) {
                         catatan = "-";
@@ -462,7 +492,7 @@
 
                         '</div>' +
                         '</div>' +
-                        '<input type="hidden" name="idtransaksi" value=10>'
+                        '<input type="hidden" name="idtransaksi" value=' + response.transaksi[0].idtransaksi + '>'
                     );
                 }
 
@@ -485,5 +515,5 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item active">Top Navigation</li>
+<li class="breadcrumb-item active">Transaksi</li>
 @endsection

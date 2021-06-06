@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2021 at 07:17 PM
+-- Generation Time: Jun 06, 2021 at 07:28 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -1197,7 +1197,7 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`) VALUES
-(10, '2021-05-11 23:13:39', 'SampaiTujuan', 'Langsung', 47244, 4, 4, 5, 1, '2021-05-11 23:13:39', '2021-05-11 23:22:52'),
+(10, '2021-05-11 23:13:39', 'Selesai', 'Langsung', 47244, 4, 4, 5, 1, '2021-05-11 23:13:39', '2021-05-11 23:22:52'),
 (11, '2021-05-12 01:58:32', 'Selesai', 'Langsung', 95500, 4, 4, 15, 1, '2021-05-12 01:58:32', '2021-05-12 02:11:22'),
 (14, '2021-06-02 00:17:30', 'Selesai', 'Langsung', 20000, 6, 4, 16, 2, '2021-06-02 00:17:30', '2021-06-02 01:10:55'),
 (15, '2021-06-02 00:47:49', 'Selesai', 'Langsung', 10000, 6, 4, 16, 1, '2021-06-02 00:47:49', '2021-06-02 00:49:06');

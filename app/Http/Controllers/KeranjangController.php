@@ -84,15 +84,14 @@ class KeranjangController extends Controller
     }
     public function destroy($id)
     {
-        /*
         try {
-            DB::table('keranjang')->where('produk_idproduk', $id)->delete();
-            return redirect('user/keranjang')->with('berhasil', 'Berhasil hapus wishlist');
+            $user = new User();
+            DB::table('keranjang')->where('produk_idproduk', $id)->where('users_iduser', $user->userid())->delete();
+            return "berhasil";
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-        */
-        return "a";
+        
     }
     public function notifikasiKeranjangUser(){
         $user = new User();
