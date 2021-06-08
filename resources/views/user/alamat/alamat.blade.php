@@ -19,7 +19,7 @@
                         <th style="width:15%">Simpan Sebagai</th>
                         <th>Alamat</th>
                         <th style="width:5%">Detail</th>
-
+                        <th style="width:5%">Hapus</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +38,9 @@
                         <td>
                             <button type="button" class="btn btn-sm btn-success" id="edit-alamat" data-id="{{$value->idalamat}}"> <i class="fas fa-edit"></i> </button>
                             <!-- <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modal-editalamat-{{$value->idalamat}}"> <i class="fas fa-edit"></i> </button> -->
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-danger"> <i class="fas fa-trash"></i> </button>
                         </td>
                     </tr>
                     @endforeach
@@ -404,6 +407,8 @@
             "<br>Longitude: " + position.coords.longitude);
         lat = position.coords.latitude;
         lot = position.coords.longitude;
+        $('#inputlatitude').val(lat),
+            $('#inputlongitude').val(lot)
     }
 
     $(document).ready(function() {
@@ -542,7 +547,7 @@
                         position: mapsMouseEvent.latLng,
                     });
                     infoWindow.setContent(
-                        //JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                        'Lokasi Baru',
                         $("#inputlatitude_edit").val(mapsMouseEvent.latLng.lat().toString()),
                         $("#inputlongitude_edit").val(mapsMouseEvent.latLng.lng().toString())
                     );
@@ -564,8 +569,8 @@
                     content: "Lokasi Anda",
                     position: myLatlng,
                 });
-
                 infoWindow.open(map);
+
                 // Configure the click listener.
                 map.addListener("click", (mapsMouseEvent) => {
                     // Close the current InfoWindow.
@@ -576,6 +581,7 @@
                     });
                     infoWindow.setContent(
                         //JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                        'Lokasi Anda',
                         lat = mapsMouseEvent.latLng.lat().toString(),
                         lot = mapsMouseEvent.latLng.lng().toString(),
                         $('#inputlatitude').val(lat),
@@ -584,7 +590,6 @@
                     infoWindow.open(map);
                 });
             }
-
         }
         // function loadMapParam(a, b, c) {
         //     if (c == "start") {
@@ -669,7 +674,6 @@
             $('#kotakabupaten_edit').empty();
             loadKota(this.value);
         });
-
 
         function loadProvinsi() {
             $.ajax({

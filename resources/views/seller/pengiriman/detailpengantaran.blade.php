@@ -75,10 +75,10 @@
     var latitude = "";
     var longitude = "";
     var jarak = 0;
-    var latitude_origin = {{$data->latitude_merchant}};
-    var longitude_origin = {{$data->longitude_merchant}};
-    var latitude_destination = {{$data->latitude_user}};
-    var longitude_destination = {{$data->longitude_user}};
+    var latitude_origin = "{{$data->latitude_merchant}}";
+    var longitude_origin = "{{$data->longitude_merchant}}";
+    var latitude_destination = "{{$data->latitude_user}}";
+    var longitude_destination = "{{$data->longitude_user}}";
 
     var loc = true;
     var second = 0;
@@ -244,12 +244,14 @@
         if (unit == "N") {
             dist = dist * 0.8684
         }
-        if (dist < 1.0) {
-            $("#demo2").html('kirim notif kalau sdh dekat');
+        if (dist < 0.2) {
+            //$("#demo2").html('kirim notif kalau sdh dekat');
             $('#selesaiAntar').prop('disabled', false);
+            console.log('kurir sdh dekat 200 m');
             //alert(dist);
         } else {
             $("#demo2").html('masih jauh');
+             console.log('kurir jauh 200 m');
         }
         jarak = dist;
         return dist;
@@ -276,7 +278,9 @@
             success: function(response) {
                if(response == "berhasil"){
                 clearInterval(timer);
+                console.log('selesai antar');
                 alert("Selesai melakukan pengantaran");
+                location.reload(); 
                }
             },
             error: function(response) {

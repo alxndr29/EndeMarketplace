@@ -85,7 +85,13 @@
 
                 </div>
                 <div class="card-body">
+                    @if(count($transaksi) == 0)
+                    <p class="text-center"> Belum ada data transaksi.</p>
+                    @else
                     @foreach ($transaksi as $key => $value)
+
+                    @if(isset($awal))
+                    @endif
                     <div class="row">
                         <div class="col">
                             <div class="card">
@@ -168,6 +174,8 @@
                         </div>
                     </div>
                     @endforeach
+                    @endif
+
                 </div>
                 <div class="card-footer">
                     <div class="d-flex">
@@ -328,7 +336,7 @@
 
 
 @section('js')
-
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-ZXG2YBvaF0n8pvHq"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         // alert('hello world!');

@@ -63,6 +63,14 @@ class MidtransController extends Controller
         $cancel = \Midtrans\Transaction::cancel(1);
         dd($cancel);
     }
+    public function refundPayment(){
+        $this->config();
+        $params = array(
+            'reason' => 'Item out of stock'
+        );
+        $direct_refund = \Midtrans\Transaction::refund(7, $params);
+        var_dump($direct_refund);
+    }
     public function payment_handling(Request $request)
     {
         $this->config();

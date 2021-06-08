@@ -38,7 +38,9 @@ trait RegistersUsers
         if ($response = $this->registered($request, $user)) {
             return $response;
         }
-
+        $jumlahDigit = 4;
+        $otp = substr(str_shuffle("0123456789"), 0, $jumlahDigit);
+        $request->session()->put('otp', $otp);
         return $request->wantsJson()
                     ? new Response('', 201)
                     : redirect($this->redirectPath());

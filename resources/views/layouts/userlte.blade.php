@@ -24,9 +24,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{asset('adminlte/plugins/toastr/toastr.min.css')}}">
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
-
     <!-- bootstrap slider -->
     <link rel="stylesheet" href="{{asset('adminlte/plugins/bootstrap-slider/css/bootstrap-slider.min.css')}}">
 
@@ -346,7 +343,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Toastr -->
     <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
     <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    
     <!-- Notifikasi Pelanggan -->
     <!-- <script src="{{asset('js/notifikasiPelanggan.js')}}"></script> -->
 
@@ -354,7 +351,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
 
-    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-ZXG2YBvaF0n8pvHq"></script>
+   
 
     <script type="text/javascript">
         $(document).ready(function() {

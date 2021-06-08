@@ -81,34 +81,36 @@
             url: "{{url('user/keranjang/merchant')}}",
             method: "GET",
             success: function(data) {
-                for (i = 0; i < data.length; i++) {
-                    dataMerchant[i] = {};
-                    dataMerchant[i].idmerchant = data[i].idmerchant;
-                    dataMerchant[i].nama_merchant = data[i].nama_merchant;
-                }
-                console.log(dataMerchant);
-
-                $.ajax({
-                    url: "{{url('user/keranjang/data')}}",
-                    method: "GET",
-                    success: function(data) {
-                        for (i = 0; i < data.length; i++) {
-                            dataKeranjang[i] = {};
-                            dataKeranjang[i].idproduk = data[i].idproduk;
-                            dataKeranjang[i].nama_merchant = data[i].nama_merchant;
-                            dataKeranjang[i].idgambarproduk = data[i].idgambarproduk;
-                            dataKeranjang[i].jumlah = data[i].jumlah;
-                            dataKeranjang[i].harga = data[i].harga;
-                            dataKeranjang[i].nama = data[i].nama;
-                        }
-                        console.log(dataKeranjang);
-                        tampil();
-                    },
-                    error: function(response) {
-                        console.log(response);
+                if (data.length == 0) {
+                    $("#isikeranjang").html('<p class="text-center"> Belum ada produk didalam keranjang.</p>');
+                } else {
+                    for (i = 0; i < data.length; i++) {
+                        dataMerchant[i] = {};
+                        dataMerchant[i].idmerchant = data[i].idmerchant;
+                        dataMerchant[i].nama_merchant = data[i].nama_merchant;
                     }
-                });
-                
+                    console.log(dataMerchant);
+                    $.ajax({
+                        url: "{{url('user/keranjang/data')}}",
+                        method: "GET",
+                        success: function(data) {
+                            for (i = 0; i < data.length; i++) {
+                                dataKeranjang[i] = {};
+                                dataKeranjang[i].idproduk = data[i].idproduk;
+                                dataKeranjang[i].nama_merchant = data[i].nama_merchant;
+                                dataKeranjang[i].idgambarproduk = data[i].idgambarproduk;
+                                dataKeranjang[i].jumlah = data[i].jumlah;
+                                dataKeranjang[i].harga = data[i].harga;
+                                dataKeranjang[i].nama = data[i].nama;
+                            }
+                            console.log(dataKeranjang);
+                            tampil();
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                }
             },
             error: function(response) {
                 console.log(response);

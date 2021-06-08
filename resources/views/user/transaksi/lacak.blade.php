@@ -76,10 +76,10 @@
     var longitude = "";
     var jarak = 0;
 
-    var latitude_origin = {{$data->latitude_merchant}};
-    var longitude_origin = {{$data->longitude_merchant}};
-    var latitude_destination = {{$data->latitude_user}};
-    var longitude_destination = {{$data->longitude_user}};
+    var latitude_origin = "{{$data->latitude_merchant}}";
+    var longitude_origin = "{{$data->longitude_merchant}}";
+    var latitude_destination = "{{$data->latitude_user}}";
+    var longitude_destination = "{{$data->longitude_user}}";
 
     var map;
     var myLatlng;
@@ -163,7 +163,23 @@
         marker3.setMap(map);
         console.log('update kurir');
     }
-
+$("#selesaiAntar").click(function(){
+        $.ajax({
+        url: "{{url('seller/pengiriman/status')}}/" + {{$idpengiriman}}+ "/" +"SelesaiAntar",
+            type: "GET", 
+            success: function(response) {
+               if(response == "berhasil"){
+                clearInterval(timer);
+                console.log('selesai antar');
+                alert("Selesai melakukan pengantaran");
+                location.reload(); 
+               }
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    });
     $(document).ready(function() {
         iniatMap();
     });

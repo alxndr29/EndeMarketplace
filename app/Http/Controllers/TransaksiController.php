@@ -33,13 +33,14 @@ class TransaksiController extends Controller
         $user = new User();
         $transaksi = DB::table('transaksi')
             ->join('merchant', 'merchant.users_iduser', '=', 'transaksi.merchant_users_iduser')
+            ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', 'transaksi.idtransaksi')
             ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
             ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
             ->groupBy('transaksi.idtransaksi')
             ->where('transaksi.users_iduser', $user->userid())
             ->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
-            ->select('transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
+            ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
             ->paginate(10);
         return view('user.transaksi.transaksi', compact('transaksi'));
     }
@@ -85,9 +86,11 @@ class TransaksiController extends Controller
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
-            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*')
+            ->join('users','users.iduser','=','transaksi.users_iduser')
+            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*','users.iduser as iduser','users.name as nama_user')
             ->where('transaksi.idtransaksi', $id)
             ->first();
+        //dd($transaksi);
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
     }
     public function detailPelanggan($id)

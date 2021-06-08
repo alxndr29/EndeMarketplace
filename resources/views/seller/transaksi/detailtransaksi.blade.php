@@ -102,7 +102,7 @@
                         <!-- <b>Account:</b> 968-34567 -->
                     </div>
                     <div class="col-sm-4 invoice-col">
-                        @if($transaksi->status_transaksi != "MenungguKonfirmasi" && $transaksi->status_transaksi != "PesananDiproses")
+                        @if($transaksi->status_transaksi != "MenungguKonfirmasi" && $transaksi->status_transaksi != "PesananDiproses" && $transaksi->status_transaksi != "MenungguPembayaran")
                         Nama Kurir: {{$transaksi->nama_kurir}}
                         <br>
                         Tanggal Pengiriman: {{$transaksi->tanggal_pengiriman}}
@@ -117,6 +117,23 @@
                                     Ubah
                                 </button>
                                 <a href="https://cekresi.com/?noresi={{$transaksi->nomor_resi}}" class="btn btn-success btn-sm">Lacak</a>
+                            </div>
+                        </form>
+                        @else
+                        Nama Kurir: {{$transaksi->nama_kurir}}
+                        <br>
+                        Tanggal Pengiriman: {{$transaksi->tanggal_pengiriman}}
+                        <br>
+                        Nomor Resi:
+                        <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'UpdateResi'])}}">
+                            @csrf
+                            @method('put')
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control form-control-sm" value="{{$transaksi->nomor_resi}}" name="updateResi" disabled>
+                                <button type="submit" class="btn btn-danger btn-sm" style="margin-right: 5px;" disabled>
+                                    Ubah
+                                </button>
+                                <a href="https://cekresi.com/?noresi={{$transaksi->nomor_resi}}" class="btn btn-success btn-sm disabled">Lacak</a>
                             </div>
                         </form>
                         @endif
@@ -176,7 +193,7 @@
                                 </tr>
                                 <tr>
                                     <th>Biaya Pengiriman:</th>
-                                    <td>Rp. {{number_format($transaksi->biaya_pengiriman)}} - <b>Kurir {{$transaksi->nama_kurir}} </b></td>
+                                    <td>Rp. {{number_format($transaksi->biaya_pengiriman)}} - <b> {{$transaksi->nama_kurir}} </b></td>
                                 </tr>
                                 <tr>
                                     <th>Total Pembayaran:</th>
@@ -210,18 +227,18 @@
                         </form>
                         @elseif($transaksi->status_transaksi == "PesananDiproses")
                         @if($transaksi->nama_kurir == "JNE")
-                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default">
+                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-jne">
                             Masukan Nomor Resi Pengiriman
                         </button>
                         @else
-                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default2">
+                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-kurir">
                             Plot Jadwal Pengiriman
                         </button>
                         @endif
-
                         @else
+
                         @endif
-                        <button type="submit" class="btn btn-success float-right" style="margin-right: 5px;">
+                        <button type="submit" class="btn btn-warning float-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modal-chatpembeli">
                             <i class="fas fa-download"></i>Hubungi Pembeli
                         </button>
                     </div>
@@ -232,11 +249,11 @@
     </div><!-- /.row -->
 </div>
 
-<div class="modal fade" id="modal-default">
+<div class="modal fade" id="modal-default-jne">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Default Modal</h4>
+                <h4 class="modal-title">Kurir JNE</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -263,11 +280,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-default2">
+<div class="modal fade" id="modal-default-kurir">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Default Modal</h4>
+                <h4 class="modal-title">Kurir Merhcnat</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -294,6 +311,29 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-chatpembeli">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pesan ke Pembeli</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Kirim ke: <span class="badge badge-secondary">{{$transaksi->nama_user}}</span></p>
+                <div class="form-group">
+                    <textarea class="form-control" name="pesan" id="txtpesan" rows="3">Transaksi ID: </textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="button" id="kirimPesan" class="btn btn-primary">Kirim</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 @section('js')
 <script type="text/javascript">
     $(document).ready(function() {
@@ -301,8 +341,31 @@
         //toastr.success('{{session('berhasil')}}');
         // alert('{{session('
         //     berhasil ')}}');
-        // @endif
+        @endif
 
+    });
+    $("#kirimPesan").click(function() {
+        var pesan = $("#txtpesan").val();
+        var iduser = "{{$transaksi->users_iduser}}";
+        $.ajax({
+            url: "{{route('obrolan.seller.store')}}",
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "subject": "cobasubject",
+                "isipesan": pesan,
+                "iduser": iduser
+            },
+            success: function(response) {
+                if (response.status == "berhasil") {
+                    alert('Pesan berhasil dikirim');
+                    $("#modal-chatpembeli").modal('hide');
+                }
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
     });
 </script>
 @endsection
