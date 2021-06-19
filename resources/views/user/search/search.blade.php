@@ -120,7 +120,7 @@
         $('.slider').bootstrapSlider()
     });
     $(document).ready(function() {
-        alert('hello world!');
+        //alert('hello world!');
     });
     $("#comboboxFilter").change(function() {
         var val = $(this).val();

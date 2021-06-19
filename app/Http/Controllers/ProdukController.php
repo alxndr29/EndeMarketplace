@@ -24,7 +24,9 @@ class ProdukController extends Controller
         $merchant = new Merchant();
         $produk = DB::table('produk')
             ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
+            ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
             ->where('produk.merchant_users_iduser', $merchant->idmerchant())
+            ->groupBy('produk.idproduk')
             ->get();
         //return $data;
         return view('seller.produk.produk', compact('produk'));
@@ -92,7 +94,7 @@ class ProdukController extends Controller
         // $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
         // $ar1 = array();
         // $ar2 = array();
-       
+
         // for ($i = 0; $i < count($da); $i++) {
         //     if ($i == 0) {
         //         array_push($ar2, $da[$i]->produk_idproduk);
@@ -161,17 +163,17 @@ class ProdukController extends Controller
             ->get();
 
         $reviewProduk = DB::table('reviewproduk')
-        ->join('transaksi','transaksi.idtransaksi','=','reviewproduk.transaksi_idtransaksi')
-        ->join('users','users.iduser','=','transaksi.users_iduser')
-        ->where('reviewproduk.produk_idproduk',$id)
-        ->select('reviewproduk.*','users.name as nama_user')
-        ->get();
+            ->join('transaksi', 'transaksi.idtransaksi', '=', 'reviewproduk.transaksi_idtransaksi')
+            ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
+            ->where('reviewproduk.produk_idproduk', $id)
+            ->select('reviewproduk.*', 'users.name as nama_user')
+            ->get();
 
         // $jumlahTerjual;
         // $jumlahUlasan;
         // $jumlahDiskusi;
-       
-        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'diskusi','reviewProduk'));
+
+        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'diskusi', 'reviewProduk'));
     }
     public function edit($id)
     {
@@ -298,4 +300,20 @@ class ProdukController extends Controller
             return ('File does not exists.');
         }
     }
+    public function indexReview()
+    {
+        $merchant = new Merchant();
+        $produk = DB::table('produk')
+            ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
+            ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
+            ->leftJoin('reviewproduk','reviewproduk.produk_idproduk','=','produk.idproduk')
+            ->select('produk.idproduk as idproduk','gambarproduk.idgambarproduk as idgambarproduk','produk.nama as nama_produk', 'kategori.nama_kategori as kategori_produk', DB::raw('avg(rating) as rating'))
+            ->groupBy('produk.idproduk')
+            ->where('produk.merchant_users_iduser', $merchant->idmerchant())
+            ->get();
+        //return $produk;
+        return view('seller.review.review',compact('produk'));
+    }
+    public function detailReview()
+    { }
 }

@@ -1,6 +1,4 @@
 @extends('layouts.adminlte')
-
-
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -8,12 +6,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-10">
-                            <h3 class="card-title">DataTable with default features</h3>
-                        </div>
-                        <div class="col">
-                            <a type="button" href="{{route('produk.create')}}" class="btn btn-block btn-default">Tambah</a>
-                        </div>
+                        <h3 class="card-title">DataTable with default features</h3>
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -23,39 +16,33 @@
                             <tr>
                                 <th style="width:5%">No</th>
                                 <th>Nama</th>
-                                <th style="width:15%"> Gambar</th>
+                                <th>Gambar</th>
                                 <th>Kategori Produk</th>
-                                <th>Stok</th>
-                                <th>Status</th>
-                                <th style="width:5%">Ubah</th>
-                                <th style="width:5%">Hapus</th>
+                                <th> AVG Rating </th>
+                                <th style="width:5%">Detail</th>
                             </tr>
                         </thead>
                         <tbody style="vertical-align: top;">
-                            @foreach ($produk as $key => $value )
+                            @foreach ($produk as $key => $value)
                             <tr>
                                 <td>{{$key+1}}</td>
-                                <td>{{$value->nama}}</td>
+                                <td>{{$value->nama_produk}}</td>
                                 <td>
-                                    
                                     <img style="width:75px;height:75px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
                                 </td>
-                                <td>{{$value->nama_kategori}}</td>
-                                <td>{{$value->stok}}</td>
-                                <td>{{$value->status}}</td>
+                                <td>{{$value->kategori_produk}}</td>
                                 <td>
-                                    <a href="{{route('produk.edit',$value->idproduk)}}" class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
+                                    @if ($value->rating == null)
+                                    Blm ada rating
+                                    @else
+                                    {{$value->rating}}
+                                    @endif
                                 </td>
                                 <td>
-                                    <form method="post" action="{{route('produk.destroy',$value->idproduk)}}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"> <i class="fas fa-trash"></i> </button>
-                                    </form>
+                                    <a class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
                                 </td>
-                            </tr>
+                            <tr>
                             @endforeach
-                        </tbody>
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -69,14 +56,14 @@
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('
-            berhasil ')}}');
+        alert("{{session('berhasil')}}");
         @endif
     });
 </script>
 @endsection
 
 @endsection
+
 
 @section('name')
 

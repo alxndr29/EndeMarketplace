@@ -158,7 +158,10 @@ Route::get('user/transaksi/detail/{id}','TransaksiController@detailPelanggan')->
 Route::get('user/transaksi/tracking/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('pelanggan.transaksi.tracking');
 Route::get('user/tracking/lokasi/kurir/{id}','PengirimanController@getLokasiKurir')->name('pelanggan.tracking.lokasi.kurir');
 Route::get('user/transaksi/selesai/{id}','TransaksiController@selesaiPesanan')->name('pelanggan.transaksi.selesai');
+
+//Review Produk
 Route::post('user/transaksi/review/','TransaksiController@reviewProduk')->name('pelanggan.transaksi.review');
+Route::get('seller/review', 'ProdukController@indexReview')->name('seller.review.index');
 
 //Pengiriman Merchant
 Route::get('seller/pengiriman/index','PengirimanController@indexMerchant')->name('merchant.pengiriman.index');
