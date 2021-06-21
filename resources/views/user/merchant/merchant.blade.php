@@ -6,6 +6,17 @@
             <div class="card">
 
                 <div class="card-body">
+
+                    @if($merchant->jam_buka >= date('H:i:s') && $merchant->jam_tutup <= date('H:i:s')) 
+                    <div class="alert alert-success text-center" role="alert">
+                            Toko Buka
+                    </div>
+                    @else
+                    <div class="alert alert-warning text-center" role="alert">
+                        Toko Tutup
+                    </div>
+                    @endif
+
                     <div class="row">
                         <div class="col-2">
                             <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded-circle mx-auto d-block img-fluid" alt="...">
@@ -19,11 +30,7 @@
                                 <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modaldetail">
                                     Info Merchant
                                 </button>
-                                <!-- <p class="h5">{{$merchant->foto_profil}}</p>
-                                <p class="h5">{{$merchant->foto_sampul}}</p>
-                                <p class="h5">{{$merchant->deskripsi}}</p>
-                                <p class="h5">{{$merchant->jam_buka}}</p>
-                                <p class="h5">{{$merchant->jam_tutup}}</p> -->
+                               
                             </div>
                         </div>
                         <div class="col">
@@ -57,9 +64,7 @@
                             <br>
                             <div class="row">
                                 <div class="col-3">
-                                  
                                     <div class="list-group" id="listKategori">
-
                                         <a href="{{route('merchant.show',$merchant->users_iduser)}}" class="list-group-item list-group-item-action">
                                             Semua
                                         </a>
@@ -128,7 +133,26 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
-                            Ulasan Produk
+                            @foreach ($reviewProduk as $key => $value)
+                            <div class="row p-2 border">
+                                <div class="col col-lg-1">
+                                    <div class="row">
+                                        <img style="width:75px;height:100px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}">
+                                    </div>
+                                    <div class="row">
+                                        <a href="{{route('produk.show',$value->idproduk)}}">{{$value->namaproduk}}</a>
+                                    </div>
+                                </div>
+                                <div class="col col-lg-11">
+                                    <b>{{$value->nama_user}}</b>
+                                    <br>{{$value->tanggal_waktu}}
+                                    <br>
+                                    {{$value->komentar}}
+                                    <br>
+                                    Jumlah bintang: {{$value->rating}}
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

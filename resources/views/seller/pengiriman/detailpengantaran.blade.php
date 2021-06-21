@@ -42,20 +42,20 @@
                     </button>
                     @endif
                     @if($data->status != "SelesaiAntar")
-                    <button id="selesaiAntar"class="btn btn-success" style="margin-right: 5px;" disabled>
+                    <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;" disabled>
                         <i class="fas fa-edit"></i>Selesai Pengantaran
                     </button>
                     @endif
-                   
-                    
+
+
                 </div>
             </div>
-            
+
         </div>
     </div>
     <div class="card">
         <div class="card-body">
-        <div class="row">
+            <div class="row">
                 <div class="col">
                     <div id="map" style="height:300px;width100%;">
 
@@ -85,10 +85,9 @@
     var timer;
 
     $(document).ready(function() {
-        //getLocation();
-        if("{{$data->status}}" == "SedangDiantar"){
+        if ("{{$data->status}}" == "SedangDiantar") {
             getLocation();
-        }else{
+        } else {
             $("#map").html('Map Non Aktif karena tidak ada aktivitas pengantaran');
         }
     });
@@ -102,7 +101,6 @@
                     longitude = position.coords.longitude;
                     if (loc = true) {
                         updateLokasiKurir();
-                        //alert('detik');
                     }
                 },
                 function() {
@@ -111,7 +109,7 @@
                     timeout: 100000,
                     enableHighAccuracy: true
                 });
-               timer =  setInterval(function() {
+            timer = setInterval(function() {
                 second++;
                 if (second == 10) {
                     loc = true;
@@ -221,7 +219,11 @@
                 "jarak": jarak
             },
             success: function(response) {
-                console.log(response);
+                if (response.pengiriman == "SelesaiAntar") {
+                    alert('Pengantaran sudah diselesaikan oleh pembeli');
+                    location.reload();
+                }
+                console.log(response.pengiriman);
             },
             error: function(response) {
                 console.log(response);
@@ -247,48 +249,47 @@
         if (dist < 0.2) {
             //$("#demo2").html('kirim notif kalau sdh dekat');
             $('#selesaiAntar').prop('disabled', false);
-            console.log('kurir sdh dekat 200 m');
+            console.log('kurir sdh dekat < 200 m');
             //alert(dist);
         } else {
             $("#demo2").html('masih jauh');
-             console.log('kurir jauh 200 m');
+            console.log('kurir jauh > 200 m');
         }
         jarak = dist;
         return dist;
     }
-    $("#antarSekarang").click(function(){
+    $("#antarSekarang").click(function() {
         $("#antarSekarang").prop('disabled', true);
         $.ajax({
-            url: "{{url('seller/pengiriman/status')}}/" + {{$idpengiriman}}+ "/" +"SedangDiantar",
-            type: "GET", 
+            url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SedangDiantar",
+            type: "GET",
             success: function(response) {
-               if(response == "berhasil"){
-                getLocation();
-               }
+                if (response == "berhasil") {
+                    getLocation();
+                }
             },
             error: function(response) {
                 console.log(response);
             }
         });
     });
-    $("#selesaiAntar").click(function(){
+    $("#selesaiAntar").click(function() {
         $.ajax({
-        url: "{{url('seller/pengiriman/status')}}/" + {{$idpengiriman}}+ "/" +"SelesaiAntar",
-            type: "GET", 
+            url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SelesaiAntar",
+            type: "GET",
             success: function(response) {
-               if(response == "berhasil"){
-                clearInterval(timer);
-                console.log('selesai antar');
-                alert("Selesai melakukan pengantaran");
-                location.reload(); 
-               }
+                if (response == "berhasil") {
+                    clearInterval(timer);
+                    console.log('selesai antar');
+                    alert("Selesai melakukan pengantaran");
+                    location.reload();
+                }
             },
             error: function(response) {
                 console.log(response);
             }
         });
     });
-
 </script>
 @endsection
 

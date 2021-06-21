@@ -7,6 +7,12 @@
 
         </div>
         <div class="card-body">
+            @if($data->status == "TidakAktif")
+            <div class="alert alert-warning text-center" role="alert">
+                Produk sedang tidak aktif
+            </div>
+            @endif
+
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card">
@@ -34,7 +40,6 @@
                                         <iframe width="560" height="315" src="{{$data->video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                     </div>
                                 </div>
-
                                 @endif
 
 
@@ -67,7 +72,12 @@
                             </div>
                             <div class="row p-1">
                                 <div class="col-10">
+                                    @if($data->status == "TidakAktif")
+                                    <button type="button" class="btn btn-block btn-default" id="keranjang" disabled>Tambah keranjang</button>
+                                    @else
                                     <button type="button" class="btn btn-block btn-default" id="keranjang">Tambah keranjang</button>
+                                    @endif
+
                                 </div>
                                 <div class="col-2">
                                     <div class="form-group">
@@ -111,7 +121,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             @foreach($reviewProduk as $key => $value)
-                                            <div class="row">
+                                            <div class="row pb-1">
                                                 <div class="col col-lg-1">
                                                     <img style="width:75px;height:100px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg">
                                                 </div>

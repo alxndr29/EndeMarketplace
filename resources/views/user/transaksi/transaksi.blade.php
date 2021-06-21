@@ -89,7 +89,6 @@
                     <p class="text-center"> Belum ada data transaksi.</p>
                     @else
                     @foreach ($transaksi as $key => $value)
-
                     @if(isset($awal))
                     @endif
                     <div class="row">
@@ -167,6 +166,11 @@
                                             </button>
                                             @endif
 
+                                            @if($value->status_transaksi == "MenungguKonfirmasi")
+                                            <a href="{{route('pelanggan.transaksi.batal',$value->idtransaksi)}}" class="btn btn-danger" style="margin-right: 5px;">
+                                                Batalkan Pesanan
+                                            </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +179,6 @@
                     </div>
                     @endforeach
                     @endif
-
                 </div>
                 <div class="card-footer">
                     <div class="d-flex">

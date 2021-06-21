@@ -23,7 +23,7 @@ class ObrolanController extends Controller
             ->orderBy('obrolan.waktu', 'ASC')
             ->where('users.iduser', '=', $user->userid())
             ->groupBy('obrolan.merchant_users_iduser')
-            //->where('obrolan.idobrolan','=',function($query) use ($userid) {$query->selectRaw('max(idobrolan)')->from('obrolan')->where('obrolan.users_iduser','=', $userid);})
+            ->where('obrolan.idobrolan','=',function($query) use ($userid) {$query->selectRaw('max(idobrolan)')->from('obrolan')->where('obrolan.users_iduser','=', $userid);})
             ->get();
             //return $data;
             return view('user.obrolan.obrolan', compact('data'));
@@ -49,7 +49,7 @@ class ObrolanController extends Controller
             ->orderBy('obrolan.waktu', 'ASC')
             ->where('merchant.users_iduser', '=', $merchant->idmerchant())
             ->groupBy('obrolan.users_iduser')
-            //->where('obrolan.idobrolan','=',function($query) use ($merchantid) {$query->selectRaw('max(idobrolan)')->from('obrolan')->where('obrolan.merchant_users_iduser','=',$merchantid);})
+            ->where('obrolan.idobrolan','=',function($query) use ($merchantid) {$query->selectRaw('max(idobrolan)')->from('obrolan')->where('obrolan.merchant_users_iduser','=',$merchantid);})
             ->get();
         // return $data;
         return view('seller.obrolan.obrolan', compact('data'));

@@ -73,7 +73,6 @@ class CheckoutController extends Controller
         try {
             $user = new User();
             $dataUser = User::where('iduser',$user->userid())->first();
-
             $keranjang = DB::table('keranjang')
                 ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
                 ->join('users', 'users.iduser', '=', 'keranjang.users_iduser')
@@ -90,15 +89,14 @@ class CheckoutController extends Controller
             } 
             foreach($keranjang as $key => $value){
                 $produk = Produk::find($value->produk_idproduk);
-                $produk->stok = $produk->stok - $value->jumlah;
-                if($produk->stok - $value->jumlah == 0){
+                if(($produk->stok - $value->jumlah) == 0) {
                     $produk->status = "TidakAktif";
                 }
+                $produk->stok = $produk->stok - $value->jumlah;
                 $produk->save();
                 DB::table('keranjang')->where('users_iduser', $user->userid())->where('produk_idproduk',$value->produk_idproduk)->delete();
             }
 
-            
             $transaksi = new Transaksi();
             if($request->get('tipePembayaran') == "2"){
                 $transaksi->status_transaksi = 'MenungguPembayaran';

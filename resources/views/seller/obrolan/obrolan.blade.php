@@ -21,7 +21,7 @@
                                     <span class="badge badge-warning float-right">Baru</span></a>
                                 @endif
                                 <span class="product-description">
-                                    {{$value->isi_pesan_max}}
+                                    {{$value->isi_pesan}}
                                 </span>
                             </div>
                         </li>

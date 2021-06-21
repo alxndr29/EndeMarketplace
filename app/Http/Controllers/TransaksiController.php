@@ -9,6 +9,7 @@ use App\Merchant;
 use App\User;
 use App\Pengiriman;
 use App\Transaksi;
+use App\Produk;
 
 class TransaksiController extends Controller
 {
@@ -150,6 +151,23 @@ class TransaksiController extends Controller
             return $e->getMessage();
         }
     }
+    public function batalPesanan($id){
+        try {
+            DB::table('transaksi')->where('idtransaksi', $id)->update(['status_transaksi' => 'Batal']);
+            $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi',$id)->get();
+            foreach($detailTransaksi as $key => $value){
+                $produk = Produk::find($value->produk_idproduk);
+                if($produk->stok == 0){
+                    $produk->status = "Aktif";
+                }
+                $produk->stok = $produk->stok + $value->jumlah;
+                $produk->save();
+            }
+            return redirect('user/transaksi/index')->with('berhasil', 'pesanan anda berhasil dibatalkan');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
     public function prosePesananMerchant(Request $request, $id, $action)
     {
         try {
@@ -170,7 +188,20 @@ class TransaksiController extends Controller
                     ]
                 );
                 $transaksi->save();
-            } else {
+            } else if($action == "Batal"){
+                // $transaksi->status_transaksi = $action;
+                // $transaksi->save();
+                // $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $id)->get();
+                // foreach ($detailTransaksi as $key => $value) {
+                //     $produk = Produk::find($value->produk_idproduk);
+                //     if ($produk->stok == 0) {
+                //         $produk->status = "Aktif";
+                //     }
+                //     $produk->stok = $produk->stok + $value->jumlah;
+                //     $produk->save();
+                // }
+                return 'masuk batal';
+            }else {
                 $transaksi->status_transaksi = $action;
                 $transaksi->save();
             }

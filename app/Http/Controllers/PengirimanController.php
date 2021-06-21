@@ -149,7 +149,13 @@ class PengirimanController extends Controller
                     'longitude_sekarang' => $request->get('longitude_sekarang'),
                     'jarak_sekarang' => $request->get('jarak')
                 ]);
-            return "berhasil";
+            $dat = DB::table('datapengiriman')->where('pengiriman_idpengiriman', $request->get('idpengiriman'))->first();
+            $res = [
+                'status' => 'berhasil',
+                'pengiriman' => $dat->status
+            ];
+            return $res;
+            //return "berhasil";
         } catch (\Exception $e) {
             return $e->getMessage();
         }
