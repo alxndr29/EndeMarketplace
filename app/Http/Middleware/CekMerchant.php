@@ -19,6 +19,7 @@ class CekMerchant
         $user = new User();
         $data = DB::table('merchant')->where('users_iduser',$user->userid())->count();
         if($data != 0){
+            
             return $next($request);
         }else{
             return response()->view('seller.merchant.registrasimerchant');

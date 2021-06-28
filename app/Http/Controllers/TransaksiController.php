@@ -189,17 +189,17 @@ class TransaksiController extends Controller
                 );
                 $transaksi->save();
             } else if($action == "Batal"){
-                // $transaksi->status_transaksi = $action;
-                // $transaksi->save();
-                // $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $id)->get();
-                // foreach ($detailTransaksi as $key => $value) {
-                //     $produk = Produk::find($value->produk_idproduk);
-                //     if ($produk->stok == 0) {
-                //         $produk->status = "Aktif";
-                //     }
-                //     $produk->stok = $produk->stok + $value->jumlah;
-                //     $produk->save();
-                // }
+                $transaksi->status_transaksi = $action;
+                $transaksi->save();
+                $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $id)->get();
+                foreach ($detailTransaksi as $key => $value) {
+                    $produk = Produk::find($value->produk_idproduk);
+                    if ($produk->stok == 0) {
+                        $produk->status = "Aktif";
+                    }
+                    $produk->stok = $produk->stok + $value->jumlah;
+                    $produk->save();
+                }
                 return 'masuk batal';
             }else {
                 $transaksi->status_transaksi = $action;

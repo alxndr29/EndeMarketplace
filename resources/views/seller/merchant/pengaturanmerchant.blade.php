@@ -24,11 +24,11 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="namaProduk">Nama Merchant</label>
-                            <input type="text" class="form-control" id="namaProduk" placeholder="Nama Merchant" value="{{$merchant->nama}}" name="namaMerchant">
+                            <input type="text" class="form-control" id="namaProduk" placeholder="Nama Merchant" value="{{$merchant->nama}}" name="namaMerchant" required>
                         </div>
                         <div class="form-group">
                             <label for="deskripsiMerchant">Deskripsi Merchant</label>
-                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="deskripsiMerchant">{{$merchant->deskripsi}}</textarea>
+                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="deskripsiMerchant" required>{{$merchant->deskripsi}}</textarea>
                         </div>
                     </div>
                 </div>
@@ -72,17 +72,13 @@
                 <div class="card h-100">
                     <div class="card-header">
                         <div class="row">
-                            <h3 class="card-title">Foto Profil dan Sampul</h3>
+                            <h3 class="card-title">Foto Profil</h3>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Foto Profil</label>
                             <input type="file" class="form-control-file" id="exampleFormControlFile1" name="fotoProfil">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlFile1">Foto Sampul</label>
-                            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="fotoSampul">
                         </div>
                     </div>
                 </div>
@@ -166,8 +162,6 @@
                                         </label>
                                     </div>
                                     @endif
-
-
                                 </div>
                             </div>
 
@@ -186,12 +180,12 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="deskripsiMerchant">Alamat Lengkapt</label>
-                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="alamatLengkap">{{$alamat->alamat_lengkap ?? ""}}</textarea>
+                            <label for="deskripsiMerchant">Alamat Lengkap</label>
+                            <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiMerchant" name="alamatLengkap" required>{{$alamat->alamat_lengkap ?? ""}}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Telepon</label>
-                            <input type="text" class="form-control" name="telepon" value="{{$alamat->telepon ?? ''}}">
+                            <input type="text" class="form-control" name="telepon" value="{{$alamat->telepon ?? ''}}" require>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Longitude</label>
@@ -210,7 +204,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-
+                        Tarif Pengiriman
                     </div>
                     <div class="card-body">
                         <label>Dukungan Tarif Pengiriman</label>
@@ -240,7 +234,6 @@
                                 <input type="number" class="form-control" value="{{$dukunganBebas->etd}}" name="estimasiBebasOngkir" id="estimasiBebasOngkir" placeholder="Masukan Estimasi Pengiriman (Hr)" required>
                             </div>
                         </div>
-
                         @else
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" name="checkboxBebasOngkir" id="checkboxDukunganTarif">
@@ -380,27 +373,35 @@
     var lat = "";
     var lot = "";
     $(document).ready(function() {
-        @if(session('berhasil'))
+        @if(session('pesan'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('
-            berhasil ')}}');
+        alert('{{session("pesan")}}');
         @endif
-        
+
         getLocation();
 
+        if ($('#checkboxDukunganTarif').is(':checked') == true) {
 
-        $("#minimumBebasOngkir").attr("disabled", true);
-        $("#estimasiBebasOngkir").attr("disabled", true);
+        } else {
+            $("#minimumBebasOngkir").attr("disabled", true);
+            $("#estimasiBebasOngkir").attr("disabled", true);
+        }
+        if ($('#checkboxDukunganTarifFlat').is(':checked') == true) {
 
-        $("#minimumTarifFlat").attr("disabled", true);
-        $("#estimasiTarifFlat").attr("disabled", true);
-        $("#tarifTarifFlat").attr("disabled", true);
+        } else {
+            $("#minimumTarifFlat").attr("disabled", true);
+            $("#estimasiTarifFlat").attr("disabled", true);
+            $("#tarifTarifFlat").attr("disabled", true);
+        }
+        if ($('#checkboxDukunganTarifStandar').is(':checked') == true) {
 
-        $("#minimumTarifStandar").attr("disabled", true);
-        $("#estimasiTarifStandar").attr("disabled", true);
-        $("#tarifBerat").attr("disabled", true);
-        $("#tarifVolume").attr("disabled", true);
-        $("#tarifJarak").attr("disabled", true);
+        } else {
+            $("#minimumTarifStandar").attr("disabled", true);
+            $("#estimasiTarifStandar").attr("disabled", true);
+            $("#tarifBerat").attr("disabled", true);
+            $("#tarifVolume").attr("disabled", true);
+            $("#tarifJarak").attr("disabled", true);
+        }
     });
 
     $('#checkboxDukunganTarif').change(function() {
@@ -457,8 +458,7 @@
         //     title: "Hello World!",
         // });
 
-        //DARI SINI
-
+        /*
         var myLatlng = new google.maps.LatLng(lat, lot);
         var mapOptions = {
             zoom: 15,
@@ -490,9 +490,7 @@
             );
             infoWindow.open(map);
         });
-
-        //SAMPE SINI
-
+        */
     }
 
     function getLocation() {

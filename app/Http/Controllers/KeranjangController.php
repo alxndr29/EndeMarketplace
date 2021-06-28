@@ -13,16 +13,17 @@ class KeranjangController extends Controller
     {
         $user = new User();
         $keranjang = DB::table('keranjang')
-        ->join('produk','keranjang.produk_idproduk','=','produk.idproduk')
-        ->join('gambarproduk','produk.idproduk','=','gambarproduk.produk_idproduk')
-        ->join('merchant','merchant.users_iduser','=','produk.merchant_users_iduser')
-        ->groupBy('produk.idproduk')
-        ->select('produk.*','gambarproduk.*','merchant.nama as nama_merchant','keranjang.*')
-        ->where('keranjang.users_iduser', $user->userid())
-        ->get();
-        return view('user.keranjang.keranjang',compact('keranjang'));
+            ->join('produk', 'keranjang.produk_idproduk', '=', 'produk.idproduk')
+            ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+            ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+            ->groupBy('produk.idproduk')
+            ->select('produk.*', 'gambarproduk.*', 'merchant.nama as nama_merchant', 'keranjang.*')
+            ->where('keranjang.users_iduser', $user->userid())
+            ->get();
+        return view('user.keranjang.keranjang', compact('keranjang'));
     }
-    public function loadKeranjang(){
+    public function loadKeranjang()
+    {
         $user = new User();
         $keranjang = DB::table('keranjang')
             ->join('produk', 'keranjang.produk_idproduk', '=', 'produk.idproduk')
@@ -34,13 +35,14 @@ class KeranjangController extends Controller
             ->get();
         return $keranjang;
     }
-    public function loadMerchant(){
+    public function loadMerchant()
+    {
         $user = new User();
         $merchant = DB::table('keranjang')
             ->join('produk', 'keranjang.produk_idproduk', '=', 'produk.idproduk')
             ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
             ->groupBy('merchant.users_iduser')
-            ->select('merchant.users_iduser as idmerchant','merchant.nama as nama_merchant')
+            ->select('merchant.users_iduser as idmerchant', 'merchant.nama as nama_merchant')
             ->where('keranjang.users_iduser', $user->userid())
             ->get();
         return $merchant;
@@ -57,6 +59,9 @@ class KeranjangController extends Controller
                     [
                         'users_iduser' => $iduser,
                         'produk_idproduk' => $idproduk,
+
+                    ],
+                    [
                         'jumlah' => $jumlah
                     ]
                 );
@@ -91,9 +96,9 @@ class KeranjangController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-        
     }
-    public function notifikasiKeranjangUser(){
+    public function notifikasiKeranjangUser()
+    {
         $user = new User();
         $keranjang = DB::table('keranjang')
             ->join('produk', 'keranjang.produk_idproduk', '=', 'produk.idproduk')

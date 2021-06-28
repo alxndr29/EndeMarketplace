@@ -345,8 +345,7 @@
         // alert('hello world!');
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('
-            berhasil ')}}');
+        alert('{{session('berhasil')}}');
         @endif
     });
     $("#btnFilter").click(function() {

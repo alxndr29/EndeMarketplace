@@ -343,7 +343,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Toastr -->
     <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
     <!-- Make sure you put this AFTER Leaflet's CSS -->
-    
+
     <!-- Notifikasi Pelanggan -->
     <!-- <script src="{{asset('js/notifikasiPelanggan.js')}}"></script> -->
 
@@ -351,14 +351,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
 
-   
+
 
     <script type="text/javascript">
         $(document).ready(function() {
             $("#jumlahNotifikasi").html(100);
             loadKeranjang();
         });
+
         function loadKeranjang() {
+            $("#isiKeranjangNotifikasi").empty();
             $.ajax({
                 url: "{{route('keranjang.notifikasi')}}",
                 type: "GET",
@@ -366,7 +368,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     var jumlahKeranjang = 0;
                     for (i = 0; i < response.length; i++) {
                         jumlahKeranjang += response[i].jumlah;
-                        var src = "src="+"{{asset('/')}}gambar/" + response[i].idgambarproduk + '.jpg';
+                        var src = "src=" + "{{asset('/')}}gambar/" + response[i].idgambarproduk + '.jpg';
                         var url = "{{asset('/')}}user/produk/show/" + response[i].idproduk;
                         $("#isiKeranjangNotifikasi").append(
                             '<a href="' + url + '" class="dropdown-item">' +

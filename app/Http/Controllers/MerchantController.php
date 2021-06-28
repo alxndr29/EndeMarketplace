@@ -22,6 +22,7 @@ class MerchantController extends Controller
         $this->middleware(['auth']);
         $this->middleware(['cekdevice']);
         //$this->middleware(['cekmerchant']);
+        
     }
     
     public function index()
@@ -266,7 +267,6 @@ class MerchantController extends Controller
                     ]
                 );
            
-
             if ($request->has('checkboxBebasOngkir')) {
                 DB::table('dukungantarifpengiriman')->updateOrInsert(
                     ['merchant_users_iduser' => $id, 'tarifpengiriman_idtarifpengiriman' => $request->get('checkboxBebasOngkir')],
@@ -292,6 +292,7 @@ class MerchantController extends Controller
                 DB::table('dukungantarifpengiriman')->where('merchant_users_iduser', '=', $id)->where('tarifpengiriman_idtarifpengiriman', '=', 3)->delete();
             }
 
+            //ekspedisi pengiriman
             if($request->has('checkboxJNE')){
                 DB::table('dukunganpengiriman')->updateOrInsert([
                     'merchant_users_iduser' => $id,
@@ -308,7 +309,8 @@ class MerchantController extends Controller
             } else {
                 DB::table('dukunganpengiriman')->where('merchant_users_iduser', $id)->where('kurir_idkurir', 2)->delete();
             }
- 
+
+            //pembayaran
             if ($request->has('checkboxCOD')) {
                 DB::table('dukunganpembayaran')->updateOrInsert([
                     'merchant_users_iduser' => $id,

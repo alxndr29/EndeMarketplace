@@ -13,7 +13,7 @@
                     </div>
                     @else
                     <div class="alert alert-warning text-center" role="alert">
-                        Toko Tutup
+                        Merchant ini sedang diluar jam operasional. 
                     </div>
                     @endif
 
@@ -30,15 +30,16 @@
                                 <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modaldetail">
                                     Info Merchant
                                 </button>
-                               
+                                <p>Produk Terjual: 9.7k</p>
+                                
                             </div>
                         </div>
                         <div class="col">
                             <div class="row">
-                                Produk Terjual:
+                               
                             </div>
                             <div class="row">
-                                9.7k
+                                
                             </div>
                         </div>
                     </div>
@@ -69,15 +70,15 @@
                                             Semua
                                         </a>
                                         @foreach($kategori as $key => $value)
-                                        @if(isset($id2))
-                                        @if($id2 == $value->idkategori)
-                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action active">{{$value->nama_kategori}}</a>
-                                        @else
-                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
-                                        @endif
-                                        @else
-                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
-                                        @endif
+                                            @if(isset($id2))
+                                            @if($id2 == $value->idkategori)
+                                            <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action active">{{$value->nama_kategori}}</a>
+                                            @else
+                                            <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
+                                            @endif
+                                            @else
+                                            <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -133,6 +134,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
+                            
                             @foreach ($reviewProduk as $key => $value)
                             <div class="row p-2 border">
                                 <div class="col col-lg-1">

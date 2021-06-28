@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2021 at 07:26 AM
+-- Generation Time: Jun 28, 2021 at 07:24 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -883,7 +883,6 @@ CREATE TABLE `merchant` (
   `nama` varchar(45) NOT NULL,
   `status_merchant` enum('Aktif','NonAktif') DEFAULT 'NonAktif',
   `foto_profil` varchar(45) DEFAULT NULL,
-  `foto_sampul` varchar(45) DEFAULT NULL,
   `deskripsi` varchar(45) DEFAULT NULL,
   `jam_buka` time DEFAULT NULL,
   `jam_tutup` time DEFAULT NULL,
@@ -896,9 +895,9 @@ CREATE TABLE `merchant` (
 -- Dumping data for table `merchant`
 --
 
-INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `foto_sampul`, `deskripsi`, `jam_buka`, `jam_tutup`, `created_at`, `updated_at`, `users_iduser`) VALUES
-('Merchant Gaje', 'Aktif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-('Merchant Ubah', 'Aktif', 'merchant-fotoprofil-4.png', 'merchant-fotosampul-4.png', 'Merchant iki wes dirubah', '07:30:00', '13:30:00', '2021-04-15 14:03:59', '2021-05-08 00:19:39', 4);
+INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `deskripsi`, `jam_buka`, `jam_tutup`, `created_at`, `updated_at`, `users_iduser`) VALUES
+('Merchant Gaje', 'Aktif', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+('Merchant Ubah', 'Aktif', 'merchant-fotoprofil-4.png', 'Merchant iki wes dirubah', '07:30:00', '13:30:00', '2021-04-15 14:03:59', '2021-05-08 00:19:39', 4);
 
 -- --------------------------------------------------------
 

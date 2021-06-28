@@ -224,7 +224,6 @@
                     previewGambar();
                 }
             }
-
         } else {
 
         }
@@ -239,7 +238,6 @@
                     displayCurrentPicture();
                 }
             }
-
         } else {
 
         }

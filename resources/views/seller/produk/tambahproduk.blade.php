@@ -13,11 +13,11 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="namaProduk">Nama Produk</label>
-                        <input type="text" class="form-control" id="namaProduk" placeholder="Nama Produk">
+                        <input type="text" class="form-control" id="namaProduk" placeholder="Nama Produk" required>
                     </div>
                     <div class="form-group">
                         <label for="namaProduk">Harga Produk</label>
-                        <input type="number" class="form-control" id="harga" placeholder="Harga Produk">
+                        <input type="number" class="form-control" id="harga" placeholder="Harga Produk" required>
                     </div>
                     <div class="form-group">
                         <label>Jenis Produk</label>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Produk</label>
-                        <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiProduk"></textarea>
+                        <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsiProduk" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="namaProduk">URL Video</label>
@@ -63,19 +63,19 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="beratProduk">Berat (gr)</label>
-                        <input type="number" class="form-control" id="beratProduk" placeholder="Berat">
+                        <input type="number" class="form-control" id="beratProduk" placeholder="Berat" required>
                     </div>
                     <div class="form-group">
                         <label for="panjangProduk">Panjang (cm)</label>
-                        <input type="number" class="form-control" id="panjangProduk" placeholder="Panjang">
+                        <input type="number" class="form-control" id="panjangProduk" placeholder="Panjang" required>
                     </div>
                     <div class="form-group">
                         <label for="lebarProduk">Lebar (cm)</label>
-                        <input type="number" class="form-control" id="lebarProduk" placeholder="Lebar">
+                        <input type="number" class="form-control" id="lebarProduk" placeholder="Lebar" required>
                     </div>
                     <div class="form-group">
                         <label for="tinggiProduk">Tinggi (cm)</label>
-                        <input type="number" class="form-control" id="tinggiProduk" placeholder="Tinggi">
+                        <input type="number" class="form-control" id="tinggiProduk" placeholder="Tinggi" required>
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -90,7 +90,7 @@
             <div class="card h-100">
                 <div class="card-header">
                     <div class="row">
-                        <h3 class="card-title">DataTable with default features</h3>
+                        <h3 class="card-title">Gambar / Foto Produk</h3>
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -122,11 +122,11 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="stokProduk">Stok</label>
-                        <input type="number" class="form-control" id="stokProduk" placeholder="Stok">
+                        <input type="number" class="form-control" id="stokProduk" placeholder="Stok" required>
                     </div>
                     <div class="form-group">
                         <label for="minimumPembelian">Minimum Pemesanan</label>
-                        <input type="number" class="form-control" id="minimumPemesanan" placeholder="Minimum Pembelian">
+                        <input type="number" class="form-control" id="minimumPemesanan" placeholder="Minimum Pembelian" required>
                     </div>
                     <div class="form-group">
                         <label>Status Produk</label>
@@ -256,7 +256,6 @@
                 },
                 success: function(response) {
                     if (response.status == "berhasil") {
-
                         alert(response.status);
                         window.location.href = "{{URL::to('seller/produk')}}";
 

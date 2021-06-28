@@ -198,8 +198,8 @@
     $("body").on("change", "#qty", function(e) {
         var id = $(this).attr('data-id');
         var val = $(this).val();
-        if (confirm('Ingin menghapus?')) {
-
+        if (confirm('Ingin Mengubah Qty?')) {
+            
         } else {
 
         }
