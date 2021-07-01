@@ -410,7 +410,6 @@
                 if (response.hitungReview == 0 && response.transaksi[0].status_transaksi == "Selesai") {
                     $("#buttonReview").prop("disabled", false);
                 }
-
                 //alert(response.produk[0].idalamat);
                 $("#modal-transaksi").html(
                     'Nomor Transaksi:' +

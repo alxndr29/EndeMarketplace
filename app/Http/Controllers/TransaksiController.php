@@ -10,7 +10,7 @@ use App\User;
 use App\Pengiriman;
 use App\Transaksi;
 use App\Produk;
-
+use Carbon\Carbon;
 class TransaksiController extends Controller
 {
     //
@@ -219,7 +219,7 @@ class TransaksiController extends Controller
             //return $key.$value;
             DB::table('reviewproduk')->updateOrInsert(
                 ['produk_idproduk' => $key, 'transaksi_idtransaksi' => $request->get('idtransaksi')],
-                ['komentar' => $value]
+                ['komentar' => $value, 'tanggal_waktu' => Carbon::now()]
             );
         }
         foreach ($ratingProduk as $key => $value) {

@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Range Harga</label>
-                        <input type="text" id="sliderRangeHarga" value="" class="slider form-control" data-slider-min="0" data-slider-max="100000" data-slider-step="10000" data-slider-value="[0,1000000]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show">
+                        <input type="text" id="sliderRangeHarga" value="" class="slider form-control" data-slider-min="0" data-slider-max="1000000" data-slider-step="10000" data-slider-value="[0,1000000]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show">
                         <div class="row pt-2">
                             <div class="col">
                                 <input type="number" class="form-control" id="rangeHargaMin" disabled>
@@ -30,6 +30,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--
                     <div class="form-group">
                         <label for="exampleInputEmail1">Dukungan Pengiriman</label>
                         <div class="form-check">
@@ -52,6 +53,7 @@
                             <label class="form-check-label">Transfer Bank</label>
                         </div>
                     </div>
+                    -->
                 </div>
                 <div class="card-footer">
                     <div class="d-flex">
@@ -134,6 +136,8 @@
         // var data = $('#sliderRangeHarga').val();
         // var split = data.split(",");
         // alert(split[0] + " R " + split[1]);
+
+        window.location = "{{url('/')}}" + "/user/produk/cari?key=a";
     });
     $("#sliderRangeHarga").change(function() {
         var data = $('#sliderRangeHarga').val();

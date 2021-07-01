@@ -19,10 +19,9 @@ class MerchantController extends Controller
     public function __construct()
     {
         //$this->middleware(['auth', 'verified']);
-        $this->middleware(['auth']);
+        //$this->middleware(['auth']);
         $this->middleware(['cekdevice']);
         //$this->middleware(['cekmerchant']);
-        
     }
     
     public function index()

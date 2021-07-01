@@ -15,14 +15,12 @@ class OtpController extends Controller
 {
     //
     public function otpWhatsapp(Request $request)
-    { 
-
-    }
+    { }
     public function otpEmail(Request $request)
     {
         $user = Auth::user();
         $id =  $user->iduser;
-        $dataUser = User::where('iduser',$id)->first();
+        $dataUser = User::where('iduser', $id)->first();
         $otp = $request->session()->get('otp');
         try {
             // $details = [
@@ -61,6 +59,7 @@ class OtpController extends Controller
             $response = new Response('MyCookie');
             //$namaCookie = 'chizurumizuhara464@gmail.com';
             $response->withCookie(cookie()->forever('otp', $request->get('email').'/verified'));
+            //$response->withCookie(cookie()->forever($request->get('email'), $request->get('email').'/verified'));
             return $response;
         } else {
             return "gagal";

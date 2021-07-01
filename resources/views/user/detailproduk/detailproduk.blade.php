@@ -4,7 +4,7 @@
 
     <div class="card">
         <div class="card-header">
-
+            Detail Produk
         </div>
         <div class="card-body">
             @if($data->status == "TidakAktif")
@@ -62,6 +62,7 @@
                             <p class="h6">Detail Produk: {{$data->deskripsi}}</p>
                             <p class="h6">Stok: {{$data->stok}} Unit</p>
                             <div class="row p-1">
+                                @auth
                                 <div class="col">
                                     <!-- <a href="{{route('obrolan.index.user')}}" class="btn btn-block btn-default">Chat Penjual</a> -->
                                     <button type="button" class="btn btn-block btn-default" id="chatpenjual">Chat Penjual</button>
@@ -69,8 +70,19 @@
                                 <div class="col">
                                     <button type="button" class="btn btn-block btn-default" id="wishlist">Wishlist</button>
                                 </div>
+                                @else
+                                <div class="col">
+                                    <!-- <a href="{{route('obrolan.index.user')}}" class="btn btn-block btn-default">Chat Penjual</a> -->
+                                    <button type="button" class="btn btn-block btn-default" id="chatpenjual" disabled>Chat Penjual</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-block btn-default" id="wishlist" disabled>Wishlist</button>
+                                </div>
+                                @endauth
+
                             </div>
                             <div class="row p-1">
+                                @auth
                                 <div class="col-10">
                                     @if($data->status == "TidakAktif")
                                     <button type="button" class="btn btn-block btn-default" id="keranjang" disabled>Tambah keranjang</button>
@@ -84,6 +96,21 @@
                                         <input type="number" class="form-control" placeholder="Qty" id="qty" value={{$data->minimum_pemesanan}}>
                                     </div>
                                 </div>
+                                @else
+                                <div class="col-10">
+                                    @if($data->status == "TidakAktif")
+                                    <button type="button" class="btn btn-block btn-default" id="keranjang" disabled>Tambah keranjang</button>
+                                    @else
+                                    <button type="button" class="btn btn-block btn-default" id="keranjang" disabled>Tambah keranjang</button>
+                                    @endif
+
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control disabled" placeholder="Qty" id="qty" value={{$data->minimum_pemesanan}}>
+                                    </div>
+                                </div>
+                                @endauth
                             </div>
                         </div>
 
@@ -147,7 +174,12 @@
                                 <div class="col-6 col-lg-9">
                                 </div>
                                 <div class="col-6 col-lg-3">
+                                    @auth
                                     <button type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-tambahdiskusi">Tulis Pertanyaan</button>
+                                    @else
+                                    <button type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-tambahdiskusi" disabled>Tulis Pertanyaan</button>
+                                    @endauth
+
                                 </div>
                             </div>
                             <br>
@@ -265,6 +297,7 @@
                 <form method="post" action="{{route('diskusi.store',$data->idproduk)}}">
                     @csrf
                     <div class="form-group">
+
                         <label for="recipient-name" class="col-form-label">Tulis Pertanyaan:</label>
                         <input type="text" class="form-control" name="pertanyaan" required>
                     </div>

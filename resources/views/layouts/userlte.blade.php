@@ -127,7 +127,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
                             <div class="dropdown-divider"></div>
+                            @auth
                             <a href="{{route('keranjang.index')}}" class="dropdown-item dropdown-footer">Lihat Semua Keranjang</a>
+                            @endauth
+
                         </div>
                     </li>
 
@@ -138,6 +141,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <span class="badge badge-warning navbar-badge"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            @auth
                             <a href="#" class="dropdown-item">
                                 <div class="media">
                                     <img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
@@ -165,8 +169,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <span class="float-right text-muted text-sm">12 hours</span>
                             </a>
                             <div class="dropdown-divider"></div>
+                            <a href="{{route('alamatpembeli.index')}}" class="dropdown-item">
+                                <i class="fas fa-location-arrow mr-2"></i> Daftar Alamat
+                                <span class="float-right text-muted text-sm"></span>
+                            </a>
+                            <div class="dropdown-divider"></div>
                             <a href="{{route('merchant.index')}}" class="dropdown-item">
-                                <i class="fas fa-file mr-2"></i> Merchant Anda
+                                <i class="fas fa-store mr-2"></i> Merchant Anda
                                 <span class="float-right text-muted text-sm"></span>
                             </a>
                             <div class="dropdown-divider"></div>
@@ -178,6 +187,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
+
+                            @else
+                            <a href="#" class="dropdown-item">
+                                <div class="media">
+                                    <img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            <p>Silahkan masuk ke akun yang terdaftar</p>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item dropdown-footer" href="{{ route('login') }}"> Login </a>
+                            @endauth
+
                         </div>
                     </li>
                     <!--
@@ -356,8 +380,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script type="text/javascript">
         $(document).ready(function() {
             $("#jumlahNotifikasi").html(100);
-            loadKeranjang();
+            // loadKeranjang();
+            loginstatus();
         });
+
+        function loginstatus() {
+            $.ajax({
+                url: "{{route('loginstatus')}}",
+                type: "GET",
+                success: function(response) {
+                    if (response == "1") {
+                        loadKeranjang();
+                    } else {
+                        $("#jumlahKeranjangDalam").html('Silahkan Login Dahulu.');
+                        $("#jumlahKeranjangNotifikasi").html(0);
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        }
 
         function loadKeranjang() {
             $("#isiKeranjangNotifikasi").empty();

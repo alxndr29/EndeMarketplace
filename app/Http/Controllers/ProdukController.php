@@ -190,25 +190,57 @@ class ProdukController extends Controller
         //dd($data);
         return view('seller.produk.ubahproduk', compact('data', 'kategori', 'jenisproduk'));
     }
-    public function search($key = null, $filter = null)
+    //$key = null, $filter = null, $range1 = null,$range2 = null, $order = null
+    public function search(Request $request)
     {
-        if ($key == null) {
+        $minimum = 0;
+        $maksimum = 10000000;
+        $kategori = null;
+        if (isset($request->maksimum)) { 
+            $maksimum = $request->maksimum;
+        }
+        if(isset($request->minimum)){
+            $minimum = $request->minimum;
+        }
+        if(isset($request->kategori)){
+
+        }
+
+        if(isset($request->key)){
+            if($kategori != null){
+
+            }else{
+                
+            }
             $data = DB::table('produk')
                 ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                 ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
                 ->groupBy('produk.idproduk')
+                ->where('produk.nama', 'like', '%' . $request->key . '%')
+                ->whereBetween('harga', [$minimum, $maksimum])
+                ->orderBy("status", "desc")
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                 ->paginate(10);
-        } else {
+        }else{
             $data = DB::table('produk')
                 ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                 ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
                 ->groupBy('produk.idproduk')
-                ->where('produk.nama', 'like', '%' . $key . '%')
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                 ->paginate(10);
         }
+       
         //return $data;   
+        // $data = DB::table('produk')
+        //     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+        //     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+        //     ->groupBy('produk.idproduk')
+        //     ->where('produk.nama', 'like', '%' . null . '%')
+        //     ->orderBy("status", "desc")
+        //     ->whereBetween('harga',[0,1000000])
+        //     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+        //     ->paginate(10);
+
         return view('user.search.search', compact('data'));
     }
     public function picture($id)
@@ -306,13 +338,13 @@ class ProdukController extends Controller
         $produk = DB::table('produk')
             ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
             ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
-            ->leftJoin('reviewproduk','reviewproduk.produk_idproduk','=','produk.idproduk')
-            ->select('produk.idproduk as idproduk','gambarproduk.idgambarproduk as idgambarproduk','produk.nama as nama_produk', 'kategori.nama_kategori as kategori_produk', DB::raw('avg(rating) as rating'))
+            ->leftJoin('reviewproduk', 'reviewproduk.produk_idproduk', '=', 'produk.idproduk')
+            ->select('produk.idproduk as idproduk', 'gambarproduk.idgambarproduk as idgambarproduk', 'produk.nama as nama_produk', 'kategori.nama_kategori as kategori_produk', DB::raw('avg(rating) as rating'))
             ->groupBy('produk.idproduk')
             ->where('produk.merchant_users_iduser', $merchant->idmerchant())
             ->get();
         //return $produk;
-        return view('seller.review.review',compact('produk'));
+        return view('seller.review.review', compact('produk'));
     }
     public function detailReview()
     { }
