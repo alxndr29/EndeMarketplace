@@ -41,7 +41,7 @@
                                 <td>
                                     <a class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
                                 </td>
-                            <tr>
+                            </tr>
                             @endforeach
                     </table>
                 </div>

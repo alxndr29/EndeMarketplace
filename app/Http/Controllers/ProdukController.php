@@ -91,7 +91,16 @@ class ProdukController extends Controller
     }
     public function show($id)
     {
-        // $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
+        $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
+        $array = [];
+        foreach ($da as $item) {
+            if (!array_key_exists($item->transaksi_idtransaksi, $array)) {
+                $array[$item->transaksi_idtransaksi] = [];
+            }
+            array_push($array[$item->transaksi_idtransaksi], $item->produk_idproduk);
+        }
+        
+        //  return $da;
         // $ar1 = array();
         // $ar2 = array();
 
@@ -117,25 +126,26 @@ class ProdukController extends Controller
         // //return $ar2;
         // return $ar1;
 
-        //$samples = [['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta'], ['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta']];
         // $samples = [
-        //     ['pena', 'roti', 'mentega'], 
-        //     ['roti', 'mentega', 'telur'], 
-        //     ['buncis', 'telur', 'susu'], 
-        //     ['roti', 'mentega'],
-        //     ['roti','mentega','kecap','telur','susu']
+        //     ['alpha', 'beta', 'epsilon'], 
+        //     ['alpha', 'beta', 'theta'], 
+        //     ['alpha', 'beta', 'epsilon'], 
+        //     ['alpha', 'beta', 'theta']
         // ];
-        // $samples = [
-        //     ['1', '2'], 
-        //     ['1', '2'],
-        //     ['3']
-        // ];
-        // $labels  = [];
 
-        // $support = 0;
-        // $confidence = 0;
+        // $samples = [
+        //     10 => ['pena', 'roti', 'mentega'],
+        //     12 => ['roti', 'mentega', 'telur'],
+        //     16 => ['buncis', 'telur', 'susu'],
+        //     17 => ['roti', 'mentega'],
+        //     1 => ['roti', 'mentega', 'kecap', 'telur', 'susu']
+        // ];
+
+        // $labels  = [];
+        // $support = 0.5;
+        // $confidence = 0.5;
         // $associator = new Apriori($support, $confidence);
-        // $associator->train($samples, $labels);
+        // $associator->train($array, $labels);
         // $data =  $associator->getRules();
         // return $data;
 
@@ -196,22 +206,16 @@ class ProdukController extends Controller
         $minimum = 0;
         $maksimum = 10000000;
         $kategori = null;
-        if (isset($request->maksimum)) { 
+        if (isset($request->maksimum)) {
             $maksimum = $request->maksimum;
         }
-        if(isset($request->minimum)){
+        if (isset($request->minimum)) {
             $minimum = $request->minimum;
         }
-        if(isset($request->kategori)){
+        if (isset($request->kategori)) { }
 
-        }
-
-        if(isset($request->key)){
-            if($kategori != null){
-
-            }else{
-                
-            }
+        if (isset($request->key)) {
+            if ($kategori != null) { } else { }
             $data = DB::table('produk')
                 ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                 ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
@@ -221,7 +225,7 @@ class ProdukController extends Controller
                 ->orderBy("status", "desc")
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                 ->paginate(10);
-        }else{
+        } else {
             $data = DB::table('produk')
                 ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                 ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
@@ -229,7 +233,7 @@ class ProdukController extends Controller
                 ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                 ->paginate(10);
         }
-       
+
         //return $data;   
         // $data = DB::table('produk')
         //     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')

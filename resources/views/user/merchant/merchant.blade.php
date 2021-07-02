@@ -156,14 +156,14 @@
                                 <br>
                                 Jumlah bintang: {{$value->rating}}
                                 <br>
-                                <a href="{{route('produk.show',$value->idproduk)}}">{{$value->namaproduk}}</a> <i class="far fa-user"></i>
+                                <a href="{{route('produk.show',$value->idproduk)}}">{{$value->namaproduk}}</a>
                             </div>
                         </div>
                         @endforeach
                     </div>
                 </div>
             </div>
-            <!-- /.card -->
+            <!-- /.card <i class="far fa-user"></i> -->
         </div>
     </div>
 </div>

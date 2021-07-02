@@ -32,12 +32,11 @@
                             </tr>
                         </thead>
                         <tbody style="vertical-align: top;">
-                            @foreach ($produk as $key => $value )
+                            @foreach($produk as $key => $value)
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{$value->nama}}</td>
                                 <td>
-                                    
                                     <img style="width:75px;height:75px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
                                 </td>
                                 <td>{{$value->nama_kategori}}</td>
@@ -74,7 +73,6 @@
     });
 </script>
 @endsection
-
 @endsection
 
 @section('name')
