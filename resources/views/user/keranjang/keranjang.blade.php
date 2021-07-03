@@ -181,7 +181,7 @@
                 success: function(response) {
                     console.log(response);
                     if (response == "berhasil") {
-                        alert('masuk');
+
                         location.reload();
                     } else {
                         alert(response);
@@ -196,10 +196,30 @@
         }
     });
     $("body").on("change", "#qty", function(e) {
-        var id = $(this).attr('data-id');
+        var idproduk = $(this).attr('data-id');
         var val = $(this).val();
         if (confirm('Ingin Mengubah Qty?')) {
-            
+            $.ajax({
+                url: "{{route('keranjang.store')}}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "idproduk": idproduk,
+                    'jumlah': val
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.status == "berhasil") {
+                        alert(response.status);
+                        location.reload();
+                    } else {
+                        alert(response.status);
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
         } else {
 
         }

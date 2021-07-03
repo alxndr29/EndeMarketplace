@@ -83,7 +83,7 @@
                             </div>
                             <div class="row p-1">
                                 @auth
-                                <div class="col-10">
+                                <div class="col-9">
                                     @if($data->status == "TidakAktif")
                                     <button type="button" class="btn btn-block btn-default" id="keranjang" disabled>Tambah keranjang</button>
                                     @else
@@ -91,13 +91,13 @@
                                     @endif
 
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <div class="form-group">
                                         <input type="number" class="form-control" placeholder="Qty" id="qty" value={{$data->minimum_pemesanan}}>
                                     </div>
                                 </div>
                                 @else
-                                <div class="col-10">
+                                <div class="col-9">
                                     @if($data->status == "TidakAktif")
                                     <button type="button" class="btn btn-block btn-default" id="keranjang" disabled>Tambah keranjang</button>
                                     @else
@@ -105,7 +105,7 @@
                                     @endif
 
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <div class="form-group">
                                         <input type="number" class="form-control disabled" placeholder="Qty" id="qty" value={{$data->minimum_pemesanan}}>
                                     </div>
@@ -147,22 +147,26 @@
                                 <div class="col">
                                     <div class="card">
                                         <div class="card-body">
-                                            @foreach($reviewProduk as $key => $value)
-                                            <div class="row pb-1">
-                                                <div class="col col-lg-1">
-                                                    <img style="width:75px;height:100px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg">
+                                            @if(count($reviewProduk) == 0)
+                                                <p class="text-center"> Belum ada review produk.</p>
+                                            @else
+                                                @foreach($reviewProduk as $key => $value)
+                                                <div class="row pb-1">
+                                                    <div class="col col-lg-1">
+                                                        <img style="width:75px;height:100px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg">
+                                                    </div>
+                                                    <div class="col col-lg-11">
+                                                        <b>{{$value->nama_user}}</b>
+                                                        <br>{{$value->tanggal_waktu}}
+                                                        <br>
+                                                        {{$value->komentar}}
+                                                        <br>
+                                                        Jumlah bintang: {{$value->rating}}
+                                                        <!-- <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p> -->
+                                                    </div>
                                                 </div>
-                                                <div class="col col-lg-11">
-                                                    <b>{{$value->nama_user}}</b>
-                                                    <br>{{$value->tanggal_waktu}}
-                                                    <br>
-                                                    {{$value->komentar}}
-                                                    <br>
-                                                    Jumlah bintang: {{$value->rating}}
-                                                    <!-- <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p> -->
-                                                </div>
-                                            </div>
-                                            @endforeach
+                                                @endforeach
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

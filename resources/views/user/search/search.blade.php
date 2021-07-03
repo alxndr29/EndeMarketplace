@@ -12,6 +12,15 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
+                        <label>Urutkan Berdasarkan</label>
+                        <select class="form-control" id="comboboxFilter">
+                            <option selected>Pilih</option>
+                            <option value="hargatertinggi">Harga Tertinggi</option>
+                            <option value="hargaterendah">Harga Terendah</option>
+                            <option value="baruditambahkan">Baru ditambahkan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Kategori</label>
                         <select class="form-control">
                             <option>Makanan & Minuman</option>
@@ -70,15 +79,10 @@
                     <div class="card-tittle">
                         <div class="row">
                             <div class="col-9">
-                                Hasil
+                                Hasil Pencarian
                             </div>
                             <div class="col-3">
-                                <select class="form-control" id="comboboxFilter">
-                                    <option selected>Urutkan</option>
-                                    <option value="hargatertinggi">Harga Tertinggi</option>
-                                    <option value="hargaterendah">Harga Terendah</option>
-                                    <option value="baruditambahkan">Baru ditambahkan</option>
-                                </select>
+
                             </div>
                         </div>
 
@@ -88,10 +92,10 @@
                     <div class="row">
                         @foreach($data as $key => $value)
                         <div class="col-6 col-lg-3">
-                            <div class="card">
+                            <div class="card" >
                                 <div class="card-body text-center">
                                     <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                    <b>{{$value->nama}}</b>
+                                    <b class="text-truncate d-inline-block" style="max-width: 150px;" >{{$value->nama}}</b>
                                     <br> Rp. {{number_format($value->harga)}}-,
                                     <br>
                                     <small class="text-muted">Oleh: {{$value->nama_merchant}}</small>

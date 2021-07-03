@@ -6,8 +6,8 @@
             <div class="card">
 
                 <div class="card-body">
-
-                    @if($merchant->jam_buka >= date('H:i:s') && $merchant->jam_tutup <= date('H:i:s')) <div class="alert alert-success text-center" role="alert">
+                @if($merchant->jam_buka >= date('H:i:s') && $merchant->jam_tutup <= date('H:i:s')) 
+                <div class="alert alert-success text-center" role="alert">
                         Toko Buka
                 </div>
                 @else
@@ -108,7 +108,7 @@
                                                 <div class="card">
                                                     <div class="card-body text-center">
                                                         <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <b>{{$value->nama}}</b>
+                                                        <b class="text-truncate d-inline-block" style="max-width: 150px;" >{{$value->nama}}</b>
                                                         <br> Rp. {{number_format($value->harga)}}-,
                                                         <br>
                                                         <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
