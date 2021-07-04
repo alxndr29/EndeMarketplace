@@ -180,10 +180,10 @@
     var latitudeUser = "";
     var longitudeUser = "";
 
-    var latitudeMerchant = {{$alamatMerchant->latitude}};
-    var longitudeMerchant = {{$alamatMerchant->longitude}};
-    var jumlah = {{$total->jumlah}};
-    var berat = {{$total->berat}};
+    var latitudeMerchant = "{{$alamatMerchant->latitude}}";
+    var longitudeMerchant = "{{$alamatMerchant->longitude}}";
+    var jumlah = "{{$total->jumlah}}";
+    var berat = "{{$total->berat}}";
 
 
     $(document).ready(function() {
@@ -192,6 +192,15 @@
         $("#nominalpembayaran").val(jumlah);
         $("#dukunganPengiriman").attr("disabled", true);
         $("#biayaKurir").attr("disabled", true);
+
+        @if(session("gagal"))
+        //alert("{{session('berhasil')}}");
+        Swal.fire(
+            'Gagal!',
+            '{{session("gagal")}}',
+            'error'
+        )
+        @endif
     });
 
     $.ajax({
@@ -200,8 +209,8 @@
         success: function(response) {
             console.log(response);
             console.log(response.length);
-            if(response.length == 0){
-                 $("#daftarAlamat").html('Anda belum memiliki alamat. Klik <a href="'+"{{route('alamatpembeli.index')}}"+ '">Disini</a> untuk menambah alamat baru');
+            if (response.length == 0) {
+                $("#daftarAlamat").html('Anda belum memiliki alamat. Klik <a href="' + "{{route('alamatpembeli.index')}}" + '">Disini</a> untuk menambah alamat baru');
             }
             for (i = 0; i < response.length; i++) {
                 $("#daftarAlamat").append(
@@ -232,8 +241,9 @@
         loadAlamat(id);
         $("#dukunganPengiriman").attr("disabled", false);
     });
+
     function loadAlamat(id) {
-        
+
         for (i = 0; i < dataAlamat.length; i++) {
             if (dataAlamat[i].idalamat == id) {
                 $("#idalamat").val(id);
@@ -314,7 +324,7 @@
             if (split[1] == "1") {
                 //tarif bebas ongkor
                 $("#displayNominalPengiriman").html(' Biaya Pengiriman: Rp. ' + biayaKurir);
-                $("#displayNominalTotal").html( 'Total Keseluruhan Rp. '  + jumlah);
+                $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + jumlah);
                 $("#biaya").val(0);
                 $("#estimasi").val(split[4]);
                 var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
@@ -328,7 +338,7 @@
                 biayaKurir = split[5];
                 $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + (biayaKurir));
                 var te = parseInt(biayaKurir) + parseInt(jumlah);
-                $("#displayNominalTotal").html( 'Total Keseluruhan Rp. ' + te);
+                $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + te);
                 $("#biaya").val(biayaKurir);
                 $("#estimasi").val(split[4]);
                 var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
@@ -344,11 +354,11 @@
                 var t_jarak = split[7];
                 biayaKurir = Math.round(t_jarak * result);
                 alert('jarak' + result + " tarif jarak " + t_jarak + ' adalah: ' + biayaKurir + " note: dibulatkan keatas");
-                $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + parseInt(biayaKurir) );
-                
+                $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + parseInt(biayaKurir));
+
                 var te = parseInt(biayaKurir) + parseInt(jumlah);
-                $("#displayNominalTotal").html( 'Total Keseluruhan Rp. ' + te);
-                
+                $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + te);
+
                 $("#biaya").val(biayaKurir);
                 $("#estimasi").val(split[4]);
                 $("#debug").append(
@@ -357,14 +367,14 @@
                 $("#jarakPengiriman").val(result);
             }
         }
-        if(dukunganPengiriman == "1"){
+        if (dukunganPengiriman == "1") {
             var split2 = id.split("/");
             $("#biaya").val(split2[2]);
             $("#estimasi").val(split2[1]);
             var ta = parseInt(split2[2]) + parseInt(jumlah);
             $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + split2[2]);
-            $("#displayNominalTotal").html( 'Total Keseluruhan Rp. ' + ta );
-            
+            $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + ta);
+
         }
 
         // var split = id.split("/");
@@ -374,7 +384,7 @@
     });
 
     function hitungBiaya() {
-       var origin = {{$alamatMerchant->kabupatenkota_idkabupatenkota}};
+        var origin = "{{$alamatMerchant->kabupatenkota_idkabupatenkota}}";
         var destination = idAlamatUser;
         //alert(origin + " - " + destination);
         var courier = "jne";
@@ -384,7 +394,7 @@
             method: "GET",
             contentType: false,
             dataType: "json",
-            success: function(data) {           
+            success: function(data) {
                 for (i = 0; i < data['rajaongkir']['results'].length; i++) {
                     for (j = 0; j < data['rajaongkir']['results'][i]['costs'].length; j++) {
                         // console.log(data['rajaongkir']['results'][i]['costs'][j]['service']);

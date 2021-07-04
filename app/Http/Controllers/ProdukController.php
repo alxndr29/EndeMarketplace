@@ -28,7 +28,6 @@ class ProdukController extends Controller
             ->where('produk.merchant_users_iduser', $merchant->idmerchant())
             ->groupBy('produk.idproduk')
             ->get();
-        //return $data;
         return view('seller.produk.produk', compact('produk'));
     }
     public function create()
@@ -40,9 +39,7 @@ class ProdukController extends Controller
     }
     public function store(Request $request)
     {
-
         try {
-
             $merchant = new Merchant();
             $produk = new Produk();
             $produk->nama = $request->get('namaProduk');
@@ -91,40 +88,51 @@ class ProdukController extends Controller
     }
     public function show($id)
     {
-        $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
-        $array = [];
-        foreach ($da as $item) {
-            if (!array_key_exists($item->transaksi_idtransaksi, $array)) {
-                $array[$item->transaksi_idtransaksi] = [];
-            }
-            array_push($array[$item->transaksi_idtransaksi], $item->produk_idproduk);
-        }
-        
-        //  return $da;
-        // $ar1 = array();
-        // $ar2 = array();
+    
+        // $diskusi = DB::table('diskusi')
+        //     ->join('produk', 'produk.idproduk', '=', 'diskusi.produk_idproduk')
+        //     ->join('users', 'users.iduser', '=', 'diskusi.users_iduser')
+        //     ->select('diskusi.*', 'users.name as nama_user')
+        //     ->orderBy('diskusi.iddiskusi', 'ASC')
+        //     ->where('diskusi.produk_idproduk', '=', $id)
+        //     ->get();
+        $data = DB::table('produk')
+            ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
+            ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
+            ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+            ->select('produk.*', 'kategori.nama_kategori as nama_kategori', 'jenisproduk.nama as nama_jenis', 'merchant.nama as nama_merchant')
+            ->where('produk.idproduk', $id)
+            ->first();
+        $gambar = DB::table('produk')->join('gambarproduk', 'gambarproduk.produk_idproduk', 'produk.idproduk')
+            ->where('produk.idproduk', $id)
+            ->select('gambarproduk.*')
+            ->get();
+        $reviewProduk = DB::table('reviewproduk')
+            ->join('transaksi', 'transaksi.idtransaksi', '=', 'reviewproduk.transaksi_idtransaksi')
+            ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
+            ->where('reviewproduk.produk_idproduk', $id)
+            ->select('reviewproduk.*', 'users.name as nama_user')
+            ->get();
 
-        // for ($i = 0; $i < count($da); $i++) {
-        //     if ($i == 0) {
-        //         array_push($ar2, $da[$i]->produk_idproduk);
-        //     } else if ($da[$i]->transaksi_idtransaksi == $da[$i - 1]->transaksi_idtransaksi) {
-        //         array_push($ar2, $da[$i]->produk_idproduk);
-        //         if ($i == (count($da) - 1)) {
-        //             array_push($ar1, $ar2);
-        //         }
-        //     } else {
-        //         array_push($ar1, $ar2);
-        //         foreach ($ar2 as $key => $value) {
-        //             unset($ar2[$key]);
-        //         }
-        //         array_push($ar2, $da[$i]->produk_idproduk);
-        //         if ($i == (count($da) - 1)) {
-        //             array_push($ar1, $ar2);
-        //         }
+        $jumlahTerjual = DB::table('transaksi')
+        ->join('detailtransaksi','detailtransaksi.transaksi_idtransaksi','=','transaksi.idtransaksi')
+        ->where('transaksi.status_transaksi','=','Selesai')
+        ->where('detailtransaksi.produk_idproduk','=',$id)
+        ->sum('detailtransaksi.jumlah');
+        $jumlahUlasan = DB::table('reviewproduk')->where('produk_idproduk','=',$id)->count();
+        $jumlahDiskusi = DB::table('diskusi')->where('produk_idproduk','=',$id)->count();
+        
+
+        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'reviewProduk', 'jumlahTerjual','jumlahUlasan','jumlahDiskusi'));
+        // $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
+        
+        // $array = [];
+        // foreach ($da as $item) {
+        //     if (!array_key_exists($item->transaksi_idtransaksi, $array)) {
+        //         $array[$item->transaksi_idtransaksi] = [];
         //     }
+        //     array_push($array[$item->transaksi_idtransaksi], $item->produk_idproduk);
         // }
-        // //return $ar2;
-        // return $ar1;
 
         // $samples = [
         //     ['alpha', 'beta', 'epsilon'], 
@@ -148,42 +156,6 @@ class ProdukController extends Controller
         // $associator->train($array, $labels);
         // $data =  $associator->getRules();
         // return $data;
-
-
-        $diskusi = DB::table('diskusi')
-            ->join('produk', 'produk.idproduk', '=', 'diskusi.produk_idproduk')
-            ->join('users', 'users.iduser', '=', 'diskusi.users_iduser')
-            ->select('diskusi.*', 'users.name as nama_user')
-            ->orderBy('diskusi.iddiskusi', 'ASC')
-            ->where('diskusi.produk_idproduk', '=', $id)
-            ->get();
-
-        //return $diskusi;
-        $data = DB::table('produk')
-            ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
-            ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
-            ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
-            ->select('produk.*', 'kategori.nama_kategori as nama_kategori', 'jenisproduk.nama as nama_jenis', 'merchant.nama as nama_merchant')
-            ->where('produk.idproduk', $id)
-            ->first();
-
-        $gambar = DB::table('produk')->join('gambarproduk', 'gambarproduk.produk_idproduk', 'produk.idproduk')
-            ->where('produk.idproduk', $id)
-            ->select('gambarproduk.*')
-            ->get();
-
-        $reviewProduk = DB::table('reviewproduk')
-            ->join('transaksi', 'transaksi.idtransaksi', '=', 'reviewproduk.transaksi_idtransaksi')
-            ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
-            ->where('reviewproduk.produk_idproduk', $id)
-            ->select('reviewproduk.*', 'users.name as nama_user')
-            ->get();
-
-        // $jumlahTerjual;
-        // $jumlahUlasan;
-        // $jumlahDiskusi;
-
-        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'diskusi', 'reviewProduk'));
     }
     public function edit($id)
     {
@@ -205,47 +177,68 @@ class ProdukController extends Controller
     {
         $minimum = 0;
         $maksimum = 10000000;
-        $kategori = null;
+        $jenis = null;
+
         if (isset($request->maksimum)) {
             $maksimum = $request->maksimum;
         }
         if (isset($request->minimum)) {
             $minimum = $request->minimum;
         }
-        if (isset($request->kategori)) { }
-
-        if (isset($request->key)) {
-            if ($kategori != null) { } else { }
-            $data = DB::table('produk')
-                ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
-                ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
-                ->groupBy('produk.idproduk')
-                ->where('produk.nama', 'like', '%' . $request->key . '%')
-                ->whereBetween('harga', [$minimum, $maksimum])
-                ->orderBy("status", "desc")
-                ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                ->paginate(10);
-        } else {
-            $data = DB::table('produk')
-                ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
-                ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
-                ->groupBy('produk.idproduk')
-                ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                ->paginate(10);
+        if (isset($request->jenis)) {
+            if ($request->jenis != "Pilih") {
+                $jenis = $request->jenis;
+            }
         }
 
-        //return $data;   
-        // $data = DB::table('produk')
-        //     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
-        //     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
-        //     ->groupBy('produk.idproduk')
-        //     ->where('produk.nama', 'like', '%' . null . '%')
-        //     ->orderBy("status", "desc")
-        //     ->whereBetween('harga',[0,1000000])
-        //     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-        //     ->paginate(10);
-
-        return view('user.search.search', compact('data'));
+        if (isset($request->key)) {
+            if ($jenis != null) {
+                $data = DB::table('produk')
+                    ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                    ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                    ->groupBy('produk.idproduk')
+                    ->where('produk.nama', 'like', '%' . $request->key . '%')
+                    ->whereBetween('harga', [$minimum, $maksimum])
+                    ->where('jenisproduk_idjenisproduk',$jenis)
+                    ->orderBy("status", "desc")
+                    ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                    ->paginate(10);
+            } else {
+                $data = DB::table('produk')
+                    ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                    ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                    ->groupBy('produk.idproduk')
+                    ->where('produk.nama', 'like', '%' . $request->key . '%')
+                    ->whereBetween('harga', [$minimum, $maksimum])
+                    ->orderBy("status", "desc")
+                    ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                    ->paginate(10);
+            }
+            
+        } else {
+            if ($jenis != null) {
+                $data = DB::table('produk')
+                    ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                    ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                    ->where('jenisproduk_idjenisproduk', $jenis)
+                    ->whereBetween('harga', [$minimum, $maksimum])
+                    ->groupBy('produk.idproduk')
+                    ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                    ->paginate(10);
+            }else{
+                $data = DB::table('produk')
+                    ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+                    ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+                    ->whereBetween('harga', [$minimum, $maksimum])
+                    ->groupBy('produk.idproduk')
+                    ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
+                    ->paginate(10);
+            }
+            
+        }
+        $jenisproduk = DB::table('jenisproduk')->select('idjenisproduk', 'nama')->get();
+        
+        return view('user.search.search', compact('data', 'jenisproduk'));
     }
     public function picture($id)
     {

@@ -6,8 +6,7 @@
             <div class="card">
 
                 <div class="card-body">
-                @if($merchant->jam_buka >= date('H:i:s') && $merchant->jam_tutup <= date('H:i:s')) 
-                <div class="alert alert-success text-center" role="alert">
+                    @if($merchant->jam_buka >= date('H:i:s') && $merchant->jam_tutup <= date('H:i:s')) <div class="alert alert-success text-center" role="alert">
                         Toko Buka
                 </div>
                 @else
@@ -18,7 +17,12 @@
 
                 <div class="row">
                     <div class="col-2">
-                        <img style="width:150px;height:150px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded-circle mx-auto d-block img-fluid" alt="...">
+                        @if($merchant->foto_profil == null)
+                        <img style="width:150px;height:150px;" src="{{asset('fotoProfil/default.png')}}" class="rounded-circle mx-auto d-block img-fluid" alt="...">
+                        @else
+                        <img style="width:150px;height:150px;" src="{{asset('fotoProfil/'.$merchant->foto_profil)}}" class="rounded-circle mx-auto d-block img-fluid" alt="...">
+                        @endif
+
                     </div>
                     <div class="col">
                         <div class="align-middle">
@@ -108,7 +112,7 @@
                                                 <div class="card">
                                                     <div class="card-body text-center">
                                                         <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                        <b class="text-truncate d-inline-block" style="max-width: 150px;" >{{$value->nama}}</b>
+                                                        <b class="text-truncate d-inline-block" style="max-width: 150px;">{{$value->nama}}</b>
                                                         <br> Rp. {{number_format($value->harga)}}-,
                                                         <br>
                                                         <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>

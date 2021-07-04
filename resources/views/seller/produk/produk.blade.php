@@ -1,6 +1,5 @@
 @extends('layouts.adminlte')
 
-
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -9,7 +8,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-10">
-                            <h3 class="card-title">DataTable with default features</h3>
+                            <h3 class="card-title">Daftar Produk</h3>
                         </div>
                         <div class="col">
                             <a type="button" href="{{route('produk.create')}}" class="btn btn-block btn-default">Tambah</a>

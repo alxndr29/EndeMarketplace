@@ -84,7 +84,8 @@ class CheckoutController extends Controller
             foreach ($keranjang as $key => $value) {
                 $produk = Produk::find($value->produk_idproduk);
                 if ($produk->stok < $value->jumlah) {
-                    return "stok kurang, silahkan ubah qty product";
+                    return redirect()->back()->with('gagal', 'Qty produk tidak mencukupi!');
+                    //return "stok kurang, silahkan ubah qty product";
                 }
             } 
             foreach($keranjang as $key => $value){
@@ -182,7 +183,6 @@ class CheckoutController extends Controller
                     'transaksi_idtransaksi' => $id
                 ]);
             }
-
 
             // $details = [
             //     'title' => 'Checkout Pesanan TRX-'.$transaksi->idtransaksi,

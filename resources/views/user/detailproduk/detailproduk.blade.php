@@ -41,8 +41,6 @@
                                     </div>
                                 </div>
                                 @endif
-
-
                             </div>
                         </div>
 
@@ -52,7 +50,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="h5">{{$data->nama}}</p>
-                            <p class="h6">Terjual 10 Unit - 13 Ulasan - 12 Diskusi</p>
+                            <p class="h6">Terjual {{$jumlahTerjual}} Unit - {{$jumlahUlasan}} Ulasan - {{$jumlahDiskusi}} Diskusi</p>
                             <p class="h5">Rp. {{number_format($data->harga)}}</p>
                             <p class="h6">Penjual:
                                 <a href="{{route('merchant.show',$data->merchant_users_iduser)}}">
@@ -148,24 +146,25 @@
                                     <div class="card">
                                         <div class="card-body">
                                             @if(count($reviewProduk) == 0)
-                                                <p class="text-center"> Belum ada review produk.</p>
+                                            <p class="text-center"> Belum ada review produk.</p>
                                             @else
-                                                @foreach($reviewProduk as $key => $value)
-                                                <div class="row pb-1">
-                                                    <div class="col col-lg-1">
-                                                        <img style="width:75px;height:100px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg">
-                                                    </div>
-                                                    <div class="col col-lg-11">
-                                                        <b>{{$value->nama_user}}</b>
-                                                        <br>{{$value->tanggal_waktu}}
-                                                        <br>
-                                                        {{$value->komentar}}
-                                                        <br>
-                                                        Jumlah bintang: {{$value->rating}}
-                                                        <!-- <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p> -->
-                                                    </div>
+                                            @foreach($reviewProduk as $key => $value)
+                                            <div class="row pb-1">
+                                                <div class="col col-lg-1">
+                                                    <img style="width:75px;height:100px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg">
                                                 </div>
-                                                @endforeach
+                                                <div class="col col-lg-11">
+                                                    <b>{{$value->nama_user}}</b>
+                                                    <br>{{$value->tanggal_waktu}}
+                                                    <br>
+                                                    {{$value->komentar}}
+                                                    <br>
+                                                    Jumlah bintang: {{$value->rating}}
+                                                    <i class="fa fa-star"></i>
+
+                                                </div>
+                                            </div>
+                                            @endforeach
                                             @endif
                                         </div>
                                     </div>
@@ -388,7 +387,7 @@
                 for (i = 0; i < parentBalasan.length; i++) {
                     var idddd = parentBalasan[i].iddiskusi;
                     var action = "http://localhost:8000/diskusi/balasan/store/" + "{{$data->idproduk}}" + "/" + idddd;
-                    alert(action);
+                    //alert(action);
                     $("#custom-tabs-diskusi").append(
                         '<div class="row">' +
                         '<div class="col">' +
@@ -453,10 +452,20 @@
             success: function(response) {
                 console.log(response);
                 if (response.status == "berhasil") {
-                    alert(response.status);
+                    console.log(response.status);
                     loadKeranjang();
+                    Swal.fire(
+                        'Berhasil!',
+                        'Tambah produk ke keranjang!',
+                        'success'
+                    )
                 } else {
-                    alert(response.status);
+                    console.log(response.status);
+                    Swal.fire(
+                        'Gagal!',
+                        'Tambah produk ke keranjang!',
+                        'error'
+                    )
                 }
             },
             error: function(response) {
@@ -475,9 +484,12 @@
             success: function(response) {
                 console.log(response);
                 if (response.status == "berhasil") {
-
-                    alert(response.status);
-
+                    console.log(response.status);
+                    Swal.fire(
+                        'Berhasil!',
+                        'Tambah produk ke wishlist!',
+                        'success'
+                    )
                 } else {
                     alert(response.status);
                 }

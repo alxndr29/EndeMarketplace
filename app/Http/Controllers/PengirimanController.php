@@ -61,9 +61,9 @@ class PengirimanController extends Controller
         return view('seller.pengiriman.detailpengiriman', compact('data'));
         //dd($data);
     }
+    //ajax - non ajax blm bikin
     public function updateStatus($id, $status)
     {
-        //return $id.$status;
         try {
             DB::table('datapengiriman')->where('pengiriman_idpengiriman', $id)->update(['status' => $status]);
             if($status == "SelesaiAntar"){
@@ -73,6 +73,7 @@ class PengirimanController extends Controller
                 ->where('pengiriman.idpengiriman',$id)
                 ->update(['transaksi.status_transaksi'=>'SampaiTujuan']);
             }
+            //return redirect()->back()->with('berhasil', 'Berhasil Menuliskan Review');
             return 'berhasil';
         } catch (\Exception $e) {
             return $e->getMessage();

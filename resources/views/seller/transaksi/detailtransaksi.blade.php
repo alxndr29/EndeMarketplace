@@ -339,8 +339,7 @@
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        // alert('{{session('
-        //     berhasil ')}}');
+        alert('{{session('berhasil')}}');
         @endif
 
     });

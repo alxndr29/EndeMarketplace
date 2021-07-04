@@ -441,8 +441,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
         }
         $("#btnSearchProduk").click(function() {
-            var url = "{{url('user/produk/cari')}}/" + $("#txtSearchProduk").val();
-            window.location.href = url;
+            //var url = "{{url('user/produk/cari')}}/" + 
+            window.location = "{{url('/')}}" + "/user/produk/cari?key=" + $("#txtSearchProduk").val();
+            // window.location.href = url;
         });
     </script>
     @yield('js')

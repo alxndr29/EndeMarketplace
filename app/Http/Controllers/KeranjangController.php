@@ -59,7 +59,6 @@ class KeranjangController extends Controller
                     [
                         'users_iduser' => $iduser,
                         'produk_idproduk' => $idproduk,
-
                     ],
                     [
                         'jumlah' => $jumlah

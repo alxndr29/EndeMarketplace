@@ -19,8 +19,9 @@ Route::get('/user', function () {
     return view('user.detailproduk.detailproduk',compact('test'));
 });
 Route::get('/', function () {
-    $test = "Hallo";
-    return view('welcome',compact('test'));
+    // $test = "Hallo";
+    // return view('welcome',compact('test'));
+    return redirect('user/home');
 });
 Route::get('/token',function(){
     return csrf_token(); 

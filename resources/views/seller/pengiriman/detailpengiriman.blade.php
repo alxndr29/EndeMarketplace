@@ -22,11 +22,15 @@
                     Keterangan Pengiriman: <b>{{$data->keterangan}}</b>
                     <br>
                     Tipe Pembayaran: <b>{{$data->tipepembayaran}}</b>
+                    <br>
+                    Status Kurir: <b> {{$data->status}}
                 </div>
                 <div class="col">
-                    <a href="{{route('merchant.status.ubah',[$data->idpengiriman,'ProsesKeKurir'])}}" class="btn btn-success" style="margin-right: 5px;">
+                    @if($data->status == "MenungguPengiriman")
+                         <a href="{{route('merchant.status.ubah',[$data->idpengiriman,'ProsesKeKurir'])}}" class="btn btn-success" style="margin-right: 5px;">
                         <i class="fas fa-edit"></i>Siap Diantar
                     </a>
+                    @endif
                 </div>
             </div>
 
@@ -62,8 +66,7 @@
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('
-            berhasil ')}}');
+        alert("{{session('berhasil')}}");
         @endif
 
         /*
@@ -96,8 +99,8 @@
 
         //DARI SINI
 
-        var myLatlng = new google.maps.LatLng({{$data->latitude_user}}, {{$data->longitude_user}});
-        var latlng = new google.maps.LatLng({{$data->latitude_merchant}}, {{$data->longitude_merchant}});
+        var myLatlng = new google.maps.LatLng("{{$data->latitude_user}}", "{{$data->longitude_user}}");
+        var latlng = new google.maps.LatLng("{{$data->latitude_merchant}}", "{{$data->longitude_merchant}}");
 
         var mapOptions = {
             zoom: 15,

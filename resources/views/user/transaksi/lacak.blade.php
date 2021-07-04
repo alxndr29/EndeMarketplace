@@ -38,23 +38,23 @@
                     <br>
                     <br>
                     @if($data->status == "ProsesKeKurir")
-                        <br>Live Tracking Lokasi Kurir Belum Tersedia</br>
+                    <br>Live Tracking Lokasi Kurir Belum Tersedia</br>
                     @endif
                     @if($data->status == "SedangDiantar")
-                        <button id="selesaiAntar"class="btn btn-success" style="margin-right: 5px;">
+                    <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;">
                         <i class="fas fa-edit"></i>Selesai
                     </button>
                     @endif
-                    
-                    
+
+
                 </div>
             </div>
-            
+
         </div>
     </div>
     <div class="card">
         <div class="card-body">
-        <div class="row">
+            <div class="row">
                 <div class="col">
                     <div id="map" style="height:300px;width100%;">
 
@@ -71,7 +71,6 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
 <script type="text/javascript">
-
     var latitude = "";
     var longitude = "";
     var jarak = 0;
@@ -91,10 +90,10 @@
     var marker3;
 
     var timer;
-    var status ="";
+    var status = "";
 
     function iniatMap() {
-        alert('sekali doang');
+        //alert('sekali doang');
         myLatlng = new google.maps.LatLng(latitude_destination, longitude_destination);
         latlng = new google.maps.LatLng(latitude_origin, longitude_origin);
         lokasiKurir = new google.maps.LatLng(latitude, longitude);
@@ -117,38 +116,41 @@
         });
         marker.setMap(map);
         marker2.setMap(map);
-        
-        if("{{$data->status}}" == "SedangDiantar"){
-            timer = setInterval(function(){ 
+
+        if ("{{$data->status}}" == "SedangDiantar") {
+            timer = setInterval(function() {
                 loadKurir();
             }, 10000);
         }
-        
-       
+
+
     }
-    function loadKurir(){
+
+    function loadKurir() {
         $.ajax({
-            url: "{{url('user/tracking/lokasi/kurir')}}/" + {{$idpengiriman}},
+            url: "{{url('user/tracking/lokasi/kurir')}}/" + "{{$idpengiriman}}",
             type: "GET",
             success: function(response) {
-               latitude = response[0].latitude_sekarang;
-               longitude = response[0].longitude_sekarang;
-               if(jarak < 1.0){
-                   alert('kurir sudah dekat');
-               }
-               jarak = response[0].jarak_sekarang;
-               if(response[0].status == "SampaiTujuan"){
+                latitude = response[0].latitude_sekarang;
+                longitude = response[0].longitude_sekarang;
+                jarak = response[0].jarak_sekarang;
+                if (jarak < 1.0) {
+                    alert('kurir sudah dekat');
+                }
+
+                if (response[0].status == "SampaiTujuan") {
                     clearInterval(timer);
                     alert("Kurir Anda sudah sampai tujuan");
-               }
-               //alert(latitude+longitude+jarak);
-               updateLokasiKurir();
+                }
+
+                updateLokasiKurir();
             },
             error: function(response) {
                 console.log(response);
             }
         });
     }
+
     function updateLokasiKurir() {
         if (marker3 != null) {
             marker3.setMap(null);
@@ -163,17 +165,17 @@
         marker3.setMap(map);
         console.log('update kurir');
     }
-$("#selesaiAntar").click(function(){
+    $("#selesaiAntar").click(function() {
         $.ajax({
-        url: "{{url('seller/pengiriman/status')}}/" + {{$idpengiriman}}+ "/" +"SelesaiAntar",
-            type: "GET", 
+            url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SelesaiAntar",
+            type: "GET",
             success: function(response) {
-               if(response == "berhasil"){
-                clearInterval(timer);
-                console.log('selesai antar');
-                alert("Selesai melakukan pengantaran");
-                location.reload(); 
-               }
+                if (response == "berhasil") {
+                    alert("Selesai melakukan pengantaran");
+                    clearInterval(timer);
+                    console.log('selesai antar');
+                    location.reload();
+                }
             },
             error: function(response) {
                 console.log(response);
@@ -183,8 +185,6 @@ $("#selesaiAntar").click(function(){
     $(document).ready(function() {
         iniatMap();
     });
-
-    
 </script>
 @endsection
 @endsection
