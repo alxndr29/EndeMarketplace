@@ -151,7 +151,7 @@
                                             @foreach($reviewProduk as $key => $value)
                                             <div class="row pb-1">
                                                 <div class="col col-lg-1">
-                                                    <img style="width:75px;height:100px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg">
+                                                    <img style="width:75px;height:100px;" src="{{asset('fotoProfil/default-user.png')}}">
                                                 </div>
                                                 <div class="col col-lg-11">
                                                     <b>{{$value->nama_user}}</b>
@@ -237,9 +237,9 @@
                             <div class="row">
                                 <div class="col-6 col-lg-3">
                                     <div class="card">
-                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
+                                        <img style="width:150px;height:200px;" src="{{asset('fotoProfil/default-user.png')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
                                         <div class="card-body text-center">
-                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
+                                            <b>Produk XX</b> <br> Rp. 50,000-,
                                             <br>
                                             <a href="#" class="btn btn-primary">Lihat Produk</a>
                                         </div>
@@ -247,9 +247,9 @@
                                 </div>
                                 <div class="col-6 col-lg-3">
                                     <div class="card">
-                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
+                                        <img style="width:150px;height:200px;" src="{{asset('fotoProfil/default-user.png')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
                                         <div class="card-body text-center">
-                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
+                                            <b>Produk XX</b> <br> Rp. 50,000-,
                                             <br>
                                             <a href="#" class="btn btn-primary">Lihat Produk</a>
                                         </div>
@@ -257,9 +257,9 @@
                                 </div>
                                 <div class="col-6 col-lg-3">
                                     <div class="card">
-                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
+                                        <img style="width:150px;height:200px;" src="{{asset('fotoProfil/default-user.png')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
                                         <div class="card-body text-center">
-                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
+                                            <b>Produk XX</b> <br> Rp. 50,000-,
                                             <br>
                                             <a href="#" class="btn btn-primary">Lihat Produk</a>
                                         </div>
@@ -267,9 +267,9 @@
                                 </div>
                                 <div class="col-6 col-lg-3">
                                     <div class="card">
-                                        <img style="width:150px;height:200px;" src=" https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
+                                        <img style="width:150px;height:200px;" src="{{asset('fotoProfil/default-user.png')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
                                         <div class="card-body text-center">
-                                            <b>Iphone 7 32Gb Garansi TAM</b> <br> Rp. 50,000-,
+                                            <b>Produk XX</b> <br> Rp. 50,000-,
                                             <br>
                                             <a href="#" class="btn btn-primary">Lihat Produk</a>
                                         </div>
@@ -524,6 +524,11 @@
                 console.log(response);
             }
         });
+    });
+    $("#qty").change(function(){
+        if($("#qty").val() < "{{$data->minimum_pemesanan}}" || $("#qty").val() > "{{$data->stok}}"){
+            alert('masuk pengecekan');
+        }
     });
 </script>
 @endsection

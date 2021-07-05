@@ -458,7 +458,7 @@
         //     title: "Hello World!",
         // });
 
-        /*
+        
         var myLatlng = new google.maps.LatLng(lat, lot);
         var mapOptions = {
             zoom: 15,
@@ -490,7 +490,7 @@
             );
             infoWindow.open(map);
         });
-        */
+        
     }
 
     function getLocation() {

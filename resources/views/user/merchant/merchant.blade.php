@@ -4,14 +4,13 @@
     <div class="row">
         <div class="col">
             <div class="card">
-
                 <div class="card-body">
-                    @if($merchant->jam_buka >= date('H:i:s') && $merchant->jam_tutup <= date('H:i:s')) <div class="alert alert-success text-center" role="alert">
+                @if($merchant->jam_buka <= date('H:i:s') && $merchant->jam_tutup >= date('H:i:s')) <div class="alert alert-success text-center" role="alert">
                         Toko Buka
                 </div>
                 @else
                 <div class="alert alert-warning text-center" role="alert">
-                    Merchant ini sedang diluar jam operasional.
+                    Merchant ini sedang diluar jam operasional. 
                 </div>
                 @endif
 
@@ -35,8 +34,8 @@
                             <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modaldetail">
                                 Info Merchant
                             </button>
-                            <p>Produk Terjual: 9.7k</p>
-
+                            <p>Produk Terjual: --</p>
+                            <p>Rata-rata Ulasan: --</p>
                         </div>
                     </div>
                     <div class="col">
@@ -140,30 +139,39 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
-
-                        @foreach ($reviewProduk as $key => $value)
-                        <div class="row p-2 border">
-                            <div class="col col-lg-1">
-                                <div class="row">
-                                    <img style="width:75px;height:100px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}">
-                                </div>
-                                <!--
-                                    <div class="row">
-                                        <a href="{{route('produk.show',$value->idproduk)}}">{{$value->namaproduk}}</a>
-                                    </div>
-                                    -->
-                            </div>
-                            <div class="col col-lg-11">
-                                <b>{{$value->nama_user}}</b>
-                                <br>{{$value->tanggal_waktu}}
-                                {{$value->komentar}}
-                                <br>
-                                Jumlah bintang: {{$value->rating}}
-                                <br>
-                                <a href="{{route('produk.show',$value->idproduk)}}">{{$value->namaproduk}}</a>
+                        
+                        @if(count($reviewProduk) == 0)
+                        <div class="row">
+                            <div class="col">
+                                
+                            <p class="text-center pt-3">Belum ada review dan ulasan produk </p>
                             </div>
                         </div>
-                        @endforeach
+                        @else
+                            @foreach ($reviewProduk as $key => $value)
+                            <div class="row p-2 border">
+                                <div class="col col-lg-1">
+                                    <div class="row">
+                                        <img style="width:75px;height:100px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}">
+                                    </div>
+                                    <!--
+                                        <div class="row">
+                                            <a href="{{route('produk.show',$value->idproduk)}}">{{$value->namaproduk}}</a>
+                                        </div>
+                                        -->
+                                </div>
+                                <div class="col col-lg-11">
+                                    <b>{{$value->nama_user}}</b>
+                                    <br>{{$value->tanggal_waktu}}
+                                    {{$value->komentar}}
+                                    <br>
+                                    Jumlah bintang: {{$value->rating}}
+                                    <br>
+                                    <a href="{{route('produk.show',$value->idproduk)}}">{{$value->namaproduk}}</a>
+                                </div>
+                            </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>

@@ -134,11 +134,11 @@
                 latitude = response[0].latitude_sekarang;
                 longitude = response[0].longitude_sekarang;
                 jarak = response[0].jarak_sekarang;
-                if (jarak < 1.0) {
+                if (jarak < 0.2) {
                     alert('kurir sudah dekat');
                 }
 
-                if (response[0].status == "SampaiTujuan") {
+                if (response[0].status == "SelesaiAntar") {
                     clearInterval(timer);
                     alert("Kurir Anda sudah sampai tujuan");
                 }

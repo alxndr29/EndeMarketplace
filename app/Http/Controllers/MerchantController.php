@@ -162,6 +162,7 @@ class MerchantController extends Controller
                 ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
                 ->join('produk','produk.idproduk','=','reviewproduk.produk_idproduk')
                 ->join('gambarproduk','gambarproduk.produk_idproduk','=','produk.idproduk')
+                ->where('transaksi.merchant_users_iduser',$id)
                 ->groupBy('reviewproduk.transaksi_idtransaksi')
                 ->select('reviewproduk.*', 'users.name as nama_user','produk.nama as namaproduk','produk.idproduk as idproduk','gambarproduk.idgambarproduk')
                 ->get();
