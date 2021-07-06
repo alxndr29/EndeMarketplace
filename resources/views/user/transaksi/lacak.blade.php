@@ -66,7 +66,7 @@
 </div>
 
 @section('js')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly">
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
@@ -95,12 +95,14 @@
     function iniatMap() {
         //alert('sekali doang');
         myLatlng = new google.maps.LatLng(latitude_destination, longitude_destination);
-        latlng = new google.maps.LatLng(latitude_origin, longitude_origin);
-        lokasiKurir = new google.maps.LatLng(latitude, longitude);
         mapOptions = {
             zoom: 15,
             center: myLatlng
         }
+        
+        latlng = new google.maps.LatLng(latitude_origin, longitude_origin);
+        lokasiKurir = new google.maps.LatLng(latitude, longitude);
+
         map = new google.maps.Map(document.getElementById("map"), mapOptions);
         //$("#demo").append('Jarak Kurir ke tujuan = ' + jarakKeTujuan(latitude, longitude, latitude_destination, longitude_destination, 'K') + ' Kilometer <br>');
         marker = new google.maps.Marker({
@@ -122,8 +124,6 @@
                 loadKurir();
             }, 10000);
         }
-
-
     }
 
     function loadKurir() {
@@ -142,7 +142,6 @@
                     clearInterval(timer);
                     alert("Kurir Anda sudah sampai tujuan");
                 }
-
                 updateLokasiKurir();
             },
             error: function(response) {
@@ -167,7 +166,7 @@
     }
     $("#selesaiAntar").click(function() {
         $.ajax({
-            url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SelesaiAntar",
+            url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SelesaiAntar" + "/" + "ajax",
             type: "GET",
             success: function(response) {
                 if (response == "berhasil") {

@@ -1,5 +1,5 @@
 OTP: {{$otp}}
-Value: {{$value}}
+<!-- Value: {{$value}} -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +18,8 @@ Value: {{$value}}
     <link rel="stylesheet" href="{{asset('adminlte/dist/css/adminlte.min.css')}}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
 </head>
 
 <body class="hold-transition login-page">
@@ -82,6 +84,8 @@ Value: {{$value}}
     <script src="{{asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+     <!-- Sweetalert -->
+     <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 </body>
 
 </html>
@@ -136,7 +140,12 @@ Value: {{$value}}
 
                     window.location.href = "{{URL::to('/home')}}";
                 } else {
-                    alert("Kode OTP Yang Dimasukan Salah");
+                    console.log("Kode OTP Yang Dimasukan Salah");
+                    Swal.fire(
+                        'Gagal!',
+                        'Kode OTP anda salah!',
+                        'error'
+                    )
                 }
             },
             error: function(response) {

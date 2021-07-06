@@ -173,7 +173,7 @@ Route::get('seller/pengiriman/index','PengirimanController@indexMerchant')->name
 Route::get('seller/pengiriman/{tanggalAwal}/{tanggalAkhir}', 'PengirimanController@indexMerhcantParam')->name('merchant.pengiriman.index.filter');
 //Route::get('seller/pengiriman/detail/{id}', 'PengirimanController@detailPengirimanMerchant')->name('merchant.pengiriman.detail');
 Route::get('seller/pengiriman/detail/pengiriman/{id}', 'PengirimanController@detailPengirimanMerchant')->name('merchant.pengiriman.detail');
-Route::get('seller/pengiriman/status/{id}/{status}','PengirimanController@updateStatus')->name('merchant.status.ubah');
+Route::get('seller/pengiriman/status/{id}/{status}/{jenis}','PengirimanController@updateStatus')->name('merchant.status.ubah');
 //Pengantaran Merchant
 Route::get('seller/pengantaran/index','PengirimanController@pengantaranMerchant')->name('merchant.pengantaran.index');
 Route::get('seller/pengantaran/detail/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('merchant.pengantaran.detail');

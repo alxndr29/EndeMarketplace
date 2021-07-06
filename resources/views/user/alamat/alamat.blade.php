@@ -206,103 +206,103 @@
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+</div>
+</div>
+</div> -->
+    @endforeach
+
+    <!-- Modal untuk Edit -->
+    <div class="modal fade" id="modal-editalamat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <form id="forminput-edit" method="post" action="{{route('alamatpembeli.store')}}">
+                    @csrf
+                    @method('put') -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Simpan Sebagai:</label>
+                                <input type="text" class="form-control" name="simpan_sebagai_edit" id="simpan_sebagai_edit" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Provinsi:</label>
+                                <select class="form-control" name="provinsi_edit" id="provinsi_edit">
+                                    <option selected>Silahkan pilih provinsi</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Nama Penerima:</label>
+                                <input type="text" class="form-control" name="nama_penerima_edit" id="nama_penerima_edit" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Kabupaten/Kota:</label>
+                                <select class="form-control" name="kotakabupaten_edit" id="kotakabupaten_edit">
+                                    <option selected>Silahkan pilih kota</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Telepon:</label>
+                                <input type="text" class="form-control" name="telepon_edit" id="telepon_edit" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Textarea</label>
+                                <textarea class="form-control" rows="3" name="alamatlengkap_edit" id="alamatlengkap_edit" placeholder="Enter ..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="hidden" id="inputlatitude_edit" name="latitude_edit">
+                            <input type="hidden" id="inputlongitude_edit" name="longitude_edit">
+                            <div id="mapidedit" style="height:200px; width100%">
+
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" id="submit-edit" class="btn btn-primary">Simpan</button>
+
+                    <!-- </form> -->
+                </div>
                 <!-- <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save changes</button>
                 </div> -->
-</div>
-</div>
-</div> -->
-@endforeach
-
-<!-- Modal untuk Edit -->
-<div class="modal fade" id="modal-editalamat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
-            <div class="modal-body">
-                <!-- <form id="forminput-edit" method="post" action="{{route('alamatpembeli.store')}}">
-                    @csrf
-                    @method('put') -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Simpan Sebagai:</label>
-                            <input type="text" class="form-control" name="simpan_sebagai_edit" id="simpan_sebagai_edit" required>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Provinsi:</label>
-                            <select class="form-control" name="provinsi_edit" id="provinsi_edit">
-                                <option selected>Silahkan pilih provinsi</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Nama Penerima:</label>
-                            <input type="text" class="form-control" name="nama_penerima_edit" id="nama_penerima_edit" required>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Kabupaten/Kota:</label>
-                            <select class="form-control" name="kotakabupaten_edit" id="kotakabupaten_edit">
-                                <option selected>Silahkan pilih kota</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Telepon:</label>
-                            <input type="text" class="form-control" name="telepon_edit" id="telepon_edit" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Textarea</label>
-                            <textarea class="form-control" rows="3" name="alamatlengkap_edit" id="alamatlengkap_edit" placeholder="Enter ..."></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <input type="hidden" id="inputlatitude_edit" name="latitude_edit">
-                        <input type="hidden" id="inputlongitude_edit" name="longitude_edit">
-                        <div id="mapidedit" style="height:200px; width100%">
-
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <button type="submit" id="submit-edit" class="btn btn-primary">Simpan</button>
-
-                <!-- </form> -->
-            </div>
-            <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div> -->
         </div>
     </div>
-</div>
 
 
 
-<!-- Modal untuk tambah -->
-<!-- <div class="modal fade" id="modal-tambahalamat">
+    <!-- Modal untuk tambah -->
+    <!-- <div class="modal fade" id="modal-tambahalamat">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -375,9 +375,9 @@
             </div>
         </div>
     </div> -->
-<!-- Modal End -->
+    <!-- Modal End -->
 
-<!-- <button id="getLocation">Get Lokasi</button>
+    <!-- <button id="getLocation">Get Lokasi</button>
     <p>Click the button to get your coordinates.</p>
     <button onclick="getLocation()">Try It</button>
     <p id="demo"></p> -->
@@ -391,14 +391,11 @@
     var lat = "";
     var lot = "";
 
-
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
-
         } else {
             alert("Geolocation is not supported by this browser.");
-
         }
     }
 
@@ -412,16 +409,11 @@
     }
 
     $(document).ready(function() {
-
-
         $('#example1').DataTable({
             //responsive: true
         });
-
         getLocation();
         loadProvinsi();
-
-
         $("body").on("click", "#edit-alamat", function(e) {
             var id = $(this).attr('data-id');
             $.ajax({
@@ -463,14 +455,18 @@
                 url: url,
                 data: form.serialize(), // serializes the form's elements.
                 success: function(data) {
-                    console.log(data); // show response from the php script.
+                    // console.log(data); // show response from the php script.
                     alert(data);
+                    // Swal.fire(
+                    //     'Berhasil!',
+                    //     data,
+                    //     'success'
+                    // )
                     location.reload();
                 }
             });
         });
         $("#forminput-edit").submit(function(e) {
-
             e.preventDefault(); // avoid to execute the actual submit of the form.
             var form = $(this);
             var url = form.attr('action');
@@ -479,8 +475,9 @@
                 url: url,
                 data: form.serialize(), // serializes the form's elements.
                 success: function(data) {
-                    console.log(data); // show response from the php script.
-                    alert(data);
+                    // console.log(data); // show response from the php script.
+                    // alert(data);
+
                     //location.reload();
                 }
             });
@@ -514,6 +511,11 @@
                 },
                 success: function(response) {
                     console.log(response);
+                    // Swal.fire(
+                    //     'Berhasil!',
+                    //     response,
+                    //     'success'
+                    // )
                     location.reload();
                 }
             });

@@ -254,6 +254,7 @@
         } else {
             $("#demo2").html('masih jauh');
             console.log('kurir jauh > 200 m');
+            $('#selesaiAntar').prop('disabled', true);
         }
         jarak = dist;
         return dist;
@@ -261,7 +262,7 @@
     $("#antarSekarang").click(function() {
         $("#antarSekarang").prop('disabled', true);
         $.ajax({
-            url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SedangDiantar",
+            url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SedangDiantar" + "/" + "ajax",
             type: "GET",
             success: function(response) {
                 if (response == "berhasil") {
@@ -275,7 +276,7 @@
     });
     $("#selesaiAntar").click(function() {
         $.ajax({
-            url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SelesaiAntar",
+            url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SelesaiAntar" + "/" + "ajax",
             type: "GET",
             success: function(response) {
                 if (response == "berhasil") {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 04, 2021 at 12:39 PM
+-- Generation Time: Jul 06, 2021 at 05:29 AM
 -- Server version: 10.4.19-MariaDB-cll-lve
 -- PHP Version: 7.2.34
 
@@ -44,7 +44,8 @@ CREATE TABLE `alamatmerchant` (
 --
 
 INSERT INTO `alamatmerchant` (`alamat_lengkap`, `telepon`, `latitude`, `longitude`, `created_at`, `updated_at`, `merchant_users_iduser`, `kabupatenkota_idkabupatenkota`) VALUES
-('Jln. Sultan Hassanudin Wolowona', '21474', '-8.832956779388418', '121.67769914896273', NULL, NULL, 2, 122);
+('Jln. Kokos Raya No. 34', '08123456', '-8.844143126979363', '121.66759279566169', NULL, NULL, 1, 122),
+('Jln. Syuradikara', '321123', '-8.838214158750056', '121.65537330677999', NULL, NULL, 2, 122);
 
 -- --------------------------------------------------------
 
@@ -71,9 +72,7 @@ CREATE TABLE `alamatpembeli` (
 --
 
 INSERT INTO `alamatpembeli` (`idalamat`, `simpan_sebagai`, `nama_penerima`, `alamatlengkap`, `telepon`, `users_iduser`, `latitude`, `longitude`, `created_at`, `updated_at`, `kabupatenkota_idkabupatenkota`) VALUES
-(1, 'Alamat Rumah', 'Marianus', 'Jln. Kokos Raya No. 34', '08135376281', 2, '-8.844127749091381', '121.66774520791364', '2021-06-04 00:15:15', '2021-06-04 00:15:15', 122),
-(2, 'Sekolah Evan', 'Pak Karel', 'SMAK Syuradikara jln Wirajaya', '31231', 2, '-8.839638805354436', '121.65526142998999', '2021-06-04 00:20:29', '2021-06-04 00:20:29', 122),
-(3, 'rumah', 'evan', 'ghfg', '0909090', 3, '-8.845993821868781', '121.66744425026243', '2021-06-05 02:30:49', '2021-06-05 02:30:49', 122);
+(4, 'Alamat Kantor', 'Michael', 'Jln. sultan hassanudin xx xx', '0889732', 11, '-8.832951615311712', '121.67769018276411', '2021-07-06 13:05:15', '2021-07-06 13:05:15', 122);
 
 -- --------------------------------------------------------
 
@@ -104,15 +103,7 @@ CREATE TABLE `datapengiriman` (
 --
 
 INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`) VALUES
-(1, '-8.844127749091381', '121.66774520791364', '-8.832956779388418', '121.67769914896273', 1.654941544843221, 0, 0, 'MenungguPengiriman', NULL, NULL, 1, NULL, NULL, NULL),
-(3, '-8.839638805354436', '121.65526142998999', '-8.832956779388418', '121.67769914896273', 2.5747553682555036, 0, 0, 'MenungguPengiriman', NULL, NULL, 3, NULL, NULL, NULL),
-(4, '-8.844127749091381', '121.66774520791364', '-8.832956779388418', '121.67769914896273', 1.654941544843221, 0, 0, 'MenungguPengiriman', NULL, NULL, 4, NULL, NULL, NULL),
-(5, '-8.844127749091381', '121.66774520791364', '-8.832956779388418', '121.67769914896273', 1.654941544843221, 0, 0, 'MenungguPengiriman', NULL, NULL, 5, NULL, NULL, NULL),
-(6, '-8.845993821868781', '121.66744425026243', '-8.832956779388418', '121.67769914896273', 1.8359556278445786, 0, 0, 'MenungguPengiriman', NULL, NULL, 6, NULL, NULL, NULL),
-(7, '-8.845993821868781', '121.66744425026243', '-8.832956779388418', '121.67769914896273', 1.8359556278445786, 0, 0, 'MenungguPengiriman', NULL, NULL, 7, NULL, NULL, NULL),
-(8, '-8.839638805354436', '121.65526142998999', '-8.832956779388418', '121.67769914896273', 2.5747553682555036, 0, 0, 'SelesaiAntar', NULL, NULL, 8, '-8.8383167', '121.654205', '0.18730266166705908'),
-(9, '-8.839638805354436', '121.65526142998999', '-8.832956779388418', '121.67769914896273', 2.5747553682555036, 0, 0, 'MenungguPengiriman', NULL, NULL, 9, NULL, NULL, NULL),
-(10, '-8.844127749091381', '121.66774520791364', '-8.832956779388418', '121.67769914896273', 1.654941544843221, 0, 0, 'SedangDiantar', NULL, NULL, 10, '-8.8467067', '121.6637917', '0.5204769390900843');
+(3, '-8.832951615311712', '121.67769018276411', '-8.844143126979363', '121.66759279566169', 1.667102595058671, 0, 0, 'SelesaiAntar', NULL, NULL, 4, '-9.1059', '124.8969', '354.86419964125423');
 
 -- --------------------------------------------------------
 
@@ -133,20 +124,8 @@ CREATE TABLE `detailtransaksi` (
 --
 
 INSERT INTO `detailtransaksi` (`produk_idproduk`, `transaksi_idtransaksi`, `jumlah`, `total_harga`, `catatan`) VALUES
-(2, 1, 1, 3500000, '7 32 warna ungu ya'),
-(2, 3, 1, 3500000, 'karel black'),
-(2, 4, 1, 3500000, NULL),
-(2, 5, 1, 3500000, NULL),
-(2, 6, 1, 3500000, NULL),
-(2, 7, 1, 3500000, NULL),
-(2, 8, 1, 3500000, '32gb hitam'),
-(2, 9, 1, 3500000, NULL),
-(3, 3, 1, 8500000, 'karel white'),
-(3, 4, 1, 8500000, NULL),
-(3, 5, 1, 8500000, NULL),
-(3, 7, 1, 8500000, NULL),
-(3, 8, 1, 8500000, '64gb putih'),
-(3, 10, 1, 8500000, NULL);
+(2, 13, 1, 95000, 'packing rapih'),
+(5, 13, 3, 15000, NULL);
 
 -- --------------------------------------------------------
 
@@ -165,15 +144,6 @@ CREATE TABLE `diskusi` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `diskusi`
---
-
-INSERT INTO `diskusi` (`iddiskusi`, `users_iduser`, `produk_idproduk`, `tanggal`, `pesandiskusi`, `balas_ke`, `created_at`, `updated_at`) VALUES
-(1, 2, 3, '2021-06-04 16:25:25', 'yg warna merah ada kah? atau cuma warna putih', NULL, '2021-06-05 00:25:25', '2021-06-05 00:25:25'),
-(2, 2, 3, '2021-06-04 16:28:46', 'udah ga jadi dah', 1, '2021-06-05 00:28:46', '2021-06-05 00:28:46'),
-(3, 2, 2, '2021-06-08 17:30:10', 'jt', NULL, '2021-06-09 01:30:10', '2021-06-09 01:30:10');
-
 -- --------------------------------------------------------
 
 --
@@ -190,6 +160,8 @@ CREATE TABLE `dukunganpembayaran` (
 --
 
 INSERT INTO `dukunganpembayaran` (`merchant_users_iduser`, `tipepembayaran_idtipepembayaran`) VALUES
+(1, 1),
+(1, 2),
 (2, 1),
 (2, 2);
 
@@ -209,6 +181,8 @@ CREATE TABLE `dukunganpengiriman` (
 --
 
 INSERT INTO `dukunganpengiriman` (`merchant_users_iduser`, `kurir_idkurir`) VALUES
+(1, 1),
+(1, 2),
 (2, 1),
 (2, 2);
 
@@ -233,9 +207,8 @@ CREATE TABLE `dukungantarifpengiriman` (
 --
 
 INSERT INTO `dukungantarifpengiriman` (`merchant_users_iduser`, `tarifpengiriman_idtarifpengiriman`, `minimum_belanja`, `etd`, `tarif_berat`, `tarif_volume`, `tarif_jarak`) VALUES
-(2, 1, 100000, 1, NULL, NULL, NULL),
-(2, 2, 50000, 1, 25000, 25000, 25000),
-(2, 3, 0, 1, 5000, 6000, 7000);
+(1, 3, 0, 1, 2000, 3000, 4000),
+(2, 1, 0, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -255,10 +228,14 @@ CREATE TABLE `gambarproduk` (
 --
 
 INSERT INTO `gambarproduk` (`idgambarproduk`, `produk_idproduk`, `created_at`, `updated_at`) VALUES
-(1, 2, '2021-06-03 23:42:32', '2021-06-03 23:42:32'),
-(2, 2, '2021-06-03 23:42:32', '2021-06-03 23:42:32'),
-(3, 3, '2021-06-03 23:53:09', '2021-06-03 23:53:09'),
-(4, 3, '2021-06-03 23:53:09', '2021-06-03 23:53:09');
+(1, 1, '2021-07-05 22:22:56', '2021-07-05 22:22:56'),
+(2, 1, '2021-07-05 22:22:57', '2021-07-05 22:22:57'),
+(3, 2, '2021-07-05 22:25:55', '2021-07-05 22:25:55'),
+(4, 3, '2021-07-05 22:27:43', '2021-07-05 22:27:43'),
+(5, 3, '2021-07-05 22:27:43', '2021-07-05 22:27:43'),
+(6, 4, '2021-07-05 22:29:54', '2021-07-05 22:29:54'),
+(7, 5, '2021-07-05 22:31:45', '2021-07-05 22:31:45'),
+(8, 6, '2021-07-05 23:14:20', '2021-07-05 23:14:20');
 
 -- --------------------------------------------------------
 
@@ -282,7 +259,10 @@ INSERT INTO `jenisproduk` (`idjenisproduk`, `nama`, `created_at`, `updated_at`) 
 (2, 'Minuman', NULL, NULL),
 (3, 'Susu', NULL, NULL),
 (4, 'Beras', NULL, NULL),
-(5, 'Elektronik - Handphone', NULL, NULL);
+(5, 'Elektronik - Handphone', NULL, NULL),
+(6, 'Hiasan', NULL, NULL),
+(7, 'Lampu', NULL, NULL),
+(8, 'Peralatan Rumah Tangga', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -823,9 +803,10 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`idkategori`, `nama_kategori`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
-(1, 'Iphone', '2021-06-03 23:37:26', '2021-06-03 23:37:26', 2),
-(2, 'Samsung', '2021-06-03 23:37:32', '2021-06-03 23:37:40', 2),
-(3, 'Xiaomi', '2021-06-03 23:37:48', '2021-06-03 23:37:48', 2);
+(1, 'Lampu Baca', '2021-07-05 22:07:18', '2021-07-05 22:07:18', 1),
+(2, 'Kipas mini', '2021-07-05 22:11:43', '2021-07-05 22:11:43', 1),
+(3, 'Poster dinding', '2021-07-05 22:11:55', '2021-07-05 22:11:55', 1),
+(4, 'Ngetest', '2021-07-05 23:11:37', '2021-07-05 23:11:37', 2);
 
 -- --------------------------------------------------------
 
@@ -838,14 +819,6 @@ CREATE TABLE `keranjang` (
   `produk_idproduk` int(11) NOT NULL,
   `jumlah` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `keranjang`
---
-
-INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
-(3, 2, 1),
-(3, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -878,7 +851,6 @@ CREATE TABLE `merchant` (
   `nama` varchar(45) NOT NULL,
   `status_merchant` enum('Aktif','NonAktif') DEFAULT 'NonAktif',
   `foto_profil` varchar(45) DEFAULT NULL,
-  `foto_sampul` varchar(45) DEFAULT NULL,
   `deskripsi` varchar(45) DEFAULT NULL,
   `jam_buka` time DEFAULT NULL,
   `jam_tutup` time DEFAULT NULL,
@@ -891,8 +863,9 @@ CREATE TABLE `merchant` (
 -- Dumping data for table `merchant`
 --
 
-INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `foto_sampul`, `deskripsi`, `jam_buka`, `jam_tutup`, `created_at`, `updated_at`, `users_iduser`) VALUES
-('Ev IT Shop', 'Aktif', 'merchant-fotoprofil-2.jpg', 'merchant-fotosampul-2.jpg', 'sejak dahulu kala', '08:00:00', '13:00:00', '2021-06-03 23:37:00', '2021-06-04 00:11:21', 2);
+INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `deskripsi`, `jam_buka`, `jam_tutup`, `created_at`, `updated_at`, `users_iduser`) VALUES
+('Cute Shop', 'Aktif', 'merchant-fotoprofil-1.png', 'Menjual barang-barang lucu dan imut', '07:00:00', '13:00:00', '2021-07-05 22:03:22', '2021-07-06 12:41:54', 1),
+('Toko Percobaan', 'Aktif', NULL, 'Toko ini adalah toko untuk testing', '07:00:00', '22:59:00', '2021-07-05 23:10:33', '2021-07-05 23:20:32', 2);
 
 -- --------------------------------------------------------
 
@@ -963,12 +936,7 @@ CREATE TABLE `pembayaran` (
 --
 
 INSERT INTO `pembayaran` (`idpembayaran`, `token`, `status`, `created_at`, `updated_at`, `transaksi_idtransaksi`) VALUES
-(1, '1963332b-ae50-4c14-9859-231e09d37fd4', NULL, NULL, NULL, 3),
-(2, 'ddff60e6-f874-495f-8940-7a4acd9a7a95', NULL, NULL, NULL, 4),
-(3, '5ee40b11-307e-445e-8b3d-703ff4fef4f5', 'settlement', NULL, NULL, 5),
-(4, 'e810d94f-210f-450c-9c50-30b43bd4761a', NULL, NULL, NULL, 6),
-(5, '7b936d84-b1d0-4cfc-ac03-6998814141de', 'settlement', NULL, NULL, 7),
-(6, '3b508749-d552-4ba3-ad21-14384fc83941', NULL, NULL, NULL, 9);
+(3, 'fd6aae93-8908-494c-b340-4612871e8642', 'settlement', NULL, NULL, 13);
 
 -- --------------------------------------------------------
 
@@ -995,15 +963,7 @@ CREATE TABLE `pengiriman` (
 --
 
 INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
-(1, NULL, 1, 11585, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-5000-6000-', '2021-06-04 01:17:53', '2021-06-04 01:17:53', 2, 1),
-(3, NULL, 1, 25000, NULL, 'BelumSelesai', 'Kurir Merchant-2-Tarif Flat-50000-1-25000-250', '2021-06-05 00:40:30', '2021-06-05 00:40:30', 2, 3),
-(4, NULL, 1, 0, NULL, 'BelumSelesai', 'Kurir Merchant-1-Bebas Ongkir-100000-1---', '2021-06-05 00:51:22', '2021-06-05 00:51:22', 2, 4),
-(5, NULL, 1, 0, NULL, 'BelumSelesai', 'Kurir Merchant-1-Bebas Ongkir-100000-1---', '2021-06-05 00:55:12', '2021-06-05 00:55:12', 2, 5),
-(6, NULL, 1, 25000, NULL, 'BelumSelesai', 'Kurir Merchant-2-Tarif Flat-50000-1-25000-250', '2021-06-05 02:32:22', '2021-06-05 02:32:22', 2, 6),
-(7, NULL, 1, 25000, NULL, 'BelumSelesai', 'Kurir Merchant-2-Tarif Flat-50000-1-25000-250', '2021-06-05 02:45:03', '2021-06-05 02:45:03', 2, 7),
-(8, '2021-06-08', 1, 18023, 'KM-20210606-232124', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-5000-6000-', '2021-06-06 23:20:56', '2021-06-06 23:21:51', 2, 8),
-(9, NULL, 1, 18023, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-5000-6000-', '2021-06-23 22:31:25', '2021-06-23 22:31:25', 2, 9),
-(10, '2021-06-23', 1, 11585, 'KM-20210623-223252', 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-5000-6000-', '2021-06-23 22:32:08', '2021-06-23 22:32:58', 2, 10);
+(4, '2021-07-06', 1, 6668, 'KM-20210706-130809', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '2021-07-06 13:06:57', '2021-07-06 13:08:26', 2, 13);
 
 -- --------------------------------------------------------
 
@@ -1038,8 +998,12 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesanan`, `status`, `stok`, `berat`, `panjang`, `lebar`, `tinggi`, `preorder`, `waktu_preorder`, `video`, `kategori_idkategori`, `jenisproduk_idjenisproduk`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
-(2, 'Iphone 7 32gb Black', 'Iphone 7 32gb Warna hitam garansi resmi', 3500000, 1, 'Aktif', 23, 1250, 20, 15, 6, 'TidakAktif', 0, 'https://www.youtube.com/embed/eeDIOHbOGMo', 1, 5, '2021-06-03 23:42:32', '2021-06-23 22:31:25', 2),
-(3, 'Iphone 11 64gb White', 'Iphone 11 64gb mantap barang baru keluar, segera miliki', 8500000, 1, 'Aktif', 5, 750, 10, 15, 5, 'TidakAktif', 0, 'https://www.youtube.com/embed/uSPYWCNf5E0', 1, 5, '2021-06-03 23:53:09', '2021-06-23 22:32:08', 2);
+(1, 'Kipas Meja Portable USB 5v', 'Dapatkan sekarang kipas angin portable, kuat dan tahan lama.', 40000, 2, 'Aktif', 46, 100, 5, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/PcOxunbXlf4', 2, 8, '2021-07-05 22:22:56', '2021-07-06 01:34:19', 1),
+(2, 'Lampu Baca Aestetik', 'Lampunya cocok untuk belajar dan pajangan.', 95000, 1, 'Aktif', 7, 100, 10, 20, 30, 'TidakAktif', 0, 'https://www.youtube.com/embed/ciZb0nJffa8', 1, 7, '2021-07-05 22:25:55', '2021-07-06 13:16:03', 1),
+(3, 'Lampu Baca Miniso', 'Bagus produknya mereknya miniso keren dah', 125000, 1, 'Aktif', 10, 40, 20, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/BFn6RZkwGR4', 1, 7, '2021-07-05 22:27:43', '2021-07-05 22:27:43', 1),
+(4, 'Poster Dinding Sepeda', 'Bagus ukuran 50cm x 50cm', 2000, 5, 'Aktif', 50, 50, 50, 50, 2, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:29:54', '2021-07-05 22:29:54', 1),
+(5, 'Poster Dinding Custom', 'Menerima custom, untuk gambar silahkan menghubungi admin. Uk 50x50', 5000, 3, 'Aktif', 494, 50, 50, 50, 5, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:31:45', '2021-07-06 13:06:57', 1),
+(6, 'Produk Testing', 'deskripsi produk uji coba', 1000, 10, 'Aktif', 50, 1, 2, 3, 4, 'TidakAktif', 0, NULL, 4, 5, '2021-07-05 23:14:20', '2021-07-05 23:14:20', 2);
 
 -- --------------------------------------------------------
 
@@ -1111,8 +1075,8 @@ CREATE TABLE `reviewproduk` (
 --
 
 INSERT INTO `reviewproduk` (`produk_idproduk`, `transaksi_idtransaksi`, `tanggal_waktu`, `komentar`, `rating`) VALUES
-(2, 8, NULL, 'bgus itm', 5),
-(3, 8, NULL, 'bgs putih', 4);
+(2, 13, '2021-07-06 13:11:49', 'rpih betul', 5),
+(5, 13, '2021-07-06 13:11:49', 'nice', 4);
 
 -- --------------------------------------------------------
 
@@ -1180,15 +1144,7 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`) VALUES
-(1, '2021-06-04 01:17:53', 'MenungguKonfirmasi', 'Langsung', 3511585, 2, 2, 1, 1, '2021-06-04 01:17:53', '2021-06-04 01:17:53'),
-(3, '2021-06-04 16:40:30', 'MenungguPembayaran', 'Langsung', 12025000, 2, 2, 2, 2, '2021-06-05 00:40:30', '2021-06-05 00:40:30'),
-(4, '2021-06-04 16:51:22', 'MenungguPembayaran', 'Langsung', 12000000, 2, 2, 1, 2, '2021-06-05 00:51:22', '2021-06-05 00:51:22'),
-(5, '2021-06-04 16:55:12', 'MenungguKonfirmasi', 'Langsung', 12000000, 2, 2, 1, 2, '2021-06-05 00:55:12', '2021-06-05 00:55:12'),
-(6, '2021-06-04 18:32:22', 'MenungguPembayaran', 'Langsung', 3525000, 3, 2, 3, 2, '2021-06-05 02:32:22', '2021-06-05 02:32:22'),
-(7, '2021-06-04 18:45:03', 'MenungguKonfirmasi', 'Langsung', 12025000, 3, 2, 3, 2, '2021-06-05 02:45:03', '2021-06-05 02:45:03'),
-(8, '2021-06-06 15:20:56', 'Selesai', 'Langsung', 12018023, 2, 2, 2, 1, '2021-06-06 23:20:56', '2021-06-06 23:21:51'),
-(9, '2021-06-23 14:31:25', 'MenungguPembayaran', 'Langsung', 3518023, 2, 2, 2, 2, '2021-06-23 22:31:25', '2021-06-23 22:31:25'),
-(10, '2021-06-23 14:32:08', 'PesananDikirim', 'Langsung', 8511585, 2, 2, 1, 1, '2021-06-23 22:32:08', '2021-06-23 22:32:58');
+(13, '2021-07-06 05:06:57', 'Selesai', 'Langsung', 116668, 11, 1, 4, 2, '2021-07-06 13:06:57', '2021-07-06 13:08:26');
 
 -- --------------------------------------------------------
 
@@ -1214,8 +1170,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `remember_token`, `foto_profil`, `created_at`, `updated_at`) VALUES
-(2, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$SNk1TQZON70Rdng487PjOuKvft6QjPSq49FzKaEBnfWOZOZC3gPSC', '081353522525', NULL, NULL, NULL, '2021-06-03 23:25:23', '2021-06-03 23:25:23'),
-(3, 'Chizuru', 'chizurumizuhara464@gmail.com', '$2y$10$Jjg1k/MgeaAVHk5e2SlrlusGhU.Wd3SISiBQ1sIIc9PHZx1KtJSPq', '0812345678', NULL, NULL, NULL, '2021-06-05 02:27:09', '2021-06-05 02:27:09');
+(1, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$h5q5YdomgDrDMx5DANmSLODF3kwUnvRUgv2XF34gPcdya2Z9CYEN2', '081352172', NULL, 'oSjgmxrOzjdCGXk6JoWTZ2FzNUvyQP4Vh3Vlx4mY3LcPRqy2Aa5nkxWUItGL', NULL, '2021-07-05 22:02:59', '2021-07-05 22:02:59'),
+(2, 'Admin', 'test@test.com', '$2y$10$h0C6v1z7QVNzLmFtR1u32uDYdN0GgEpOyjf3YxqyGyeXlUPGcFVDu', '08827371', NULL, NULL, NULL, '2021-07-05 22:40:25', '2021-07-05 22:40:25'),
+(11, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$XOvCdjCgOt1asD9XYOqrIugosBRigzhWK1yCGlG0aE9rzb7r0a9CC', '081353522525', NULL, NULL, NULL, '2021-07-06 13:03:42', '2021-07-06 13:03:42');
 
 -- --------------------------------------------------------
 
@@ -1442,37 +1399,37 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `alamatpembeli`
 --
 ALTER TABLE `alamatpembeli`
-  MODIFY `idalamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idalamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `datapengiriman`
 --
 ALTER TABLE `datapengiriman`
-  MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `diskusi`
 --
 ALTER TABLE `diskusi`
-  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
-  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `jenisproduk`
 --
 ALTER TABLE `jenisproduk`
-  MODIFY `idjenisproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idjenisproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `kurir`
@@ -1484,31 +1441,31 @@ ALTER TABLE `kurir`
 -- AUTO_INCREMENT for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
-  MODIFY `idnotifikasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idnotifikasi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `obrolan`
 --
 ALTER TABLE `obrolan`
-  MODIFY `idobrolan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idobrolan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pengiriman`
 --
 ALTER TABLE `pengiriman`
-  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tarifpengiriman`
@@ -1520,13 +1477,13 @@ ALTER TABLE `tarifpengiriman`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
@@ -1634,48 +1591,11 @@ ALTER TABLE `obrolan`
   ADD CONSTRAINT `fk_obrolan_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `pembayaran`
---
-ALTER TABLE `pembayaran`
-  ADD CONSTRAINT `fk_pembayaran_transaksi1` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Constraints for table `pengiriman`
 --
 ALTER TABLE `pengiriman`
   ADD CONSTRAINT `fk_pengiriman_kurir1` FOREIGN KEY (`kurir_idkurir`) REFERENCES `kurir` (`idkurir`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_pengiriman_transaksi1` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `produk`
---
-ALTER TABLE `produk`
-  ADD CONSTRAINT `fk_produk_jenisproduk1` FOREIGN KEY (`jenisproduk_idjenisproduk`) REFERENCES `jenisproduk` (`idjenisproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_produk_kategori1` FOREIGN KEY (`kategori_idkategori`) REFERENCES `kategori` (`idkategori`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_produk_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `reviewproduk`
---
-ALTER TABLE `reviewproduk`
-  ADD CONSTRAINT `fk_produk_has_transaksi_produk2` FOREIGN KEY (`produk_idproduk`) REFERENCES `produk` (`idproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_produk_has_transaksi_transaksi2` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `transaksi`
---
-ALTER TABLE `transaksi`
-  ADD CONSTRAINT `fk_transaksi_alamatpembeli1` FOREIGN KEY (`alamatpembeli_idalamat`) REFERENCES `alamatpembeli` (`idalamat`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_transaksi_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_transaksi_tipepembayaran1` FOREIGN KEY (`tipepembayaran_idtipepembayaran`) REFERENCES `tipepembayaran` (`idtipepembayaran`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_transaksi_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `wishlist`
---
-ALTER TABLE `wishlist`
-  ADD CONSTRAINT `fk_user_has_produk_produk2` FOREIGN KEY (`produk_idproduk`) REFERENCES `produk` (`idproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_user_has_produk_user2` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -27,8 +27,8 @@
                 </div>
                 <div class="col">
                     @if($data->status == "MenungguPengiriman")
-                         <a href="{{route('merchant.status.ubah',[$data->idpengiriman,'ProsesKeKurir'])}}" class="btn btn-success" style="margin-right: 5px;">
-                        <i class="fas fa-edit"></i>Siap Diantar
+                         <a href="{{route('merchant.status.ubah',[$data->idpengiriman,'ProsesKeKurir','nonAjax'])}}" class="btn btn-success" style="margin-right: 5px;">
+                        <i class="fas fa-edit"></i>Proses ke kurir
                     </a>
                     @endif
                 </div>

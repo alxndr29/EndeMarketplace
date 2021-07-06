@@ -121,10 +121,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <span class="dropdown-header" id="jumlahKeranjangDalam">15 Notifications</span>
+
                             <div class="list-keranjang" id="isiKeranjangNotifikasi">
 
                             </div>
-
 
                             <div class="dropdown-divider"></div>
                             @auth
@@ -167,6 +167,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="{{route('obrolan.index.user')}}" class="dropdown-item">
                                 <i class="fas fa-envelope mr-2"></i> Pesan
                                 <span class="float-right text-muted text-sm">12 hours</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{route('wishlist.index')}}" class="dropdown-item">
+                                <i class="fas fa-heart mr-2"></i> Wishlist
+                                <span class="float-right text-muted text-sm"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{route('alamatpembeli.index')}}" class="dropdown-item">

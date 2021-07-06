@@ -62,19 +62,31 @@ class PengirimanController extends Controller
         //dd($data);
     }
     //ajax - non ajax blm bikin
-    public function updateStatus($id, $status)
+    public function updateStatus($id, $status, $jenis)
     {
         try {
-            DB::table('datapengiriman')->where('pengiriman_idpengiriman', $id)->update(['status' => $status]);
-            if($status == "SelesaiAntar"){
-                DB::table('pengiriman')->where('idpengiriman',$id)->update(['status_pengiriman'=>'Selesai']);
-                DB::table('transaksi')
-                ->join('pengiriman','pengiriman.transaksi_idtransaksi','=','transaksi.idtransaksi')
-                ->where('pengiriman.idpengiriman',$id)
-                ->update(['transaksi.status_transaksi'=>'SampaiTujuan']);
+            if($jenis == "ajax"){
+                DB::table('datapengiriman')->where('pengiriman_idpengiriman', $id)->update(['status' => $status]);
+                if($status == "SelesaiAntar"){
+                    DB::table('pengiriman')->where('idpengiriman',$id)->update(['status_pengiriman'=>'Selesai']);
+                    DB::table('transaksi')
+                    ->join('pengiriman','pengiriman.transaksi_idtransaksi','=','transaksi.idtransaksi')
+                    ->where('pengiriman.idpengiriman',$id)
+                    ->update(['transaksi.status_transaksi'=>'SampaiTujuan']);
+                }
+                return 'berhasil';
+            }else{
+                DB::table('datapengiriman')->where('pengiriman_idpengiriman', $id)->update(['status' => $status]);
+                if($status == "SelesaiAntar"){
+                    DB::table('pengiriman')->where('idpengiriman',$id)->update(['status_pengiriman'=>'Selesai']);
+                    DB::table('transaksi')
+                    ->join('pengiriman','pengiriman.transaksi_idtransaksi','=','transaksi.idtransaksi')
+                    ->where('pengiriman.idpengiriman',$id)
+                    ->update(['transaksi.status_transaksi'=>'SampaiTujuan']);
+                }
+                return redirect()->back()->with('berhasil', 'Berhasil mengubah status pengiriman');
             }
-            //return redirect()->back()->with('berhasil', 'Berhasil Menuliskan Review');
-            return 'berhasil';
+            
         } catch (\Exception $e) {
             return $e->getMessage();
         }

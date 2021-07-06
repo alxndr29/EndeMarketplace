@@ -1,18 +1,7 @@
 @extends('layouts.userlte')
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-
-                </div>
-                <div class="card-body">
-
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <div class="row">
         <div class="col">
             <div class="card">
@@ -62,15 +51,14 @@
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
-        toastr.success('{{session('
-            berhasil ')}}');
-        alert('{{session('
-            berhasil ')}}');
+        alert('{{session('berhasil')}}');
         @endif
-
-       
 
     });
 </script>
 @endsection
+@endsection
+
+@section('breadcrumb')
+<li class="breadcrumb-item active">Wishlist</li>
 @endsection
