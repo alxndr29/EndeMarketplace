@@ -344,5 +344,7 @@ class ProdukController extends Controller
         return view('seller.review.review', compact('produk'));
     }
     public function detailReview()
-    { }
+    { 
+        
+    }
 }
