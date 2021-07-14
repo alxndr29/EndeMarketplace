@@ -516,7 +516,11 @@
             },
             success: function(response) {
                 if (response.status == "berhasil") {
-                    alert('Pesan berhasil dikirim');
+                    Swal.fire(
+                        'Berhasil!',
+                        'Pesan Berhasil Dikirim!',
+                        'success'
+                    )
                     $("#modal-chatpenjual").modal('hide');
                 }
             },

@@ -8,7 +8,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col">
+                <div class="col-6">
                     ID Transaksi: <b><a href="{{route('merchant.transaksi.detail',$data->transaksi_idtransaksi)}}">TRX-{{$data->transaksi_idtransaksi}}</a></b>
                     <br>
                     Tanggal Pengiriman: <b>{{$data->tanggal_pengiriman}}</b>
@@ -26,16 +26,24 @@
                     Status Kurir: <b> {{$data->status}}
                 </div>
                 <div class="col">
+
                     @if($data->status == "MenungguPengiriman")
-                         <a href="{{route('merchant.status.ubah',[$data->idpengiriman,'ProsesKeKurir','nonAjax'])}}" class="btn btn-success" style="margin-right: 5px;">
+                    <div class="form-group">
+                        <label for="inputpengantar">Pilih Pengantar</label>
+                        <select id="inputpengantar" class="form-control">
+                            <option selected>Choose...</option>
+                            @foreach ($dataPengantar as $key => $value)
+                            <option value="{{$value->idpetugaspengantar}}">{{$value->nama}}.</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <br>
+                    <button id="proseskurir" class="btn btn-success" style="margin-right: 5px;">
                         <i class="fas fa-edit"></i>Proses ke kurir
-                    </a>
+                    </button>
                     @endif
                 </div>
             </div>
-
-
-
         </div>
         <div class="card-footer">
 
@@ -59,8 +67,8 @@
 
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
-    </script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -68,7 +76,8 @@
         //toastr.success('{{session('berhasil')}}');
         alert("{{session('berhasil')}}");
         @endif
-
+        //http://localhost:8000/seller/pengiriman/status/1/ProsesKeKurir/nonAjax
+        //alert("{{url('seller/pengiriman/status')}}/" + "{{$data->idpengiriman}}" + "/" + "ProsesKeKurir" + "/" + "nonAjax");
         /*
         var counter = 0;
         var timer = setInterval(function() {
@@ -80,6 +89,10 @@
         }, 3000);
         */
         initMap();
+    });
+    $("#proseskurir").click(function() {
+        // windows.location = 
+        window.location.href = "{{url('seller/pengiriman/status')}}/" + "{{$data->idpengiriman}}" + "/" + "ProsesKeKurir" + "/" + "nonAjax" + "/" + 1;
     });
 
     function initMap() {

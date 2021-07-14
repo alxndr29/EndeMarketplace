@@ -8,7 +8,7 @@ use App\Pengiriman;
 use App\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Petugaspengantaran;
 class PengirimanController extends Controller
 {
     //
@@ -27,6 +27,12 @@ class PengirimanController extends Controller
             ->get();
         //return $data;
         return view('seller.pengiriman.pengiriman', compact('data'));
+    }
+    public function indexPengantar(){
+        $id = new Petugaspengantaran();
+        //return $id->idmerchant(6);
+        return view('seller.petugaspengantaran.daftarpengantaran');
+       // return 'hello world!';
     }
     public function indexMerhcantParam($tglAwal, $tglAkhir)
     {
@@ -48,6 +54,7 @@ class PengirimanController extends Controller
     public function detailPengirimanMerchant($id)
     {
         $merchant = new Merchant();
+        $dataPengantar = Petugaspengantaran::where('merchant_users_iduser', $merchant->idmerchant())->get();
         $data = DB::table('pengiriman')
             ->leftJoin('datapengiriman', 'datapengiriman.pengiriman_idpengiriman', '=', 'pengiriman.idpengiriman')
             ->join('transaksi', 'transaksi.idtransaksi', '=', 'pengiriman.transaksi_idtransaksi')
@@ -58,11 +65,11 @@ class PengirimanController extends Controller
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->first();
         //dd($data);
-        return view('seller.pengiriman.detailpengiriman', compact('data'));
+        return view('seller.pengiriman.detailpengiriman', compact('data', 'dataPengantar'));
         //dd($data);
     }
     //ajax - non ajax blm bikin
-    public function updateStatus($id, $status, $jenis)
+    public function updateStatus($id, $status, $jenis, $pengantar = null)
     {
         try {
             if($jenis == "ajax"){
@@ -86,7 +93,11 @@ class PengirimanController extends Controller
                 }
                 return redirect()->back()->with('berhasil', 'Berhasil mengubah status pengiriman');
             }
-            
+            if($pengantar != null){
+                DB::table('datapengiriman')->where('pengiriman_idpengiriman', $id)->update([
+                    'petugaspengantaran_idpetugaspengantaran' => $pengantar
+                ]);
+            }
         } catch (\Exception $e) {
             return $e->getMessage();
         }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 04, 2021 at 05:29 PM
+-- Generation Time: Jul 14, 2021 at 08:20 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -100,16 +100,17 @@ CREATE TABLE `datapengiriman` (
   `pengiriman_idpengiriman` int(11) NOT NULL,
   `latitude_sekarang` varchar(45) DEFAULT NULL,
   `longitude_sekarang` varchar(45) DEFAULT NULL,
-  `jarak_sekarang` varchar(45) DEFAULT NULL
+  `jarak_sekarang` varchar(45) DEFAULT NULL,
+  `petugaspengantaran_idpetugaspengantaran` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `datapengiriman`
 --
 
-INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`) VALUES
-(4, '-8.8438137886983', '121.6678360104561', '-8.832791918904743', '121.65873795747757', 1.5814820863158874, 0, 0, 'SelesaiAntar', NULL, NULL, 8, '-8.844147699999999', '121.66774009999997', '0.038593983135194'),
-(5, '-8.84785676528838', '121.65471460812174', '-8.832791918904743', '121.65873795747757', 1.7323986371859408, 0, 0, 'SelesaiAntar', NULL, NULL, 12, '-10.1628', '123.5816', '256.9544630915298');
+INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`) VALUES
+(4, '-8.8438137886983', '121.6678360104561', '-8.832791918904743', '121.65873795747757', 1.5814820863158874, 0, 0, 'SelesaiAntar', NULL, NULL, 8, '-8.844147699999999', '121.66774009999997', '0.038593983135194', NULL),
+(5, '-8.84785676528838', '121.65471460812174', '-8.832791918904743', '121.65873795747757', 1.7323986371859408, 0, 0, 'SelesaiAntar', NULL, NULL, 12, '-10.1628', '123.5816', '256.9544630915298', NULL);
 
 -- --------------------------------------------------------
 
@@ -1022,6 +1023,23 @@ INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `bia
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `petugaspengantaran`
+--
+
+CREATE TABLE `petugaspengantaran` (
+  `idpetugaspengantaran` int(11) NOT NULL,
+  `nama` varchar(45) DEFAULT NULL,
+  `telepon` varchar(45) DEFAULT NULL,
+  `username` varchar(45) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  `created_at` varchar(45) DEFAULT NULL,
+  `updated_at` varchar(45) DEFAULT NULL,
+  `merchant_users_iduser` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `produk`
 --
 
@@ -1274,7 +1292,8 @@ ALTER TABLE `alamatpembeli`
 --
 ALTER TABLE `datapengiriman`
   ADD PRIMARY KEY (`iddatapengiriman`),
-  ADD KEY `fk_datapengiriman_pengiriman1_idx` (`pengiriman_idpengiriman`);
+  ADD KEY `fk_datapengiriman_pengiriman1_idx` (`pengiriman_idpengiriman`),
+  ADD KEY `fk_datapengiriman_petugaspengantaran1_idx` (`petugaspengantaran_idpetugaspengantaran`);
 
 --
 -- Indexes for table `detailtransaksi`
@@ -1395,6 +1414,13 @@ ALTER TABLE `pengiriman`
   ADD PRIMARY KEY (`idpengiriman`),
   ADD KEY `fk_pengiriman_kurir1_idx` (`kurir_idkurir`),
   ADD KEY `fk_pengiriman_transaksi1_idx` (`transaksi_idtransaksi`);
+
+--
+-- Indexes for table `petugaspengantaran`
+--
+ALTER TABLE `petugaspengantaran`
+  ADD PRIMARY KEY (`idpetugaspengantaran`),
+  ADD KEY `fk_petugaspengantaran_merchant1_idx` (`merchant_users_iduser`);
 
 --
 -- Indexes for table `produk`
@@ -1526,6 +1552,12 @@ ALTER TABLE `pengiriman`
   MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT for table `petugaspengantaran`
+--
+ALTER TABLE `petugaspengantaran`
+  MODIFY `idpetugaspengantaran` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
@@ -1571,7 +1603,8 @@ ALTER TABLE `alamatpembeli`
 -- Constraints for table `datapengiriman`
 --
 ALTER TABLE `datapengiriman`
-  ADD CONSTRAINT `fk_datapengiriman_pengiriman1` FOREIGN KEY (`pengiriman_idpengiriman`) REFERENCES `pengiriman` (`idpengiriman`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_datapengiriman_pengiriman1` FOREIGN KEY (`pengiriman_idpengiriman`) REFERENCES `pengiriman` (`idpengiriman`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_datapengiriman_petugaspengantaran1` FOREIGN KEY (`petugaspengantaran_idpetugaspengantaran`) REFERENCES `petugaspengantaran` (`idpetugaspengantaran`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `detailtransaksi`
@@ -1666,6 +1699,12 @@ ALTER TABLE `pembayaran`
 ALTER TABLE `pengiriman`
   ADD CONSTRAINT `fk_pengiriman_kurir1` FOREIGN KEY (`kurir_idkurir`) REFERENCES `kurir` (`idkurir`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_pengiriman_transaksi1` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `petugaspengantaran`
+--
+ALTER TABLE `petugaspengantaran`
+  ADD CONSTRAINT `fk_petugaspengantaran_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `produk`

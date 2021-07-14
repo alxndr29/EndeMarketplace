@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //Route::get('/email','OtpController@send');
-
+Route::get('/p', function(){
+    return view('seller.petugaspengantaran.detailpengantaran');
+});
 Route::get('/user', function () {
     $test = "Hallo";
     return view('user.detailproduk.detailproduk',compact('test'));
@@ -173,11 +175,20 @@ Route::get('seller/pengiriman/index','PengirimanController@indexMerchant')->name
 Route::get('seller/pengiriman/{tanggalAwal}/{tanggalAkhir}', 'PengirimanController@indexMerhcantParam')->name('merchant.pengiriman.index.filter');
 //Route::get('seller/pengiriman/detail/{id}', 'PengirimanController@detailPengirimanMerchant')->name('merchant.pengiriman.detail');
 Route::get('seller/pengiriman/detail/pengiriman/{id}', 'PengirimanController@detailPengirimanMerchant')->name('merchant.pengiriman.detail');
-Route::get('seller/pengiriman/status/{id}/{status}/{jenis}','PengirimanController@updateStatus')->name('merchant.status.ubah');
+Route::get('seller/pengiriman/status/{id}/{status}/{jenis}/{pengantar?}','PengirimanController@updateStatus')->name('merchant.status.ubah');
 //Pengantaran Merchant
 Route::get('seller/pengantaran/index','PengirimanController@pengantaranMerchant')->name('merchant.pengantaran.index');
 Route::get('seller/pengantaran/detail/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('merchant.pengantaran.detail');
 Route::post('seller/pengantaran/lokasi/update','PengirimanController@updateLokasiKurir')->name('nerchant.lokasikurir.update');
-
+//Petugas Pengantaran
+Route::get('seller/petugas','PetugasPengantaranController@index')->name('merchant.petugas.index');
+Route::post('seller/petugas/store','PetugasPengantaranController@store')->name('merchant.petugas.store');
+Route::get('seller/petugas/edit/{id}','PetugasPengantaranController@edit')->name('merchant.petugas.edit');
+Route::put('seller/petugas/update/{id}','PetugasPengantaranController@update')->name('merchant.petugas.update');
+Route::delete('seller/petugas/delete/{id}','PetugasPengantaranController@destroy')->name('merchant.petugas.destroy');
+Route::get('login/pengantar','PetugasPengantaranController@login')->name('merchant.petugas.login');
+Route::post('login/pengantar/store', 'PetugasPengantaranController@loginProses')->name('merchant.petugas.loginproses');
+Route::get('seller/petugas/daftarpengantaran','PengirimanController@indexPengantar')->name('merchant.petugas.daftar');
+Route::get('seller/petugas/detailpengantaran/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('merchant.petugas.detail');
 //Tracking Coba
 Route::get('tracking/index','TrackingController@index');

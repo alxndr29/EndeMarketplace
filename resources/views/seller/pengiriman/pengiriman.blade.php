@@ -22,7 +22,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <table id="example2" class="table table-bordered table-striped text-center table-responsive">
+                    <table id="example2" class="table table-bordered table-striped text-center">
                         <thead>
                             <tr>
                                 <th style="width:10%">No</th>

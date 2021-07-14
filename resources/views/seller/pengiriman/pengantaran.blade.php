@@ -6,7 +6,7 @@
             Pengantaran Barang
         </div>
         <div class="card-body">
-            <table id="example2" class="table table-bordered table-striped text-center table-responsive">
+            <table id="example2" class="table table-bordered table-striped text-center">
                 <thead>
                     <tr>
                         <th style="width:10%">No</th>
@@ -52,8 +52,7 @@
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('
-            berhasil ')}}');
+        alert('{{session('berhasil')}}');
         @endif
     });
 </script>
