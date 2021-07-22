@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2021 at 08:20 PM
+-- Generation Time: Jul 22, 2021 at 04:23 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -104,7 +104,7 @@ CREATE TABLE `datapengiriman` (
 --
 
 INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`) VALUES
-(1, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', NULL, NULL, 1, '-8.8441612', '121.6676969', '1.6515779024815755', 6);
+(1, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', NULL, NULL, 1, '-8.844165199999999', '121.6677155', '1.6505612008309964', 6);
 
 -- --------------------------------------------------------
 
@@ -1080,6 +1080,7 @@ INSERT INTO `provinsi` (`idprovinsi`, `nama`) VALUES
 --
 
 CREATE TABLE `reviewproduk` (
+  `idreviewproduk` int(11) NOT NULL,
   `produk_idproduk` int(11) NOT NULL,
   `transaksi_idtransaksi` int(11) NOT NULL,
   `tanggal_waktu` datetime DEFAULT NULL,
@@ -1091,8 +1092,8 @@ CREATE TABLE `reviewproduk` (
 -- Dumping data for table `reviewproduk`
 --
 
-INSERT INTO `reviewproduk` (`produk_idproduk`, `transaksi_idtransaksi`, `tanggal_waktu`, `komentar`, `rating`) VALUES
-(1, 1, '2021-07-07 00:27:05', 'Bagus banget', 4);
+INSERT INTO `reviewproduk` (`idreviewproduk`, `produk_idproduk`, `transaksi_idtransaksi`, `tanggal_waktu`, `komentar`, `rating`) VALUES
+(1, 1, 1, '2021-07-07 00:27:05', 'Bagus banget', 4);
 
 -- --------------------------------------------------------
 
@@ -1200,13 +1201,6 @@ CREATE TABLE `wishlist` (
   `users_iduser` int(11) NOT NULL,
   `produk_idproduk` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `wishlist`
---
-
-INSERT INTO `wishlist` (`users_iduser`, `produk_idproduk`) VALUES
-(1, 2);
 
 --
 -- Indexes for dumped tables
@@ -1382,7 +1376,7 @@ ALTER TABLE `provinsi`
 -- Indexes for table `reviewproduk`
 --
 ALTER TABLE `reviewproduk`
-  ADD PRIMARY KEY (`produk_idproduk`,`transaksi_idtransaksi`),
+  ADD PRIMARY KEY (`idreviewproduk`,`produk_idproduk`,`transaksi_idtransaksi`),
   ADD KEY `fk_produk_has_transaksi_transaksi2_idx` (`transaksi_idtransaksi`),
   ADD KEY `fk_produk_has_transaksi_produk2_idx` (`produk_idproduk`);
 
@@ -1496,13 +1490,19 @@ ALTER TABLE `pengiriman`
 -- AUTO_INCREMENT for table `petugaspengantaran`
 --
 ALTER TABLE `petugaspengantaran`
-  MODIFY `idpetugaspengantaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idpetugaspengantaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
   MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `reviewproduk`
+--
+ALTER TABLE `reviewproduk`
+  MODIFY `idreviewproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tarifpengiriman`

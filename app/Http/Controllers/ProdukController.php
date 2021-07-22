@@ -343,8 +343,13 @@ class ProdukController extends Controller
         //return $produk;
         return view('seller.review.review', compact('produk'));
     }
-    public function detailReview()
+    public function detailReview($id)
     { 
-        
+        $data = DB::table('reviewproduk')
+        ->join('produk','reviewproduk.produk_idproduk','=','produk.idproduk')
+        ->where('produk.idproduk','=',$id)
+        ->select('reviewproduk.*')
+        ->get();
+        return $data;
     }
 }

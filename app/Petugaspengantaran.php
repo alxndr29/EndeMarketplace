@@ -16,6 +16,6 @@ class Petugaspengantaran extends Model
         ->where('petugaspengantaran.idpetugaspengantaran', $idpengantar)
         ->select('merchant.users_iduser')
         ->first();
-        dd($data);
+        return $data->users_iduser;
     }
 }

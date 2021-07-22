@@ -133,24 +133,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </thead>
                                 <tbody style="vertical-align: top;">
 
+                                    @foreach($data as $key => $value)
                                     <tr>
-                                        <td>1</td>
-                                        <td>TRX-12</td>
-                                        <td>KM-432470237</td>
-                                        <td>29-10-1999</td>
+                                        <td>{{$key+1}}</td>
+                                        <td>TRX-{{$value->transaksi_idtransaksi}}</td>
+                                        <td>{{$value->nomor_resi}}</td>
+                                        <td>{{$value->tanggal_pengiriman}}</td>
                                         <td>
-                                            Menunggu Pengiriman
+                                            {{$value->status_pengiriman}}
                                         </td>
                                         <td>
-                                            Berhasil
+                                            {{$value->status}}
                                         </td>
                                         <td>
-                                            <b> Bank Transfer </b>
+                                            <b> {{$value->tipepembayaran}} </b>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
+                                            <a href="{{route('merchant.petugas.detail',[$value->idpengiriman,$value->transaksi_idtransaksi,'kurir'])}}" class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -169,6 +169,7 @@ Route::get('user/transaksi/batal/{id}','TransaksiController@batalPesanan')->name
 //Review Produk
 Route::post('user/transaksi/review/','TransaksiController@reviewProduk')->name('pelanggan.transaksi.review');
 Route::get('seller/review', 'ProdukController@indexReview')->name('seller.review.index');
+Route::get('seller/review/detail/{id}','ProdukController@detailReview')->name('seller.review.detail');
 
 //Pengiriman Merchant
 Route::get('seller/pengiriman/index','PengirimanController@indexMerchant')->name('merchant.pengiriman.index');

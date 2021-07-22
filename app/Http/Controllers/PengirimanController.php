@@ -28,10 +28,19 @@ class PengirimanController extends Controller
         //return $data;
         return view('seller.pengiriman.pengiriman', compact('data'));
     }
-    public function indexPengantar(){
+    public function indexPengantar(Request $request){
         $id = new Petugaspengantaran();
-        //return $id->idmerchant(6);
-        return view('seller.petugaspengantaran.daftarpengantaran');
+        $data = DB::table('pengiriman')
+            ->leftJoin('datapengiriman', 'datapengiriman.pengiriman_idpengiriman', '=', 'pengiriman.idpengiriman')
+            ->join('transaksi', 'transaksi.idtransaksi', '=', 'pengiriman.transaksi_idtransaksi')
+            ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
+            ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
+            ->where('transaksi.merchant_users_iduser', '=', $id->idmerchant($request->session()->get('pengantar-id')))
+            ->where('kurir.idkurir', '=', 2)
+            ->where('pengiriman.nomor_resi', '!=', null)
+            ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
+            ->get();
+        return view('seller.petugaspengantaran.daftarpengantaran',compact('data'));
        // return 'hello world!';
     }
     public function indexMerhcantParam($tglAwal, $tglAkhir)
@@ -150,8 +159,10 @@ class PengirimanController extends Controller
             ->first();
         if ($jenis == "merchant") { 
             return view('seller.pengiriman.detailpengantaran', compact('data', 'alamatPengiriman', 'idpengiriman'));
-        }else{
+        }else if($jenis == "Pelanggan"){
             return view('user.transaksi.lacak', compact('data', 'alamatPengiriman', 'idpengiriman'));
+        }else{
+            return view('seller.petugaspengantaran.detailpengantaran', compact('data', 'alamatPengiriman', 'idpengiriman'));
         }
        
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2021 at 08:20 PM
+-- Generation Time: Jul 22, 2021 at 04:23 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -1133,6 +1133,7 @@ INSERT INTO `provinsi` (`idprovinsi`, `nama`) VALUES
 --
 
 CREATE TABLE `reviewproduk` (
+  `idreviewproduk` int(11) NOT NULL,
   `produk_idproduk` int(11) NOT NULL,
   `transaksi_idtransaksi` int(11) NOT NULL,
   `tanggal_waktu` datetime DEFAULT NULL,
@@ -1144,9 +1145,9 @@ CREATE TABLE `reviewproduk` (
 -- Dumping data for table `reviewproduk`
 --
 
-INSERT INTO `reviewproduk` (`produk_idproduk`, `transaksi_idtransaksi`, `tanggal_waktu`, `komentar`, `rating`) VALUES
-(23, 10, '2021-05-25 00:51:58', 'komen 1 raring 1', 1),
-(24, 10, '2021-05-25 00:51:58', 'komen produk 2 rating 3', 3);
+INSERT INTO `reviewproduk` (`idreviewproduk`, `produk_idproduk`, `transaksi_idtransaksi`, `tanggal_waktu`, `komentar`, `rating`) VALUES
+(1, 23, 10, '2021-05-25 00:51:58', 'komen 1 raring 1', 1),
+(2, 24, 10, '2021-05-25 00:51:58', 'komen produk 2 rating 3', 3);
 
 -- --------------------------------------------------------
 
@@ -1441,7 +1442,7 @@ ALTER TABLE `provinsi`
 -- Indexes for table `reviewproduk`
 --
 ALTER TABLE `reviewproduk`
-  ADD PRIMARY KEY (`produk_idproduk`,`transaksi_idtransaksi`),
+  ADD PRIMARY KEY (`idreviewproduk`,`produk_idproduk`,`transaksi_idtransaksi`),
   ADD KEY `fk_produk_has_transaksi_transaksi2_idx` (`transaksi_idtransaksi`),
   ADD KEY `fk_produk_has_transaksi_produk2_idx` (`produk_idproduk`);
 
@@ -1562,6 +1563,12 @@ ALTER TABLE `petugaspengantaran`
 --
 ALTER TABLE `produk`
   MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `reviewproduk`
+--
+ALTER TABLE `reviewproduk`
+  MODIFY `idreviewproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tarifpengiriman`
