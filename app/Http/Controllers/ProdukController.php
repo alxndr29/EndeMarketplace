@@ -122,10 +122,9 @@ class ProdukController extends Controller
         $jumlahUlasan = DB::table('reviewproduk')->where('produk_idproduk','=',$id)->count();
         $jumlahDiskusi = DB::table('diskusi')->where('produk_idproduk','=',$id)->count();
         
-
         return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'reviewProduk', 'jumlahTerjual','jumlahUlasan','jumlahDiskusi'));
-        // $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
         
+        // $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
         // $array = [];
         // foreach ($da as $item) {
         //     if (!array_key_exists($item->transaksi_idtransaksi, $array)) {
@@ -133,25 +132,26 @@ class ProdukController extends Controller
         //     }
         //     array_push($array[$item->transaksi_idtransaksi], $item->produk_idproduk);
         // }
+        // //return $array;
 
-        // $samples = [
-        //     ['alpha', 'beta', 'epsilon'], 
-        //     ['alpha', 'beta', 'theta'], 
-        //     ['alpha', 'beta', 'epsilon'], 
-        //     ['alpha', 'beta', 'theta']
-        // ];
+        // // $samples = [
+        // //     ['alpha', 'beta', 'epsilon'], 
+        // //     ['alpha', 'beta', 'theta'], 
+        // //     ['alpha', 'beta', 'epsilon'], 
+        // //     ['alpha', 'beta', 'theta']
+        // // ];
 
-        // $samples = [
-        //     10 => ['pena', 'roti', 'mentega'],
-        //     12 => ['roti', 'mentega', 'telur'],
-        //     16 => ['buncis', 'telur', 'susu'],
-        //     17 => ['roti', 'mentega'],
-        //     1 => ['roti', 'mentega', 'kecap', 'telur', 'susu']
-        // ];
+        // // $samples = [
+        // //     10 => ['pena', 'roti', 'mentega'],
+        // //     12 => ['roti', 'mentega', 'telur'],
+        // //     16 => ['buncis', 'telur', 'susu'],
+        // //     17 => ['roti', 'mentega'],
+        // //     1 => ['roti', 'mentega', 'kecap', 'telur', 'susu']
+        // // ];
 
         // $labels  = [];
-        // $support = 0.5;
-        // $confidence = 0.5;
+        // $support = 0.1;
+        // $confidence = 0.1;
         // $associator = new Apriori($support, $confidence);
         // $associator->train($array, $labels);
         // $data =  $associator->getRules();
@@ -169,10 +169,8 @@ class ProdukController extends Controller
             ->where('produk.idproduk', $id)
             ->select('produk.*', 'kategori.idkategori', 'kategori.nama_kategori', 'jenisproduk.idjenisproduk', 'jenisproduk.nama as nama_jenis')
             ->first();
-        //dd($data);
         return view('seller.produk.ubahproduk', compact('data', 'kategori', 'jenisproduk'));
     }
-    //$key = null, $filter = null, $range1 = null,$range2 = null, $order = null
     public function search(Request $request)
     {
         $minimum = 0;
@@ -190,7 +188,6 @@ class ProdukController extends Controller
                 $jenis = $request->jenis;
             }
         }
-
         if (isset($request->key)) {
             if ($jenis != null) {
                 $data = DB::table('produk')
@@ -214,7 +211,6 @@ class ProdukController extends Controller
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                     ->paginate(10);
             }
-            
         } else {
             if ($jenis != null) {
                 $data = DB::table('produk')
@@ -237,7 +233,6 @@ class ProdukController extends Controller
             
         }
         $jenisproduk = DB::table('jenisproduk')->select('idjenisproduk', 'nama')->get();
-        
         return view('user.search.search', compact('data', 'jenisproduk'));
     }
     public function picture($id)

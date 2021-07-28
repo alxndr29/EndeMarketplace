@@ -504,7 +504,6 @@
                         '<input type="hidden" name="idtransaksi" value=' + response.transaksi[0].idtransaksi + '>'
                     );
                 }
-
                 $("#pembayaran").html(
                     '<br> Rp. ' + (response.pembayaran[0].nominal_pembayaran - response.pembayaran[0].biaya_pengiriman) +
                     '<br> Rp. ' + response.pembayaran[0].biaya_pengiriman +

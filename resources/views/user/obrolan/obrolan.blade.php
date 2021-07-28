@@ -24,12 +24,12 @@
                             </div>
                             <div class="product-info">
                                 <a href="javascript:void(0)" id="pilihMerchant" data-id="{{$value->idmerchant}}" class="product-title">{{$value->nama_merchant}}
-                                @if($value->status_baca_user == 0)
+                                <!-- @if($value->status_baca_user == 0)
                                     <span class="badge badge-warning float-right">Baru</span></a>
                                 @endif
                                 <span class="product-description">
                                     {{$value->isi_pesan}}
-                                </span>
+                                </span> -->
                             </div>
                         </li>
                         @endforeach
@@ -260,6 +260,7 @@
                 url: "{{url('user/obrolan/get')}}" + "/" + id,
                 type: "GET",
                 success: function(response) {
+                    console.log(response);
                     $("#judulChat").html(response[0].nama_merchant);
                     $("#kolomchat").empty();
                     for (i = 0; i < response.length; i++) {

@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <h3 class="card-title">DataTable with default features</h3>
+                        <h3 class="card-title">Daftar Penilaian & Ulasan Produk</h3>
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -62,190 +62,22 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-1">
-                            <div class="col">
-                                <img style="width:75px;height:100px;" src="http://localhost:8000/fotoProfil/default-user.png">
-                            </div>
-                            <div class="col">
-                                <b>alexander evan</b>
-                                <br>2021-07-07 00:27:05
-                                <br>
-                                Bagus banget
-                                <br>
-                                Jumlah bintang: 4
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
+            <div class="modal-body" id="isidata">
+                <div class="row border">
+                    <div class="col">
+                        <b>alexander evan</b>
+                        <br>2021-07-07 00:27:05
+                        <br>
+                        Bagus banget
+                        <br>
+                        Jumlah bintang: 4
+                        <i class="fa fa-star"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 @section('js')
@@ -258,16 +90,38 @@
 
     function loadData(id) {
         $("#modalDetail").modal('show');
-        // $.ajax({
-        //     url: "{{url('')}}",
-        //     method: "GET",
-        //     success: function(data) {
-
-        //     },
-        //     error: function(response) {
-
-        //     }
-        // });
+        $.ajax({
+            url: "{{url('seller/review/detail')}}/" + id,
+            method: "GET",
+            success: function(data) {
+                console.log(data);
+                if (data.length == 0) {
+                    $("#isidata").empty();
+                    $("#isidata").append(
+                        '<div class="text-center">Belum ada data </div>'
+                    );
+                } else {
+                    $("#isidata").empty();
+                    for (i = 0; i < data.length; i++) {
+                        $("#isidata").append(
+                            '<div class="row border text-center">' +
+                            '<div class="col">' +
+                            '<b>' + 'Pembeli' +
+                            '</b>' + '<br>' + data[i].tanggal_waktu +
+                            '<br>' +
+                            data[i].komentar +
+                            '<br>' +
+                            'Jumlah bintang: ' + data[i].rating +
+                            '<i class="fa fa-star"></i>' +
+                            '</div>' + '</div>'
+                        );
+                    }
+                }
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
     }
 </script>
 @endsection
