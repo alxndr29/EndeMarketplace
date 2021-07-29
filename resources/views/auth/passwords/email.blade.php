@@ -21,7 +21,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Admin</b>LTE</a>
+            <a href="../../index2.html"><b>ENDE's</b>Market</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -31,7 +31,7 @@
                     {{ session('status') }}
                 </div>
                 @endif
-                <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
+                <p class="login-box-msg">Anda lupa kata sando? Disini anda bisa untuk meminta kata sandi baru.</p>
 
                 <form method="POST" action="{{ route('password.email') }}">
                     <div class="input-group mb-3">
@@ -44,17 +44,17 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Request new password</button>
+                            <button type="submit" class="btn btn-primary btn-block">Minta Kata Sandi Baru</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
 
                 <p class="mt-3 mb-1">
-                    <a href="{{route('login')}}">Login</a>
+                    <a href="{{route('login')}}">Masuk</a>
                 </p>
                 <p class="mb-0">
-                    <a href="{{route('register')}}" class="text-center">Register a new membership</a>
+                    <a href="{{route('register')}}" class="text-center">Daftar</a>
                 </p>
             </div>
             <!-- /.login-card-body -->

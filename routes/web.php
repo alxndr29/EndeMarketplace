@@ -146,7 +146,7 @@ Route::get('diskusi/data/{id}','DiskusiController@getDataDiskusi')->name('diskus
 
 //OTP
 Route::post('otp/email/send','OtpController@otpEmail')->name('otp.email.send');
-Route::post('otp/whatsapp/send', 'OtpController@otpEmail')->name('otp.whatsapp.send');
+Route::post('otp/whatsapp/send', 'OtpController@otpWhatsapp')->name('otp.whatsapp.send');
 Route::post('/otp/verifikasi','OtpController@verifikasi')->name('otp.verifikasi');
 
 //Checkout

@@ -26,7 +26,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">You are only one step a way from your new password, recover your password now.</p>
+                <p class="login-box-msg">Masukan kata sandi baru anda.</p>
 
                 <form method="POST" action="{{ route('password.update') }}">
                     @csrf
@@ -53,7 +53,6 @@
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
-
                     </div>
                     <div class="input-group mb-3">
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="password confirmation">
@@ -65,7 +64,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Change password</button>
+                            <button type="submit" class="btn btn-primary btn-block">Ubah Kata Sandi</button>
                         </div>
                         <!-- /.col -->
                     </div>

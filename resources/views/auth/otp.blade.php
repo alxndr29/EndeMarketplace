@@ -31,11 +31,9 @@ OTP: {{$otp}}
         <div class="card">
             <div class="card-body login-card-body">
                 <p id="pesan" class="login-box-msg">Terdeteksi login dari perangkat baru, silahkan mengisi otp</p>
-
                 <div class="d-flex flex-column align-items-center justify-content-center" id="spinnerLoading">
 
                 </div>
-
                 <div class="row">
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary btn-block" id="btnEmail">
@@ -43,7 +41,6 @@ OTP: {{$otp}}
                             Lewat Email
                         </button>
                     </div>
-                    <!-- /.col -->
                 </div>
                 <br>
                 <div class="row">
@@ -84,8 +81,8 @@ OTP: {{$otp}}
     <script src="{{asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
-     <!-- Sweetalert -->
-     <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+    <!-- Sweetalert -->
+    <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 </body>
 
 </html>
@@ -114,15 +111,59 @@ OTP: {{$otp}}
                     $("#otpgroup").show();
                 } else {
                     console.log(response);
+                    Swal.fire(
+                        'Gagal!',
+                        'Tidak dapat mengirim OTP',
+                        'error'
+                    )
                 }
             },
             error: function(response) {
                 console.log(response);
+                Swal.fire(
+                    'Gagal!',
+                    'Tidak dapat mengirim OTP',
+                    'error'
+                )
             }
         });
     });
     $("#btnWhatsapp").click(function() {
-        alert('saat ini belum bisa lewat whatsapp');
+        $("#spinnerLoading").html('<div class="row"> <div class="spinner-border" role = "status"> <span class="sr-only"> Loading... </span> </div> </div> <div class="row" id ="pesanLoading" ><strong> Collecting data </strong> </div>');
+        $.ajax({
+            url: "{{route('otp.whatsapp.send')}}",
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                console.log(response);
+                var dat = JSON.parse(response);
+                console.log(dat.status);
+                if (dat.status == true) {
+                    $("#spinnerLoading").empty();
+                    $("#btnEmail").hide();
+                    $("#btnWhatsapp").hide();
+                    $("#btnSubmit").show();
+                    $("#otpgroup").show();
+                } else {
+                    console.log(response);
+                    Swal.fire(
+                        'Gagal!',
+                        'Tidak dapat mengirim OTP',
+                        'error'
+                    )
+                }
+            },
+            error: function(response) {
+                console.log(response);
+                Swal.fire(
+                    'Gagal!',
+                    'Tidak dapat mengirim OTP',
+                    'error'
+                )
+            }
+        });
     });
     $("#btnSubmit").click(function() {
         var otp = $("#inputotp").val();
