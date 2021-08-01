@@ -122,7 +122,7 @@ class MerchantController extends Controller
             'dukunganJNE',
             'dukunganCOD',
             'dukunganBank'
-        ));
+        ))->with('berhasil', 'berhasil ubh data merchant');
     }
     public function show($id)
     {

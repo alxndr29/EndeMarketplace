@@ -373,9 +373,13 @@
     var lat = "";
     var lot = "";
     $(document).ready(function() {
-        @if(session('pesan'))
+        @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session("pesan")}}');
+        Swal.fire(
+            'Berhasil!',
+            "{{session('berhasil')}}",
+            'success'
+        )
         @endif
 
         getLocation();
@@ -458,7 +462,7 @@
         //     title: "Hello World!",
         // });
 
-        
+
         var myLatlng = new google.maps.LatLng(lat, lot);
         var mapOptions = {
             zoom: 15,
@@ -490,7 +494,7 @@
             );
             infoWindow.open(map);
         });
-        
+
     }
 
     function getLocation() {

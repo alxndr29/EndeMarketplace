@@ -170,10 +170,7 @@
 <script type="text/javascript">
     var dataAlamat;
     var dataKiriman;
-    //var pilihAlamat = false;
 
-    // var berat = {{$total->berat}};
-    // console.log(berat);
     var biayaKurir = 0;
 
     var idAlamatUser = 0;
@@ -187,14 +184,12 @@
 
 
     $(document).ready(function() {
-        //hitungBiaya();
         $("#displayNominal").val(jumlah);
         $("#nominalpembayaran").val(jumlah);
         $("#dukunganPengiriman").attr("disabled", true);
         $("#biayaKurir").attr("disabled", true);
 
         @if(session("gagal"))
-        //alert("{{session('berhasil')}}");
         Swal.fire(
             'Gagal!',
             '{{session("gagal")}}',
@@ -281,7 +276,6 @@
     var dukunganPengiriman = "";
     $("#dukunganPengiriman").change(function() {
         $("#biayaKurir").attr("disabled", false);
-        //$("#biayaKurir").empty();
         val = $(this).val();
         if (val == "2") {
             dukunganPengiriman = "2";
@@ -291,7 +285,6 @@
             $("#biayaKurir").append(
                 '<option value="' + 'Kurir Merchant' + '-' + '{{$value->tarifpengiriman_idtarifpengiriman}}' + '-' + '{{$value->nama}}' + '-' + '{{$value->minimum_belanja}}' + '-' +
                 '{{$value->etd}}' + '-' + '{{$value->tarif_berat}}' + '-' + '{{$value->tarif_volume}}' + '-' + '{{$value->tarif_jarak}}' + '">' +
-
                 '{{$value->nama}}' + '- ETD: ' +
                 '{{$value->etd}} Hari' + '</option>'
             );
@@ -302,19 +295,6 @@
             $("#biayaKurir").empty();
             $("#biayaKurir").append('<option selected>Pilih Biaya Pengiriman</option>');
             hitungBiaya();
-
-            // $("#debug").empty();
-            // $("#debug").append('user = ' + latitudeUser + "/" + longitudeUser + "<br>");
-            // $("#debug").append('merchant =' + latitudeMerchant + "/" + longitudeMerchant + "<br>");
-            // var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
-            // $("#debug").append(
-            //     'jarak =' + result
-            // );
-            // $("#latitudeUser").val(latitudeUser);
-            // $("#longitudeUser").val(longitudeMerchant);
-            // $("#latitudeMerchant").val(latitudeMerchant);
-            // $("#longitudeMerchant").val(longitudeMerchant);
-            // $("#jarakPengiriman").val(result);
         }
     });
     $("#biayaKurir").change(function() {
@@ -322,49 +302,74 @@
         if (dukunganPengiriman == "2") {
             var split = id.split("-");
             if (split[1] == "1") {
-                //tarif bebas ongkor
-                $("#displayNominalPengiriman").html(' Biaya Pengiriman: Rp. ' + biayaKurir);
-                $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + jumlah);
-                $("#biaya").val(0);
-                $("#estimasi").val(split[4]);
-                var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
-                $("#debug").append(
-                    'jarak =' + result
-                );
-                $("#jarakPengiriman").val(result);
+                if (parseInt(jumlah) < parseInt(split[3])) {
+                    Swal.fire(
+                        'Gagal!',
+                        'Tidak memenuhi nominal pembelian!',
+                        'error'
+                    )
+                } else {
+                    //tarif bebas ongkor
+                    $("#displayNominalPengiriman").html(' Biaya Pengiriman: Rp. ' + biayaKurir);
+                    $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + jumlah);
+                    $("#biaya").val(0);
+                    $("#estimasi").val(split[4]);
+                    var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
+                    $("#debug").append(
+                        'jarak =' + result
+                    );
+                    $("#jarakPengiriman").val(result);
+                }
                 //alert(split[0] + " " + split[2] + " " + split[3] + split[4] + " " + split[5] + " " + split[6] + " " + split[7]);
             } else if (split[1] == "2") {
-                //tarif flat
-                biayaKurir = split[5];
-                $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + (biayaKurir));
-                var te = parseInt(biayaKurir) + parseInt(jumlah);
-                $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + te);
-                $("#biaya").val(biayaKurir);
-                $("#estimasi").val(split[4]);
-                var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
-                $("#debug").append(
-                    'jarak =' + result
-                );
-                $("#jarakPengiriman").val(result);
+                // alert(split[3]);
+                // alert(jumlah);
+                if (parseInt(jumlah) < parseInt(split[3])) {
+                    // alert('Tidak memenuhi nominal pembelian c');
+                    Swal.fire(
+                        'Gagal!',
+                        'Tidak memenuhi nominal pembelian!',
+                        'error'
+                    )
+                } else {
+                    //tarif flat
+                    biayaKurir = split[5];
+                    $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + (biayaKurir));
+                    var te = parseInt(biayaKurir) + parseInt(jumlah);
+                    $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + te);
+                    $("#biaya").val(biayaKurir);
+                    $("#estimasi").val(split[4]);
+                    var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
+                    $("#debug").append(
+                        'jarak =' + result
+                    );
+                    $("#jarakPengiriman").val(result);
+                }
             } else {
-                //pake jarak
-                var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
-                var t_berat = split[5];
-                var t_volume = split[6];
-                var t_jarak = split[7];
-                biayaKurir = Math.round(t_jarak * result);
-                alert('jarak' + result + " tarif jarak " + t_jarak + ' adalah: ' + biayaKurir + " note: dibulatkan keatas");
-                $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + parseInt(biayaKurir));
-
-                var te = parseInt(biayaKurir) + parseInt(jumlah);
-                $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + te);
-
-                $("#biaya").val(biayaKurir);
-                $("#estimasi").val(split[4]);
-                $("#debug").append(
-                    'jarak =' + result
-                );
-                $("#jarakPengiriman").val(result);
+                if (parseInt(jumlah) < parseInt(split[3])) {
+                    Swal.fire(
+                        'Gagal!',
+                        'Tidak memenuhi nominal pembelian!',
+                        'error'
+                    )
+                } else {
+                    //pake jarak
+                    var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
+                    var t_berat = split[5];
+                    var t_volume = split[6];
+                    var t_jarak = split[7];
+                    biayaKurir = Math.round(t_jarak * result);
+                    alert('jarak' + result + " tarif jarak " + t_jarak + ' adalah: ' + biayaKurir + " note: dibulatkan keatas");
+                    $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + parseInt(biayaKurir));
+                    var te = parseInt(biayaKurir) + parseInt(jumlah);
+                    $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + te);
+                    $("#biaya").val(biayaKurir);
+                    $("#estimasi").val(split[4]);
+                    $("#debug").append(
+                        'jarak =' + result
+                    );
+                    $("#jarakPengiriman").val(result);
+                }
             }
         }
         if (dukunganPengiriman == "1") {
@@ -374,21 +379,13 @@
             var ta = parseInt(split2[2]) + parseInt(jumlah);
             $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + split2[2]);
             $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + ta);
-
         }
-
-        // var split = id.split("/");
-        // var tot = jumlah + parseInt(split[2]);
-        // $("#displayNominal").html('Total Pembayaran: Rp.' + tot);
-        // $("#nominalpembayaran").val(jumlah + parseInt(split[2]));
     });
 
     function hitungBiaya() {
         var origin = "{{$alamatMerchant->kabupatenkota_idkabupatenkota}}";
         var destination = idAlamatUser;
-        //alert(origin + " - " + destination);
         var courier = "jne";
-
         $.ajax({
             url: "{{url('cost')}}" + "/" + origin + "/" + destination + "/" + courier + "/" + berat,
             method: "GET",
