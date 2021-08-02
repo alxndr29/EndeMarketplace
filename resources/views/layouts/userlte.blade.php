@@ -114,7 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="fa fa-shopping-cart"></i>
-                            <span class="badge badge-warning navbar-badge" id="jumlahKeranjangNotifikasi">1</span>
+                            <span class="badge badge-warning navbar-badge" id="jumlahKeranjangNotifikasi">0</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <span class="dropdown-header" id="jumlahKeranjangDalam">15 Notifications</span>

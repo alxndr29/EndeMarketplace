@@ -142,12 +142,12 @@
     $("#btnFilter").click(function() {
         var data = $('#sliderRangeHarga').val();
         var split = data.split(",");
-        if (jenis != null) {
-            window.location = "{{url('/')}}" + "/user/produk/cari?key=" + key + "&minimum=" + split[0] + "&maksimum=" + (split[1]) + "&jenis=" + jenis + "&order=" + $("#comboboxFilter").val();
-        } else {
-            window.location = "{{url('/')}}" + "/user/produk/cari?key=" + key + "&minimum=" + split[0] + "&maksimum=" + (split[1]) + "&jenis=" + $("#comboboxJenis").val() + "&order=" + $("#comboboxFilter").val();
-        }
-
+        // if (jenis != null) {
+        //     window.location = "{{url('/')}}" + "/user/produk/cari?key=" + key + "&minimum=" + split[0] + "&maksimum=" + (split[1]) + "&jenis=" + jenis + "&order=" + $("#comboboxFilter").val();
+        // } else {
+        //     window.location = "{{url('/')}}" + "/user/produk/cari?key=" + key + "&minimum=" + split[0] + "&maksimum=" + (split[1]) + "&jenis=" + $("#comboboxJenis").val() + "&order=" + $("#comboboxFilter").val();
+        // }
+        window.location = "{{url('/')}}" + "/user/produk/cari?key=" + key + "&minimum=" + split[0] + "&maksimum=" + (split[1]) + "&jenis=" + $("#comboboxJenis").val() + "&order=" + $("#comboboxFilter").val();
     });
     $("#sliderRangeHarga").change(function() {
         var data = $('#sliderRangeHarga').val();

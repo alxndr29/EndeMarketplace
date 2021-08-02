@@ -533,23 +533,24 @@
     });
     $("#qty").change(function() {
         var qty = $(this).val();
-        //alert(qty);
-        if (qty < "{{$data->minimum_pemesanan}}") {
+        // alert(qty);
+        // alert("{{$data->minimum_pemesanan}}");
+        // alert("{{$data->stok}}");
+        if (qty < parseInt("{{$data->minimum_pemesanan}}")) {
             Swal.fire(
                 '',
                 'Qty produk tidak boleh kurang!',
                 'warning'
             )
-            $("#qty").val(parseInt(qty) + 1);
-        } else if (qty > "{{$data->stok}}") {
+            $("#qty").val("{{$data->minimum_pemesanan}}");
+        }
+        if (qty > parseInt("{{$data->stok}}")) {
             Swal.fire(
                 '',
                 'Qty produk tidak boleh lebih',
                 'warning'
             )
-            $("#qty").val(parseInt(qty) - 1);
-        } else {
-
+            $("#qty").val("{{$data->stok}}");
         }
     });
 </script>
