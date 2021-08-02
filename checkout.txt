@@ -30,3 +30,7 @@ function getLocation() {
 
 
 </script>
+
+
+
+254220002857320 resi jne

@@ -200,12 +200,10 @@ class TransaksiController extends Controller
                     $produk->stok = $produk->stok + $value->jumlah;
                     $produk->save();
                 }
-                //return 'masuk batal';
             }else {
                 $transaksi->status_transaksi = $action;
                 $transaksi->save();
             }
-            //return "berhasil!";
             return redirect()->back()->with('berhasil', 'Berhasil ubah status pesanan');   
         } catch (\Exception $e) {
             return $e->getMessage();

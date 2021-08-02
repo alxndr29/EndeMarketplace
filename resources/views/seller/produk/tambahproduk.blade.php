@@ -103,7 +103,7 @@
                         <img src="{{asset('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                     </div>
                     <br>
-                    <button id="test">TEST</button>
+                    <!-- <button id="test">TEST</button> -->
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
@@ -224,47 +224,57 @@
         });
 
         $("#btnsubmit").click(function() {
+            if (!$("#namaProduk").val() || !$("#jenisProduk").val() ||
+                !$("#kategoriProduk").val() || $("#deskripsiProduk").val() ||
+                !$("#harga").val() || !$("#beratProduk").val() ||
+                !$("#minimumPemesanan").val() || !$("#stokProduk").val() ||
+                !$("#panjangProduk").val() || !$("#lebarProduk").val() || !$("#tinggiProduk").val()) {
+                // alert('kosong');
+                Swal.fire(
+                    'Gagal!',
+                    'Pastikan Semua Data Telah Diinput!',
+                    'error'
+                )
+            } else {
+                var myJson = JSON.stringify(gambar);
+                // rumus volume panjang x lebar x tinggi
+                var panjangProduk = $("#panjangProduk").val();
+                var lebarProduk = $("#lebarProduk").val();
+                var tinggiProduk = $("#tinggiProduk").val();
+                //var volume = panjangProduk * lebarProduk * tinggiProduk;
+                $.ajax({
+                    url: "{{route('produk.store')}}",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "namaProduk": $("#namaProduk").val(),
+                        "jenisProduk": $("#jenisProduk").val(),
+                        "kategoriProduk": $("#kategoriProduk").val(),
+                        "deskripsiProduk": $("#deskripsiProduk").val(),
+                        "harga": $("#harga").val(),
+                        "beratProduk": $("#beratProduk").val(),
+                        "preorder": $("#checkboxpreorder").is(":checked"),
+                        "minimumPemesanan": $("#minimumPemesanan").val(),
+                        "statusProduk": $("#statusProduk").val(),
+                        "stokProduk": $("#stokProduk").val(),
+                        "panjang": $("#panjangProduk").val(),
+                        "lebar": $("#lebarProduk").val(),
+                        "tinggi": $("#tinggiProduk").val(),
+                        "waktu_preorder": $("#durasiPreorder").val(),
+                        "video": $("#video").val(),
+                        "gambar": myJson
+                    },
+                    success: function(response) {
+                        if (response.status == "berhasil") {
+                            alert(response.status);
+                            window.location.href = "{{URL::to('seller/produk')}}";
 
-            var myJson = JSON.stringify(gambar);
-            // rumus volume panjang x lebar x tinggi
-            var panjangProduk = $("#panjangProduk").val();
-            var lebarProduk = $("#lebarProduk").val();
-            var tinggiProduk = $("#tinggiProduk").val();
-            //var volume = panjangProduk * lebarProduk * tinggiProduk;
-
-            $.ajax({
-                url: "{{route('produk.store')}}",
-                type: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "namaProduk": $("#namaProduk").val(),
-                    "jenisProduk": $("#jenisProduk").val(),
-                    "kategoriProduk": $("#kategoriProduk").val(),
-                    "deskripsiProduk": $("#deskripsiProduk").val(),
-                    "harga": $("#harga").val(),
-                    "beratProduk": $("#beratProduk").val(),
-                    "preorder": $("#checkboxpreorder").is(":checked"),
-                    "minimumPemesanan": $("#minimumPemesanan").val(),
-                    "statusProduk": $("#statusProduk").val(),
-                    "stokProduk": $("#stokProduk").val(),
-                    "panjang": $("#panjangProduk").val(),
-                    "lebar": $("#lebarProduk").val(),
-                    "tinggi": $("#tinggiProduk").val(),
-                    "waktu_preorder": $("#durasiPreorder").val(),
-                    "video": $("#video").val(),
-                    "gambar": myJson
-                },
-                success: function(response) {
-                    if (response.status == "berhasil") {
-                        alert(response.status);
-                        window.location.href = "{{URL::to('seller/produk')}}";
-
-                    } else {
-                        alert(response.status);
+                        } else {
+                            alert(response.status);
+                        }
                     }
-                }
-            });
-
+                });
+            }
         });
 
     });

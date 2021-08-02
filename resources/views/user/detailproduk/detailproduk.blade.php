@@ -20,7 +20,9 @@
                             <div class="row">
                                 @foreach($gambar as $key => $value)
                                 <div class="col">
-                                    <img style="width:150px;height:150px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
+                                    <a href="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}">
+                                        <img style="width:150px;height:150px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block p-1 img-fluid" alt="...">
+                                    </a>
                                 </div>
                                 @endforeach
                             </div>

@@ -56,7 +56,7 @@
                         </span>
                         @enderror
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col">
                             <div class="icheck-primary">
                                 <input type="checkbox" name="remember" id="remember" {{old("remember")?"checked":""}}>
@@ -65,7 +65,7 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col">
                             <button type="submit" class="btn btn-primary btn-block">Masuk</button>

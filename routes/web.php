@@ -49,10 +49,11 @@ Route::get('cost/{origin}/{destination}/{courier}/{berat}','RajaOngkirController
 //Route::get('provinsi','RajaOngkirController@provinsi')->name('provinsi')->middleware('verified');;
 
 //Auth Bawaan Laravel
-Auth::routes();
-//Auth::routes(['verify' => true]);
+//Auth::routes();
+
+Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('user/home', 'HomeController@homeUser')->name('user.home');
+Route::get('user/home', 'HomeController@homeUser')->name('user.home')->middleware('verified');
 
 //Xendit Payment Gateway
 Route::get('/xendit/balance','XenditController@balance')->name('xendit.balance');

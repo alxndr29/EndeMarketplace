@@ -335,9 +335,6 @@
         </div>
     </div>
 </div>
-
-
-
 @section('js')
 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-ZXG2YBvaF0n8pvHq"></script>
 <script type="text/javascript">

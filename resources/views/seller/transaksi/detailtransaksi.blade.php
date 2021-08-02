@@ -226,15 +226,17 @@
                             </button>
                         </form>
                         @elseif($transaksi->status_transaksi == "PesananDiproses")
-                        @if($transaksi->nama_kurir == "JNE")
-                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-jne">
-                            Masukan Nomor Resi Pengiriman
-                        </button>
-                        @else
-                        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-kurir">
-                            Plot Jadwal Pengiriman
-                        </button>
-                        @endif
+
+                            @if($transaksi->nama_kurir == "JNE")
+                            <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-jne">
+                                Masukan Nomor Resi Pengiriman
+                            </button>
+                            @else
+                            <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-kurir">
+                                Plot Jadwal Pengiriman
+                            </button>
+                            @endif
+
                         @else
 
                         @endif

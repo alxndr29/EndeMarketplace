@@ -88,7 +88,7 @@ class ProdukController extends Controller
     }
     public function show($id)
     {
-    
+
         // $diskusi = DB::table('diskusi')
         //     ->join('produk', 'produk.idproduk', '=', 'diskusi.produk_idproduk')
         //     ->join('users', 'users.iduser', '=', 'diskusi.users_iduser')
@@ -115,15 +115,15 @@ class ProdukController extends Controller
             ->get();
 
         $jumlahTerjual = DB::table('transaksi')
-        ->join('detailtransaksi','detailtransaksi.transaksi_idtransaksi','=','transaksi.idtransaksi')
-        ->where('transaksi.status_transaksi','=','Selesai')
-        ->where('detailtransaksi.produk_idproduk','=',$id)
-        ->sum('detailtransaksi.jumlah');
-        $jumlahUlasan = DB::table('reviewproduk')->where('produk_idproduk','=',$id)->count();
-        $jumlahDiskusi = DB::table('diskusi')->where('produk_idproduk','=',$id)->count();
-        
-        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'reviewProduk', 'jumlahTerjual','jumlahUlasan','jumlahDiskusi'));
-        
+            ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
+            ->where('transaksi.status_transaksi', '=', 'Selesai')
+            ->where('detailtransaksi.produk_idproduk', '=', $id)
+            ->sum('detailtransaksi.jumlah');
+        $jumlahUlasan = DB::table('reviewproduk')->where('produk_idproduk', '=', $id)->count();
+        $jumlahDiskusi = DB::table('diskusi')->where('produk_idproduk', '=', $id)->count();
+
+        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'reviewProduk', 'jumlahTerjual', 'jumlahUlasan', 'jumlahDiskusi'));
+
         // $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
         // $array = [];
         // foreach ($da as $item) {
@@ -196,7 +196,7 @@ class ProdukController extends Controller
                     ->groupBy('produk.idproduk')
                     ->where('produk.nama', 'like', '%' . $request->key . '%')
                     ->whereBetween('harga', [$minimum, $maksimum])
-                    ->where('jenisproduk_idjenisproduk',$jenis)
+                    ->where('jenisproduk_idjenisproduk', $jenis)
                     ->orderBy("status", "desc")
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                     ->paginate(10);
@@ -221,7 +221,7 @@ class ProdukController extends Controller
                     ->groupBy('produk.idproduk')
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                     ->paginate(10);
-            }else{
+            } else {
                 $data = DB::table('produk')
                     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
@@ -230,7 +230,6 @@ class ProdukController extends Controller
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                     ->paginate(10);
             }
-            
         }
         $jenisproduk = DB::table('jenisproduk')->select('idjenisproduk', 'nama')->get();
         return view('user.search.search', compact('data', 'jenisproduk'));
@@ -303,14 +302,19 @@ class ProdukController extends Controller
     }
     public function destroy($id)
     {
+        $counter = DB::table('detailtransaksi')->where('produk_idproduk', $id)->count();
         try {
-            $data =  Gambarproduk::where('produk_idproduk', $id)->get();
-            foreach ($data as $key => $value) {
-                $this->removeImage($value->idgambarproduk);
+            if ($counter != 0) {
+                return redirect('seller/produk')->with('gagal', 'Gagal Hapus Produk');
+            } else {
+                $data =  Gambarproduk::where('produk_idproduk', $id)->get();
+                foreach ($data as $key => $value) {
+                    $this->removeImage($value->idgambarproduk);
+                }
+                Gambarproduk::where('produk_idproduk', $id)->delete();
+                Produk::where('idproduk', $id)->delete();
+                return redirect('seller/produk')->with('berhasil', 'Berhasil Hapus Produk');
             }
-            Gambarproduk::where('produk_idproduk', $id)->delete();
-            Produk::where('idproduk', $id)->delete();
-            return redirect('seller/produk')->with('berhasil', 'Berhasil Hapus Produk');
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -339,12 +343,12 @@ class ProdukController extends Controller
         return view('seller.review.review', compact('produk'));
     }
     public function detailReview($id)
-    { 
+    {
         $data = DB::table('reviewproduk')
-        ->join('produk','reviewproduk.produk_idproduk','=','produk.idproduk')
-        ->where('produk.idproduk','=',$id)
-        ->select('reviewproduk.*')
-        ->get();
+            ->join('produk', 'reviewproduk.produk_idproduk', '=', 'produk.idproduk')
+            ->where('produk.idproduk', '=', $id)
+            ->select('reviewproduk.*')
+            ->get();
         return $data;
     }
 }

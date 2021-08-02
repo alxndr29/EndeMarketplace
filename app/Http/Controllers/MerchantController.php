@@ -196,6 +196,16 @@ class MerchantController extends Controller
                 ->get();
             $kategori = Kategori::where('merchant_users_iduser', $id1)->get();
 
+            $reviewProduk = DB::table('reviewproduk')
+                ->join('transaksi', 'transaksi.idtransaksi', '=', 'reviewproduk.transaksi_idtransaksi')
+                ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
+                ->join('produk', 'produk.idproduk', '=', 'reviewproduk.produk_idproduk')
+                ->rightJoin('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
+                ->groupBy('reviewproduk.idreviewproduk')
+                ->where('transaksi.merchant_users_iduser', $id1)
+                ->select('reviewproduk.*', 'users.name as nama_user', 'produk.nama as namaproduk', 'produk.idproduk as idproduk', 'gambarproduk.idgambarproduk')
+                ->get();
+
             if($id3 == null){
                 $data = DB::table('produk')
                     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
@@ -217,7 +227,7 @@ class MerchantController extends Controller
                     ->paginate(10);
             }
 
-            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2','alamat', 'pembayaran', 'pengiriman'));
+            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2','alamat', 'pembayaran', 'pengiriman', 'reviewProduk'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }

@@ -55,7 +55,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="{{route('user.home')}}" class="nav-link">Beranda</a>
                         </li>
                     </ul>
-
                     <!-- SEARCH FORM -->
                     <!-- <form class="form-inline ml-0 ml-md-3" method="get"> -->
                     <!-- <div class="input-group input-group-sm">
@@ -110,8 +109,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div> -->
                     </li>
 
-
-
                     <!-- notifikasi keranjang -->
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
@@ -156,32 +153,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <a href="#" class="dropdown-item">
                                 <i class="fas fa-cog mr-2"></i> Akun
-                                <span class="float-right text-muted text-sm">3 mins</span>
+                                <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{route('pelanggan.transaksi.index')}}" class="dropdown-item">
                                 <i class="fas fa-list-alt mr-2"></i> Daftar Transaksi
-                                <span class="float-right text-muted text-sm">3 mins</span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{route('obrolan.index.user')}}" class="dropdown-item">
                                 <i class="fas fa-envelope mr-2"></i> Pesan
-                                <span class="float-right text-muted text-sm">12 hours</span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{route('wishlist.index')}}" class="dropdown-item">
-                                <i class="fas fa-heart mr-2"></i> Wishlist
-                                <span class="float-right text-muted text-sm"></span>
+                                <i class="fas fa-heart mr-2"></i> Wishlist              
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{route('alamatpembeli.index')}}" class="dropdown-item">
-                                <i class="fas fa-location-arrow mr-2"></i> Daftar Alamat
-                                <span class="float-right text-muted text-sm"></span>
+                                <i class="fas fa-location-arrow mr-2"></i> Daftar Alamat                             
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{route('merchant.index')}}" class="dropdown-item">
                                 <i class="fas fa-store mr-2"></i> Merchant Anda
-                                <span class="float-right text-muted text-sm"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <!-- <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
@@ -192,7 +184,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
-
                             @else
                             <a href="#" class="dropdown-item">
                                 <div class="media">
@@ -206,7 +197,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <a class="dropdown-item dropdown-footer" href="{{ route('login') }}"> Login </a>
                             @endauth
-
                         </div>
                     </li>
                     <!--
@@ -300,7 +290,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h3 class="m-0"> Top Navigation</h3>
+                            <!-- <h3 class="m-0"> Top Navigation</h3> -->
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
