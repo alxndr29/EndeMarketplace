@@ -225,7 +225,7 @@
 
         $("#btnsubmit").click(function() {
             if (!$("#namaProduk").val() || !$("#jenisProduk").val() ||
-                !$("#kategoriProduk").val() || $("#deskripsiProduk").val() ||
+                !$("#kategoriProduk").val() || !$("#deskripsiProduk").val() ||
                 !$("#harga").val() || !$("#beratProduk").val() ||
                 !$("#minimumPemesanan").val() || !$("#stokProduk").val() ||
                 !$("#panjangProduk").val() || !$("#lebarProduk").val() || !$("#tinggiProduk").val()) {

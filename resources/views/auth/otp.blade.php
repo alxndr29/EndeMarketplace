@@ -1,4 +1,4 @@
-<!-- OTP: {{$otp}} -->
+OTP: {{$otp}}
 <!-- Value: {{$value}} -->
 <!DOCTYPE html>
 <html lang="en">

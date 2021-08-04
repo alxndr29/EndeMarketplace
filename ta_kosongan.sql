@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2021 at 07:16 AM
+-- Generation Time: Aug 04, 2021 at 12:30 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -36,7 +36,7 @@ CREATE TABLE `alamatmerchant` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `merchant_users_iduser` int(11) NOT NULL,
-  `kabupatenkota_idkabupatenkota` int(11) NOT NULL
+  `kabupatenkota_idkabupatenkota` int(11) NOT NULL DEFAULT 122
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
