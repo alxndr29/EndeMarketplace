@@ -79,7 +79,7 @@ Route::post('seller/kategori/store','KategoriProdukController@store')->name('kat
 Route::put('seller/kategori/update/{id}','KategoriProdukController@update')->name('kategoriproduk.update');
 Route::delete('seller/kategori/delete/{id}','KategoriProdukController@destroy')->name('kategoriproduk.destroy');
 
-
+//Daftar Merchant
 Route::post('seller/merchant/store', 'MerchantController@store')->name('merchant.store');
 Route::get('user/merchant/profile/{id}', 'MerchantController@show')->name('merchant.show');
 Route::get('user/merchant/etalase/{id1}/{id2}/{id3?}', 'MerchantController@etalase')->name('merchant.etalase');
@@ -159,6 +159,7 @@ Route::get('seller/transaksi/index','TransaksiController@indexMerchant')->name('
 Route::get('seller/transaksi/index/{tanggalAwal}/{tanggalAkhir}', 'TransaksiController@indexMerchantFilter')->name('merchant.transaksi.index.filter');
 Route::get('seller/transaksi/detail/{id}','TransaksiController@detailMerchant')->name('merchant.transaksi.detail');
 Route::put('seller/transaksi/update/{id}/{action}','TransaksiController@prosePesananMerchant')->name('merchant.transaksi.update');
+
 //Transaksi User
 Route::get('user/transaksi/index', 'TransaksiController@indexPelanggan')->name('pelanggan.transaksi.index');
 Route::get('user/transaksi/index/{tanggalAwal}/{tanggalAkhir}', 'TransaksiController@indesPelangganFilter')->name('pelanggan.transaksi.index.filter');
@@ -167,6 +168,7 @@ Route::get('user/transaksi/tracking/{id}/{idtransaksi}/{jenis}','PengirimanContr
 Route::get('user/tracking/lokasi/kurir/{id}','PengirimanController@getLokasiKurir')->name('pelanggan.tracking.lokasi.kurir');
 Route::get('user/transaksi/selesai/{id}','TransaksiController@selesaiPesanan')->name('pelanggan.transaksi.selesai');
 Route::get('user/transaksi/batal/{id}','TransaksiController@batalPesanan')->name('pelanggan.transaksi.batal');
+
 //Review Produk
 Route::post('user/transaksi/review/','TransaksiController@reviewProduk')->name('pelanggan.transaksi.review');
 Route::get('seller/review', 'ProdukController@indexReview')->name('seller.review.index');
@@ -178,19 +180,34 @@ Route::get('seller/pengiriman/{tanggalAwal}/{tanggalAkhir}', 'PengirimanControll
 //Route::get('seller/pengiriman/detail/{id}', 'PengirimanController@detailPengirimanMerchant')->name('merchant.pengiriman.detail');
 Route::get('seller/pengiriman/detail/pengiriman/{id}', 'PengirimanController@detailPengirimanMerchant')->name('merchant.pengiriman.detail');
 Route::get('seller/pengiriman/status/{id}/{status}/{jenis}/{pengantar?}','PengirimanController@updateStatus')->name('merchant.status.ubah');
+
 //Pengantaran Merchant
 Route::get('seller/pengantaran/index','PengirimanController@pengantaranMerchant')->name('merchant.pengantaran.index');
 Route::get('seller/pengantaran/detail/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('merchant.pengantaran.detail');
 Route::post('seller/pengantaran/lokasi/update','PengirimanController@updateLokasiKurir')->name('nerchant.lokasikurir.update');
+
 //Petugas Pengantaran
 Route::get('seller/petugas','PetugasPengantaranController@index')->name('merchant.petugas.index');
 Route::post('seller/petugas/store','PetugasPengantaranController@store')->name('merchant.petugas.store');
 Route::get('seller/petugas/edit/{id}','PetugasPengantaranController@edit')->name('merchant.petugas.edit');
 Route::put('seller/petugas/update/{id}','PetugasPengantaranController@update')->name('merchant.petugas.update');
 Route::delete('seller/petugas/delete/{id}','PetugasPengantaranController@destroy')->name('merchant.petugas.destroy');
+
+//Akun Petugas pengantaran
 Route::get('login/pengantar','PetugasPengantaranController@login')->name('merchant.petugas.login');
 Route::post('login/pengantar/store', 'PetugasPengantaranController@loginProses')->name('merchant.petugas.loginproses');
-Route::get('seller/petugas/daftarpengantaran','PengirimanController@indexPengantar')->name('merchant.petugas.daftar');
-Route::get('seller/petugas/detailpengantaran/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('merchant.petugas.detail');
+Route::group(['middleware' => ['cekpetugaspengantaran']], function () {
+    Route::get('seller/petugas/daftarpengantaran', 'PengirimanController@indexPengantar')->name('merchant.petugas.daftar');
+    Route::get('seller/petugas/detailpengantaran/{id}/{idtransaksi}/{jenis}', 'PengirimanController@detailPengantaran')->name('merchant.petugas.detail');
+    Route::get('logout/pengantar','PetugasPengantaranController@logout')->name('merchant.petugas.logout');
+});
+
 //Tracking Coba
 Route::get('tracking/index','TrackingController@index');
+
+//Update Profil Pelanggan
+Route::post('user/profile/update', 'HomeController@updateUser')->name('user.profile.update');
+
+//Admin
+Route::get('admin/login','AdminController@login')->name('admin.login');
+Route::post('admin/login/store','AdminController@loginProses')->name('admin.loginproses');

@@ -91,10 +91,15 @@ class PetugasPengantaranController extends Controller
                 return redirect('seller/petugas/daftarpengantaran');
                 //return $data[0]->idpetugaspengantaran;
             } else {
-                return redirect()->back()->with('gagal', 'Gagal menambahan data pegawai');
+                return redirect()->back()->with('gagal', 'Data login tidak ditemukan');
             }
         } catch (\Exception $e) {
             return $e->getMessage();
          }
+    }
+    public function logout(Request $request){
+        $request->session()->forget('pengantar-id');
+        $request->session()->forget('pengantar-nama');
+        return redirect()->back();
     }
 }

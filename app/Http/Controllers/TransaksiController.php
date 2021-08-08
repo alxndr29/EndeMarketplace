@@ -91,7 +91,6 @@ class TransaksiController extends Controller
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*','users.iduser as iduser','users.name as nama_user')
             ->where('transaksi.idtransaksi', $id)
             ->first();
-        //dd($transaksi);
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
     }
     public function detailPelanggan($id)
@@ -146,7 +145,7 @@ class TransaksiController extends Controller
     {
         try {
             DB::table('transaksi')->where('idtransaksi', $id)->update(['status_transaksi' => 'Selesai']);
-            return redirect('user/transaksi/index')->with('berhasil', 'pesanan anda selesai');
+            return redirect('user/transaksi/index')->with('berhasil', 'Transaksi Anda Telah Terselesaikan.');
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -163,7 +162,7 @@ class TransaksiController extends Controller
                 $produk->stok = $produk->stok + $value->jumlah;
                 $produk->save();
             }
-            return redirect('user/transaksi/index')->with('berhasil', 'pesanan anda berhasil dibatalkan');
+            return redirect('user/transaksi/index')->with('berhasil', 'Transaksi Anda Telah DiBatalkan');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

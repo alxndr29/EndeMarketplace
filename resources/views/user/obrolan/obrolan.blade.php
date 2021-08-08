@@ -8,14 +8,14 @@
                     Obrolan
                 </div>
                 <div class="card-body">
-                    <div class="input-group input-group-sm">
+                    <!-- <div class="input-group input-group-sm">
                         <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
                             <button class="btn btn-navbar" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                     <ul class="products-list product-list-in-card pl-2 pr-2">
                         @foreach($data as $key => $value)
                         <li class="item">
@@ -24,7 +24,7 @@
                             </div>
                             <div class="product-info">
                                 <a href="javascript:void(0)" id="pilihMerchant" data-id="{{$value->idmerchant}}" class="product-title">{{$value->nama_merchant}}
-                                <!-- @if($value->status_baca_user == 0)
+                                    <!-- @if($value->status_baca_user == 0)
                                     <span class="badge badge-warning float-right">Baru</span></a>
                                 @endif
                                 <span class="product-description">
@@ -195,14 +195,12 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                    <form action="#" method="post">
-                        <div class="input-group">
-                            <input type="text" name="message" id="text" placeholder="Type Message ..." class="form-control">
-                            <span class="input-group-append">
-                                <button type="button" class="btn btn-warning" id="send">Send</button>
-                            </span>
-                        </div>
-                    </form>
+                    <div class="input-group">
+                        <input type="text" name="message" id="text" placeholder="Type Message ..." class="form-control">
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-warning" id="send">Send</button>
+                        </span>
+                    </div>
                 </div>
                 <!-- /.card-footer-->
             </div>

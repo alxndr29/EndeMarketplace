@@ -151,7 +151,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </div>
                                 </div>
                             </a>
-                            <a href="#" class="dropdown-item">
+                            <a href="#exampleModal" class="dropdown-item" data-toggle="modal" data-target="#exampleModal">
                                 <i class="fas fa-cog mr-2"></i> Akun
                                 <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
                             </a>
@@ -165,11 +165,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{route('wishlist.index')}}" class="dropdown-item">
-                                <i class="fas fa-heart mr-2"></i> Wishlist              
+                                <i class="fas fa-heart mr-2"></i> Wishlist
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{route('alamatpembeli.index')}}" class="dropdown-item">
-                                <i class="fas fa-location-arrow mr-2"></i> Daftar Alamat                             
+                                <i class="fas fa-location-arrow mr-2"></i> Daftar Alamat
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{route('merchant.index')}}" class="dropdown-item">
@@ -375,8 +375,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script type="text/javascript">
         $(document).ready(function() {
             $("#jumlahNotifikasi").html(100);
-            // loadKeranjang();
+
             loginstatus();
+            
+            @if(session('berhasil'))
+            alert("{{session('berhasil')}}");
+            @endif
         });
 
         function loginstatus() {
@@ -442,6 +446,75 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
     </script>
     @yield('js')
+
+
+    <!-- Modal -->
+    @auth
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Akun</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{route('user.profile.update')}}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Nama</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukan Nama" name="name" value="{{Auth::user()->name}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukan Email" name="email" value="{{Auth::user()->email}}">
+                            <small id="emailHelp" class="form-text text-muted">Verifikasi email diperlukan jika mengubah email.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Isi Jika Ingin Diubah" name="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Telepon</label>
+                            <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Telepon" name="telepon" value="{{Auth::user()->telepon}}">
+                        </div>
+                        @if(Auth::user()->notif_wa == 1)
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="checkWhatsApp" checked>
+                            <label class="form-check-label" for="exampleCheck1">Notifikasi WhatsApp</label>
+                        </div>
+                        @else
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="checkWhatsApp">
+                            <label class="form-check-label" for="exampleCheck1">Notifikasi WhatsApp</label>
+                        </div>
+                        @endif
+
+                        @if(Auth::user()->notif_email == 1)
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="checkEmail" checked>
+                            <label class="form-check-label" for="exampleCheck1">Notifikasi Email</label>
+                        </div>
+                        @else
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="checkEmail">
+                            <label class="form-check-label" for="exampleCheck1">Notifikasi Email</label>
+                        </div>
+                        @endif
+
+                        <br>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endauth
+
 </body>
 
 </html>

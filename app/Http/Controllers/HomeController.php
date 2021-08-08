@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-
+use Illuminate\Support\Facades\Auth;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 class HomeController extends Controller
 {
     /**
@@ -27,8 +29,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //return view('seller.index');
-        //return redirect('seller/merchant');
         return redirect('user/home');
     }
     public function homeUser()
@@ -41,8 +41,33 @@ class HomeController extends Controller
             ->orderBy('produk.created_at','desc')
             ->limit(5)
             ->get();
-        
-        //return $produkBaruTambah;
         return view('user.home.home',compact('produkBaruTambah'));
+        // $user = Auth::user();
+        // return $user->name;
+    }
+    public function updateUser(Request $request){
+        $user = Auth::user();
+        $profile = User::find($user->iduser);
+        $profile->name = $request->get('name');
+        $profile->email = $request->get('email');
+        $profile->telepon = $request->get('telepon');
+        if($request->get('password') != null){
+            $profile->password = Hash::make($request->get('password'));
+        }
+        if($request->has('checkWhatsApp')){
+            $profile->notif_wa = 1;
+        }else{
+            $profile->notif_wa = 0;
+        }
+        if($request->has('checkEmail')){
+            $profile->notif_email = 1;
+        }else{
+            $profile->notif_email = 0;
+        }
+        $profile->save();
+        
+        return redirect()->back()->with('pesan','berhasil mengubah profil pengguna');
+        // return Hash::make($request->get('password'));
+        // return $request->all();
     }
 }

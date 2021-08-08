@@ -78,7 +78,7 @@
         </div>
     </div>
 </div>
-</div>
+
 
 @section('js')
 <script type="text/javascript">

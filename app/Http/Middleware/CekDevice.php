@@ -32,27 +32,21 @@ class CekDevice
             $user = new User();
             $data = User::where('iduser', $user->userid())->first();
             $email = $data->email;
+            $iduser = $data->iduser;
 
             $value = $request->cookie('otp');
             $hasil = explode("/", $value);
 
             if ($hasil[0] != "") {
-                if ($hasil[1] == "verified" && $hasil[0] == $email) {
+                if ($hasil[1] == "verified" && $hasil[0] == $iduser) {
                     return $next($request);
                 }
             }
-            // if ($hasil != null) {
-            //     return $next($request);
-            // }
-
             $otp = $request->session()->get('otp');
-            return response()->view('auth.otp', compact('otp', 'value', 'email'));
+            return response()->view('auth.otp', compact('otp', 'value', 'email','iduser'));
         }else{
             return $next($request);
         }
-
-        
-
         //return response()->view('user.rajaongkir',compact('test'));
     }
 }

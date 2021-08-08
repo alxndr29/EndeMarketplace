@@ -25,7 +25,6 @@ class PengirimanController extends Controller
             ->where('pengiriman.nomor_resi', '!=', null)
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->get();
-        //return $data;
         return view('seller.pengiriman.pengiriman', compact('data'));
     }
     public function indexPengantar(Request $request){
@@ -35,13 +34,12 @@ class PengirimanController extends Controller
             ->join('transaksi', 'transaksi.idtransaksi', '=', 'pengiriman.transaksi_idtransaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
-            ->where('transaksi.merchant_users_iduser', '=', $id->idmerchant($request->session()->get('pengantar-id')))
+            ->where('datapengiriman.petugaspengantaran_idpetugaspengantaran','=', $request->session()->get('pengantar-id'))
             ->where('kurir.idkurir', '=', 2)
             ->where('pengiriman.nomor_resi', '!=', null)
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->get();
         return view('seller.petugaspengantaran.daftarpengantaran',compact('data'));
-       // return 'hello world!';
     }
     public function indexMerhcantParam($tglAwal, $tglAkhir)
     {
@@ -57,7 +55,7 @@ class PengirimanController extends Controller
             ->whereBetween('pengiriman.tanggal_pengiriman', [$tglAwal, $tglAkhir])
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->get();
-        //return $data;
+
         return view('seller.pengiriman.pengiriman', compact('data'));
     }
     public function detailPengirimanMerchant($id)
@@ -73,9 +71,8 @@ class PengirimanController extends Controller
             ->where('pengiriman.idpengiriman', '=', $id)
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->first();
-        //dd($data);
+     
         return view('seller.pengiriman.detailpengiriman', compact('data', 'dataPengantar'));
-        //dd($data);
     }
     //ajax - non ajax blm bikin
     public function updateStatus($id, $status, $jenis, $pengantar = null)

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2021 at 12:30 PM
+-- Generation Time: Aug 08, 2021 at 07:23 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -1232,9 +1232,11 @@ CREATE TABLE `users` (
   `email` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
   `telepon` varchar(12) DEFAULT NULL,
-  `email_verified_at` datetime DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
   `foto_profil` varchar(45) DEFAULT NULL,
+  `email_verified_at` datetime DEFAULT NULL,
+  `notif_wa` tinyint(4) DEFAULT 1,
+  `notif_email` tinyint(4) DEFAULT 1,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1243,11 +1245,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `remember_token`, `foto_profil`, `created_at`, `updated_at`) VALUES
-(1, 'ewq', '@gmail.com', '123', '123', '2021-04-16 00:00:00', NULL, '31', '2021-04-07 00:00:00', '2021-04-16 00:00:00'),
-(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', '081353532525', '2021-04-15 14:02:19', 'SyRlWaWtYqUWHHjIEFwqAK9800QAawjm2N3o0WkM6WKMGfAKbcA8B75eBT49', NULL, '2021-04-15 14:01:44', '2021-05-14 11:42:44'),
-(5, 'Goesti', 'gusti@gusti.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', NULL, '2021-04-15 14:02:19', NULL, NULL, '2021-04-28 14:54:50', '2021-04-28 14:54:50'),
-(6, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$zqqGrUDj2YZphPmE736wL.fIbFlt.GrzGel1HajadTBQbXpu8KLUi', NULL, NULL, NULL, NULL, '2021-05-16 22:51:05', '2021-05-16 22:51:05');
+INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `foto_profil`, `email_verified_at`, `notif_wa`, `notif_email`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'ewq', '@gmail.com', '123', '123', '31', '2021-04-16 00:00:00', 1, 1, NULL, '2021-04-07 00:00:00', '2021-04-16 00:00:00'),
+(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', '081353532525', NULL, '2021-04-15 14:02:19', 1, 1, 'SyRlWaWtYqUWHHjIEFwqAK9800QAawjm2N3o0WkM6WKMGfAKbcA8B75eBT49', '2021-04-15 14:01:44', '2021-05-14 11:42:44'),
+(5, 'Goesti', 'gusti@gusti.com', '$2y$10$6HSZEwJBET51c8fZD2Hgl.e.Rd76mRO5HPTSROHLjr.Way3EPNWVa', NULL, NULL, '2021-04-15 14:02:19', 1, 1, NULL, '2021-04-28 14:54:50', '2021-04-28 14:54:50'),
+(6, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$zqqGrUDj2YZphPmE736wL.fIbFlt.GrzGel1HajadTBQbXpu8KLUi', NULL, NULL, NULL, 1, 1, NULL, '2021-05-16 22:51:05', '2021-05-16 22:51:05');
 
 -- --------------------------------------------------------
 

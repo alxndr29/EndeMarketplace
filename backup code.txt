@@ -81,3 +81,5 @@ Login.blade.php
 -8.83966265497103, 121.6743158799593
 -8.835528081573758, 121.67688007003856
 -8.833100326145264, 121.6779100377141
+
+' <input type="number" placeholder="rating" class="form-control" name=ratingproduk[' + response.produk[i].produk_idproduk + ']>'

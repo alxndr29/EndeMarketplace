@@ -1,5 +1,6 @@
 OTP: {{$otp}}
-<!-- Value: {{$value}} -->
+IDUSER: {{$iduser}}
+Value: {{$value}}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,7 +95,7 @@ OTP: {{$otp}}
 
     });
     $("#btnEmail").click(function() {
-        $("#spinnerLoading").html('<div class="row"> <div class="spinner-border" role = "status"> <span class="sr-only"> Loading... </span> </div> </div> <div class="row" id ="pesanLoading" ><strong> Collecting data </strong> </div>');
+        $("#spinnerLoading").html('<div class="row"> <div class="spinner-border" role = "status">  </div> </div> <div class="row" id ="pesanLoading" ><strong> Meminta OTP </strong> </div>');
         $.ajax({
             url: "{{route('otp.email.send')}}",
             type: "POST",
@@ -129,7 +130,7 @@ OTP: {{$otp}}
         });
     });
     $("#btnWhatsapp").click(function() {
-        $("#spinnerLoading").html('<div class="row"> <div class="spinner-border" role = "status"> <span class="sr-only"> Loading... </span> </div> </div> <div class="row" id ="pesanLoading" ><strong> Collecting data </strong> </div>');
+        $("#spinnerLoading").html('<div class="row"> <div class="spinner-border" role = "status">  </div> </div> <div class="row" id ="pesanLoading" ><strong> Meminta OTP </strong> </div>');
         $.ajax({
             url: "{{route('otp.whatsapp.send')}}",
             type: "POST",
@@ -173,12 +174,12 @@ OTP: {{$otp}}
             data: {
                 "_sstoken": "{{ csrf_token() }}",
                 "otp": otp,
-                "email": "{{$email}}"
+                "email": "{{$email}}",
+                "iduser": "{{Auth::user()->iduser}}"
             },
             success: function(response) {
                 console.log(response);
                 if (response != "gagal") {
-
                     window.location.href = "{{URL::to('/home')}}";
                 } else {
                     console.log("Kode OTP Yang Dimasukan Salah");

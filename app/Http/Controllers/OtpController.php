@@ -69,7 +69,7 @@ class OtpController extends Controller
         if ($request->get('otp') == $otp) {
             $response = new Response('MyCookie');
             //$namaCookie = 'chizurumizuhara464@gmail.com';
-            $response->withCookie(cookie()->forever('otp', $request->get('email').'/verified'));
+            $response->withCookie(cookie()->forever('otp', $request->get('iduser').'/verified'));
             //$response->withCookie(cookie()->forever($request->get('email'), $request->get('email').'/verified'));
             return $response;
         } else {

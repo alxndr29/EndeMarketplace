@@ -45,8 +45,15 @@
                         <i class="fas fa-edit"></i>Selesai
                     </button>
                     @endif
-
-
+                </div>
+                <div class="col">
+                    Data Petugas:
+                    <br>
+                    Nama: Pak Kurir
+                    <br>
+                    Telepon: 0812321
+                    <br>
+                    Kendaraan: Toyota Innova (EB 6969 AE)
                 </div>
             </div>
 
@@ -92,6 +99,9 @@
     var timer;
     var status = "";
 
+    var notif_selesai = false;
+    var notif_dekat = false;
+
     function iniatMap() {
         //alert('sekali doang');
         myLatlng = new google.maps.LatLng(latitude_destination, longitude_destination);
@@ -99,7 +109,7 @@
             zoom: 15,
             center: myLatlng
         }
-        
+
         latlng = new google.maps.LatLng(latitude_origin, longitude_origin);
         lokasiKurir = new google.maps.LatLng(latitude, longitude);
 
@@ -135,12 +145,13 @@
                 longitude = response[0].longitude_sekarang;
                 jarak = response[0].jarak_sekarang;
                 if (jarak < 0.2) {
+                    notif_dekat = true;
                     alert('kurir sudah dekat');
                 }
-
                 if (response[0].status == "SelesaiAntar") {
-                    clearInterval(timer);
+                    notif_selesai = true;
                     alert("Kurir Anda sudah sampai tujuan");
+                    clearInterval(timer);
                 }
                 updateLokasiKurir();
             },
@@ -154,7 +165,6 @@
         if (marker3 != null) {
             marker3.setMap(null);
         }
-        //marker3.setMap(null);
         lokasiKurir = new google.maps.LatLng(latitude, longitude);
         marker3 = new google.maps.Marker({
             position: lokasiKurir,

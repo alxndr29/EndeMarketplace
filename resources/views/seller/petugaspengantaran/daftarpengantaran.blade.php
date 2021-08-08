@@ -61,7 +61,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">{{Session::get('pengantar-nama')}}</a>
-                        <a class="d-block" href="#">
+                        <a class="d-block" href="{{route('merchant.petugas.logout')}}">
+                            Logout
                         </a>
                     </div>
                 </div>

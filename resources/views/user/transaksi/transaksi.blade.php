@@ -494,8 +494,10 @@
                         '<b> ' + response.produk[i].nama_produk + ' </b>' +
                         '<br>' +
                         'Catatan: ' + catatan +
-                        '<div class="form-group"> <div class="row"> <div class="col-8"> ' + '<input type="text" placeholder="komentar produk"class="form-control" name=komentarproduk[' + response.produk[i].produk_idproduk + ']> </div>' + '<div class="col"> <input type="number" placeholder="rating" class="form-control" name=ratingproduk[' + response.produk[i].produk_idproduk + ']>' + '</div> </div> </div>' +
-
+                        '<div class="form-group"> <div class="row"> <div class="col-8"> ' + '<input type="text" placeholder="komentar produk"class="form-control" name=komentarproduk[' + response.produk[i].produk_idproduk + ']> </div>' + '<div class="col">' +
+                        '<div class="col"> <select class="form-control" name=ratingproduk[' + response.produk[i].produk_idproduk + ']>' +
+                        '<option value="1">1 &#9734 </option> <option value="2">2 &#9734 </option> <option value="3">3 &#9734 </option> <option value="4">4</option> <option value="5" selected>5 &#9734 </option>' +
+                        '</select> </div>' + '</div> </div> </div>' +
                         '</div>' +
                         '</div>' +
                         '<input type="hidden" name="idtransaksi" value=' + response.transaksi[0].idtransaksi + '>'
