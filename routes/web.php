@@ -211,3 +211,8 @@ Route::post('user/profile/update', 'HomeController@updateUser')->name('user.prof
 //Admin
 Route::get('admin/login','AdminController@login')->name('admin.login');
 Route::post('admin/login/store','AdminController@loginProses')->name('admin.loginproses');
+Route::get('admin/logout','AdminController@logout')->name('admin.logout');
+Route::group(['middleware' => ['cekadmin']], function () {
+    Route::get('admin/home','AdminController@home')->name('home.admin');
+});
+

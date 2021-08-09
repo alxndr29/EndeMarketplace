@@ -15,6 +15,10 @@ class CekAdmin
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if($request->session()->has('administrator-login')){
+            return $next($request);
+        }else{
+            return redirect('admin/login')->with('gagal','Login terlebih dahulu untuk masuk.');
+        }
     }
 }
