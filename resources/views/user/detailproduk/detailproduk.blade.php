@@ -237,7 +237,7 @@
                         <div class="tab-pane fade" id="custom-tabs-rekomendasiproduk" role="tabpanel">
                             <!-- Rekomendasi Produk -->
                             <div class="row">
-                                <div class="col-6 col-lg-3">
+                                <!-- <div class="col-6 col-lg-3">
                                     <div class="card">
                                         <img style="width:150px;height:200px;" src="{{asset('fotoProfil/default-user.png')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
                                         <div class="card-body text-center">
@@ -246,37 +246,19 @@
                                             <a href="#" class="btn btn-primary">Lihat Produk</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
+                                @foreach ($hasilAkhirRekomendasi as $key => $value)
                                 <div class="col-6 col-lg-3">
                                     <div class="card">
-                                        <img style="width:150px;height:200px;" src="{{asset('fotoProfil/default-user.png')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
+                                        <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
                                         <div class="card-body text-center">
-                                            <b>Produk XX</b> <br> Rp. 50,000-,
+                                            <b>{{$value->nama}}</b> <br> Rp. {{number_format($value->harga)}}-,
                                             <br>
-                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
+                                            <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-lg-3">
-                                    <div class="card">
-                                        <img style="width:150px;height:200px;" src="{{asset('fotoProfil/default-user.png')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                        <div class="card-body text-center">
-                                            <b>Produk XX</b> <br> Rp. 50,000-,
-                                            <br>
-                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-lg-3">
-                                    <div class="card">
-                                        <img style="width:150px;height:200px;" src="{{asset('fotoProfil/default-user.png')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                        <div class="card-body text-center">
-                                            <b>Produk XX</b> <br> Rp. 50,000-,
-                                            <br>
-                                            <a href="#" class="btn btn-primary">Lihat Produk</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                             <!-- End Rekomendasi Produk -->
                         </div>

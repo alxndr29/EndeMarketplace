@@ -96,6 +96,7 @@ class ProdukController extends Controller
         //     ->orderBy('diskusi.iddiskusi', 'ASC')
         //     ->where('diskusi.produk_idproduk', '=', $id)
         //     ->get();
+
         $data = DB::table('produk')
             ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
             ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
@@ -113,7 +114,6 @@ class ProdukController extends Controller
             ->where('reviewproduk.produk_idproduk', $id)
             ->select('reviewproduk.*', 'users.name as nama_user')
             ->get();
-
         $jumlahTerjual = DB::table('transaksi')
             ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->where('transaksi.status_transaksi', '=', 'Selesai')
@@ -122,17 +122,15 @@ class ProdukController extends Controller
         $jumlahUlasan = DB::table('reviewproduk')->where('produk_idproduk', '=', $id)->count();
         $jumlahDiskusi = DB::table('diskusi')->where('produk_idproduk', '=', $id)->count();
 
-        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'reviewProduk', 'jumlahTerjual', 'jumlahUlasan', 'jumlahDiskusi'));
-
-        // $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
-        // $array = [];
-        // foreach ($da as $item) {
-        //     if (!array_key_exists($item->transaksi_idtransaksi, $array)) {
-        //         $array[$item->transaksi_idtransaksi] = [];
-        //     }
-        //     array_push($array[$item->transaksi_idtransaksi], $item->produk_idproduk);
-        // }
-        // //return $array;
+        $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
+        $array = [];
+        foreach ($da as $item) {
+            if (!array_key_exists($item->transaksi_idtransaksi, $array)) {
+                $array[$item->transaksi_idtransaksi] = [];
+            }
+            array_push($array[$item->transaksi_idtransaksi], $item->produk_idproduk);
+        }
+        //return $array;
 
         // // $samples = [
         // //     ['alpha', 'beta', 'epsilon'], 
@@ -141,21 +139,47 @@ class ProdukController extends Controller
         // //     ['alpha', 'beta', 'theta']
         // // ];
 
-        // // $samples = [
-        // //     10 => ['pena', 'roti', 'mentega'],
-        // //     12 => ['roti', 'mentega', 'telur'],
-        // //     16 => ['buncis', 'telur', 'susu'],
-        // //     17 => ['roti', 'mentega'],
-        // //     1 => ['roti', 'mentega', 'kecap', 'telur', 'susu']
-        // // ];
+        // $samples = [
+        //     10 => ['pena', 'roti', 'mentega'],
+        //     12 => ['roti', 'mentega', 'telur'],
+        //     16 => ['buncis', 'telur', 'susu'],
+        //     17 => ['roti', 'mentega'],
+        //     1 => ['roti', 'mentega', 'kecap', 'telur', 'susu']
+        // ];
 
-        // $labels  = [];
-        // $support = 0.1;
-        // $confidence = 0.1;
-        // $associator = new Apriori($support, $confidence);
-        // $associator->train($array, $labels);
-        // $data =  $associator->getRules();
-        // return $data;
+        $labels  = [];
+        $support = 0;
+        $confidence = 0;
+        $associator = new Apriori($support, $confidence);
+        $associator->train($array, $labels);
+        $data1 =  $associator->getRules();
+
+        //return $data;
+        $rekomendasi = [];
+        foreach ($data1 as $value) {
+            if ($value['antecedent'][0] == $id) {
+                //return "dapet";
+                foreach ($value['consequent'] as $kon) {
+                    if(in_array($kon,$rekomendasi)){
+                        
+                    }else{
+                        array_push($rekomendasi, $kon);
+                    }
+                }
+            }
+        }
+        //return $rekomendasi;
+        $hasilAkhirRekomendasi = [];
+        foreach ($rekomendasi as $rek) {
+            $a = DB::table('produk')->where('produk.idproduk', $rek)
+                ->leftJoin('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
+                ->select('produk.idproduk', 'produk.nama', 'produk.harga', 'idgambarproduk')
+                ->groupBy('produk.idproduk')
+                ->first();
+            array_push($hasilAkhirRekomendasi, $a);
+        }
+        //return $hasilAkhirRekomendasi;
+        return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'reviewProduk', 'jumlahTerjual', 'jumlahUlasan', 'jumlahDiskusi', 'hasilAkhirRekomendasi'));
     }
     public function edit($id)
     {

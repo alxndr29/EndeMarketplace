@@ -73,6 +73,7 @@ class CheckoutController extends Controller
         try {
             $user = new User();
             $dataUser = User::where('iduser',$user->userid())->first();
+
             $keranjang = DB::table('keranjang')
                 ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
                 ->join('users', 'users.iduser', '=', 'keranjang.users_iduser')
@@ -136,8 +137,7 @@ class CheckoutController extends Controller
                         ]
                     );
             }
-            //$biaya = explode("/",$request->get('biayaKurir'));
-            //return $biaya;
+            
             $pengiriman = new Pengiriman();
             $pengiriman->kurir_idkurir = $request->get('kurir');
             $pengiriman->transaksi_idtransaksi = $id;

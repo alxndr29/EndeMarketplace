@@ -84,7 +84,7 @@ Route::post('seller/merchant/store', 'MerchantController@store')->name('merchant
 Route::get('user/merchant/profile/{id}', 'MerchantController@show')->name('merchant.show');
 Route::get('user/merchant/etalase/{id1}/{id2}/{id3?}', 'MerchantController@etalase')->name('merchant.etalase');
 
-Route::group(['middleware' => ['cekmerchant','cekkonfigurasimerchant']], function () {
+Route::group(['middleware' => ['auth','cekmerchant','cekkonfigurasimerchant']], function () {
     //Merchant
     Route::get('seller/merchant', 'MerchantController@index')->name('merchant.index');
     Route::get('seller/merchant/daftar', 'MerchantController@create')->name('merchant.create');
