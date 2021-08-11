@@ -169,6 +169,10 @@ Route::get('user/tracking/lokasi/kurir/{id}','PengirimanController@getLokasiKuri
 Route::get('user/transaksi/selesai/{id}','TransaksiController@selesaiPesanan')->name('pelanggan.transaksi.selesai');
 Route::get('user/transaksi/batal/{id}','TransaksiController@batalPesanan')->name('pelanggan.transaksi.batal');
 
+//Penarikan Dana User
+Route::get('user/penarikan','PenarikanController@indexUser')->name('penarikan.user');
+Route::post('user/penarikan/form','PenarikanController@formulirPenarikanUser')->name('formrefund.user');
+
 //Review Produk
 Route::post('user/transaksi/review/','TransaksiController@reviewProduk')->name('pelanggan.transaksi.review');
 Route::get('seller/review', 'ProdukController@indexReview')->name('seller.review.index');
@@ -214,5 +218,7 @@ Route::post('admin/login/store','AdminController@loginProses')->name('admin.logi
 Route::get('admin/logout','AdminController@logout')->name('admin.logout');
 Route::group(['middleware' => ['cekadmin']], function () {
     Route::get('admin/home','AdminController@home')->name('home.admin');
+    Route::get('admin/refund','AdminController@refund')->name('refund.admin');
+    Route::get('admin/refund/detail/{id}','AdminController@detailRefund')->name('refunddetail.admin');
 });
 

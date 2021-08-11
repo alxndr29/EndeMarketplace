@@ -160,6 +160,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <i class="fas fa-list-alt mr-2"></i> Daftar Transaksi
                             </a>
                             <div class="dropdown-divider"></div>
+                            <a href="{{route('penarikan.user')}}" class="dropdown-item">
+                                <i class="fas fa-money-bill-wave-alt mr-2"></i> Penarikan Dana
+                            </a>
+                            <div class="dropdown-divider"></div>
                             <a href="{{route('obrolan.index.user')}}" class="dropdown-item">
                                 <i class="fas fa-envelope mr-2"></i> Pesan
                             </a>
@@ -377,7 +381,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             $("#jumlahNotifikasi").html(100);
 
             loginstatus();
-            
+
             @if(session('berhasil'))
             alert("{{session('berhasil')}}");
             @endif

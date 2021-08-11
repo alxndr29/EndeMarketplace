@@ -35,7 +35,13 @@ class AdminController extends Controller
         return redirect()->back();
     }
     public function refund()
-    { }
+    { 
+        return view('admin.refund');
+    }
     public function detailRefund($id)
-    { }
+    {
+        $data1 = null;
+        $data2 = null;
+        return view('admin.detailrefund',compact('data1','data2'));
+    }
 }
