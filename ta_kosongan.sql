@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2021 at 06:57 PM
+-- Generation Time: Aug 13, 2021 at 05:47 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -964,6 +964,7 @@ INSERT INTO `pembayaran` (`idpembayaran`, `token`, `status`, `created_at`, `upda
 
 CREATE TABLE `penarikandana` (
   `idpenarikandana` int(11) NOT NULL,
+  `bank_tujuan` varchar(100) DEFAULT NULL,
   `nomor_rekening` varchar(45) DEFAULT NULL,
   `nama_pemilik_rekening` varchar(45) DEFAULT NULL,
   `total` int(11) DEFAULT NULL,
@@ -973,6 +974,13 @@ CREATE TABLE `penarikandana` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `penarikandana`
+--
+
+INSERT INTO `penarikandana` (`idpenarikandana`, `bank_tujuan`, `nomor_rekening`, `nama_pemilik_rekening`, `total`, `status`, `bukti`, `catatan`, `created_at`, `updated_at`) VALUES
+(1, '008-PT BANK MANDIRI (PERSERO) Tbk', '181000073271', 'Alexander Evan', 151601, 'Menunggu', NULL, NULL, '2021-08-12 00:00:00', '2021-08-13 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1225,6 +1233,14 @@ CREATE TABLE `transaksi_has_penarikandana` (
   `transaksi_idtransaksi` int(11) NOT NULL,
   `penarikandana_idpenarikandana` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `transaksi_has_penarikandana`
+--
+
+INSERT INTO `transaksi_has_penarikandana` (`transaksi_idtransaksi`, `penarikandana_idpenarikandana`) VALUES
+(5, 1),
+(6, 1);
 
 -- --------------------------------------------------------
 
@@ -1565,6 +1581,12 @@ ALTER TABLE `obrolan`
 --
 ALTER TABLE `pembayaran`
   MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `penarikandana`
+--
+ALTER TABLE `penarikandana`
+  MODIFY `idpenarikandana` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pengiriman`

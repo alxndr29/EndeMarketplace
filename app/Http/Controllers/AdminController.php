@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
 
 class AdminController extends Controller
 {
@@ -36,10 +37,28 @@ class AdminController extends Controller
     }
     public function refund()
     { 
-        return view('admin.refund');
+        $data = DB::table('penarikandana')->get();
+        return view('admin.refund',compact('data'));
     }
     public function detailRefund($id)
     {
+        // try {
+        //     $detailPenarikan = DB::table('penarikandana')->where('idpenarikandana', '=', $id)->first();
+        //     $daftarTransaksi = DB::table('transaksi')
+        //         ->join('transaksi_has_penarikandana', 'transaksi.idtransaksi', '=', 'transaksi_has_penarikandana.transaksi_idtransaksi')
+        //         ->where('transaksi_has_penarikandana.penarikandana_idpenarikandana', '=', $id)
+        //         ->select('transaksi.*')
+        //         ->get();
+
+        //     $result = [
+        //         'detailPenarikan' => $detailPenarikan,
+        //         'daftarTransaksi' => $daftarTransaksi
+        //     ];
+
+        //     return $result;
+        // } catch (\Exception $e) {
+        //     return $e->getMessage();
+        // }
         $data1 = null;
         $data2 = null;
         return view('admin.detailrefund',compact('data1','data2'));

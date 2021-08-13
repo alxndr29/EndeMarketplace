@@ -172,6 +172,7 @@ Route::get('user/transaksi/batal/{id}','TransaksiController@batalPesanan')->name
 //Penarikan Dana User
 Route::get('user/penarikan','PenarikanController@indexUser')->name('penarikan.user');
 Route::post('user/penarikan/form','PenarikanController@formulirPenarikanUser')->name('formrefund.user');
+Route::get('user/penarikan/detail/{id}','PenarikanController@detailPenarikanUser')->name('detailpenarikan.user');
 
 //Review Produk
 Route::post('user/transaksi/review/','TransaksiController@reviewProduk')->name('pelanggan.transaksi.review');

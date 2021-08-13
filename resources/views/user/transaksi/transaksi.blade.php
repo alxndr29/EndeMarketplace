@@ -123,15 +123,11 @@
                                                 </span>
                                                 @endif
                                             </b>
-
                                             <br>
                                             Total Belanja:
                                             <br>
                                             <b> Rp. {{number_format($value->nominal_pembayaran)}} </b>
                                             <br>
-                                            <!-- <button type="submit" class="btn btn-success" style="margin-right: 5px;" data-toggle="modal" data-target="#exampleModalCenter">
-                                                Detail Transaksi
-                                            </button> -->
                                             <button type="button" class="btn btn-success" style="margin-right: 5px;" onClick="test({{$value->idtransaksi}})">
                                                 Detail Transaksi
                                             </button>
@@ -186,7 +182,6 @@
                             {{ $transaksi->links() }}
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

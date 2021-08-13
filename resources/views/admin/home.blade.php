@@ -47,7 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="{{route('merchant.index')}}" class="brand-link">
+            <a href="{{route('home.admin')}}" class="brand-link">
                 <img src="{{asset('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Ende's Market</span>
             </a>
@@ -113,30 +113,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="content">
 
                 <div class="container-fluid">
-                    <div class="card">
-                        <div class="card-header">
-                            Pengantaran Barang
-                        </div>
-                        <div class="card-body">
-                            <table id="example2" class="table table-bordered table-striped text-center">
-                                <thead>
-                                    <tr>
-                                        <th style="width:10%">No</th>
-                                        <th>ID Transaksi</th>
-                                        <th>Nomor Resi</th>
-                                        <th>Tanggal Pengiriman</th>
-                                        <th>Status Pengiriman</th>
-                                        <th>Status</th>
-                                        <th>Tipe Pembayaran</th>
-                                        <th>Detail</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="vertical-align: top;">
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
             <!-- /.content -->

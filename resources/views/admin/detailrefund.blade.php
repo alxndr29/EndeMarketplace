@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard Merchant</title>
+    <title>Administrator</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
@@ -47,7 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="{{route('merchant.index')}}" class="brand-link">
+            <a href="{{route('home.admin')}}" class="brand-link">
                 <img src="{{asset('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Ende's Market</span>
             </a>
@@ -96,7 +96,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Starter Page</h1>
+                            <!-- <h1 class="m-0">Starter Page</h1> -->
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -113,28 +113,124 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="content">
 
                 <div class="container-fluid">
-                    <div class="card">
-                        <div class="card-header">
-                            Pengantaran Barang
-                        </div>
-                        <div class="card-body">
-                            <table id="example2" class="table table-bordered table-striped text-center">
-                                <thead>
-                                    <tr>
-                                        <th style="width:10%">No</th>
-                                        <th>ID Transaksi</th>
-                                        <th>Nomor Resi</th>
-                                        <th>Tanggal Pengiriman</th>
-                                        <th>Status Pengiriman</th>
-                                        <th>Status</th>
-                                        <th>Tipe Pembayaran</th>
-                                        <th>Detail</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="vertical-align: top;">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Main content -->
+                            <div class="invoice p-3 mb-3">
+                                <!-- title row -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4>
+                                            <i class="fas fa-globe"></i> Nama Merchant
+                                            <small class="float-right">Tanggal: 2021-08-11 23:57:18</small>
+                                        </h4>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- info row -->
+                                <div class="row invoice-info">
+                                    <div class="col-sm-4 invoice-col">
+                                        Kepada
+                                        <address>
+                                            <strong>Penerima: marianus</strong><br>
+                                            Alamat: jln sultan hassanudin<br>
+                                            Telp: 21474<br>
+                                            Kode Pos: 86351<br>
+                                            Ende - Nusa Tenggara Timur (NTT)
+                                        </address>
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-4 invoice-col">
+                                        <b>ID Transaksi: TRX-6</b><br>
+                                        <br>
+                                        Status Transaksi: <b> Batal </b>
+                                        <br>
+                                        Tipe Pembayaran: Bank Transfer
+                                        <br>
+                                        Tanggal Pembayaran:
+                                        <br>
+                                        <!-- <b>Account:</b> 968-34567 -->
+                                    </div>
+                                    
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
 
-                                </tbody>
-                            </table>
+                                <!-- Table row -->
+                                <div class="row">
+                                    <div class="col-12 table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Gambar</th>
+                                                    <th>Nama</th>
+                                                    <th>Harga</th>
+                                                    <th>Jumlah</th>
+                                                    <th>Subtotal</th>
+                                                    <th>Catatan</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <img style="width:75px;height:75px;" class="rounded" src="http://localhost:8000/gambar/6.jpg">
+                                                    </td>
+                                                    <td>Poster Dinding Sepeda</td>
+                                                    <td>Rp. 2,000-</td>
+                                                    <td>5 pcs</td>
+                                                    <td>Rp. 10,000-</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <div class="row">
+                                    <!-- accepted payments column -->
+                                    <div class="col-6">
+
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="width:50%">Total Belanja:</th>
+                                                        <td>Rp. 10,000</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Biaya Pengiriman:</th>
+                                                        <td>Rp. 6,601 - <b> Kurir Merchant </b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Total Pembayaran:</th>
+                                                        <td>Rp. 16,601</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <!-- this row will not appear when printing -->
+                                <div class="row no-print">
+                                    <div class="col-12">
+
+                                        <button type="submit" class="btn btn-warning float-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modal-chatpembeli">
+                                            <i class="fas fa-download"></i>Hubungi Pembeli
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.invoice -->
                         </div>
                     </div>
                 </div>
