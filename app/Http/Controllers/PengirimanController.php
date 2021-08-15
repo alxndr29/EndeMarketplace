@@ -128,14 +128,15 @@ class PengirimanController extends Controller
     {
         $merchant = new Merchant();
         $data = DB::table('pengiriman')
-            ->leftJoin('datapengiriman', 'datapengiriman.pengiriman_idpengiriman', '=', 'pengiriman.idpengiriman')
+            ->join('datapengiriman', 'datapengiriman.pengiriman_idpengiriman', '=', 'pengiriman.idpengiriman')
             ->join('transaksi', 'transaksi.idtransaksi', '=', 'pengiriman.transaksi_idtransaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
-            //->where('transaksi.merchant_users_iduser', '=', $merchant->idmerchant())
+            ->join('petugaspengantaran', 'petugaspengantaran.idpetugaspengantaran','=', 'datapengiriman.petugaspengantaran_idpetugaspengantaran')
             ->where('pengiriman.idpengiriman', '=', $idpengiriman)
-            ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
+            ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran','petugaspengantaran.*')
             ->first();
+        //dd($data);
         $alamatPengiriman = DB::table('transaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')

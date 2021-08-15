@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    Data Alamat:
+                    <b>Data Alamat:</b>
                     <br>
                     Nama Penerima: <b>{{$alamatPengiriman->nama_penerima}}</b>
                     <br>
@@ -24,7 +24,7 @@
                     <br>
                 </div>
                 <div class="col">
-                    Data Pembayaran:
+                    <b>Data Pembayaran:</b>
                     <br>
                     Jenis Pembayaran: <b>{{$alamatPengiriman->namatipepembayaran}}</b>
                     <br>
@@ -47,13 +47,13 @@
                     @endif
                 </div>
                 <div class="col">
-                    Data Petugas:
+                    <b>Data Petugas:</b>
                     <br>
-                    Nama: Pak Kurir
+                    Nama: {{$data->nama}}
                     <br>
-                    Telepon: 0812321
+                    Telepon: {{$data->telepon}}
                     <br>
-                    Kendaraan: Toyota Innova (EB 6969 AE)
+                    Kendaraan: {{$data->nama_kendaraan}} ({{$data->nomor_polisi}})
                 </div>
             </div>
 
@@ -99,9 +99,6 @@
     var timer;
     var status = "";
 
-    var notif_selesai = false;
-    var notif_dekat = false;
-
     function iniatMap() {
         //alert('sekali doang');
         myLatlng = new google.maps.LatLng(latitude_destination, longitude_destination);
@@ -136,6 +133,9 @@
         }
     }
 
+    var notif_selesai = false;
+    var notif_dekat = false;
+
     function loadKurir() {
         $.ajax({
             url: "{{url('user/tracking/lokasi/kurir')}}/" + "{{$idpengiriman}}",
@@ -144,13 +144,28 @@
                 latitude = response[0].latitude_sekarang;
                 longitude = response[0].longitude_sekarang;
                 jarak = response[0].jarak_sekarang;
+
                 if (jarak < 0.2) {
+                    if (notif_dekat == false) {
+                        Swal.fire(
+                            'Hore!',
+                            'Kurir pengantar sudah dekat',
+                            'success'
+                        )
+                    }
                     notif_dekat = true;
-                    alert('kurir sudah dekat');
+                    // alert('kurir sudah dekat');
                 }
                 if (response[0].status == "SelesaiAntar") {
+                    if (notif_selesai == false) {
+                        Swal.fire(
+                            'Berhasil!',
+                            'Pengiriman anda telah terselesaikan',
+                            'success'
+                        )
+                    }
                     notif_selesai = true;
-                    alert("Kurir Anda sudah sampai tujuan");
+                    // alert("Kurir Anda sudah sampai tujuan");
                     clearInterval(timer);
                 }
                 updateLokasiKurir();

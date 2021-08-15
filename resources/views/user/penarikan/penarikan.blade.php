@@ -106,23 +106,28 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Pilih Bank</label>
-                    <select class="form-control" id="namaBank" name="namaBank" required>
-                        <option value="002-PT BANK RAKYAT INDONESIA (PERSERO) Tbk">PT BANK RAKYAT INDONESIA (PERSERO) Tbk</option>
-                        <option value="008-PT BANK MANDIRI (PERSERO) Tbk">PT BANK MANDIRI (PERSERO) Tbk</option>
-                        <option value="009-PT BANK NEGARA INDONESIA (PERSERO) Tbk">PT BANK NEGARA INDONESIA (PERSERO) Tbk</option>
-                        <option value="200-PT BANK TABUNGAN NEGARA (PERSERO) Tbk"> PT BANK TABUNGAN NEGARA (PERSERO) Tbk</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Nomor Rekening</label>
-                    <input type="number" class="form-control" id="nomorRekening" name="nomorRekening" required>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Nama Pemilik Rekening</label>
-                    <input type="text" class="form-control" id="namaPemilikRekening" name="namaPemilikRekening" required>
-                </div>
+                <form method="post" action="#">
+                    @csrf
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Pilih Bank</label>
+                        <select class="form-control" id="namaBank" name="namaBank" required>
+                            <option value="002-PT BANK RAKYAT INDONESIA (PERSERO) Tbk">PT BANK RAKYAT INDONESIA (PERSERO) Tbk</option>
+                            <option value="008-PT BANK MANDIRI (PERSERO) Tbk">PT BANK MANDIRI (PERSERO) Tbk</option>
+                            <option value="009-PT BANK NEGARA INDONESIA (PERSERO) Tbk">PT BANK NEGARA INDONESIA (PERSERO) Tbk</option>
+                            <option value="200-PT BANK TABUNGAN NEGARA (PERSERO) Tbk"> PT BANK TABUNGAN NEGARA (PERSERO) Tbk</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Nomor Rekening</label>
+                        <input type="number" class="form-control" id="nomorRekening" name="nomorRekening" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Nama Pemilik Rekening</label>
+                        <input type="text" class="form-control" id="namaPemilikRekening" name="namaPemilikRekening" required>
+                    </div>
+                    <button type="button" class="btn btn-success">Ubah</button>
+                </form>
+                <br>
                 <div id="catatan">
 
                 </div>
@@ -232,13 +237,15 @@
                         '</tr>');
                 }
                 $("#catatan").append(
-                    '<p> Status: ' + response.detailPenarikan.status + '</p>'
+                    'Status: <b>' + response.detailPenarikan.status + '</b> <br>'
                 );
                 $("#catatan").append(
-                    '<p> Status: ' + response.detailPenarikan.catatan + '</p>'
+                    'Status: <b>' + response.detailPenarikan.catatan + '</b> <br>'
                 );
+                var srcImage = "{{asset('buktiTransfer')}}/" + response.detailPenarikan.bukti;
+                alert(srcImage);
                 $("#catatan").append(
-                    '<a href="#"> <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" class="img-thumbnail"> </a>'
+                    '<a href="#"> <img src="' + srcImage + '" class="img-thumbnail mx-auto d-block" style="max-width:200px; max-height:200px;"> </a>'
                 );
 
                 $("#exampleModal").modal('show');

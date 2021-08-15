@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    Data Alamat:
+                    <b>Data Alamat:</b>
                     <br>
                     Nama Penerima: <b>{{$alamatPengiriman->nama_penerima}}</b>
                     <br>
@@ -24,7 +24,7 @@
                     <br>
                 </div>
                 <div class="col">
-                    Data Pembayaran:
+                    <b>Data Pembayaran:</b>
                     <br>
                     Jenis Pembayaran: <b>{{$alamatPengiriman->namatipepembayaran}}</b>
                     <br>
@@ -37,17 +37,24 @@
                     Status: <b>{{$data->status}}</b>
                     <br>
                     @if($data->status == "ProsesKeKurir")
-                    <button type="button" class="btn btn-success" id="antarSekarang" style="margin-right: 5px;">
-                        <i class="fas fa-edit"></i>Antar Sekarang
-                    </button>
+                        <button type="button" class="btn btn-success" id="antarSekarang" style="margin-right: 5px;">
+                            <i class="fas fa-edit"></i>Antar Sekarang
+                        </button>
                     @endif
                     @if($data->status != "SelesaiAntar")
-                    <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;" disabled>
-                        <i class="fas fa-edit"></i>Selesai Pengantaran
-                    </button>
+                        <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;" disabled>
+                            <i class="fas fa-edit"></i>Selesai Pengantaran
+                        </button>
                     @endif
-
-
+                </div>
+                <div class="col">
+                    <b>Data Petugas:</b>
+                    <br>
+                    Nama: {{$data->nama}}
+                    <br>
+                    Telepon: {{$data->telepon}}
+                    <br>
+                    Kendaraan: {{$data->nama_kendaraan}} ({{$data->nomor_polisi}})
                 </div>
             </div>
 

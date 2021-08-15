@@ -96,7 +96,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <!-- <h1 class="m-0">Starter Page</h1> -->
+                            <h1 class="m-0">Detail Penarikan Dana</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -118,70 +118,75 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- Main content -->
                             <div class="invoice p-3 mb-3">
                                 <!-- title row -->
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-12">
                                         <h4>
-                                            <i class="fas fa-globe"></i> Nama Merchant
-                                            <small class="float-right">Tanggal: 2021-08-11 23:57:18</small>
+                                            <small class="float-left">Detail Penarikan Dana</small>
                                         </h4>
                                     </div>
-                                    <!-- /.col -->
-                                </div>
-                                <!-- info row -->
+                                </div> -->
                                 <div class="row invoice-info">
                                     <div class="col-sm-4 invoice-col">
-                                        Kepada
-                                        <address>
-                                            <strong>Penerima: marianus</strong><br>
-                                            Alamat: jln sultan hassanudin<br>
-                                            Telp: 21474<br>
-                                            Kode Pos: 86351<br>
-                                            Ende - Nusa Tenggara Timur (NTT)
-                                        </address>
+                                        ID Penarikan Dana: {{$detailPenarikan->idpenarikandana}}
+                                        <br>
+                                        Tanggal: <b> {{$detailPenarikan->created_at}} </b>
+                                        <br>
+                                        Bank Tujuan: <b>{{$detailPenarikan->bank_tujuan}}</b>
+                                        <br>
+                                        Nomor Rekening: <b>{{$detailPenarikan->nomor_rekening}}</b>
+                                        <br>
+                                        Nama Pemilik Rekening: <b>{{$detailPenarikan->nama_pemilik_rekening}}</b>
+                                        <br>
+                                        Status: <b>{{$detailPenarikan->status}}</b>
                                     </div>
-                                    <!-- /.col -->
                                     <div class="col-sm-4 invoice-col">
-                                        <b>ID Transaksi: TRX-6</b><br>
+                                        <b>Data Pemohon: </b>
                                         <br>
-                                        Status Transaksi: <b> Batal </b>
+                                        Nama: <b>{{$detailPenarikan->name}}</b>
                                         <br>
-                                        Tipe Pembayaran: Bank Transfer
+                                        Email: <b>{{$detailPenarikan->email}}</b>
                                         <br>
-                                        Tanggal Pembayaran:
-                                        <br>
-                                        <!-- <b>Account:</b> 968-34567 -->
+                                        Telp: <b>{{$detailPenarikan->telepon}}</b>
                                     </div>
-                                    
-                                    <!-- /.col -->
+                                    <div class="col-sm-4 invoice-col">
+                                        <b> Bukti Transfer: </b>
+                                        <br>
+                                        @if(isset($detailPenarikan->bukti))
+                                            <a href="{{asset('buktiTransfer/'.$detailPenarikan->bukti)}}">
+                                                <img src="{{asset('buktiTransfer/'.$detailPenarikan->bukti)}}" class="img-thumbnail" alt="Responsive image" style="width:200px; height:200px;">
+                                            </a>
+                                        @else
+                                        @endif
+
+                                    </div>
                                 </div>
-                                <!-- /.row -->
 
                                 <!-- Table row -->
-                                <div class="row">
+                                <div class="row pt-3">
                                     <div class="col-12 table-responsive">
-                                        <table class="table table-striped">
+                                        <table class="table table-striped text-center">
                                             <thead>
                                                 <tr>
-                                                    <th>No</th>
-                                                    <th>Gambar</th>
-                                                    <th>Nama</th>
-                                                    <th>Harga</th>
-                                                    <th>Jumlah</th>
-                                                    <th>Subtotal</th>
-                                                    <th>Catatan</th>
+                                                    <th scope="col">No</th>
+                                                    <th scope="col">Tanggal</th>
+                                                    <th scope="col">ID Transaksi</th>
+                                                    <th scope="col">Nominal</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="daftarTransaksi">
+                                                @foreach ($daftarTransaksi as $key => $value)
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>
-                                                        <img style="width:75px;height:75px;" class="rounded" src="http://localhost:8000/gambar/6.jpg">
-                                                    </td>
-                                                    <td>Poster Dinding Sepeda</td>
-                                                    <td>Rp. 2,000-</td>
-                                                    <td>5 pcs</td>
-                                                    <td>Rp. 10,000-</td>
-                                                    <td></td>
+                                                    <th scope="row">{{$key + 1}}</th>
+                                                    <td>{{$value->tanggal}}</td>
+                                                    <td>{{$value->idtransaksi}}</td>
+                                                    <td> Rp. {{number_format($value->nominal_pembayaran)}}</td>
+                                                </tr>
+                                                @endforeach
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th style="width:50%">Total Belanja:</th>
+                                                    <td>Rp.{{number_format($detailPenarikan->total)}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -190,43 +195,46 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </div>
                                 <!-- /.row -->
 
-                                <div class="row">
-                                    <!-- accepted payments column -->
-                                    <div class="col-6">
-
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-6">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th style="width:50%">Total Belanja:</th>
-                                                        <td>Rp. 10,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Biaya Pengiriman:</th>
-                                                        <td>Rp. 6,601 - <b> Kurir Merchant </b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Total Pembayaran:</th>
-                                                        <td>Rp. 16,601</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <!-- /.col -->
-                                </div>
-                                <!-- /.row -->
 
                                 <!-- this row will not appear when printing -->
-                                <div class="row no-print">
-                                    <div class="col-12">
 
-                                        <button type="submit" class="btn btn-warning float-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modal-chatpembeli">
-                                            <i class="fas fa-download"></i>Hubungi Pembeli
-                                        </button>
+                                <div class="row">
+                                    <div class="col-12">
+                                        @if ($detailPenarikan->status == "Menunggu")
+                                        <form method="post" action="{{route('refundstatus.admin',[$detailPenarikan->idpenarikandana,'Diproses'])}}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success" style="margin-right: 5px;">
+                                                <i class="fas fa-download"></i>Proses
+                                            </button>
+                                        </form>
+                                        @elseif ($detailPenarikan->status == "Diproses" || $detailPenarikan->status == "Gagal")
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <form method="post" action="{{route('refundstatus.admin',[$detailPenarikan->idpenarikandana,'Selesai'])}}" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label>Bukti Transfer</label>
+                                                        <input type="file" class="form-control-file" name="buktiTransfer" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-success" style="margin-right: 5px;">
+                                                        <i class="fas fa-download"></i>Selesai
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="col-2">
+                                                <form method="post" action="{{route('refundstatus.admin',[$detailPenarikan->idpenarikandana,'Gagal'])}}">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label>Catatan</label>
+                                                        <input type="text" class="form-control-text" name="catatan" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-danger" style="margin-right: 5px;">
+                                                        <i class="fas fa-download"></i>Gagal
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -277,15 +285,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
     <script src="{{asset('adminlte/plugins/jszip/jszip.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/pdfmake/pdfmake.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/pdfmake/vfs_fonts.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
     <!-- Sweetalert -->
     <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-    <!-- Toastr -->
-    <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
+
 
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
     </script>
@@ -303,6 +305,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             });
         });
+        @if(session("berhasil"))
+        Swal.fire(
+            'Berhasil!',
+            '{{session("berhasil")}}',
+            'success'
+        )
+        @endif
     </script>
 
     @yield('js')

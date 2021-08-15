@@ -166,8 +166,19 @@ class MerchantController extends Controller
                 ->where('transaksi.merchant_users_iduser',$id)
                 ->select('reviewproduk.*', 'users.name as nama_user','produk.nama as namaproduk','produk.idproduk as idproduk','gambarproduk.idgambarproduk')
                 ->get();
-            //return $reviewProduk;
-            return view('user.merchant.merchant', compact('merchant','id2','data', 'kategori','alamat', 'pembayaran', 'pengiriman', 'reviewProduk'));
+
+            $jumlahProdukTerjual = DB::table('detailtransaksi')
+                ->join('transaksi', 'transaksi.idtransaksi', '=', 'detailtransaksi.transaksi_idtransaksi')
+                ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
+                ->where('produk.merchant_users_iduser', '=', $id)
+                ->where('transaksi.status_transaksi','=','Selesai')
+                ->sum('detailtransaksi.jumlah');
+            $rataRataUlasan = DB::table('reviewproduk')
+            ->join('produk','produk.idproduk','=','reviewproduk.produk_idproduk')
+            ->where('produk.merchant_users_iduser','=',$id)
+            ->avg('rating');
+        
+            return view('user.merchant.merchant', compact('merchant','id2','data', 'kategori','alamat', 'pembayaran', 'pengiriman', 'reviewProduk', 'jumlahProdukTerjual', 'rataRataUlasan'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -205,7 +216,7 @@ class MerchantController extends Controller
                 ->where('transaksi.merchant_users_iduser', $id1)
                 ->select('reviewproduk.*', 'users.name as nama_user', 'produk.nama as namaproduk', 'produk.idproduk as idproduk', 'gambarproduk.idgambarproduk')
                 ->get();
-
+           
             if($id3 == null){
                 $data = DB::table('produk')
                     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')

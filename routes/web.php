@@ -221,5 +221,6 @@ Route::group(['middleware' => ['cekadmin']], function () {
     Route::get('admin/home','AdminController@home')->name('home.admin');
     Route::get('admin/refund','AdminController@refund')->name('refund.admin');
     Route::get('admin/refund/detail/{id}','AdminController@detailRefund')->name('refunddetail.admin');
+    Route::post('admin/refund/update/status/{id}/{status}','AdminController@ubahStatusRefund')->name('refundstatus.admin');
 });
 

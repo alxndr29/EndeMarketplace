@@ -12,53 +12,41 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        @foreach($wishlist as $key => $value)
-                        <!-- <div class="col-6 col-lg-3">
-                            <div class="card">
-                                <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                <div class="card-body text-center">
-                                    <b>{{$value->nama}}</b> <br> Rp. {{number_format($value->harga)}}-, <br> {{$value->nama_merchant}}
-                                    <br>
-                                    <div class="row p-1">
-                                        <div class="col">
+                        @if(count($wishlist) != 0)
+                            @foreach($wishlist as $key => $value)
+                                <div class="col-6 col-lg-3">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid">
+                                            <b class="text-truncate d-inline-block" style="max-width: 150px;">{{$value->nama}}</b>
+                                            <br> Rp. {{number_format($value->harga)}}-,
+                                            <br>
+                                            <small class="text-muted">Oleh: {{$value->nama_merchant}}</small>
+                                            <br>
                                             <form method="post" action="{{route('wishlist.destroy',$value->idproduk)}}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-block btn-default">Hapus</button>
+                                                <button type="submit" class="btn btn-primary">Hapus</button>
                                             </form>
-                                        </div>
-                                    </div>
-                                    <div class="row p-1">
-                                        <div class="col">
-                                            <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-block btn-default">Lihat</a>
+                                            <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary ">Lihat Produk</a>
+                                            
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
+                        @else
+                            <div class="col">
+                                <p class="text-center">Belum ada produk pada wishlist anda </p>
                             </div>
-                        </div> -->
-                        <div class="col-6 col-lg-3">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                    <b class="text-truncate d-inline-block" style="max-width: 150px;">{{$value->nama}}</b>
-                                    <br> Rp. {{number_format($value->harga)}}-,
-                                    <br>
-                                    <small class="text-muted">Oleh: {{$value->nama_merchant}}</small>
-                                    <br>
-                                    <form method="post" action="{{route('wishlist.destroy',$value->idproduk)}}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-primary">Hapus</button>
-                                    </form>
-                                    <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="card-footer">
-
+                    <div class="d-flex">
+                        <div class="mx-auto">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,7 +56,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
-        alert('{{session('berhasil')}}');
+        alert("{{session('berhasil')}}");
         @endif
 
     });

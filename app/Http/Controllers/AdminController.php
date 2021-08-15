@@ -42,25 +42,56 @@ class AdminController extends Controller
     }
     public function detailRefund($id)
     {
-        // try {
-        //     $detailPenarikan = DB::table('penarikandana')->where('idpenarikandana', '=', $id)->first();
-        //     $daftarTransaksi = DB::table('transaksi')
-        //         ->join('transaksi_has_penarikandana', 'transaksi.idtransaksi', '=', 'transaksi_has_penarikandana.transaksi_idtransaksi')
-        //         ->where('transaksi_has_penarikandana.penarikandana_idpenarikandana', '=', $id)
-        //         ->select('transaksi.*')
-        //         ->get();
+        try {
+            $detailPenarikan = DB::table('penarikandana')
+            ->where('idpenarikandana', '=', $id)
+            ->join('transaksi_has_penarikandana','penarikandana.idpenarikandana','=','transaksi_has_penarikandana.penarikandana_idpenarikandana')
+            ->join('transaksi','transaksi.idtransaksi','=','transaksi_has_penarikandana.transaksi_idtransaksi')
+            ->join('users','users.iduser','transaksi.users_iduser')
+            ->select('penarikandana.*','users.name','users.email','users.telepon')
+            ->first();
+            $daftarTransaksi = DB::table('transaksi')
+                ->join('transaksi_has_penarikandana', 'transaksi.idtransaksi', '=', 'transaksi_has_penarikandana.transaksi_idtransaksi')
+                ->where('transaksi_has_penarikandana.penarikandana_idpenarikandana', '=', $id)
+                ->select('transaksi.*')
+                ->get();
+            //dd($detailPenarikan);
+            return view('admin.detailrefund', compact('detailPenarikan', 'daftarTransaksi'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    public function ubahStatusRefund(Request $request, $id, $status){
+        try{
+            if($status == "Selesai"){
+                if($request->hasFile('buktiTransfer')){
+                    
+                    $extension = $request->buktiTransfer->extension();
+                    $destinationPath = public_path('buktiTransfer');
+                    $file = $request->file('buktiTransfer');
+                    $file->move($destinationPath, 'buktiTransfer-' . $id . "." . $extension);
 
-        //     $result = [
-        //         'detailPenarikan' => $detailPenarikan,
-        //         'daftarTransaksi' => $daftarTransaksi
-        //     ];
+                    DB::table('penarikandana')->where('idpenarikandana', '=', $id)->update([
+                        'status' => $status,
+                        'bukti' => 'buktiTransfer'.$id.".".$extension
+                    ]);
+                }
+            }else if($status == "Diproses"){
+                DB::table('penarikandana')->where('idpenarikandana', '=', $id)->update([
+                    'status' => $status
+                ]);
+            }else if($status == "Gagal"){
+                DB::table('penarikandana')->where('idpenarikandana', '=', $id)->update([
+                    'status' => $status,
+                    'catatan' => $request->get('catatan')
+                ]);
+            }else{
 
-        //     return $result;
-        // } catch (\Exception $e) {
-        //     return $e->getMessage();
-        // }
-        $data1 = null;
-        $data2 = null;
-        return view('admin.detailrefund',compact('data1','data2'));
+            }
+            return redirect()->back()->with('berhasil', 'Form Penarikan Anda berhasil.');
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+        return $id.$status;
     }
 }

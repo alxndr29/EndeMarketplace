@@ -35,6 +35,8 @@ class PetugasPengantaranController extends Controller
             $data->username = $request->get('username');
             $data->password = $request->get('password');
             $data->telepon = $request->get('telepon');
+            $data->nama_kendaraan = $request->get('nama_kendaraan');
+            $data->nomor_polisi = $request->get('nomor_polisi');
             $data->merchant_users_iduser = $merchant->idmerchant();
             $data->save();
             return redirect()->back()->with('berhasil', 'Berhasil tambah pegawai pengantaran');
@@ -50,6 +52,8 @@ class PetugasPengantaranController extends Controller
             $data->username = $request->get('username');
             $data->password = $request->get('password');
             $data->telepon = $request->get('telepon');
+            $data->nama_kendaraan = $request->get('nama_kendaraan');
+            $data->nomor_polisi = $request->get('nomor_polisi');
             $data->save();
             return redirect()->back()->with('berhasil', 'Berhasil ubah pegawai pengantaran');
         } catch (\Exception $e) {

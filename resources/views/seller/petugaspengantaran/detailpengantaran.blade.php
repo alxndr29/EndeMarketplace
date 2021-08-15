@@ -121,7 +121,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    Data Alamat:
+                                    <b>Data Alamat:</b>
                                     <br>
                                     Nama Penerima: <b>{{$alamatPengiriman->nama_penerima}}</b>
                                     <br>
@@ -137,7 +137,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <br>
                                 </div>
                                 <div class="col">
-                                    Data Pembayaran:
+                                    <b>Data Pembayaran:</b>
                                     <br>
                                     Jenis Pembayaran: <b>{{$alamatPengiriman->namatipepembayaran}}</b>
                                     <br>
@@ -159,10 +159,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <i class="fas fa-edit"></i>Selesai Pengantaran
                                     </button>
                                     @endif
-
-
+                                </div>
+                                <div class="col">
+                                    <b>Data Petugas:</b>
+                                    <br>
+                                    Nama: {{$data->nama}}
+                                    <br>
+                                    Telepon: {{$data->telepon}}
+                                    <br>
+                                    Kendaraan: {{$data->nama_kendaraan}} ({{$data->nomor_polisi}})
                                 </div>
                             </div>
+
 
                         </div>
                     </div>

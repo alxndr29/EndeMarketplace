@@ -39,8 +39,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="#" class="nav-link">Utama</a>
                 </li>
             </ul>
-
-
         </nav>
         <!-- /.navbar -->
 
@@ -190,16 +188,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/jszip/jszip.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/pdfmake/pdfmake.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/pdfmake/vfs_fonts.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
     <!-- Sweetalert -->
     <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-    <!-- Toastr -->
-    <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
 
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k&callback=initMap&libraries=&v=weekly" async>
     </script>

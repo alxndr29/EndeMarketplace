@@ -19,8 +19,10 @@
                         <th style="width:10%">No</th>
                         <th>Nama</th>
                         <th>Username</th>
-                        <th>Password</th>
+                        <!-- <th>Password</th> -->
                         <th>Telepon</th>
+                        <th>Kendaraan</th>
+                        <th>No Polisi</th>
                         <th>Ubah</th>
                         <th>Hapus</th>
                     </tr>
@@ -31,8 +33,10 @@
                         <td>{{$key+1}}</td>
                         <td>{{$value->nama}}</td>
                         <td>{{$value->username}}</td>
-                        <td>{{$value->password}}</td>
+                        <!-- <td>{{$value->password}}</td> -->
                         <td>{{$value->telepon}}</td>
+                        <td>{{$value->nama_kendaraan}}</td>
+                        <td>{{$value->nomor_polisi}}</td>
                         <td>
                             <button type="button" class="btn btn-sm btn-success" id="ubah" data-id="{{$value->idpetugaspengantaran}}"> <i class=" fas fa-edit"></i> </button>
                         </td>
@@ -76,6 +80,14 @@
                         <label for="recipient-name" class="col-form-label">Password:</label>
                         <input type="text" class="form-control" name="password" required>
                     </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nama Kendaraan:</label>
+                        <input type="text" class="form-control" name="nama_kendaraan" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nomor Polisi:</label>
+                        <input type="text" class="form-control" name="nomor_polisi" required>
+                    </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
@@ -114,6 +126,14 @@
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Password:</label>
                         <input type="text" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nama Kendaraan:</label>
+                        <input type="text" class="form-control" id="nama_kendaraan" name="nama_kendaraan" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nomor Polisi:</label>
+                        <input type="text" class="form-control" id="nomor_polisi" name="nomor_polisi" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
@@ -155,6 +175,8 @@
                 $("#telepon").val(response.telepon);
                 $("#username").val(response.username);
                 $("#password").val(response.password);
+                $("#nama_kendaraan").val(response.nama_kendaraan);
+                $("#nomor_polisi").val(response.nomor_polisi);
                 $("#modal-editpegawai").modal('show');
             },
             error: function(response) {

@@ -12,7 +12,6 @@ class WishlistController extends Controller
     public function index()
     {
         $user = new User();
-        //$user->userid()
         $wishlist = DB::table('wishlist')
         ->join('produk','wishlist.produk_idproduk','=','produk.idproduk')
         ->join('gambarproduk','produk.idproduk','=','gambarproduk.produk_idproduk')
@@ -21,7 +20,7 @@ class WishlistController extends Controller
         ->select('produk.*','gambarproduk.*','merchant.nama as nama_merchant')
         ->where('wishlist.users_iduser', $user->userid())
         ->get();
-        //return $wishlist;
+        
         return view('user.wishlist.wishlist',compact('wishlist'));
     }
     public function store(Request $request)

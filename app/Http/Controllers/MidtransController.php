@@ -105,15 +105,34 @@ class MidtransController extends Controller
         } else if ($transaction == 'pending') {
             // TODO set payment status in merchant's database to 'Pending'
             echo "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
+            DB::table('pembayaran')->where('transaksi_idtransaksi', $order_id)->update([
+                'status' => $transaction
+            ]);
         } else if ($transaction == 'deny') {
             // TODO set payment status in merchant's database to 'Denied'
             echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
+            
+            DB::table('pembayaran')->where('transaksi_idtransaksi', $order_id)->update([
+                'status' => $transaction
+            ]);
         } else if ($transaction == 'expire') {
             // TODO set payment status in merchant's database to 'expire'
             echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is expired.";
+            DB::table('transaksi')->where('idtransaksi', $order_id)->update([
+                'status_transaksi' => "Batal"
+            ]);
+            DB::table('pembayaran')->where('transaksi_idtransaksi', $order_id)->update([
+                'status' => $transaction
+            ]);
         } else if ($transaction == 'cancel') {
             // TODO set payment status in merchant's database to 'Denied'
             echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.";
+            DB::table('transaksi')->where('idtransaksi', $order_id)->update([
+                'status_transaksi' => "Batal"
+            ]);
+            DB::table('pembayaran')->where('transaksi_idtransaksi', $order_id)->update([
+                'status' => $transaction
+            ]);
         }
     }
 }

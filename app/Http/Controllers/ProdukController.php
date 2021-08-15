@@ -122,6 +122,7 @@ class ProdukController extends Controller
         $jumlahUlasan = DB::table('reviewproduk')->where('produk_idproduk', '=', $id)->count();
         $jumlahDiskusi = DB::table('diskusi')->where('produk_idproduk', '=', $id)->count();
 
+        
         $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
         $array = [];
         foreach ($da as $item) {

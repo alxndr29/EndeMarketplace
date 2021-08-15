@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2021 at 05:47 PM
+-- Generation Time: Aug 15, 2021 at 07:58 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -104,7 +104,7 @@ CREATE TABLE `datapengiriman` (
 --
 
 INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`) VALUES
-(1, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', NULL, NULL, 1, '-8.844197399999999', '121.66766059999999', '1.65723460243153', 1),
+(1, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', NULL, NULL, 1, '-8.844163', '121.66773660000001', '1.6488472286879656', 1),
 (2, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', NULL, NULL, 2, NULL, NULL, NULL, NULL),
 (3, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', NULL, NULL, 6, NULL, NULL, NULL, NULL);
 
@@ -919,7 +919,7 @@ CREATE TABLE `obrolan` (
 --
 
 INSERT INTO `obrolan` (`idobrolan`, `subject`, `waktu`, `isi_pesan`, `status_baca_user`, `status_baca_merchant`, `pengirim`, `users_iduser`, `merchant_users_iduser`, `created_at`, `updated_at`) VALUES
-(1, 'cobasubject', '2021-08-07 12:18:59', 'Link Produk: http://localhost:8000/user/produ', 1, 0, 'Pembeli', 2, 1, '2021-08-07 12:18:59', '2021-08-07 12:20:57');
+(1, 'cobasubject', '2021-08-07 12:18:59', 'Link Produk: http://localhost:8000/user/produ', 1, 1, 'Pembeli', 2, 1, '2021-08-07 12:18:59', '2021-08-16 01:00:01');
 
 -- --------------------------------------------------------
 
@@ -980,7 +980,7 @@ CREATE TABLE `penarikandana` (
 --
 
 INSERT INTO `penarikandana` (`idpenarikandana`, `bank_tujuan`, `nomor_rekening`, `nama_pemilik_rekening`, `total`, `status`, `bukti`, `catatan`, `created_at`, `updated_at`) VALUES
-(1, '008-PT BANK MANDIRI (PERSERO) Tbk', '181000073271', 'Alexander Evan', 151601, 'Menunggu', NULL, NULL, '2021-08-12 00:00:00', '2021-08-13 00:00:00');
+(1, '008-PT BANK MANDIRI (PERSERO) Tbk', '181000073271', 'Alexander Evan', 151601, 'Selesai', 'buktiTransfer-1.jpg', 'oee', '2021-08-12 00:00:00', '2021-08-13 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1023,6 +1023,8 @@ CREATE TABLE `petugaspengantaran` (
   `idpetugaspengantaran` int(11) NOT NULL,
   `nama` varchar(45) DEFAULT NULL,
   `telepon` varchar(45) DEFAULT NULL,
+  `nama_kendaraan` varchar(45) DEFAULT NULL,
+  `nomor_polisi` varchar(45) DEFAULT NULL,
   `username` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL,
@@ -1034,8 +1036,8 @@ CREATE TABLE `petugaspengantaran` (
 -- Dumping data for table `petugaspengantaran`
 --
 
-INSERT INTO `petugaspengantaran` (`idpetugaspengantaran`, `nama`, `telepon`, `username`, `password`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
-(1, 'Pak Middleware', '08111', 'e', 'e', '2021-08-08 22:27:08', '2021-08-08 22:27:08', 1);
+INSERT INTO `petugaspengantaran` (`idpetugaspengantaran`, `nama`, `telepon`, `nama_kendaraan`, `nomor_polisi`, `username`, `password`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
+(1, 'Pak Middleware', '08111', 'Xeon gt 125', 'eb 6969 ae', 'e', 'e', '2021-08-08 22:27:08', '2021-08-08 22:27:08', 1);
 
 -- --------------------------------------------------------
 
@@ -1268,9 +1270,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `foto_profil`, `notif_wa`, `notif_email`, `remember_token`, `email_verified_at`, `created_at`, `updated_at`) VALUES
-(1, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$h5q5YdomgDrDMx5DANmSLODF3kwUnvRUgv2XF34gPcdya2Z9CYEN2', '081352172', NULL, 1, 1, NULL, '2021-08-02 00:00:00', '2021-07-05 22:02:59', '2021-07-05 22:02:59'),
+(1, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$h5q5YdomgDrDMx5DANmSLODF3kwUnvRUgv2XF34gPcdya2Z9CYEN2', '081353522525', NULL, 1, 1, NULL, '2021-08-02 00:00:00', '2021-07-05 22:02:59', '2021-07-05 22:02:59'),
 (2, 'Admin', 'testa@testa.com', '$2y$10$NAnUVN4EFtGgWS/heWKQKOxcHGDxTktIkhiSej1HQO3ug7VETbxv2', '08827371', NULL, 0, 0, NULL, '2021-08-03 00:00:00', '2021-07-05 22:40:25', '2021-08-07 12:49:49'),
-(3, 'alexander evan', 'alexevan2810@gmail.com', '$2y$10$7xWFv6.TukQxZLv9WZgci.YYv8pafy6fSvy8rE590qPHXv19tJP6u', '081353522525', NULL, 1, 1, NULL, '2021-08-02 00:00:00', '2021-07-06 20:35:55', '2021-07-06 20:35:55');
+(3, 'alexander evan', 'alexevan2810@gmail.com', '$2y$10$1DKDhNTVwwKvvN2edL3eEOMKXBRG5Rft9ldJwEjuFe064LYeoGC8u', '081353522525', NULL, 1, 1, NULL, '2021-08-02 00:00:00', '2021-07-06 20:35:55', '2021-08-15 16:12:19');
 
 -- --------------------------------------------------------
 
@@ -1288,7 +1290,9 @@ CREATE TABLE `wishlist` (
 --
 
 INSERT INTO `wishlist` (`users_iduser`, `produk_idproduk`) VALUES
-(1, 1);
+(1, 1),
+(3, 1),
+(3, 3);
 
 --
 -- Indexes for dumped tables

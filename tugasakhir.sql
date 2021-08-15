@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2021 at 05:47 PM
+-- Generation Time: Aug 15, 2021 at 07:59 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -1049,6 +1049,8 @@ CREATE TABLE `petugaspengantaran` (
   `idpetugaspengantaran` int(11) NOT NULL,
   `nama` varchar(45) DEFAULT NULL,
   `telepon` varchar(45) DEFAULT NULL,
+  `nama_kendaraan` varchar(45) DEFAULT NULL,
+  `nomor_polisi` varchar(45) DEFAULT NULL,
   `username` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL,
