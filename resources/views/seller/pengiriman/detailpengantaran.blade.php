@@ -37,14 +37,14 @@
                     Status: <b>{{$data->status}}</b>
                     <br>
                     @if($data->status == "ProsesKeKurir")
-                        <button type="button" class="btn btn-success" id="antarSekarang" style="margin-right: 5px;">
-                            <i class="fas fa-edit"></i>Antar Sekarang
-                        </button>
+                    <button type="button" class="btn btn-success" id="antarSekarang" style="margin-right: 5px;">
+                        <i class="fas fa-edit"></i>Antar Sekarang
+                    </button>
                     @endif
                     @if($data->status != "SelesaiAntar")
-                        <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;" disabled>
-                            <i class="fas fa-edit"></i>Selesai Pengantaran
-                        </button>
+                    <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;" disabled>
+                        <i class="fas fa-edit"></i>Selesai Pengantaran
+                    </button>
                     @endif
                 </div>
                 <div class="col">
@@ -55,6 +55,13 @@
                     Telepon: {{$data->telepon}}
                     <br>
                     Kendaraan: {{$data->nama_kendaraan}} ({{$data->nomor_polisi}})
+                    <br>
+                    @if(isset($data->foto))
+                    Foto Pengantaran:
+                        <a href="{{asset('fotoTerima/'.$data->foto)}}">
+                            <img src="{{asset('fotoTerima/'.$data->foto)}}" class="rounded mx-auto d-block" style="width:50px; height:50px;">
+                        </a>
+                    @endif
                 </div>
             </div>
 

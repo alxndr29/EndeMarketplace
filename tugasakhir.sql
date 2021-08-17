@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2021 at 07:59 PM
+-- Generation Time: Aug 17, 2021 at 07:02 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -95,22 +95,22 @@ CREATE TABLE `datapengiriman` (
   `volume` int(11) DEFAULT NULL,
   `berat` int(11) DEFAULT NULL,
   `status` enum('MenungguPengiriman','ProsesKeKurir','SedangDiantar','SelesaiAntar') DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `pengiriman_idpengiriman` int(11) NOT NULL,
   `latitude_sekarang` varchar(45) DEFAULT NULL,
   `longitude_sekarang` varchar(45) DEFAULT NULL,
   `jarak_sekarang` varchar(45) DEFAULT NULL,
-  `petugaspengantaran_idpetugaspengantaran` int(11) DEFAULT NULL
+  `petugaspengantaran_idpetugaspengantaran` int(11) DEFAULT NULL,
+  `pengiriman_idpengiriman` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `datapengiriman`
 --
 
-INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`) VALUES
-(4, '-8.8438137886983', '121.6678360104561', '-8.832791918904743', '121.65873795747757', 1.5814820863158874, 0, 0, 'SelesaiAntar', NULL, NULL, 8, '-8.844147699999999', '121.66774009999997', '0.038593983135194', NULL),
-(5, '-8.84785676528838', '121.65471460812174', '-8.832791918904743', '121.65873795747757', 1.7323986371859408, 0, 0, 'SelesaiAntar', NULL, NULL, 12, '-10.1628', '123.5816', '256.9544630915298', NULL);
+INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`, `pengiriman_idpengiriman`, `created_at`, `updated_at`) VALUES
+(4, '-8.8438137886983', '121.6678360104561', '-8.832791918904743', '121.65873795747757', 1.5814820863158874, 0, 0, 'SelesaiAntar', '-8.844147699999999', '121.66774009999997', '0.038593983135194', NULL, 8, NULL, NULL),
+(5, '-8.84785676528838', '121.65471460812174', '-8.832791918904743', '121.65873795747757', 1.7323986371859408, 0, 0, 'SelesaiAntar', '-10.1628', '123.5816', '256.9544630915298', NULL, 12, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1023,6 +1023,7 @@ CREATE TABLE `pengiriman` (
   `nomor_resi` varchar(45) DEFAULT NULL,
   `status_pengiriman` enum('Selesai','BelumSelesai') DEFAULT 'BelumSelesai',
   `keterangan` varchar(45) DEFAULT NULL,
+  `foto` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `kurir_idkurir` int(11) NOT NULL,
@@ -1033,11 +1034,11 @@ CREATE TABLE `pengiriman` (
 -- Dumping data for table `pengiriman`
 --
 
-INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
-(8, '2021-05-15', 1, 4744, 'KM-20210511-232237', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-1000-2000-', '2021-05-11 23:13:39', '2021-05-11 23:22:52', 2, 10),
-(9, '2021-05-12', 2, 53000, 'TJR1717332365373', 'BelumSelesai', 'OKE/2-3/53000', '2021-05-12 01:58:32', '2021-05-12 02:11:22', 1, 11),
-(11, '2021-06-08', 1, 10000, '123213123', 'BelumSelesai', 'CTC/1-2/10000', '2021-06-02 00:17:30', '2021-06-02 01:10:55', 1, 14),
-(12, '2021-06-26', 0, 0, 'KM-20210602-004859', 'Selesai', 'Kurir Merchant-1-Bebas Ongkir-0-0---', '2021-06-02 00:47:49', '2021-06-02 00:49:06', 2, 15);
+INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `foto`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
+(8, '2021-05-15', 1, 4744, 'KM-20210511-232237', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-1000-2000-', NULL, '2021-05-11 23:13:39', '2021-05-11 23:22:52', 2, 10),
+(9, '2021-05-12', 2, 53000, 'TJR1717332365373', 'BelumSelesai', 'OKE/2-3/53000', NULL, '2021-05-12 01:58:32', '2021-05-12 02:11:22', 1, 11),
+(11, '2021-06-08', 1, 10000, '123213123', 'BelumSelesai', 'CTC/1-2/10000', NULL, '2021-06-02 00:17:30', '2021-06-02 01:10:55', 1, 14),
+(12, '2021-06-26', 0, 0, 'KM-20210602-004859', 'Selesai', 'Kurir Merchant-1-Bebas Ongkir-0-0---', NULL, '2021-06-02 00:47:49', '2021-06-02 00:49:06', 2, 15);
 
 -- --------------------------------------------------------
 

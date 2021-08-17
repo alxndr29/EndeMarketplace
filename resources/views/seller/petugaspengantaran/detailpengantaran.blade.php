@@ -149,16 +149,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <br>
                                     Status: <b>{{$data->status}}</b>
                                     <br>
-                                    @if($data->status == "ProsesKeKurir")
-                                    <button type="button" class="btn btn-success" id="antarSekarang" style="margin-right: 5px;">
-                                        <i class="fas fa-edit"></i>Antar Sekarang
-                                    </button>
-                                    @endif
-                                    @if($data->status != "SelesaiAntar")
-                                    <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;" disabled>
-                                        <i class="fas fa-edit"></i>Selesai Pengantaran
-                                    </button>
-                                    @endif
+
+                                    <!-- <div class="form-group">
+                                        <label for="exampleFormControlFile1">Example file input</label>
+                                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                    </div> -->
+
                                 </div>
                                 <div class="col">
                                     <b>Data Petugas:</b>
@@ -168,10 +164,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     Telepon: {{$data->telepon}}
                                     <br>
                                     Kendaraan: {{$data->nama_kendaraan}} ({{$data->nomor_polisi}})
+                                    <br>
+                                    @if(isset($data->foto))
+                                    Foto Pengantaran:
+                                        <a href="{{asset('fotoTerima/'.$data->foto)}}">
+                                            <img src="{{asset('fotoTerima/'.$data->foto)}}" class="rounded mx-auto d-block" style="width:50px; height:50px;">
+                                        </a>
+                                    @endif
+                                    @if($data->status == "ProsesKeKurir")
+                                    <div class="form-group ">
+                                        <div class="row border p-1">
+                                            <div class="col">
+                                                <button type="button" class="btn btn-success" id="antarSekarang" style="margin-right: 5px;">
+                                                    <i class="fas fa-edit"></i>Antar Sekarang
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @if($data->status != "SelesaiAntar")
+                                    <div class="form-group">
+                                        <div class="row border p-1">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="file" class="form-control-file" id="imgInp">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;">
+                                                    <i class="fas fa-edit"></i>Selesai Pengantaran
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                     <div class="card">
@@ -259,7 +288,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var second = 0;
         var timer;
 
+        var gambar = "";
+
         $(document).ready(function() {
+            $("#formSelesaiAntar").hide();
+
             if ("{{$data->status}}" == "SedangDiantar") {
                 getLocation();
             } else {
@@ -423,13 +456,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
             if (dist < 0.2) {
                 //$("#demo2").html('kirim notif kalau sdh dekat');
-                $('#selesaiAntar').prop('disabled', false);
+
+                // $('#selesaiAntar').prop('disabled', false);
                 console.log('kurir sdh dekat < 200 m');
-                //alert(dist);
             } else {
-                $("#demo2").html('masih jauh');
+                // $("#demo2").html('masih jauh');
+
                 console.log('kurir jauh > 200 m');
-                $('#selesaiAntar').prop('disabled', true);
+                //  $('#selesaiAntar').prop('disabled', true);
             }
             jarak = dist;
             return dist;
@@ -440,6 +474,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SedangDiantar" + "/" + "ajax",
                 type: "GET",
                 success: function(response) {
+                    console.log(response);
                     if (response == "berhasil") {
                         getLocation();
                     }
@@ -450,21 +485,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
         });
         $("#selesaiAntar").click(function() {
-            $.ajax({
-                url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SelesaiAntar" + "/" + "ajax",
-                type: "GET",
-                success: function(response) {
-                    if (response == "berhasil") {
-                        clearInterval(timer);
-                        console.log('selesai antar');
-                        alert("Selesai melakukan pengantaran");
-                        location.reload();
+            if (gambar == "") {
+                alert('Mohon pilih file foto terlebih dahulu');
+            } else {
+
+                $.ajax({
+                    url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SelesaiAntar" + "/" + "ajax",
+                    type: "GET",
+                    success: function(response) {
+                        if (response == "berhasil") {
+                            clearInterval(timer);
+                            console.log('selesai antar');
+                            console.log(response);
+
+                            $.ajax({
+                                url: "{{route('merchant.petugas.fotoselesai')}}",
+                                type: "POST",
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                    "idpengiriman": "{{$idpengiriman}}",
+                                    "img": gambar,
+                                },
+                                success: function(response) {
+                                    console.log(response);
+                                    alert("Selesai melakukan pengantaran");
+                                    location.reload();
+                                },
+                                error: function(response) {
+                                    console.log(response);
+                                }
+                            });
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response);
                     }
-                },
-                error: function(response) {
-                    console.log(response);
+                });
+            }
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    gambar = (e.target.result);
+                    alert(gambar);
                 }
-            });
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+        $("#imgInp").change(function() {
+            readURL(this);
         });
     </script>
 

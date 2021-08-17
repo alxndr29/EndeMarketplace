@@ -54,6 +54,13 @@
                     Telepon: {{$data->telepon}}
                     <br>
                     Kendaraan: {{$data->nama_kendaraan}} ({{$data->nomor_polisi}})
+                    <br>
+                    @if(isset($data->foto))
+                    Foto Pengantaran:
+                        <a href="{{asset('fotoTerima/'.$data->foto)}}">
+                            <img src="{{asset('fotoTerima/'.$data->foto)}}" class="rounded mx-auto d-block" style="width:50px; height:50px;">
+                        </a>
+                    @endif
                 </div>
             </div>
 

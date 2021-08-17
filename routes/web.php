@@ -204,6 +204,7 @@ Route::post('login/pengantar/store', 'PetugasPengantaranController@loginProses')
 Route::group(['middleware' => ['cekpetugaspengantaran']], function () {
     Route::get('seller/petugas/daftarpengantaran', 'PengirimanController@indexPengantar')->name('merchant.petugas.daftar');
     Route::get('seller/petugas/detailpengantaran/{id}/{idtransaksi}/{jenis}', 'PengirimanController@detailPengantaran')->name('merchant.petugas.detail');
+    Route::post('seller/petugas/foto', 'PengirimanController@uploadFotoSelesai')->name('merchant.petugas.fotoselesai');
     Route::get('logout/pengantar','PetugasPengantaranController@logout')->name('merchant.petugas.logout');
 });
 

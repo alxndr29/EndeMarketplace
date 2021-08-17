@@ -201,7 +201,8 @@ class ProdukController extends Controller
         $minimum = 0;
         $maksimum = 10000000;
         $jenis = null;
-
+        $order = "asc";
+        $paginate = 10;
         if (isset($request->maksimum)) {
             $maksimum = $request->maksimum;
         }
@@ -213,6 +214,13 @@ class ProdukController extends Controller
                 $jenis = $request->jenis;
             }
         }
+        if(isset($request->order)){
+            if($request->order == "Pilih" || $request->order == "hargaterendah"){
+                $order = "asc";
+            }else{
+                $order = "desc";
+            }
+        }
         if (isset($request->key)) {
             if ($jenis != null) {
                 $data = DB::table('produk')
@@ -222,9 +230,10 @@ class ProdukController extends Controller
                     ->where('produk.nama', 'like', '%' . $request->key . '%')
                     ->whereBetween('harga', [$minimum, $maksimum])
                     ->where('jenisproduk_idjenisproduk', $jenis)
-                    ->orderBy("status", "desc")
+                    //->orderBy("status", "desc")
+                    ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                    ->paginate(10);
+                    ->paginate($paginate);
             } else {
                 $data = DB::table('produk')
                     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
@@ -232,9 +241,10 @@ class ProdukController extends Controller
                     ->groupBy('produk.idproduk')
                     ->where('produk.nama', 'like', '%' . $request->key . '%')
                     ->whereBetween('harga', [$minimum, $maksimum])
-                    ->orderBy("status", "desc")
+                    //->orderBy("status", "desc")
+                    ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                    ->paginate(10);
+                    ->paginate($paginate);
             }
         } else {
             if ($jenis != null) {
@@ -244,16 +254,18 @@ class ProdukController extends Controller
                     ->where('jenisproduk_idjenisproduk', $jenis)
                     ->whereBetween('harga', [$minimum, $maksimum])
                     ->groupBy('produk.idproduk')
+                    ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                    ->paginate(10);
+                    ->paginate($paginate);
             } else {
                 $data = DB::table('produk')
                     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
                     ->whereBetween('harga', [$minimum, $maksimum])
                     ->groupBy('produk.idproduk')
+                    ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
-                    ->paginate(10);
+                    ->paginate($paginate);
             }
         }
         $jenisproduk = DB::table('jenisproduk')->select('idjenisproduk', 'nama')->get();

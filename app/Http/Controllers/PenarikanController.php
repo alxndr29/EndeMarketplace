@@ -67,12 +67,10 @@ class PenarikanController extends Controller
             ->where('transaksi_has_penarikandana.penarikandana_idpenarikandana','=',$id)
             ->select('transaksi.*')
             ->get();
-            
             $result = [
                 'detailPenarikan' => $detailPenarikan,
                 'daftarTransaksi' => $daftarTransaksi
             ];
-
             return $result;
         }catch(\Exception $e){
             return $e->getMessage();

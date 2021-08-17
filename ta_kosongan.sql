@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2021 at 07:58 PM
+-- Generation Time: Aug 17, 2021 at 07:02 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -90,23 +90,23 @@ CREATE TABLE `datapengiriman` (
   `volume` int(11) DEFAULT NULL,
   `berat` int(11) DEFAULT NULL,
   `status` enum('MenungguPengiriman','ProsesKeKurir','SedangDiantar','SelesaiAntar') DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `pengiriman_idpengiriman` int(11) NOT NULL,
   `latitude_sekarang` varchar(45) DEFAULT NULL,
   `longitude_sekarang` varchar(45) DEFAULT NULL,
   `jarak_sekarang` varchar(45) DEFAULT NULL,
-  `petugaspengantaran_idpetugaspengantaran` int(11) DEFAULT NULL
+  `petugaspengantaran_idpetugaspengantaran` int(11) DEFAULT NULL,
+  `pengiriman_idpengiriman` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `datapengiriman`
 --
 
-INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`) VALUES
-(1, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', NULL, NULL, 1, '-8.844163', '121.66773660000001', '1.6488472286879656', 1),
-(2, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', NULL, NULL, 2, NULL, NULL, NULL, NULL),
-(3, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', NULL, NULL, 6, NULL, NULL, NULL, NULL);
+INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`, `pengiriman_idpengiriman`, `created_at`, `updated_at`) VALUES
+(1, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', '-8.8441699', '121.6677559', '1.648026214658357', 1, 1, NULL, NULL),
+(2, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', NULL, NULL, NULL, NULL, 2, NULL, NULL),
+(3, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', NULL, NULL, NULL, NULL, 6, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -218,7 +218,7 @@ CREATE TABLE `dukungantarifpengiriman` (
 
 INSERT INTO `dukungantarifpengiriman` (`merchant_users_iduser`, `tarifpengiriman_idtarifpengiriman`, `minimum_belanja`, `etd`, `tarif_berat`, `tarif_volume`, `tarif_jarak`) VALUES
 (1, 3, 0, 1, 2000, 3000, 4000),
-(2, 1, 0, 1, NULL, NULL, NULL);
+(2, 1, 0, 1, 1000, 2000, 3000);
 
 -- --------------------------------------------------------
 
@@ -245,7 +245,8 @@ INSERT INTO `gambarproduk` (`idgambarproduk`, `produk_idproduk`, `created_at`, `
 (5, 3, '2021-07-05 22:27:43', '2021-07-05 22:27:43'),
 (6, 4, '2021-07-05 22:29:54', '2021-07-05 22:29:54'),
 (7, 5, '2021-07-05 22:31:45', '2021-07-05 22:31:45'),
-(8, 6, '2021-07-05 23:14:20', '2021-07-05 23:14:20');
+(8, 6, '2021-07-05 23:14:20', '2021-07-05 23:14:20'),
+(9, 7, '2021-08-17 22:24:43', '2021-08-17 22:24:43');
 
 -- --------------------------------------------------------
 
@@ -830,6 +831,13 @@ CREATE TABLE `keranjang` (
   `jumlah` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `keranjang`
+--
+
+INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
+(3, 3, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -996,6 +1004,7 @@ CREATE TABLE `pengiriman` (
   `nomor_resi` varchar(45) DEFAULT NULL,
   `status_pengiriman` enum('Selesai','BelumSelesai') DEFAULT 'BelumSelesai',
   `keterangan` varchar(45) DEFAULT NULL,
+  `foto` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `kurir_idkurir` int(11) NOT NULL,
@@ -1006,12 +1015,12 @@ CREATE TABLE `pengiriman` (
 -- Dumping data for table `pengiriman`
 --
 
-INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
-(1, '2021-07-06', 1, 6601, 'KM-20210706-205809', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '2021-07-06 20:55:54', '2021-07-06 20:58:15', 2, 1),
-(2, NULL, 1, 6601, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '2021-08-10 00:21:15', '2021-08-10 00:21:15', 2, 2),
-(3, NULL, 1, 10000, NULL, 'BelumSelesai', 'CTC/1-2/10000', '2021-08-10 12:11:08', '2021-08-10 12:11:08', 1, 3),
-(5, NULL, 1, 10000, NULL, 'BelumSelesai', 'CTC/1-2/10000', '2021-08-11 23:46:19', '2021-08-11 23:46:19', 1, 5),
-(6, NULL, 1, 6601, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '2021-08-11 23:57:18', '2021-08-11 23:57:18', 2, 6);
+INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `foto`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
+(1, '2021-07-06', 1, 6601, 'KM-20210706-205809', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '1.jpg', '2021-07-06 20:55:54', '2021-07-06 20:58:15', 2, 1),
+(2, NULL, 1, 6601, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', NULL, '2021-08-10 00:21:15', '2021-08-10 00:21:15', 2, 2),
+(3, NULL, 1, 10000, NULL, 'BelumSelesai', 'CTC/1-2/10000', NULL, '2021-08-10 12:11:08', '2021-08-10 12:11:08', 1, 3),
+(5, NULL, 1, 10000, NULL, 'BelumSelesai', 'CTC/1-2/10000', NULL, '2021-08-11 23:46:19', '2021-08-11 23:46:19', 1, 5),
+(6, NULL, 1, 6601, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', NULL, '2021-08-11 23:57:18', '2021-08-11 23:57:18', 2, 6);
 
 -- --------------------------------------------------------
 
@@ -1077,7 +1086,8 @@ INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesan
 (3, 'Lampu Baca Miniso', 'Bagus produknya mereknya miniso keren dah', 125000, 1, 'Aktif', 9, 40, 20, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/BFn6RZkwGR4', 1, 7, '2021-07-05 22:27:43', '2021-08-11 23:48:52', 1),
 (4, 'Poster Dinding Sepeda', 'Bagus ukuran 50cm x 50cm', 2000, 5, 'Aktif', 50, 50, 50, 50, 2, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:29:54', '2021-08-11 23:58:30', 1),
 (5, 'Poster Dinding Custom', 'Menerima custom, untuk gambar silahkan menghubungi admin. Uk 50x50', 5000, 3, 'Aktif', 500, 50, 50, 50, 5, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:31:45', '2021-08-11 23:42:55', 1),
-(6, 'Produk Testing', 'deskripsi produk uji coba', 1000, -1, 'Aktif', 50, 1, 2, 3, 4, 'TidakAktif', 0, NULL, 4, 5, '2021-07-05 23:14:20', '2021-07-05 23:14:20', 2);
+(6, 'Produk Testing', 'deskripsi produk uji coba', 1000, -1, 'Aktif', 50, 1, 2, 3, 4, 'TidakAktif', 0, NULL, 4, 5, '2021-07-05 23:14:20', '2021-07-05 23:14:20', 2),
+(7, 'Lampu Baca USB', 'asdasdas', 5000, 1, 'TidakAktif', 50, 12, 11, 12, 12, 'TidakAktif', 0, NULL, 1, 7, '2021-08-17 22:24:43', '2021-08-17 22:24:43', 1);
 
 -- --------------------------------------------------------
 
@@ -1219,7 +1229,7 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`, `refund_at`) VALUES
-(1, '2021-07-06 20:55:54', 'Selesai', 'Langsung', 86601, 3, 1, 1, 1, '2021-07-06 20:55:54', '2021-07-06 20:58:15', NULL),
+(1, '2021-07-06 20:55:54', 'Selesai', 'Langsung', 86601, 3, 1, 1, 1, '2021-07-06 20:55:54', '2021-08-17 23:58:11', NULL),
 (2, '2021-08-10 00:21:15', 'Batal', 'Langsung', 196601, 3, 1, 1, 1, '2021-08-10 00:21:15', '2021-08-10 00:21:15', NULL),
 (3, '2021-08-10 12:11:08', 'Batal', 'Langsung', 200000, 3, 1, 1, 1, '2021-08-10 12:11:08', '2021-08-10 12:11:08', NULL),
 (5, '2021-08-11 23:46:19', 'Batal', 'Langsung', 135000, 3, 1, 1, 2, '2021-08-11 23:46:19', '2021-08-11 23:46:19', NULL),
@@ -1548,7 +1558,7 @@ ALTER TABLE `diskusi`
 -- AUTO_INCREMENT for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
-  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `jenisproduk`
@@ -1608,7 +1618,7 @@ ALTER TABLE `petugaspengantaran`
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `reviewproduk`

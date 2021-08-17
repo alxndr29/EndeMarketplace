@@ -26,21 +26,20 @@
                     Status Kurir: <b> {{$data->status}}
                 </div>
                 <div class="col">
-
                     @if($data->status == "MenungguPengiriman")
-                    <div class="form-group">
-                        <label for="inputpengantar">Pilih Pengantar</label>
-                        <select id="inputpengantar" class="form-control">
-                            <option selected>Choose...</option>
-                            @foreach ($dataPengantar as $key => $value)
-                            <option value="{{$value->idpetugaspengantar}}">{{$value->nama}}.</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <br>
-                    <button id="proseskurir" class="btn btn-success" style="margin-right: 5px;">
-                        <i class="fas fa-edit"></i>Proses ke kurir
-                    </button>
+                        <div class="form-group">
+                            <label for="inputpengantar">Pilih Pengantar</label>
+                            <select id="inputpengantar" class="form-control">
+                                <option selected>Pilih Pengantar...</option>
+                                @foreach ($dataPengantar as $key => $value)
+                                <option value="{{$value->idpetugaspengantar}}">{{$value->nama}}.</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <br>
+                        <button id="proseskurir" class="btn btn-success" style="margin-right: 5px;">
+                            <i class="fas fa-edit"></i>Proses ke kurir
+                        </button>
                     @endif
                 </div>
             </div>

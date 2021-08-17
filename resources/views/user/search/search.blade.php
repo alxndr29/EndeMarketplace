@@ -126,9 +126,6 @@
 @section('js')
 <script src="{{asset('adminlte/plugins/bootstrap-slider/bootstrap-slider.min.js')}}"></script>
 <script type="text/javascript">
-    $(function() {
-        $('.slider').bootstrapSlider()
-    });
     var key = "";
     var jenis = "";
     $(document).ready(function() {
@@ -138,7 +135,10 @@
         jenis = url.searchParams.get('jenis');
         $("#txtSearchProduk").val(key);
     });
-
+    
+    $(function() {
+        $('.slider').bootstrapSlider()
+    });
     $("#btnFilter").click(function() {
         var data = $('#sliderRangeHarga').val();
         var split = data.split(",");

@@ -247,18 +247,25 @@
                                         </div>
                                     </div>
                                 </div> -->
-                                @foreach ($hasilAkhirRekomendasi as $key => $value)
-                                <div class="col-6 col-lg-3">
-                                    <div class="card">
-                                        <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                        <div class="card-body text-center">
-                                            <b>{{$value->nama}}</b> <br> Rp. {{number_format($value->harga)}}-,
-                                            <br>
-                                            <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
-                                        </div>
-                                    </div>
+                                @if(count($hasilAkhirRekomendasi) == 0)
+                                <div class="col text-center">
+                                    <p> Belum ada produk direkomendasi </p>
                                 </div>
-                                @endforeach
+                                @else
+                                    @foreach ($hasilAkhirRekomendasi as $key => $value)
+                                        <div class="col-6 col-lg-3">
+                                            <div class="card">
+                                                <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
+                                                <div class="card-body text-center">
+                                                    <b>{{$value->nama}}</b> <br> Rp. {{number_format($value->harga)}}-,
+                                                    <br>
+                                                    <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+
                             </div>
                             <!-- End Rekomendasi Produk -->
                         </div>

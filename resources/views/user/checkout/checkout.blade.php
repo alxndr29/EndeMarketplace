@@ -49,8 +49,6 @@
                                                 <div class="form-group">
                                                     <select class="form-control" id="biayaKurir" name="biayaKurir">
                                                         <option selected>Pilih Biaya Pengiriman</option>
-                                                        <!-- <option value="CTC/1-2/10000"> JNE - CTC - 1-2 - 10000</option>
-                                                        <option value="CTCYES/0-1/20000"> JNE - CTCYES - 0-2 - 20000</option> -->
                                                     </select>
                                                 </div>
                                             </div>
@@ -301,6 +299,8 @@
         var id = $(this).val();
         if (dukunganPengiriman == "2") {
             var split = id.split("-");
+            alert(split[0] +" / "+ split[1] +" / " + split[2] + " / " + split[3] + split[4] + " / " + split[5] + " / " + split[6] + " / " + split[7]);
+
             if (split[1] == "1") {
                 if (parseInt(jumlah) < parseInt(split[3])) {
                     Swal.fire(
@@ -320,12 +320,9 @@
                     );
                     $("#jarakPengiriman").val(result);
                 }
-                //alert(split[0] + " " + split[2] + " " + split[3] + split[4] + " " + split[5] + " " + split[6] + " " + split[7]);
+
             } else if (split[1] == "2") {
-                // alert(split[3]);
-                // alert(jumlah);
                 if (parseInt(jumlah) < parseInt(split[3])) {
-                    // alert('Tidak memenuhi nominal pembelian c');
                     Swal.fire(
                         'Gagal!',
                         'Tidak memenuhi nominal pembelian!',
