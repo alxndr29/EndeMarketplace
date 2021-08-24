@@ -27,12 +27,13 @@ class TransaksiController extends Controller
             ->where('transaksi.users_iduser', $user->userid())
             ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
             ->paginate(10);
+        //dd($transaksi);
         return view('user.transaksi.transaksi', compact('transaksi'));
     }
-    public function indesPelangganFilter($tanggalAwal, $tanggalAkhir)
+    public function indexPelangganFilter($tanggalAwal, $tanggalAkhir, $status)
     {
         $user = new User();
-        $transaksi = DB::table('transaksi')
+        $syntax = DB::table('transaksi')
             ->join('merchant', 'merchant.users_iduser', '=', 'transaksi.merchant_users_iduser')
             ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', 'transaksi.idtransaksi')
             ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
@@ -40,9 +41,14 @@ class TransaksiController extends Controller
             ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
             ->groupBy('transaksi.idtransaksi')
             ->where('transaksi.users_iduser', $user->userid())
-            ->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
-            ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
-            ->paginate(10);
+            ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'));
+        if($tanggalAwal != "null" && $tanggalAkhir != "null"){
+            $syntax->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir]);
+        }
+        if($status != "pilih"){
+            $syntax->where('transaksi.status_transaksi', $status);
+        }
+        $transaksi = $syntax->paginate(10);
         return view('user.transaksi.transaksi', compact('transaksi'));
     }
     public function indexMerchant()
@@ -55,15 +61,22 @@ class TransaksiController extends Controller
             ->get();
         return view('seller.transaksi.transaksi', compact('transaksi'));
     }
-    public function indexMerchantFilter($tanggalAwal, $tanggalAkhir)
+    public function indexMerchantFilter($tanggalAwal, $tanggalAkhir, $status)
     {
         $merchant = new Merchant();
-        $transaksi = DB::table('transaksi')
+        $syntax = DB::table('transaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran')
-            ->where('transaksi.merchant_users_iduser', $merchant->idmerchant())
-            ->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
-            ->get();
+            ->where('transaksi.merchant_users_iduser', $merchant->idmerchant());
+            //->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
+            //->get();
+        if ($tanggalAwal != "null" && $tanggalAkhir != "null") {
+            $syntax->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir]);
+        }
+        if ($status != "pilih") {
+            $syntax->where('transaksi.status_transaksi', $status);
+        }
+        $transaksi = $syntax->get();
         return view('seller.transaksi.transaksi', compact('transaksi'));
     }
     public function detailMerchant($id)

@@ -156,13 +156,13 @@ Route::post('user/checkout/store','CheckoutController@store')->name('checkout.st
 
 //Transaksi Merchant
 Route::get('seller/transaksi/index','TransaksiController@indexMerchant')->name('merchant.transaksi.index');
-Route::get('seller/transaksi/index/{tanggalAwal}/{tanggalAkhir}', 'TransaksiController@indexMerchantFilter')->name('merchant.transaksi.index.filter');
+Route::get('seller/transaksi/index/{tanggalAwal}/{tanggalAkhir}/{status}', 'TransaksiController@indexMerchantFilter')->name('merchant.transaksi.index.filter');
 Route::get('seller/transaksi/detail/{id}','TransaksiController@detailMerchant')->name('merchant.transaksi.detail');
 Route::put('seller/transaksi/update/{id}/{action}','TransaksiController@prosePesananMerchant')->name('merchant.transaksi.update');
 
 //Transaksi User
 Route::get('user/transaksi/index', 'TransaksiController@indexPelanggan')->name('pelanggan.transaksi.index');
-Route::get('user/transaksi/index/{tanggalAwal}/{tanggalAkhir}', 'TransaksiController@indesPelangganFilter')->name('pelanggan.transaksi.index.filter');
+Route::get('user/transaksi/index/{tanggalAwal}/{tanggalAkhir}/{status}', 'TransaksiController@indexPelangganFilter')->name('pelanggan.transaksi.index.filter');
 Route::get('user/transaksi/detail/{id}','TransaksiController@detailPelanggan')->name('pelanggan.transaksi.detail');
 Route::get('user/transaksi/tracking/{id}/{idtransaksi}/{jenis}','PengirimanController@detailPengantaran')->name('pelanggan.transaksi.tracking');
 Route::get('user/tracking/lokasi/kurir/{id}','PengirimanController@getLokasiKurir')->name('pelanggan.tracking.lokasi.kurir');

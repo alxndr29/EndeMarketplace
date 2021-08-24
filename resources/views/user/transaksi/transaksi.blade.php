@@ -1,7 +1,7 @@
 @extends('layouts.userlte')
 @section('content')
 <div class="container">
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
@@ -13,26 +13,21 @@
                         <small>%</small>
                     </span>
                 </div>
-                <!-- /.info-box-content -->
+               
             </div>
-            <!-- /.info-box -->
+           
         </div>
-        <!-- /.col -->
+       
         <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
                 <div class="info-box-content">
                     <span class="info-box-text">Likes</span>
                     <span class="info-box-number">41,410</span>
                 </div>
-                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
         </div>
-        <!-- /.col -->
-
-        <!-- fix for small devices only -->
+       
         <div class="clearfix hidden-md-up"></div>
 
         <div class="col-12 col-sm-6 col-md-3">
@@ -43,11 +38,8 @@
                     <span class="info-box-text">Sales</span>
                     <span class="info-box-number">760</span>
                 </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
+            </div>        
         </div>
-        <!-- /.col -->
         <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
@@ -55,23 +47,30 @@
                 <div class="info-box-content">
                     <span class="info-box-text">New Members</span>
                     <span class="info-box-number">2,000</span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
+                </div>         
+            </div>      
         </div>
-        <!-- /.col -->
-    </div>
+    </div> -->
 
     <div class="row">
         <div class="col">
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             Daftar Transaksi
                         </div>
-
+                        <div class="col-2">
+                            <select class="form-control" id="status">
+                                <option value="pilih">Pilih...</option>
+                                <option value="MenungguPembayara">Menunggu Pembayaran</option>
+                                <option value="MenungguKonfirmasi">Menunggu Konfirmasi</option>
+                                <option value="PesananDiproses">Pesanan Diproses</option>
+                                <option value="PesananDikirim">Pesanan Dikirim</option>
+                                <option value="Selesai">Selesai</option>
+                                <option value="Batal">Batal</option>
+                            </select>
+                        </div>
                         <div class="col-2">
                             <input class="form-control" type="date" id="tanggalAwal">
                         </div>
@@ -79,101 +78,101 @@
                             <input class="form-control" type="date" id="tanggalAkhir">
                         </div>
                         <div class="col-2">
-                            <button type="button" class="btn btn-block btn-default" id="btnFilter">Filter Tanggal</button>
+                            <button type="button" class="btn btn-block btn-default" id="btnFilter">Cari</button>
                         </div>
                     </div>
 
                 </div>
                 <div class="card-body">
                     @if(count($transaksi) == 0)
-                        <p class="text-center"> Belum ada data transaksi.</p>
+                    <p class="text-center"> Belum ada data transaksi.</p>
                     @else
-                        @foreach ($transaksi as $key => $value)
-                        @if(isset($awal))
-                        @endif
-                        <div class="row">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <p>
-                                                <b>{{$value->nama_merchant}}</b> || ID Transaksi: {{$value->idtransaksi}} || Tanggal: {{$value->tanggal}}
-                                            </p>
+                    @foreach ($transaksi as $key => $value)
+                    @if(isset($awal))
+                    @endif
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <p>
+                                            <b>{{$value->nama_merchant}}</b> || ID Transaksi: {{$value->idtransaksi}} || Tanggal: {{$value->tanggal}}
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <img style="width:75px;height:100px;" class="rounded" alt="..." src="{{asset('gambar/'.$value->gambar.'.jpg')}}">
                                         </div>
-                                        <div class="row">
-                                            <div class="col-1">
-                                                <img style="width:75px;height:100px;" class="rounded" alt="..." src="{{asset('gambar/'.$value->gambar.'.jpg')}}">
-                                            </div>
-                                            <div class="col-6">
-                                                <b> {{$value->nama_produk}} </b>
-                                                <br>
-                                                {{$value->jumlah}} barang Rp.{{number_format($value->total_harga)}}
-                                                <br>
-                                                + {{$value->totalbarang}} lainnya.
-                                            </div>
-                                            <div class="col-5">
-                                                <b>
-                                                    @if($value->status_transaksi == "Batal")
-                                                    <span class="badge bg-danger">
-                                                        {{$value->status_transaksi}}
-                                                    </span>
-                                                    @else
-                                                    <span class="badge bg-primary">
-                                                        {{$value->status_transaksi}}
-                                                    </span>
-                                                    @endif
-                                                </b>
-                                                <br>
-                                                Total Belanja:
-                                                <br>
-                                                <b> Rp. {{number_format($value->nominal_pembayaran)}} </b>
-                                                <br>
-                                                <button type="button" class="btn btn-success" style="margin-right: 5px;" onClick="test({{$value->idtransaksi}})">
-                                                    Detail Transaksi
-                                                </button>
-
-                                                @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "PesananDiproses" && $value->status_transaksi != "Batal" )
-                                                    @if($value->idkurir == "1")
-                                                        <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;">
-                                                            Lacak
-                                                        </a>
-                                                    @else
-                                                        <a href="{{route('pelanggan.transaksi.tracking',[$value->idpengiriman,$value->idtransaksi,'Pelanggan'])}}" class="btn btn-success" style="margin-right: 5px;">
-                                                            Lacak
-                                                        </a>
-                                                    @endif
+                                        <div class="col-6">
+                                            <b> {{$value->nama_produk}} </b>
+                                            <br>
+                                            {{$value->jumlah}} barang Rp.{{number_format($value->total_harga)}}
+                                            <br>
+                                            + {{$value->totalbarang}} lainnya.
+                                        </div>
+                                        <div class="col-5">
+                                            <b>
+                                                @if($value->status_transaksi == "Batal")
+                                                <span class="badge bg-danger">
+                                                    {{$value->status_transaksi}}
+                                                </span>
+                                                @else
+                                                <span class="badge bg-primary">
+                                                    {{$value->status_transaksi}}
+                                                </span>
                                                 @endif
+                                            </b>
+                                            <br>
+                                            Total Belanja:
+                                            <br>
+                                            <b> Rp. {{number_format($value->nominal_pembayaran)}} </b>
+                                            <br>
+                                            <button type="button" class="btn btn-success" style="margin-right: 5px;" onClick="test({{$value->idtransaksi}})">
+                                                Detail Transaksi
+                                            </button>
 
-                                                @if($value->status_transaksi == "SampaiTujuan")
-                                                    <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
-                                                        Selesai
-                                                    </a>
-                                                @endif
+                                            @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "PesananDiproses" && $value->status_transaksi != "Batal" )
+                                            @if($value->idkurir == "1")
+                                            <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Lacak
+                                            </a>
+                                            @else
+                                            <a href="{{route('pelanggan.transaksi.tracking',[$value->idpengiriman,$value->idtransaksi,'Pelanggan'])}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Lacak
+                                            </a>
+                                            @endif
+                                            @endif
 
-                                                @if($value->idkurir == "1" && $value->status_transaksi == "PesananDikirim")
-                                                    <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
-                                                        Terima Paket
-                                                    </a>
-                                                @endif
+                                            @if($value->status_transaksi == "SampaiTujuan")
+                                            <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Selesai
+                                            </a>
+                                            @endif
 
-                                                @if($value->status_transaksi == "MenungguPembayaran")
-                                                    <button onClick="bayar({{$value->idtransaksi}})" class="btn btn-success" style="margin-right: 5px;">
-                                                        Bayar
-                                                    </button>
-                                                @endif
+                                            @if($value->idkurir == "1" && $value->status_transaksi == "PesananDikirim")
+                                            <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Terima Paket
+                                            </a>
+                                            @endif
 
-                                                @if($value->status_transaksi == "MenungguKonfirmasi")
-                                                    <a href="{{route('pelanggan.transaksi.batal',$value->idtransaksi)}}" class="btn btn-danger" style="margin-right: 5px;">
-                                                        Batalkan Pesanan
-                                                    </a>
-                                                @endif
-                                            </div>
+                                            @if($value->status_transaksi == "MenungguPembayaran")
+                                            <button onClick="bayar({{$value->idtransaksi}})" class="btn btn-success" style="margin-right: 5px;">
+                                                Bayar
+                                            </button>
+                                            @endif
+
+                                            @if($value->status_transaksi == "MenungguKonfirmasi")
+                                            <a href="{{route('pelanggan.transaksi.batal',$value->idtransaksi)}}" class="btn btn-danger" style="margin-right: 5px;">
+                                                Batalkan Pesanan
+                                            </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @endforeach
+                    </div>
+                    @endforeach
                     @endif
                 </div>
                 <div class="card-footer">
@@ -337,16 +336,28 @@
         // alert('hello world!');
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert('{{session('berhasil')}}');
+        alert('{{session('
+            berhasil ')}}');
         @endif
     });
     $("#btnFilter").click(function() {
         var tglawal = $('#tanggalAwal').val();
         var tglakhir = $('#tanggalAkhir').val();
-        var url = "{{route('pelanggan.transaksi.index.filter',['tanggalAwal' => 'first' ,'tanggalAkhir'=> 'second' ])}}";
-        url = url.replace('first', tglawal);
-        url = url.replace('second', tglakhir);
+        var status = $('#status').val();
+        var url = "{{route('pelanggan.transaksi.index.filter',['tanggalAwal' => 'first' ,'tanggalAkhir'=> 'second', 'status' => 'third' ])}}";
+        if ($('#tanggalAwal').val() == "") {
+            url = url.replace('first', null);
+        } else {
+            url = url.replace('first', tglawal);
+        }
+        if ($('#tanggalAkhir').val() == "") {
+            url = url.replace('second', null);
+        } else {
+            url = url.replace('second', tglakhir);
+        }
+        url = url.replace('third', status);
         location.href = url;
+
     });
     $("#buttonReview").click(function() {
         $("#modaldetail").modal('hide');

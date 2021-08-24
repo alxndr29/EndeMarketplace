@@ -75,7 +75,7 @@
     var dataKeranjang = [];
     var dataMerchant = [];
     var totalBelanja = 0;
-    //user/keranjang/merchant
+    
     $(document).ready(function() {
         $.ajax({
             url: "{{url('user/keranjang/merchant')}}",
@@ -116,15 +116,12 @@
                 console.log(response);
             }
         });
-
-
     });
 
     function tampil() {
         $("#isikeranjang").empty();
         for (j = 0; j < dataMerchant.length; j++) {
             var rout = "{{url('user/checkout')}}" + "/" + dataMerchant[j].idmerchant;
-
             $("#isikeranjang").append('<div class="card" id="' + dataMerchant[j].idmerchant + '"> <div class="card-header"> <div class="row"> <div class="col-9">' + dataMerchant[j].nama_merchant + ' </div> <div class="col-3"> <a href="' + rout + '" class="btn btn-block btn-default"> Checkout </a> </div>' + '</div></div>');
             for (i = 0; i < dataKeranjang.length; i++) {
                 if (dataKeranjang[i].nama_merchant == dataMerchant[j].nama_merchant) {
@@ -140,26 +137,26 @@
                     $(id).append(
                         //'<div class="card">' +
                         '<div class="row">' +
-                        '<div class="col"> <img style="width:175px;height:200px;" class="rounded mx-auto d-block p-3 img-fluid" alt="..."' + src + '>' +
-                        '</div>' +
-                        '<div class="col">' +
-                        '<b>' + nama + '</b>' +
-                        '<br> Rp. ' + harga + '-,' +
-                        '<br>' + nama_merchant +
-                        '<br> Jumlah: <input type="number" class="form-control" data-id="' + idproduk + '" placeholder="Qty" id="qty" value=' + jumlah + '>' +
-                        '</div>' +
-                        '<div class="col">' +
-                        '<div class="row p-1">' +
-                        '<div class="col">' +
-                        '<button type="submit" class="btn btn-block btn-default" id="btnHapusKeranjang" data-id="' + idproduk + '">Hapus</button>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="row p-1">' +
-                        '<div class="col">' +
-                        '<a href="' + url + '" class="btn btn-block btn-default">Lihat</a>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
+                            '<div class="col"> <img style="width:175px;height:200px;" class="rounded mx-auto d-block p-3 img-fluid" alt="..."' + src + '>' +
+                            '</div>' +
+                            '<div class="col">' +
+                                '<b>' + nama + '</b>' +
+                                '<br> Rp. ' + harga + '-,' +
+                                '<br>' + nama_merchant +
+                                '<br> Jumlah: <input type="number" class="form-control" data-id="' + idproduk + '" placeholder="Qty" id="qty" value=' + jumlah + '>' +
+                            '</div>' +
+                            '<div class="col">' +
+                                '<div class="row p-1">' +
+                                    '<div class="col">' +
+                                    '   <button type="submit" class="btn btn-block btn-default" id="btnHapusKeranjang" data-id="' + idproduk + '">Hapus</button>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="row p-1">' +
+                                    '<div class="col">' +
+                                        '<a href="' + url + '" class="btn btn-block btn-default">Lihat</a>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
                         '</div>'
                     );
                 }

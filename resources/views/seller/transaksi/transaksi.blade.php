@@ -5,8 +5,19 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                     Daftar Transaksi
+                </div>
+                <div class="col-2">
+                    <select class="form-control" id="status">
+                        <option value="pilih">Pilih...</option>
+                        <option value="MenungguPembayara">Menunggu Pembayaran</option>
+                        <option value="MenungguKonfirmasi">Menunggu Konfirmasi</option>
+                        <option value="PesananDiproses">Pesanan Diproses</option>
+                        <option value="PesananDikirim">Pesanan Dikirim</option>
+                        <option value="Selesai">Selesai</option>
+                        <option value="Batal">Batal</option>
+                    </select>
                 </div>
                 <div class="col-2">
                     <input class="form-control" type="date" value="2011-08-19" id="tanggalAwal">
@@ -110,9 +121,19 @@
     $("#btnFilter").click(function() {
         var tglawal = $('#tanggalAwal').val();
         var tglakhir = $('#tanggalAkhir').val();
-        var url = "{{route('merchant.transaksi.index.filter',['tanggalAwal' => 'first' ,'tanggalAkhir'=> 'second' ])}}";
-        url = url.replace('first', tglawal);
-        url = url.replace('second', tglakhir);
+        var status = $('#status').val();
+        var url = "{{route('merchant.transaksi.index.filter',['tanggalAwal' => 'first' ,'tanggalAkhir'=> 'second', 'status' => 'third' ])}}";
+        if ($('#tanggalAwal').val() == "") {
+            url = url.replace('first', null);
+        } else {
+            url = url.replace('first', tglawal);
+        }
+        if ($('#tanggalAkhir').val() == "") {
+            url = url.replace('second', null);
+        } else {
+            url = url.replace('second', tglakhir);
+        }
+        url = url.replace('third', status);
         location.href = url;
     });
 </script>

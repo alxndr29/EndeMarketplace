@@ -237,8 +237,17 @@ class MerchantController extends Controller
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                     ->paginate(10);
             }
-
-            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2','alamat', 'pembayaran', 'pengiriman', 'reviewProduk'));
+            $jumlahProdukTerjual = DB::table('detailtransaksi')
+                ->join('transaksi', 'transaksi.idtransaksi', '=', 'detailtransaksi.transaksi_idtransaksi')
+                ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
+                ->where('produk.merchant_users_iduser', '=', $id1)
+                ->where('transaksi.status_transaksi', '=', 'Selesai')
+                ->sum('detailtransaksi.jumlah');
+            $rataRataUlasan = DB::table('reviewproduk')
+                ->join('produk', 'produk.idproduk', '=', 'reviewproduk.produk_idproduk')
+                ->where('produk.merchant_users_iduser', '=', $id1)
+                ->avg('rating');
+            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2','alamat', 'pembayaran', 'pengiriman', 'reviewProduk', 'jumlahProdukTerjual', 'rataRataUlasan'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }

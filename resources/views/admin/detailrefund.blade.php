@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Administrator</title>
+    <title>Dashboard Admin</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
@@ -152,9 +152,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <b> Bukti Transfer: </b>
                                         <br>
                                         @if(isset($detailPenarikan->bukti))
-                                            <a href="{{asset('buktiTransfer/'.$detailPenarikan->bukti)}}">
-                                                <img src="{{asset('buktiTransfer/'.$detailPenarikan->bukti)}}" class="img-thumbnail" alt="Responsive image" style="width:200px; height:200px;">
-                                            </a>
+                                        <a href="{{asset('buktiTransfer/'.$detailPenarikan->bukti)}}">
+                                            <img src="{{asset('buktiTransfer/'.$detailPenarikan->bukti)}}" class="img-thumbnail" alt="Responsive image" style="width:200px; height:200px;">
+                                        </a>
                                         @else
                                         @endif
 
