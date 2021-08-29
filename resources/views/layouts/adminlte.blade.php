@@ -244,7 +244,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('penarikan.merchant')}}" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-wave-alt"></i>
 
                                 <p>
@@ -345,10 +345,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script>
         $(function() {
             $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                // "responsive": true,
+                // "lengthChange": false,
+                // "autoWidth": false,
+                // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
 

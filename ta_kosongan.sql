@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2021 at 07:09 PM
+-- Generation Time: Aug 29, 2021 at 07:13 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -105,7 +105,6 @@ CREATE TABLE `datapengiriman` (
 
 INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`, `pengiriman_idpengiriman`, `created_at`, `updated_at`) VALUES
 (1, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', '-8.8441699', '121.6677559', '1.648026214658357', 1, 1, NULL, NULL),
-(2, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', NULL, NULL, NULL, NULL, 2, NULL, NULL),
 (3, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', NULL, NULL, NULL, NULL, 6, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -128,14 +127,8 @@ CREATE TABLE `detailtransaksi` (
 
 INSERT INTO `detailtransaksi` (`produk_idproduk`, `transaksi_idtransaksi`, `jumlah`, `total_harga`, `catatan`) VALUES
 (1, 1, 2, 80000, 'mantap'),
-(1, 2, 2, 80000, NULL),
-(1, 3, 2, 80000, NULL),
-(2, 2, 1, 95000, NULL),
-(2, 3, 1, 95000, NULL),
 (3, 5, 1, 125000, NULL),
-(4, 6, 5, 10000, NULL),
-(5, 2, 3, 15000, NULL),
-(5, 3, 3, 15000, NULL);
+(4, 6, 5, 10000, NULL);
 
 -- --------------------------------------------------------
 
@@ -980,15 +973,17 @@ CREATE TABLE `penarikandana` (
   `bukti` varchar(45) DEFAULT NULL,
   `catatan` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `jenis` enum('refund','withdraw') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `penarikandana`
 --
 
-INSERT INTO `penarikandana` (`idpenarikandana`, `bank_tujuan`, `nomor_rekening`, `nama_pemilik_rekening`, `total`, `status`, `bukti`, `catatan`, `created_at`, `updated_at`) VALUES
-(1, '008-PT BANK MANDIRI (PERSERO) Tbk', '181000073271', 'Alexander Evan', 151601, 'Selesai', 'buktiTransfer-1.jpg', 'oee', '2021-08-12 00:00:00', '2021-08-13 00:00:00');
+INSERT INTO `penarikandana` (`idpenarikandana`, `bank_tujuan`, `nomor_rekening`, `nama_pemilik_rekening`, `total`, `status`, `bukti`, `catatan`, `created_at`, `updated_at`, `jenis`) VALUES
+(6, '002-PT BANK RAKYAT INDONESIA (PERSERO) Tbk', '1232', 'MERCHANTOL', 135000, 'Menunggu', NULL, NULL, '2021-08-28 01:36:14', '2021-08-28 01:36:14', 'withdraw'),
+(8, '002-PT BANK RAKYAT INDONESIA (PERSERO) Tbk', '22', 'eee', 16601, 'Menunggu', NULL, NULL, '2021-08-28 01:49:15', '2021-08-28 01:49:15', 'refund');
 
 -- --------------------------------------------------------
 
@@ -1016,9 +1011,7 @@ CREATE TABLE `pengiriman` (
 --
 
 INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `foto`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
-(1, '2021-07-06', 1, 6601, 'KM-20210706-205809', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '1.jpg', '2021-07-06 20:55:54', '2021-07-06 20:58:15', 2, 1),
-(2, NULL, 1, 6601, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', NULL, '2021-08-10 00:21:15', '2021-08-10 00:21:15', 2, 2),
-(3, NULL, 1, 10000, NULL, 'BelumSelesai', 'CTC/1-2/10000', NULL, '2021-08-10 12:11:08', '2021-08-10 12:11:08', 1, 3),
+(1, '2021-07-06', 1, 6601, 'KM-20210706-205809', 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '1.jpg', '2021-07-06 20:55:54', '2021-07-06 20:58:15', 2, 1),
 (5, NULL, 1, 10000, NULL, 'BelumSelesai', 'CTC/1-2/10000', NULL, '2021-08-11 23:46:19', '2021-08-11 23:46:19', 1, 5),
 (6, NULL, 1, 6601, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', NULL, '2021-08-11 23:57:18', '2021-08-11 23:57:18', 2, 6);
 
@@ -1221,19 +1214,18 @@ CREATE TABLE `transaksi` (
   `tipepembayaran_idtipepembayaran` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `refund_at` datetime DEFAULT NULL
+  `refund_at` datetime DEFAULT NULL,
+  `withdraw_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`, `refund_at`) VALUES
-(1, '2021-07-06 20:55:54', 'Selesai', 'Langsung', 86601, 3, 1, 1, 1, '2021-07-06 20:55:54', '2021-08-17 23:58:11', NULL),
-(2, '2021-08-10 00:21:15', 'Batal', 'Langsung', 196601, 3, 1, 1, 1, '2021-08-10 00:21:15', '2021-08-10 00:21:15', NULL),
-(3, '2021-08-10 12:11:08', 'Batal', 'Langsung', 200000, 3, 1, 1, 1, '2021-08-10 12:11:08', '2021-08-10 12:11:08', NULL),
-(5, '2021-08-11 23:46:19', 'Batal', 'Langsung', 135000, 3, 1, 1, 2, '2021-08-11 23:46:19', '2021-08-11 23:46:19', NULL),
-(6, '2021-08-11 23:57:18', 'Batal', 'Langsung', 16601, 3, 1, 1, 2, '2021-08-11 23:57:18', '2021-08-11 23:57:18', NULL);
+INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`, `refund_at`, `withdraw_at`) VALUES
+(1, '2021-07-06 20:55:54', 'Selesai', 'Langsung', 86601, 3, 1, 1, 1, '2021-07-06 20:55:54', '2021-08-17 23:58:11', NULL, NULL),
+(5, '2021-08-11 23:46:19', 'Selesai', 'Langsung', 135000, 3, 1, 1, 2, '2021-08-11 23:46:19', '2021-08-11 23:46:19', NULL, '2021-08-28 01:36:14'),
+(6, '2021-08-11 23:57:18', 'Batal', 'Langsung', 16601, 3, 1, 1, 2, '2021-08-11 23:57:18', '2021-08-11 23:57:18', '2021-08-28 01:49:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -1251,8 +1243,8 @@ CREATE TABLE `transaksi_has_penarikandana` (
 --
 
 INSERT INTO `transaksi_has_penarikandana` (`transaksi_idtransaksi`, `penarikandana_idpenarikandana`) VALUES
-(5, 1),
-(6, 1);
+(5, 6),
+(6, 8);
 
 -- --------------------------------------------------------
 
@@ -1600,7 +1592,7 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT for table `penarikandana`
 --
 ALTER TABLE `penarikandana`
-  MODIFY `idpenarikandana` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idpenarikandana` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `pengiriman`

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 02, 2021 at 05:15 AM
+-- Generation Time: Aug 28, 2021 at 05:23 AM
 -- Server version: 10.4.19-MariaDB-cll-lve
 -- PHP Version: 7.2.34
 
@@ -73,7 +73,7 @@ CREATE TABLE `alamatpembeli` (
 
 INSERT INTO `alamatpembeli` (`idalamat`, `simpan_sebagai`, `nama_penerima`, `alamatlengkap`, `telepon`, `users_iduser`, `latitude`, `longitude`, `created_at`, `updated_at`, `kabupatenkota_idkabupatenkota`) VALUES
 (1, 'Alamat ruko', 'marianus', 'jln sultan hassanudin', '21474', 3, '-8.833018681178274', '121.67763721167303', '2021-07-06 20:39:06', '2021-07-06 20:47:37', 122),
-(2, 'Alamat ruko', 'bapa evan', 'jln sultan hassanudin', '21474', 4, '-8.833123858623566', '121.67768527515635', '2021-08-02 12:49:26', '2021-08-02 12:49:26', 122);
+(2, 'Alamat Ruko', 'Pak Evan', 'jln. sultan hassanudin no .1', '081326126832', 4, '-8.833066934310873', '121.67771315944462', '2021-08-25 12:06:46', '2021-08-25 12:06:46', 122);
 
 -- --------------------------------------------------------
 
@@ -91,22 +91,22 @@ CREATE TABLE `datapengiriman` (
   `volume` int(11) DEFAULT NULL,
   `berat` int(11) DEFAULT NULL,
   `status` enum('MenungguPengiriman','ProsesKeKurir','SedangDiantar','SelesaiAntar') DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `pengiriman_idpengiriman` int(11) NOT NULL,
   `latitude_sekarang` varchar(45) DEFAULT NULL,
   `longitude_sekarang` varchar(45) DEFAULT NULL,
   `jarak_sekarang` varchar(45) DEFAULT NULL,
-  `petugaspengantaran_idpetugaspengantaran` int(11) DEFAULT NULL
+  `petugaspengantaran_idpetugaspengantaran` int(11) DEFAULT NULL,
+  `pengiriman_idpengiriman` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `datapengiriman`
 --
 
-INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `created_at`, `updated_at`, `pengiriman_idpengiriman`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`) VALUES
-(1, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', NULL, NULL, 1, '-8.844197399999999', '121.66766059999999', '1.65723460243153', NULL),
-(2, '-8.833123858623566', '121.67768527515635', '-8.8441914', '121.66774939999999', 1.645009704608203, 0, 0, 'SelesaiAntar', NULL, NULL, 2, '-8.8338067', '121.67799', '0.08297901619045461', NULL);
+INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`, `pengiriman_idpengiriman`, `created_at`, `updated_at`) VALUES
+(1, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', '-8.8441931', '121.66773510000002', '1.6514724084939534', 1, 1, NULL, NULL),
+(4, '-8.833066934310873', '121.67771315944462', '-8.8441914', '121.66774939999999', 1.6517787933352468, 0, 0, 'SelesaiAntar', '-8.8338067', '121.67799', '0.08769796249746298', 1, 7, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -128,8 +128,10 @@ CREATE TABLE `detailtransaksi` (
 
 INSERT INTO `detailtransaksi` (`produk_idproduk`, `transaksi_idtransaksi`, `jumlah`, `total_harga`, `catatan`) VALUES
 (1, 1, 2, 80000, 'mantap'),
-(1, 20, 3, 120000, 'warna itam'),
-(2, 20, 4, 380000, 'warna merah');
+(1, 21, 2, 80000, 'warna merah'),
+(2, 21, 6, 570000, 'packing rapih'),
+(3, 5, 1, 125000, NULL),
+(4, 6, 5, 10000, NULL);
 
 -- --------------------------------------------------------
 
@@ -147,6 +149,13 @@ CREATE TABLE `diskusi` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `diskusi`
+--
+
+INSERT INTO `diskusi` (`iddiskusi`, `users_iduser`, `produk_idproduk`, `tanggal`, `pesandiskusi`, `balas_ke`, `created_at`, `updated_at`) VALUES
+(1, 4, 2, '2021-08-25 04:04:29', 'Hallo apakah ini bagus', NULL, '2021-08-25 12:04:29', '2021-08-25 12:04:29');
 
 -- --------------------------------------------------------
 
@@ -212,7 +221,7 @@ CREATE TABLE `dukungantarifpengiriman` (
 
 INSERT INTO `dukungantarifpengiriman` (`merchant_users_iduser`, `tarifpengiriman_idtarifpengiriman`, `minimum_belanja`, `etd`, `tarif_berat`, `tarif_volume`, `tarif_jarak`) VALUES
 (1, 3, 0, 1, 2000, 3000, 4000),
-(2, 1, 0, 1, NULL, NULL, NULL);
+(2, 1, 0, 1, 1000, 2000, 3000);
 
 -- --------------------------------------------------------
 
@@ -239,7 +248,8 @@ INSERT INTO `gambarproduk` (`idgambarproduk`, `produk_idproduk`, `created_at`, `
 (5, 3, '2021-07-05 22:27:43', '2021-07-05 22:27:43'),
 (6, 4, '2021-07-05 22:29:54', '2021-07-05 22:29:54'),
 (7, 5, '2021-07-05 22:31:45', '2021-07-05 22:31:45'),
-(8, 6, '2021-07-05 23:14:20', '2021-07-05 23:14:20');
+(8, 6, '2021-07-05 23:14:20', '2021-07-05 23:14:20'),
+(9, 7, '2021-08-17 22:24:43', '2021-08-17 22:24:43');
 
 -- --------------------------------------------------------
 
@@ -824,6 +834,13 @@ CREATE TABLE `keranjang` (
   `jumlah` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `keranjang`
+--
+
+INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
+(3, 3, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -913,11 +930,10 @@ CREATE TABLE `obrolan` (
 --
 
 INSERT INTO `obrolan` (`idobrolan`, `subject`, `waktu`, `isi_pesan`, `status_baca_user`, `status_baca_merchant`, `pengirim`, `users_iduser`, `merchant_users_iduser`, `created_at`, `updated_at`) VALUES
-(1, 'cobasubject', '2021-08-02 04:59:28', 'Link Produk: https://evan-testing.tech/user/p', 1, 1, 'Pembeli', 4, 1, '2021-08-02 12:59:28', '2021-08-02 13:15:43'),
-(2, 'cobasubject', '2021-08-02 04:59:50', 'hallo', 1, 1, 'Pembeli', 4, 1, '2021-08-02 12:59:50', '2021-08-02 13:15:43'),
-(3, 'cobasubject', '2021-08-02 04:59:58', 'iya gan', 1, 1, 'Merchant', 4, 1, '2021-08-02 12:59:58', '2021-08-02 13:15:43'),
-(4, 'cobasubject', '2021-08-02 05:00:08', 'masih ready?', 1, 1, 'Pembeli', 4, 1, '2021-08-02 13:00:08', '2021-08-02 13:15:43'),
-(5, 'cobasubject', '2021-08-02 05:00:13', 'masih gan', 1, 1, 'Merchant', 4, 1, '2021-08-02 13:00:13', '2021-08-02 13:15:43');
+(1, 'cobasubject', '2021-08-07 12:18:59', 'Link Produk: http://localhost:8000/user/produ', 1, 1, 'Pembeli', 2, 1, '2021-08-07 12:18:59', '2021-08-16 01:00:01'),
+(2, 'cobasubject', '2021-08-25 04:13:27', 'Link Produk: https://evan-testing.tech/user/p', 1, 1, 'Pembeli', 4, 1, '2021-08-25 12:13:27', '2021-08-25 12:14:13'),
+(3, 'cobasubject', '2021-08-25 04:13:55', 'ada apa?', 1, 1, 'Merchant', 4, 1, '2021-08-25 12:13:55', '2021-08-25 12:14:13'),
+(4, 'cobasubject', '2021-08-25 04:14:00', 'gapapa', 1, 1, 'Pembeli', 4, 1, '2021-08-25 12:14:00', '2021-08-25 12:14:13');
 
 -- --------------------------------------------------------
 
@@ -951,7 +967,35 @@ CREATE TABLE `pembayaran` (
 --
 
 INSERT INTO `pembayaran` (`idpembayaran`, `token`, `status`, `created_at`, `updated_at`, `transaksi_idtransaksi`) VALUES
-(1, '308777ff-a0aa-4dfa-85fd-9aed7fb69f40', 'settlement', NULL, NULL, 20);
+(1, 'sdfsdf', 'settlement', '2021-08-11 00:00:00', '2021-08-11 00:00:00', 5),
+(2, 'asdsa', 'settlement', '2021-08-11 00:00:00', '2021-08-13 00:00:00', 6),
+(3, 'd2d6eb5f-bc40-4dab-b917-79f9a5a52b9c', 'settlement', NULL, NULL, 21);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penarikandana`
+--
+
+CREATE TABLE `penarikandana` (
+  `idpenarikandana` int(11) NOT NULL,
+  `bank_tujuan` varchar(100) DEFAULT NULL,
+  `nomor_rekening` varchar(45) DEFAULT NULL,
+  `nama_pemilik_rekening` varchar(45) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  `status` enum('Gagal','Menunggu','Diproses','Selesai') DEFAULT NULL,
+  `bukti` varchar(45) DEFAULT NULL,
+  `catatan` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `penarikandana`
+--
+
+INSERT INTO `penarikandana` (`idpenarikandana`, `bank_tujuan`, `nomor_rekening`, `nama_pemilik_rekening`, `total`, `status`, `bukti`, `catatan`, `created_at`, `updated_at`) VALUES
+(1, '008-PT BANK MANDIRI (PERSERO) Tbk', '181000073271', 'Alexander Evan', 151601, 'Selesai', 'buktiTransfer-1.jpg', 'oee', '2021-08-12 00:00:00', '2021-08-13 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -967,6 +1011,7 @@ CREATE TABLE `pengiriman` (
   `nomor_resi` varchar(45) DEFAULT NULL,
   `status_pengiriman` enum('Selesai','BelumSelesai') DEFAULT 'BelumSelesai',
   `keterangan` varchar(45) DEFAULT NULL,
+  `foto` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `kurir_idkurir` int(11) NOT NULL,
@@ -977,9 +1022,13 @@ CREATE TABLE `pengiriman` (
 -- Dumping data for table `pengiriman`
 --
 
-INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
-(1, '2021-07-06', 1, 6601, 'KM-20210706-205809', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '2021-07-06 20:55:54', '2021-07-06 20:58:15', 2, 1),
-(2, '2021-08-03', 1, 6580, 'KM-20210802-125426', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '2021-08-02 12:50:02', '2021-08-02 12:54:38', 2, 20);
+INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `foto`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
+(1, '2021-07-06', 1, 6601, 'KM-20210706-205809', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '1.jpg', '2021-07-06 20:55:54', '2021-07-06 20:58:15', 2, 1),
+(2, NULL, 1, 6601, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', NULL, '2021-08-10 00:21:15', '2021-08-10 00:21:15', 2, 2),
+(3, NULL, 1, 10000, NULL, 'BelumSelesai', 'CTC/1-2/10000', NULL, '2021-08-10 12:11:08', '2021-08-10 12:11:08', 1, 3),
+(5, NULL, 1, 10000, NULL, 'BelumSelesai', 'CTC/1-2/10000', NULL, '2021-08-11 23:46:19', '2021-08-11 23:46:19', 1, 5),
+(6, NULL, 1, 6601, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', NULL, '2021-08-11 23:57:18', '2021-08-11 23:57:18', 2, 6),
+(7, '2021-08-26', 1, 6607, 'KM-20210825-120917', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '7.jpg', '2021-08-25 12:07:22', '2021-08-25 12:09:42', 2, 21);
 
 -- --------------------------------------------------------
 
@@ -991,6 +1040,8 @@ CREATE TABLE `petugaspengantaran` (
   `idpetugaspengantaran` int(11) NOT NULL,
   `nama` varchar(45) DEFAULT NULL,
   `telepon` varchar(45) DEFAULT NULL,
+  `nama_kendaraan` varchar(45) DEFAULT NULL,
+  `nomor_polisi` varchar(45) DEFAULT NULL,
   `username` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL,
@@ -1002,8 +1053,8 @@ CREATE TABLE `petugaspengantaran` (
 -- Dumping data for table `petugaspengantaran`
 --
 
-INSERT INTO `petugaspengantaran` (`idpetugaspengantaran`, `nama`, `telepon`, `username`, `password`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
-(1, 'Markus', '0812882', 'mrks', '123', '2021-08-02 12:54:11', '2021-08-02 12:54:11', 1);
+INSERT INTO `petugaspengantaran` (`idpetugaspengantaran`, `nama`, `telepon`, `nama_kendaraan`, `nomor_polisi`, `username`, `password`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
+(1, 'Pak Middleware', '08111', 'Xeon gt 125', 'eb 6969 ae', 'e', 'e', '2021-08-08 22:27:08', '2021-08-08 22:27:08', 1);
 
 -- --------------------------------------------------------
 
@@ -1038,12 +1089,13 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesanan`, `status`, `stok`, `berat`, `panjang`, `lebar`, `tinggi`, `preorder`, `waktu_preorder`, `video`, `kategori_idkategori`, `jenisproduk_idjenisproduk`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
-(1, 'Kipas Meja Portable USB 5v', 'Dapatkan sekarang kipas angin portable, kuat dan tahan lama.', 40000, 2, 'Aktif', 45, 100, 5, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/PcOxunbXlf4', 2, 8, '2021-07-05 22:22:56', '2021-08-02 12:50:02', 1),
-(2, 'Lampu Baca Aestetik', 'Lampunya cocok untuk belajar dan pajangan.', 95000, 1, 'Aktif', 2, 100, 10, 20, 30, 'TidakAktif', 0, 'https://www.youtube.com/embed/ciZb0nJffa8', 1, 7, '2021-07-05 22:25:55', '2021-08-02 12:50:02', 1),
-(3, 'Lampu Baca Miniso', 'Bagus produknya mereknya miniso keren dah', 125000, 1, 'Aktif', 10, 40, 20, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/BFn6RZkwGR4', 1, 7, '2021-07-05 22:27:43', '2021-07-05 22:27:43', 1),
-(4, 'Poster Dinding Sepeda', 'Bagus ukuran 50cm x 50cm', 2000, 5, 'Aktif', 50, 50, 50, 50, 2, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:29:54', '2021-07-05 22:29:54', 1),
-(5, 'Poster Dinding Custom', 'Menerima custom, untuk gambar silahkan menghubungi admin. Uk 50x50', 5000, 3, 'Aktif', 500, 50, 50, 50, 5, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:31:45', '2021-07-05 22:31:45', 1),
-(6, 'Produk Testing', 'deskripsi produk uji coba', 1000, -1, 'Aktif', 50, 1, 2, 3, 4, 'TidakAktif', 0, NULL, 4, 5, '2021-07-05 23:14:20', '2021-07-05 23:14:20', 2);
+(1, 'Kipas Meja Portable USB 5v', 'Dapatkan sekarang kipas angin portable, kuat dan tahan lama.', 40000, 2, 'Aktif', 46, 100, 5, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/PcOxunbXlf4', 2, 8, '2021-07-05 22:22:56', '2021-08-25 12:07:22', 1),
+(2, 'Lampu Baca Aestetik', 'Lampunya cocok untuk belajar dan pajangan.', 95000, 1, 'TidakAktif', 0, 100, 10, 20, 30, 'TidakAktif', 0, 'https://www.youtube.com/embed/ciZb0nJffa8', 1, 7, '2021-07-05 22:25:55', '2021-08-25 12:07:22', 1),
+(3, 'Lampu Baca Miniso', 'Bagus produknya mereknya miniso keren dah', 125000, 1, 'Aktif', 9, 40, 20, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/BFn6RZkwGR4', 1, 7, '2021-07-05 22:27:43', '2021-08-11 23:48:52', 1),
+(4, 'Poster Dinding Sepeda', 'Bagus ukuran 50cm x 50cm', 2000, 5, 'Aktif', 50, 50, 50, 50, 2, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:29:54', '2021-08-11 23:58:30', 1),
+(5, 'Poster Dinding Custom', 'Menerima custom, untuk gambar silahkan menghubungi admin. Uk 50x50', 5000, 3, 'Aktif', 500, 50, 50, 50, 5, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:31:45', '2021-08-11 23:42:55', 1),
+(6, 'Produk Testing', 'deskripsi produk uji coba', 1000, 15, 'Aktif', 50, 1, 2, 3, 4, 'TidakAktif', 0, NULL, 4, 5, '2021-07-05 23:14:20', '2021-07-05 23:14:20', 2),
+(7, 'Lampu Baca USB', 'asdasdas', 5000, 40, 'TidakAktif', 50, 12, 11, 12, 12, 'TidakAktif', 0, NULL, 1, 7, '2021-08-17 22:24:43', '2021-08-17 22:24:43', 1);
 
 -- --------------------------------------------------------
 
@@ -1116,8 +1168,9 @@ CREATE TABLE `reviewproduk` (
 --
 
 INSERT INTO `reviewproduk` (`idreviewproduk`, `produk_idproduk`, `transaksi_idtransaksi`, `tanggal_waktu`, `komentar`, `rating`) VALUES
-(1, 1, 20, '2021-08-02 12:58:45', 'bgus parah', 5),
-(2, 2, 20, '2021-08-02 12:58:45', 'mntp betul', 4);
+(1, 1, 1, '2021-08-09 00:40:10', 'joss', 5),
+(2, 1, 21, '2021-08-25 12:13:05', 'Evan mntp', 5),
+(3, 2, 21, '2021-08-25 12:13:05', 'evn keren', 5);
 
 -- --------------------------------------------------------
 
@@ -1177,16 +1230,38 @@ CREATE TABLE `transaksi` (
   `alamatpembeli_idalamat` int(11) NOT NULL,
   `tipepembayaran_idtipepembayaran` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `refund_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`) VALUES
-(1, '2021-07-06 20:55:54', 'Selesai', 'Langsung', 86601, 3, 1, 1, 1, '2021-07-06 20:55:54', '2021-07-06 20:58:15'),
-(20, '2021-08-02 04:50:02', 'Selesai', 'Langsung', 506580, 4, 1, 2, 2, '2021-08-02 12:50:02', '2021-08-02 12:54:38');
+INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`, `refund_at`) VALUES
+(1, '2021-07-06 20:55:54', 'Selesai', 'Langsung', 86601, 3, 1, 1, 1, '2021-07-06 20:55:54', '2021-08-22 22:55:30', NULL),
+(5, '2021-08-11 23:46:19', 'Batal', 'Langsung', 135000, 3, 1, 1, 2, '2021-08-11 23:46:19', '2021-08-11 23:46:19', NULL),
+(6, '2021-08-11 23:57:18', 'Batal', 'Langsung', 16601, 3, 1, 1, 2, '2021-08-11 23:57:18', '2021-08-11 23:57:18', NULL),
+(21, '2021-08-25 04:07:22', 'Selesai', 'Langsung', 656607, 4, 1, 2, 2, '2021-08-25 12:07:22', '2021-08-25 12:12:25', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi_has_penarikandana`
+--
+
+CREATE TABLE `transaksi_has_penarikandana` (
+  `transaksi_idtransaksi` int(11) NOT NULL,
+  `penarikandana_idpenarikandana` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `transaksi_has_penarikandana`
+--
+
+INSERT INTO `transaksi_has_penarikandana` (`transaksi_idtransaksi`, `penarikandana_idpenarikandana`) VALUES
+(5, 1),
+(6, 1);
 
 -- --------------------------------------------------------
 
@@ -1200,9 +1275,11 @@ CREATE TABLE `users` (
   `email` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
   `telepon` varchar(12) DEFAULT NULL,
-  `email_verified_at` datetime DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
   `foto_profil` varchar(45) DEFAULT NULL,
+  `notif_wa` tinyint(4) DEFAULT 1,
+  `notif_email` tinyint(4) DEFAULT 1,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `email_verified_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1211,11 +1288,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `email_verified_at`, `remember_token`, `foto_profil`, `created_at`, `updated_at`) VALUES
-(1, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$h5q5YdomgDrDMx5DANmSLODF3kwUnvRUgv2XF34gPcdya2Z9CYEN2', '081352172', '2021-08-02 00:00:00', NULL, NULL, '2021-07-05 22:02:59', '2021-07-05 22:02:59'),
-(2, 'Admin', 'test@test.com', '$2y$10$h0C6v1z7QVNzLmFtR1u32uDYdN0GgEpOyjf3YxqyGyeXlUPGcFVDu', '08827371', '2021-08-02 00:00:00', NULL, NULL, '2021-07-05 22:40:25', '2021-07-05 22:40:25'),
-(3, 'alexander evan', 'alexevan2810@gmail.com', '$2y$10$7xWFv6.TukQxZLv9WZgci.YYv8pafy6fSvy8rE590qPHXv19tJP6u', '081353522525', '2021-08-02 00:00:00', NULL, NULL, '2021-07-06 20:35:55', '2021-07-06 20:35:55'),
-(4, 'Evan', 'alexanderevandroid@gmail.com', '$2y$10$IGNwTcGmuEK7hk3ft4Ujv.9ZWZqWHqYZL367hkECoITv/Ne8V8MEy', '081353522525', '2021-08-02 12:48:25', NULL, NULL, '2021-08-02 12:48:16', '2021-08-02 12:48:25');
+INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `foto_profil`, `notif_wa`, `notif_email`, `remember_token`, `email_verified_at`, `created_at`, `updated_at`) VALUES
+(1, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$h5q5YdomgDrDMx5DANmSLODF3kwUnvRUgv2XF34gPcdya2Z9CYEN2', '081353522525', NULL, 1, 1, NULL, '2021-08-02 00:00:00', '2021-07-05 22:02:59', '2021-07-05 22:02:59'),
+(2, 'Admin', 'testa@testa.com', '$2y$10$NAnUVN4EFtGgWS/heWKQKOxcHGDxTktIkhiSej1HQO3ug7VETbxv2', '08827371', NULL, 0, 0, NULL, '2021-08-03 00:00:00', '2021-07-05 22:40:25', '2021-08-07 12:49:49'),
+(3, 'alexander evan', 'alexevan2810@gmail.com', '$2y$10$1DKDhNTVwwKvvN2edL3eEOMKXBRG5Rft9ldJwEjuFe064LYeoGC8u', '081353522525', NULL, 1, 1, NULL, '2021-08-22 00:00:00', '2021-07-06 20:35:55', '2021-08-15 16:12:19'),
+(4, 'Alex Evan', 'alexanderevandroid@gmail.com', '$2y$10$qLm3xvpMyx2DgdRnEH/IwONVrkDry.6XIjjYLBKd47nDME8yYKmo6', '081353522525', NULL, 1, 1, NULL, '2021-08-25 12:02:52', '2021-08-25 12:01:34', '2021-08-25 12:02:52');
 
 -- --------------------------------------------------------
 
@@ -1233,7 +1310,9 @@ CREATE TABLE `wishlist` (
 --
 
 INSERT INTO `wishlist` (`users_iduser`, `produk_idproduk`) VALUES
-(1, 1);
+(1, 1),
+(3, 1),
+(3, 3);
 
 --
 -- Indexes for dumped tables
@@ -1376,6 +1455,12 @@ ALTER TABLE `pembayaran`
   ADD KEY `fk_pembayaran_transaksi1_idx` (`transaksi_idtransaksi`);
 
 --
+-- Indexes for table `penarikandana`
+--
+ALTER TABLE `penarikandana`
+  ADD PRIMARY KEY (`idpenarikandana`);
+
+--
 -- Indexes for table `pengiriman`
 --
 ALTER TABLE `pengiriman`
@@ -1436,6 +1521,14 @@ ALTER TABLE `transaksi`
   ADD KEY `fk_transaksi_tipepembayaran1_idx` (`tipepembayaran_idtipepembayaran`);
 
 --
+-- Indexes for table `transaksi_has_penarikandana`
+--
+ALTER TABLE `transaksi_has_penarikandana`
+  ADD PRIMARY KEY (`transaksi_idtransaksi`,`penarikandana_idpenarikandana`),
+  ADD KEY `fk_transaksi_has_penarikandana_penarikandana1_idx` (`penarikandana_idpenarikandana`),
+  ADD KEY `fk_transaksi_has_penarikandana_transaksi1_idx` (`transaksi_idtransaksi`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1463,19 +1556,19 @@ ALTER TABLE `alamatpembeli`
 -- AUTO_INCREMENT for table `datapengiriman`
 --
 ALTER TABLE `datapengiriman`
-  MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `diskusi`
 --
 ALTER TABLE `diskusi`
-  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
-  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `jenisproduk`
@@ -1505,19 +1598,25 @@ ALTER TABLE `notifikasi`
 -- AUTO_INCREMENT for table `obrolan`
 --
 ALTER TABLE `obrolan`
-  MODIFY `idobrolan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idobrolan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `penarikandana`
+--
+ALTER TABLE `penarikandana`
+  MODIFY `idpenarikandana` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pengiriman`
 --
 ALTER TABLE `pengiriman`
-  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `petugaspengantaran`
@@ -1529,13 +1628,13 @@ ALTER TABLE `petugaspengantaran`
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `reviewproduk`
 --
 ALTER TABLE `reviewproduk`
-  MODIFY `idreviewproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idreviewproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tarifpengiriman`
@@ -1547,7 +1646,7 @@ ALTER TABLE `tarifpengiriman`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1703,6 +1802,13 @@ ALTER TABLE `transaksi`
   ADD CONSTRAINT `fk_transaksi_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_transaksi_tipepembayaran1` FOREIGN KEY (`tipepembayaran_idtipepembayaran`) REFERENCES `tipepembayaran` (`idtipepembayaran`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_transaksi_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `transaksi_has_penarikandana`
+--
+ALTER TABLE `transaksi_has_penarikandana`
+  ADD CONSTRAINT `fk_transaksi_has_penarikandana_penarikandana1` FOREIGN KEY (`penarikandana_idpenarikandana`) REFERENCES `penarikandana` (`idpenarikandana`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_transaksi_has_penarikandana_transaksi1` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `wishlist`

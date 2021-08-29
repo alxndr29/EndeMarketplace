@@ -230,7 +230,6 @@ class ProdukController extends Controller
                     ->where('produk.nama', 'like', '%' . $request->key . '%')
                     ->whereBetween('harga', [$minimum, $maksimum])
                     ->where('jenisproduk_idjenisproduk', $jenis)
-                    //->orderBy("status", "desc")
                     ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                     ->paginate($paginate);
@@ -241,7 +240,6 @@ class ProdukController extends Controller
                     ->groupBy('produk.idproduk')
                     ->where('produk.nama', 'like', '%' . $request->key . '%')
                     ->whereBetween('harga', [$minimum, $maksimum])
-                    //->orderBy("status", "desc")
                     ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                     ->paginate($paginate);

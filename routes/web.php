@@ -174,6 +174,12 @@ Route::get('user/penarikan','PenarikanController@indexUser')->name('penarikan.us
 Route::post('user/penarikan/form','PenarikanController@formulirPenarikanUser')->name('formrefund.user');
 Route::get('user/penarikan/detail/{id}','PenarikanController@detailPenarikanUser')->name('detailpenarikan.user');
 
+//Penarikan dana Merchant
+Route::get('seller/penarikan', 'PenarikanController@indexMerchant')->name('penarikan.merchant');
+Route::post('seller/penarikan/form', 'PenarikanController@formulirPenarikanMerchant')->name('formrefund.merchant');
+Route::get('seller/penarikan/detail/{id}', 'PenarikanController@detailPenarikanMerchant')->name('detailpenarikan.merchant');
+
+
 //Review Produk
 Route::post('user/transaksi/review/','TransaksiController@reviewProduk')->name('pelanggan.transaksi.review');
 Route::get('seller/review', 'ProdukController@indexReview')->name('seller.review.index');

@@ -1,6 +1,6 @@
-@extends('layouts.userlte')
+@extends('layouts.adminlte')
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col">
             <div class="card">
@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped text-center">
+                    <table id="example11" class="table table-bordered table-striped text-center">
                         <thead>
                             <tr>
                                 <th style="width:5%">No</th>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped text-center">
+                    <table id="example11" class="table table-bordered table-striped text-center">
                         <thead>
                             <tr>
                                 <th style="width:5%">No</th>
@@ -162,7 +162,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('formrefund.user')}}">
+                <form method="post" action="{{route('formrefund.merchant')}}">
                     @csrf
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Pilih Bank</label>
@@ -218,7 +218,7 @@
 
     function loadDetailPenarikan(id) {
         $.ajax({
-            url: "{{url('user/penarikan/detail')}}/" + id,
+            url: "{{url('seller/penarikan/detail')}}/" + id,
             type: "get",
             success: function(response) {
                 $("#catatan").empty();
@@ -257,8 +257,10 @@
     }
 </script>
 @endsection
+
 @endsection
 
-@section('breadcrumb')
-<li class="breadcrumb-item active">Penarikan</li>
+
+@section('name')
+
 @endsection

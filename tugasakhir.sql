@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2021 at 07:09 PM
+-- Generation Time: Aug 29, 2021 at 07:13 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -1006,7 +1006,8 @@ CREATE TABLE `penarikandana` (
   `bukti` varchar(45) DEFAULT NULL,
   `catatan` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `jenis` enum('refund','withdraw') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1230,18 +1231,19 @@ CREATE TABLE `transaksi` (
   `tipepembayaran_idtipepembayaran` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `refund_at` datetime DEFAULT NULL
+  `refund_at` datetime DEFAULT NULL,
+  `withdraw_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`, `refund_at`) VALUES
-(10, '2021-05-11 23:13:39', 'Selesai', 'Langsung', 47244, 4, 4, 5, 1, '2021-05-11 23:13:39', '2021-05-11 23:22:52', NULL),
-(11, '2021-05-12 01:58:32', 'Selesai', 'Langsung', 95500, 4, 4, 15, 1, '2021-05-12 01:58:32', '2021-05-12 02:11:22', NULL),
-(14, '2021-06-02 00:17:30', 'Selesai', 'Langsung', 20000, 6, 4, 16, 2, '2021-06-02 00:17:30', '2021-06-02 01:10:55', NULL),
-(15, '2021-06-02 00:47:49', 'Selesai', 'Langsung', 10000, 6, 4, 16, 1, '2021-06-02 00:47:49', '2021-06-02 00:49:06', NULL);
+INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`, `refund_at`, `withdraw_at`) VALUES
+(10, '2021-05-11 23:13:39', 'Selesai', 'Langsung', 47244, 4, 4, 5, 1, '2021-05-11 23:13:39', '2021-05-11 23:22:52', NULL, NULL),
+(11, '2021-05-12 01:58:32', 'Selesai', 'Langsung', 95500, 4, 4, 15, 1, '2021-05-12 01:58:32', '2021-05-12 02:11:22', NULL, NULL),
+(14, '2021-06-02 00:17:30', 'Selesai', 'Langsung', 20000, 6, 4, 16, 2, '2021-06-02 00:17:30', '2021-06-02 01:10:55', NULL, NULL),
+(15, '2021-06-02 00:47:49', 'Selesai', 'Langsung', 10000, 6, 4, 16, 1, '2021-06-02 00:47:49', '2021-06-02 00:49:06', NULL, NULL);
 
 -- --------------------------------------------------------
 
