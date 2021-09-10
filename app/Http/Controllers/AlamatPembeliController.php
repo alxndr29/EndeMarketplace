@@ -97,9 +97,10 @@ class AlamatPembeliController extends Controller
         try {
             $alamatPembeli = Alamatpembeli::find($id);
             $alamatPembeli->delete();
-            return "berhasil hapus";
+            return redirect()->back()->with('berhasil','Berhasil Menghapus Alamat');
         } catch (\Exception $e) {
-            return $e->getMessage();
+            // return $e->getMessage();
+            return redirect()->back()->with('gagal', 'Gagal Menghapus Alamat');
         }
     }
 }

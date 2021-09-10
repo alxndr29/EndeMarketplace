@@ -172,7 +172,7 @@ Value: {{$value}}
             url: "{{route('otp.verifikasi')}}",
             type: "POST",
             data: {
-                "_sstoken": "{{ csrf_token() }}",
+                "_token": "{{ csrf_token() }}",
                 "otp": otp,
                 "email": "{{$email}}",
                 "iduser": "{{Auth::user()->iduser}}"

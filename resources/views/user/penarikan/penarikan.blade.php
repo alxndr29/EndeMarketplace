@@ -106,8 +106,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="#">
+                <form method="post" action="#" id="form-edit">
                     @csrf
+                    @method('put')
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Pilih Bank</label>
                         <select class="form-control" id="namaBank" name="namaBank" required>
@@ -125,7 +126,7 @@
                         <label for="exampleFormControlInput1">Nama Pemilik Rekening</label>
                         <input type="text" class="form-control" id="namaPemilikRekening" name="namaPemilikRekening" required>
                     </div>
-                    <button type="button" class="btn btn-success">Ubah</button>
+                    <button type="submit" class="btn btn-success">Ubah</button>
                 </form>
                 <br>
                 <div id="catatan">
@@ -214,6 +215,7 @@
             'error'
         )
         @endif
+
     });
 
     function loadDetailPenarikan(id) {
@@ -247,6 +249,10 @@
                 $("#catatan").append(
                     '<a href="#"> <img src="' + srcImage + '" class="img-thumbnail mx-auto d-block" style="max-width:200px; max-height:200px;"> </a>'
                 );
+
+                var nn = "{{route('formrefundedit.user','id')}}";
+                nn = nn.replace('id', id);
+                $("#form-edit").attr('action', nn);
 
                 $("#exampleModal").modal('show');
             },

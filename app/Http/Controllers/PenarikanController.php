@@ -62,6 +62,9 @@ class PenarikanController extends Controller
             return redirect()->back()->with('gagal', 'Form Penarikan Anda Gagal');
         }
     }
+    public function updateFormulirPenarikanUser(Request $request, $id){
+        return $id;
+    }
     public function detailPenarikanUser($id){
         try{
             $detailPenarikan = DB::table('penarikandana')->where('idpenarikandana','=',$id)->first();
@@ -127,6 +130,10 @@ class PenarikanController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('gagal', 'Form Penarikan Anda Gagal');
         }
+    }
+    public function updateFormulirPenarikanMerchant(Request $request, $id){
+      dd($request->all());
+      echo $id;
     }
     public function detailPenarikanMerchant($id){
         try {

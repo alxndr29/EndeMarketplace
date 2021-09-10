@@ -23,9 +23,11 @@ class TransaksiController extends Controller
             ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
             ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
+            ->orderBy('transaksi.idtransaksi','desc')
             ->groupBy('transaksi.idtransaksi')
             ->where('transaksi.users_iduser', $user->userid())
             ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
+            //->select('detailtransaksi.*')
             ->paginate(10);
         //dd($transaksi);
         return view('user.transaksi.transaksi', compact('transaksi'));
@@ -40,6 +42,7 @@ class TransaksiController extends Controller
             ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
             ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
             ->groupBy('transaksi.idtransaksi')
+            ->orderBy('transaksi.idtransaksi', 'desc')
             ->where('transaksi.users_iduser', $user->userid())
             ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'));
         if($tanggalAwal != "null" && $tanggalAkhir != "null"){

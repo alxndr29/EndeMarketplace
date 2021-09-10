@@ -12,6 +12,21 @@ class KeranjangController extends Controller
     public function index()
     {
         $user = new User();
+        // $keranjang = DB::table('keranjang')
+        //     ->join('produk', 'keranjang.produk_idproduk', '=', 'produk.idproduk')
+        //     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+        //     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+        //     ->groupBy('produk.idproduk')
+        //     ->select('produk.*', 'gambarproduk.*', 'merchant.nama as nama_merchant', 'keranjang.*')
+        //     ->where('keranjang.users_iduser', $user->userid())
+        //     ->get();
+        // return view('user.keranjang.keranjang', compact('keranjang'));
+        return view('user.keranjang.keranjang');
+    }
+
+    public function loadKeranjangPO()
+    {
+        $user = new User();
         $keranjang = DB::table('keranjang')
             ->join('produk', 'keranjang.produk_idproduk', '=', 'produk.idproduk')
             ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
@@ -19,8 +34,22 @@ class KeranjangController extends Controller
             ->groupBy('produk.idproduk')
             ->select('produk.*', 'gambarproduk.*', 'merchant.nama as nama_merchant', 'keranjang.*')
             ->where('keranjang.users_iduser', $user->userid())
+            ->where('produk.preorder', '=', 'Aktif')
             ->get();
-        return view('user.keranjang.keranjang', compact('keranjang'));
+        return $keranjang;
+    }
+    public function loadMerchantPO()
+    {
+        $user = new User();
+        $merchant = DB::table('keranjang')
+            ->join('produk', 'keranjang.produk_idproduk', '=', 'produk.idproduk')
+            ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
+            ->groupBy('merchant.users_iduser')
+            ->select('merchant.users_iduser as idmerchant', 'merchant.nama as nama_merchant')
+            ->where('keranjang.users_iduser', $user->userid())
+            ->where('produk.preorder', '=', 'Aktif')
+            ->get();
+        return $merchant;
     }
     public function loadKeranjang()
     {
@@ -32,6 +61,7 @@ class KeranjangController extends Controller
             ->groupBy('produk.idproduk')
             ->select('produk.*', 'gambarproduk.*', 'merchant.nama as nama_merchant', 'keranjang.*')
             ->where('keranjang.users_iduser', $user->userid())
+            ->where('produk.preorder','=','TidakAktif')
             ->get();
         return $keranjang;
     }
@@ -44,6 +74,7 @@ class KeranjangController extends Controller
             ->groupBy('merchant.users_iduser')
             ->select('merchant.users_iduser as idmerchant', 'merchant.nama as nama_merchant')
             ->where('keranjang.users_iduser', $user->userid())
+            ->where('produk.preorder', '=', 'TidakAktif')
             ->get();
         return $merchant;
     }

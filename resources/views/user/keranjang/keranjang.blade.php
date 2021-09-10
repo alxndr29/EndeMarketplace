@@ -11,38 +11,25 @@
                 </div>
                 <div class="card-body" id="isikeranjang">
 
-                    <!-- <div class="card"> -->
-                    <!-- @foreach($keranjang as $key => $value) -->
-                    <!-- <div class="row">
-                            <div class="col">
-                                <img style="width:175px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                            </div>
-                            <div class="col">
-                                <b>{{$value->nama}}</b>
-                                <br> Rp. {{number_format($value->harga)}}-,
-                                <br> {{$value->nama_merchant}}
-                                <br> Jumlah: <input type="number" class="form-control" placeholder="Qty" id="qty" value="{{$value->jumlah}}">
-                            </div>
-                            <div class="col">
-                                <div class="row p-1">
-                                    <div class="col">
-                                        <form method="post" action="{{route('keranjang.destroy',$value->idproduk)}}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-block btn-default">Hapus</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="row p-1">
-                                    <div class="col">
-                                        <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-block btn-default">Lihat</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                    <!-- @endforeach -->
-                    <!-- </div> -->
                 </div>
+
+
+
+                <div class="card-footer">
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-tittle">
+                        Keranjang PO
+                    </div>
+                </div>
+
+                <div class="card-body" id="isikeranjangPO">
+
+                </div>
+
                 <div class="card-footer">
 
                 </div>
@@ -75,7 +62,12 @@
     var dataKeranjang = [];
     var dataMerchant = [];
     var totalBelanja = 0;
-    
+
+
+    var dataKeranjangPO = [];
+    var dataMerchantPO = [];
+    var totalBelanjaPO = [];
+
     $(document).ready(function() {
         $.ajax({
             url: "{{url('user/keranjang/merchant')}}",
@@ -116,7 +108,94 @@
                 console.log(response);
             }
         });
+        $.ajax({
+            url: "{{url('user/keranjang/merchant/po')}}",
+            method: "GET",
+            success: function(data) {
+                if (data.length == 0) {
+                    $("#isikeranjang").html('<p class="text-center"> Belum ada produk didalam keranjang.</p>');
+                } else {
+                    for (i = 0; i < data.length; i++) {
+                        dataMerchantPO[i] = {};
+                        dataMerchantPO[i].idmerchant = data[i].idmerchant;
+                        dataMerchantPO[i].nama_merchant = data[i].nama_merchant;
+                    }
+                    console.log(dataMerchant);
+                    $.ajax({
+                        url: "{{url('user/keranjang/data/po')}}",
+                        method: "GET",
+                        success: function(data) {
+                            for (i = 0; i < data.length; i++) {
+                                dataKeranjangPO[i] = {};
+                                dataKeranjangPO[i].idproduk = data[i].idproduk;
+                                dataKeranjangPO[i].nama_merchant = data[i].nama_merchant;
+                                dataKeranjangPO[i].idgambarproduk = data[i].idgambarproduk;
+                                dataKeranjangPO[i].jumlah = data[i].jumlah;
+                                dataKeranjangPO[i].harga = data[i].harga;
+                                dataKeranjangPO[i].nama = data[i].nama;
+                            }
+                            console.log(dataKeranjangPO);
+                            tampilPO();
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                }
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
     });
+
+    function tampilPO() {
+        //isikeranjangPO
+        $("#isikeranjangPO").empty();
+        for (j = 0; j < dataMerchantPO.length; j++) {
+            var rout = "{{url('user/checkout')}}" + "/" + dataMerchantPO[j].idmerchant;
+            $("#isikeranjangPO").append('<div class="card" id="' + "p" + dataMerchantPO[j].idmerchant + '"> <div class="card-header"> <div class="row"> <div class="col-9">' + dataMerchantPO[j].nama_merchant + ' </div> <div class="col-3"> <a href="' + rout + '" class="btn btn-block btn-default"> Checkout </a> </div>' + '</div></div>');
+            for (i = 0; i < dataKeranjangPO.length; i++) {
+                if (dataKeranjangPO[i].nama_merchant == dataMerchantPO[j].nama_merchant) {
+                    var idproduk = dataKeranjangPO[i].idproduk;
+                    var nama_merchant = dataKeranjangPO[i].nama_merchant;
+                    var jumlah = dataKeranjangPO[i].jumlah;
+                    var harga = dataKeranjangPO[i].harga;
+                    var nama = dataKeranjangPO[i].nama;
+                    var src = "src=" + "{{asset('/')}}" + "gambar/" + dataKeranjangPO[i].idgambarproduk + '.jpg';
+                    var url = "{{asset('/')}}user/produk/show/" + idproduk;
+                    totalBelanja += dataKeranjangPO[i].jumlah * dataKeranjangPO[i].harga;
+                    var id = "#p" + dataMerchantPO[j].idmerchant;
+                    $(id).append(
+                        '<div class="row">' +
+                        '<div class="col"> <img style="width:150px;height:175px;" class="rounded mx-auto d-block p-3 img-fluid" alt="..."' + src + '>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        '<b>' + nama + '</b>' +
+                        '<br> Rp. ' + harga + '-,' +
+                        '<br>' + nama_merchant +
+                        '<br> Jumlah: <input type="number" class="form-control" data-id="' + idproduk + '" placeholder="Qty" id="qty" value=' + jumlah + '>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        '<div class="row p-1">' +
+                        '<div class="col">' +
+                        '   <button type="submit" class="btn btn-block btn-default" id="btnHapusKeranjang" data-id="' + idproduk + '">Hapus</button>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="row p-1">' +
+                        '<div class="col">' +
+                        '<a href="' + url + '" class="btn btn-block btn-default">Lihat</a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                    );
+                }
+            }
+        }
+        var t = "#totalBelanja";
+        $(t).html('Rp. ' + totalBelanja);
+    }
 
     function tampil() {
         $("#isikeranjang").empty();
@@ -135,32 +214,30 @@
                     totalBelanja += dataKeranjang[i].jumlah * dataKeranjang[i].harga;
                     var id = "#" + dataMerchant[j].idmerchant;
                     $(id).append(
-                        //'<div class="card">' +
                         '<div class="row">' +
-                            '<div class="col"> <img style="width:175px;height:200px;" class="rounded mx-auto d-block p-3 img-fluid" alt="..."' + src + '>' +
-                            '</div>' +
-                            '<div class="col">' +
-                                '<b>' + nama + '</b>' +
-                                '<br> Rp. ' + harga + '-,' +
-                                '<br>' + nama_merchant +
-                                '<br> Jumlah: <input type="number" class="form-control" data-id="' + idproduk + '" placeholder="Qty" id="qty" value=' + jumlah + '>' +
-                            '</div>' +
-                            '<div class="col">' +
-                                '<div class="row p-1">' +
-                                    '<div class="col">' +
-                                    '   <button type="submit" class="btn btn-block btn-default" id="btnHapusKeranjang" data-id="' + idproduk + '">Hapus</button>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '<div class="row p-1">' +
-                                    '<div class="col">' +
-                                        '<a href="' + url + '" class="btn btn-block btn-default">Lihat</a>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
+                        '<div class="col">  <img style="width:150px;height:175px;" class="rounded mx-auto d-block p-3 img-fluid" alt="..."' + src + '>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        '<b>' + nama + '</b>' +
+                        '<br> Rp. ' + harga + '-,' +
+                        '<br>' + nama_merchant +
+                        '<br> Jumlah: <input type="number" class="form-control" data-id="' + idproduk + '" placeholder="Qty" id="qty" value=' + jumlah + '>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        '<div class="row p-1">' +
+                        '<div class="col">' +
+                        '   <button type="submit" class="btn btn-block btn-default" id="btnHapusKeranjang" data-id="' + idproduk + '">Hapus</button>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="row p-1">' +
+                        '<div class="col">' +
+                        '<a href="' + url + '" class="btn btn-block btn-default">Lihat</a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
                         '</div>'
                     );
                 }
-
             }
         }
         var t = "#totalBelanja";

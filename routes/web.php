@@ -106,8 +106,10 @@ Route::get('user/keranjang','KeranjangController@index')->name('keranjang.index'
 Route::post('user/keranjang/store','KeranjangController@store')->name('keranjang.store');
 Route::put('user/keranjang/update/{id}','KeranjangController@update')->name('keranjang.update');
 Route::delete('user/keranjang/delete/{id}','KeranjangController@destroy')->name('keranjang.destroy');
-Route::get('user/keranjang/data','KeranjangController@loadKeranjang')->name('keranjang.data');
-Route::get('user/keranjang/merchant','KeranjangController@loadMerchant')->name('keranjang.merchant.data');
+    Route::get('user/keranjang/data','KeranjangController@loadKeranjang')->name('keranjang.data');
+    Route::get('user/keranjang/merchant','KeranjangController@loadMerchant')->name('keranjang.merchant.data');
+    Route::get('user/keranjang/data/po', 'KeranjangController@loadKeranjangPO')->name('keranjang.dataPO');
+    Route::get('user/keranjang/merchant/po', 'KeranjangController@loadMerchantPO')->name('keranjang.merchant.dataPO');
 Route::get('user/keranjang/notifikasi','KeranjangController@notifikasiKeranjangUser')->name('keranjang.notifikasi');
 
 //Wishlist
@@ -173,12 +175,13 @@ Route::get('user/transaksi/batal/{id}','TransaksiController@batalPesanan')->name
 Route::get('user/penarikan','PenarikanController@indexUser')->name('penarikan.user');
 Route::post('user/penarikan/form','PenarikanController@formulirPenarikanUser')->name('formrefund.user');
 Route::get('user/penarikan/detail/{id}','PenarikanController@detailPenarikanUser')->name('detailpenarikan.user');
+Route::put('user/penarikan/update/{id}', 'PenarikanController@updateFormulirPenarikanUser')->name('formrefundedit.user');
 
 //Penarikan dana Merchant
 Route::get('seller/penarikan', 'PenarikanController@indexMerchant')->name('penarikan.merchant');
 Route::post('seller/penarikan/form', 'PenarikanController@formulirPenarikanMerchant')->name('formrefund.merchant');
 Route::get('seller/penarikan/detail/{id}', 'PenarikanController@detailPenarikanMerchant')->name('detailpenarikan.merchant');
-
+Route::put('seller/penarikan/update/{id}','PenarikanController@updateFormulirPenarikanMerchant')->name('formrefundedit.merchant');
 
 //Review Produk
 Route::post('user/transaksi/review/','TransaksiController@reviewProduk')->name('pelanggan.transaksi.review');
@@ -216,7 +219,6 @@ Route::group(['middleware' => ['cekpetugaspengantaran']], function () {
 
 //Tracking Coba
 Route::get('tracking/index','TrackingController@index');
-
 //Update Profil Pelanggan
 Route::post('user/profile/update', 'HomeController@updateUser')->name('user.profile.update');
 

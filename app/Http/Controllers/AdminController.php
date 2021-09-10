@@ -73,7 +73,7 @@ class AdminController extends Controller
 
                     DB::table('penarikandana')->where('idpenarikandana', '=', $id)->update([
                         'status' => $status,
-                        'bukti' => 'buktiTransfer'.$id.".".$extension
+                        'bukti' => 'buktiTransfer-'.$id.".".$extension
                     ]);
                 }
             }else if($status == "Diproses"){

@@ -61,6 +61,10 @@
                             </p>
                             <p class="h6">Detail Produk: {{$data->deskripsi}}</p>
                             <p class="h6">Stok: {{$data->stok}} Unit</p>
+                            @if ($data->preorder == "Aktif")
+                            <p class="h6"> <b>Preorder {{$data->waktu_preorder}} Hari </b> </p>
+                            @endif
+
                             <div class="row p-1">
                                 @auth
                                 <div class="col">
@@ -252,18 +256,18 @@
                                     <p> Belum ada produk direkomendasi </p>
                                 </div>
                                 @else
-                                    @foreach ($hasilAkhirRekomendasi as $key => $value)
-                                        <div class="col-6 col-lg-3">
-                                            <div class="card">
-                                                <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                <div class="card-body text-center">
-                                                    <b>{{$value->nama}}</b> <br> Rp. {{number_format($value->harga)}}-,
-                                                    <br>
-                                                    <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
-                                                </div>
-                                            </div>
+                                @foreach ($hasilAkhirRekomendasi as $key => $value)
+                                <div class="col-6 col-lg-3">
+                                    <div class="card">
+                                        <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
+                                        <div class="card-body text-center">
+                                            <b>{{$value->nama}}</b> <br> Rp. {{number_format($value->harga)}}-,
+                                            <br>
+                                            <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
                                         </div>
-                                    @endforeach
+                                    </div>
+                                </div>
+                                @endforeach
                                 @endif
 
                             </div>

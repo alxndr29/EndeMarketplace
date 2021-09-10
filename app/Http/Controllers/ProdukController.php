@@ -132,6 +132,7 @@ class ProdukController extends Controller
             array_push($array[$item->transaksi_idtransaksi], $item->produk_idproduk);
         }
         //return $array;
+       //return $da;
 
         // // $samples = [
         // //     ['alpha', 'beta', 'epsilon'], 

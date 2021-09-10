@@ -47,7 +47,6 @@ class MerchantController extends Controller
                 $merchant->nama = $request->get('namamerchant');
                 $merchant->users_iduser = $user->userid();
                 $merchant->save();
-                //return "berhasil";
                 return redirect('seller/merchant');
             }catch(\Exception $e){
                 return $e->getMessage();

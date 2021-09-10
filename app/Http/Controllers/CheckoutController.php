@@ -29,6 +29,9 @@ class CheckoutController extends Controller
         \Midtrans\Config::$is3ds = true;
     }
 
+    public function indexPreOrder($id){
+
+    }
     public function index($id)
     {
         $user = new User();
@@ -65,15 +68,14 @@ class CheckoutController extends Controller
             ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
             ->first();
         $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser', '=', $id)->select('alamatmerchant.*')->first();
-    
+
         return view('user.checkout.checkout', compact('id', 'keranjang', 'dukunganpengiriman', 'dukunganpembayaran', 'total', 'alamatMerchant', 'dukunganTarifPengiriman'));
     }
     public function store(Request $request)
     {
         try {
             $user = new User();
-            $dataUser = User::where('iduser',$user->userid())->first();
-
+            $dataUser = User::where('iduser', $user->userid())->first();
             $keranjang = DB::table('keranjang')
                 ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
                 ->join('users', 'users.iduser', '=', 'keranjang.users_iduser')
@@ -86,7 +88,6 @@ class CheckoutController extends Controller
                 $produk = Produk::find($value->produk_idproduk);
                 if ($produk->stok < $value->jumlah) {
                     return redirect()->back()->with('gagal', 'Qty produk tidak mencukupi!');
-                    //return "stok kurang, silahkan ubah qty product";
                 }
             } 
             foreach($keranjang as $key => $value){
@@ -114,7 +115,6 @@ class CheckoutController extends Controller
             $transaksi->save();
             $id = $transaksi->idtransaksi;
 
-            //$id = 1;
             foreach ($keranjang as $key => $value) {
                 DB::table('detailtransaksi')->insert(
                     [
@@ -183,18 +183,19 @@ class CheckoutController extends Controller
                     'transaksi_idtransaksi' => $id
                 ]);
             }
-
-            // $details = [
-            //     'title' => 'Checkout Pesanan TRX-'.$transaksi->idtransaksi,
-            //     'body' => 'Hallo, '.$dataUser->name.' Checkout anda berhasil. klik link berikut untuk melihat status transaksi anda! Terimakasih!'
-            // ];
-
-            // \Mail::to($user->useremail())->send(new \App\Mail\CheckoutMail($details));
             
-            //return $request->all();
-            
+            if (Auth::user()->notif_email == 1) {
+                $details = [
+                    'title' => 'Checkout Pesanan TRX-' . $transaksi->idtransaksi,
+                    'body' => 'Hallo, ' . $dataUser->name . ' Checkout anda berhasil. klik link berikut untuk melihat status transaksi anda! '. url('/user/transaksi/index')
+                ];
+                \Mail::to($user->useremail())->send(new \App\Mail\CheckoutMail($details));
+            }
+            if (Auth::user()->notif_wa == 1) {
+                //$result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . "081353522525" . "&message=" . 'Hallo, ' . "evan" . ' Berikut merupakan kode OTP untuk login pada website. ' . "1234". ' Terimakasih!');
+            }
             return redirect('user/transaksi/index');
-            
+
         } catch (\Exception $e) {
             return $e->getMessage();
         }
