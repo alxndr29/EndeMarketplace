@@ -179,6 +179,7 @@ class PengirimanController extends Controller
         if ($jenis == "merchant") {
             return view('seller.pengiriman.detailpengantaran', compact('data', 'alamatPengiriman', 'idpengiriman'));
         } else if ($jenis == "Pelanggan") {
+            
             return view('user.transaksi.lacak', compact('data', 'alamatPengiriman', 'idpengiriman'));
         } else {
             return view('seller.petugaspengantaran.detailpengantaran', compact('data', 'alamatPengiriman', 'idpengiriman'));

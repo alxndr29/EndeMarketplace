@@ -162,6 +162,23 @@ class TransaksiController extends Controller
     {
         try {
             DB::table('transaksi')->where('idtransaksi', $id)->update(['status_transaksi' => 'Selesai']);
+            $user = DB::table('transaksi')->join('users', 'users.iduser', 'transaksi.users_iduser')->where('transaksi.idtransaksi', $id)->select('users.*')->first();
+            $pesan =  "Hallo " . $user->name . " Pesanan anda dengan nomor transaksi " . $id . " Telah Terselesaikan. " . ' klik link berikut untuk melihat status transaksi anda! ' . url('/user/transaksi/index');
+            if ($user->notif_email == 1) {
+                try {
+                    $details = [
+                        'title' => '',
+                        'body' => $pesan
+                    ];
+                    \Mail::to($user->email)->send(new \App\Mail\CheckoutMail($details));
+                } catch (\Exception $b) { }
+            }
+            if ($user->notif_wa == 1) {
+                try {
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
+                } catch (\Exception $a) { }
+            }
+
             return redirect('user/transaksi/index')->with('berhasil', 'Transaksi Anda Telah Terselesaikan.');
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -231,7 +248,7 @@ class TransaksiController extends Controller
                 ->where('transaksi.idtransaksi', '=', $id)
                 ->select('users.*')
                 ->first();
-            $pesan =  "Hallo ". $user->name. " Pesanan anda dengan nomor transaksi ".$id." ".$pesan. ' klik link berikut untuk melihat status transaksi anda! ' . url('/user/transaksi/index');
+            $pesan =  "Hallo " . $user->name . " Pesanan anda dengan nomor transaksi " . $id . " " . $pesan . ' klik link berikut untuk melihat status transaksi anda! ' . url('/user/transaksi/index');
             if ($user->notif_email == 1) {
                 try {
                     $details = [
@@ -243,12 +260,11 @@ class TransaksiController extends Controller
             }
             if ($user->notif_wa == 1) {
                 try {
-                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=".$user->telepon ."&message=".$pesan);
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
                 } catch (\Exception $a) { }
             }
 
             return redirect()->back()->with('berhasil', 'Berhasil ubah status pesanan');
-
         } catch (\Exception $e) {
             return $e->getMessage();
         }

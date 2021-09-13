@@ -339,11 +339,8 @@
 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-ZXG2YBvaF0n8pvHq"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        // alert('hello world!');
         @if(session('berhasil'))
-        //toastr.success('{{session('berhasil')}}');
-        alert('{{session('
-            berhasil ')}}');
+        alert('{{session('berhasil')}}');
         @endif
     });
     $("#btnFilter").click(function() {

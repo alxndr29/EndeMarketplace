@@ -32,7 +32,7 @@
                             <select id="inputpengantar" class="form-control">
                                 <option selected>Pilih Pengantar...</option>
                                 @foreach ($dataPengantar as $key => $value)
-                                <option value="{{$value->idpetugaspengantar}}">{{$value->nama}}.</option>
+                                <option value="{{$value->idpetugaspengantaran}}">{{$value->nama}}.</option>
                                 @endforeach
                             </select>
                         </div>
@@ -91,6 +91,7 @@
     });
     $("#proseskurir").click(function() {
         // windows.location = 
+        alert($("#inputpengantar").val());
         window.location.href = "{{url('seller/pengiriman/status')}}/" + "{{$data->idpengiriman}}" + "/" + "ProsesKeKurir" + "/" + "nonAjax" + "/" + 1;
     });
 
