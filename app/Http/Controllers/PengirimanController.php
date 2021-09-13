@@ -79,7 +79,6 @@ class PengirimanController extends Controller
     //ajax - non ajax blm bikin
     public function updateStatus($id, $status, $jenis, $pengantar = null)
     {
-
         try {
             if ($pengantar != null) {
                 DB::table('datapengiriman')->where('pengiriman_idpengiriman', $id)->update([

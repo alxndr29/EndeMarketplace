@@ -6,7 +6,6 @@
 <body>
     <p>{{ $details['title'] }}</p>
     <p>{{ $details['body'] }}</p>
-    <!-- <p> {{route('pelanggan.transaksi.index')}} -->
     <p>Terima kasih!</p>
 </body>
 

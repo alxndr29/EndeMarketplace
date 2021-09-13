@@ -97,6 +97,12 @@
                                     <div class="row">
                                         <p>
                                             <b>{{$value->nama_merchant}}</b> || ID Transaksi: {{$value->idtransaksi}} || Tanggal: {{$value->tanggal}}
+                                            @if ($value->jenis_transaksi == "Langsung")
+                                                <!-- <span class="badge bg-success">{{$value->jenis_transaksi}}</span> -->
+                                            @else
+                                                || <span class="badge bg-success">{{$value->jenis_transaksi}}  {{$value->waktu_po}} Hari</span>
+                                            @endif
+
                                         </p>
                                     </div>
                                     <div class="row">

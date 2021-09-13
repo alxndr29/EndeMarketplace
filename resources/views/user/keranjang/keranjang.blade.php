@@ -153,7 +153,7 @@
         //isikeranjangPO
         $("#isikeranjangPO").empty();
         for (j = 0; j < dataMerchantPO.length; j++) {
-            var rout = "{{url('user/checkout')}}" + "/" + dataMerchantPO[j].idmerchant;
+            var rout = "{{url('user/checkout')}}" + "/" + dataMerchantPO[j].idmerchant + "/po";
             $("#isikeranjangPO").append('<div class="card" id="' + "p" + dataMerchantPO[j].idmerchant + '"> <div class="card-header"> <div class="row"> <div class="col-9">' + dataMerchantPO[j].nama_merchant + ' </div> <div class="col-3"> <a href="' + rout + '" class="btn btn-block btn-default"> Checkout </a> </div>' + '</div></div>');
             for (i = 0; i < dataKeranjangPO.length; i++) {
                 if (dataKeranjangPO[i].nama_merchant == dataMerchantPO[j].nama_merchant) {

@@ -130,6 +130,10 @@
                                                 <input type="hidden" name="biaya_pengiriman" id="biaya">
                                                 <input type="hidden" name="estimasi" id="estimasi">
 
+                                                @if ($status == "po")
+                                                <input type="hidden" name="po" id="po" value ="po">
+                                                @endif
+
                                                 <button type="submit" class="btn btn-block btn-default" id="btnCheckout">Buat Transaksi</button>
                                             </div>
                                         </div>

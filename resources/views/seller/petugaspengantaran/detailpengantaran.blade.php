@@ -407,7 +407,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             if (marker3 != null) {
                 marker3.setMap(null);
             }
-            //marker3.setMap(null);
             lokasiKurir = new google.maps.LatLng(latitude, longitude);
             marker3 = new google.maps.Marker({
                 position: lokasiKurir,
@@ -458,14 +457,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 dist = dist * 0.8684
             }
             if (dist < 0.2) {
-                //$("#demo2").html('kirim notif kalau sdh dekat');
                 $('#selesaiAntar').prop('disabled', false);
                 console.log('kurir sdh dekat < 200 m');
             } else {
-                // $("#demo2").html('masih jauh');
-
                 console.log('kurir msh jauh > 200 m');
-                 $('#selesaiAntar').prop('disabled', true);
+                $('#selesaiAntar').prop('disabled', true);
             }
             jarak = dist;
             return dist;

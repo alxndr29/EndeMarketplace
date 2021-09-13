@@ -153,7 +153,7 @@ Route::post('otp/whatsapp/send', 'OtpController@otpWhatsapp')->name('otp.whatsap
 Route::post('/otp/verifikasi','OtpController@verifikasi')->name('otp.verifikasi');
 
 //Checkout
-Route::get('user/checkout/{id}','CheckoutController@index')->name('checkout.index');
+Route::get('user/checkout/{id}/{status?}','CheckoutController@index')->name('checkout.index');
 Route::post('user/checkout/store','CheckoutController@store')->name('checkout.store');
 
 //Transaksi Merchant

@@ -11,6 +11,7 @@ use App\Pengiriman;
 use App\Transaksi;
 use App\Produk;
 use Carbon\Carbon;
+
 class TransaksiController extends Controller
 {
     //
@@ -23,7 +24,7 @@ class TransaksiController extends Controller
             ->join('detailtransaksi', 'detailtransaksi.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
             ->join('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
-            ->orderBy('transaksi.idtransaksi','desc')
+            ->orderBy('transaksi.idtransaksi', 'desc')
             ->groupBy('transaksi.idtransaksi')
             ->where('transaksi.users_iduser', $user->userid())
             ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
@@ -45,10 +46,10 @@ class TransaksiController extends Controller
             ->orderBy('transaksi.idtransaksi', 'desc')
             ->where('transaksi.users_iduser', $user->userid())
             ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'));
-        if($tanggalAwal != "null" && $tanggalAkhir != "null"){
+        if ($tanggalAwal != "null" && $tanggalAkhir != "null") {
             $syntax->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir]);
         }
-        if($status != "pilih"){
+        if ($status != "pilih") {
             $syntax->where('transaksi.status_transaksi', $status);
         }
         $transaksi = $syntax->paginate(10);
@@ -71,8 +72,8 @@ class TransaksiController extends Controller
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran')
             ->where('transaksi.merchant_users_iduser', $merchant->idmerchant());
-            //->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
-            //->get();
+        //->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
+        //->get();
         if ($tanggalAwal != "null" && $tanggalAkhir != "null") {
             $syntax->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir]);
         }
@@ -103,8 +104,8 @@ class TransaksiController extends Controller
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
-            ->join('users','users.iduser','=','transaksi.users_iduser')
-            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*','users.iduser as iduser','users.name as nama_user')
+            ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
+            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*', 'users.iduser as iduser', 'users.name as nama_user')
             ->where('transaksi.idtransaksi', $id)
             ->first();
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
@@ -143,7 +144,7 @@ class TransaksiController extends Controller
                 ->where('transaksi.users_iduser', $user->userid())
                 ->select('pengiriman.biaya_pengiriman as biaya_pengiriman', 'transaksi.nominal_pembayaran as nominal_pembayaran', 'tipepembayaran.nama as namatipepembayaran')
                 ->get();
-            $hitungReview = DB::table('reviewproduk')->where('transaksi_idtransaksi',$id)->count();
+            $hitungReview = DB::table('reviewproduk')->where('transaksi_idtransaksi', $id)->count();
 
             $result = [
                 'produk' => $produk,
@@ -166,13 +167,14 @@ class TransaksiController extends Controller
             return $e->getMessage();
         }
     }
-    public function batalPesanan($id){
+    public function batalPesanan($id)
+    {
         try {
             DB::table('transaksi')->where('idtransaksi', $id)->update(['status_transaksi' => 'Batal']);
-            $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi',$id)->get();
-            foreach($detailTransaksi as $key => $value){
+            $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $id)->get();
+            foreach ($detailTransaksi as $key => $value) {
                 $produk = Produk::find($value->produk_idproduk);
-                if($produk->stok == 0){
+                if ($produk->stok == 0) {
                     $produk->status = "Aktif";
                 }
                 $produk->stok = $produk->stok + $value->jumlah;
@@ -186,6 +188,7 @@ class TransaksiController extends Controller
     public function prosePesananMerchant(Request $request, $id, $action)
     {
         try {
+            $pesan = " ";
             $transaksi = Transaksi::find($id);
             if ($action == "PesananDikirim") {
                 Pengiriman::where('transaksi_idtransaksi', $id)->update(
@@ -196,6 +199,7 @@ class TransaksiController extends Controller
                 );
                 $transaksi->status_transaksi = $action;
                 $transaksi->save();
+                $pesan = "Telah dikirim";
             } else if ($action == "UpdateResi") {
                 Pengiriman::where('transaksi_idtransaksi', $id)->update(
                     [
@@ -203,7 +207,7 @@ class TransaksiController extends Controller
                     ]
                 );
                 $transaksi->save();
-            } else if($action == "Batal"){
+            } else if ($action == "Batal") {
                 $transaksi->status_transaksi = $action;
                 $transaksi->save();
                 $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $id)->get();
@@ -215,11 +219,36 @@ class TransaksiController extends Controller
                     $produk->stok = $produk->stok + $value->jumlah;
                     $produk->save();
                 }
-            }else {
+                $pesan = "Telah Dibatalkan";
+            } else {
                 $transaksi->status_transaksi = $action;
                 $transaksi->save();
+                $pesan = $action;
             }
-            return redirect()->back()->with('berhasil', 'Berhasil ubah status pesanan');   
+
+            $user = DB::table('transaksi')
+                ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
+                ->where('transaksi.idtransaksi', '=', $id)
+                ->select('users.*')
+                ->first();
+            $pesan =  "Hallo ". $user->name. " Pesanan anda dengan nomor transaksi ".$id." ".$pesan. ' klik link berikut untuk melihat status transaksi anda! ' . url('/user/transaksi/index');
+            if ($user->notif_email == 1) {
+                try {
+                    $details = [
+                        'title' => '',
+                        'body' => $pesan
+                    ];
+                    \Mail::to($user->email)->send(new \App\Mail\CheckoutMail($details));
+                } catch (\Exception $b) { }
+            }
+            if ($user->notif_wa == 1) {
+                try {
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=".$user->telepon ."&message=".$pesan);
+                } catch (\Exception $a) { }
+            }
+
+            return redirect()->back()->with('berhasil', 'Berhasil ubah status pesanan');
+
         } catch (\Exception $e) {
             return $e->getMessage();
         }
