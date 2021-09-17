@@ -57,9 +57,9 @@
                     <br>
                     @if(isset($data->foto))
                     Foto Pengantaran:
-                        <a href="{{asset('fotoTerima/'.$data->foto)}}">
-                            <img src="{{asset('fotoTerima/'.$data->foto)}}" class="rounded mx-auto d-block" style="width:50px; height:50px;">
-                        </a>
+                    <a href="{{asset('fotoTerima/'.$data->foto)}}">
+                        <img src="{{asset('fotoTerima/'.$data->foto)}}" class="rounded mx-auto d-block" style="width:50px; height:50px;">
+                    </a>
                     @endif
                 </div>
             </div>
@@ -169,7 +169,9 @@
                             'Berhasil!',
                             'Pengiriman anda telah terselesaikan',
                             'success'
-                        )
+                        ).then((result) => {
+                            //location.reload();
+                        });
                     }
                     notif_selesai = true;
                     // alert("Kurir Anda sudah sampai tujuan");

@@ -145,6 +145,7 @@ class CheckoutController extends Controller
                 $transaksi->status_transaksi = 'MenungguPembayaran';
             } else {
                 $transaksi->status_transaksi = 'MenungguKonfirmasi';
+                $transaksi->timeout_at = date("Y-m-d H:i:s", strtotime("+ 1 day"));
             }
             if (isset($request->po)) {
                 $transaksi->waktu_po = $lamaPO;

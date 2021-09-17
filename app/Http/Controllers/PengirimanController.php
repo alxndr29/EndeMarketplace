@@ -73,7 +73,7 @@ class PengirimanController extends Controller
             ->where('pengiriman.idpengiriman', '=', $id)
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->first();
-
+        //dd($data);
         return view('seller.pengiriman.detailpengiriman', compact('data', 'dataPengantar'));
     }
     //ajax - non ajax blm bikin
@@ -157,7 +157,6 @@ class PengirimanController extends Controller
             ->where('pengiriman.idpengiriman', '=', $idpengiriman)
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran', 'petugaspengantaran.*')
             ->first();
-        //dd($data);
         $alamatPengiriman = DB::table('transaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
@@ -179,7 +178,6 @@ class PengirimanController extends Controller
         if ($jenis == "merchant") {
             return view('seller.pengiriman.detailpengantaran', compact('data', 'alamatPengiriman', 'idpengiriman'));
         } else if ($jenis == "Pelanggan") {
-            
             return view('user.transaksi.lacak', compact('data', 'alamatPengiriman', 'idpengiriman'));
         } else {
             return view('seller.petugaspengantaran.detailpengantaran', compact('data', 'alamatPengiriman', 'idpengiriman'));
@@ -195,7 +193,7 @@ class PengirimanController extends Controller
             return $e->getMessage();
         }
     }
-    //tracking pembeli
+    //tracking pengantar
     public function updateLokasiKurir(Request $request)
     {
         try {

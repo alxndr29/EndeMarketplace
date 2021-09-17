@@ -97,7 +97,9 @@ class MidtransController extends Controller
             // TODO set payment status in merchant's database to 'Settlement'
             echo "Transaction order_id: " . $order_id . " successfully transfered using " . $type;
             DB::table('transaksi')->where('idtransaksi',$order_id)->update([
-                'status_transaksi' => "MenungguKonfirmasi"
+                'status_transaksi' => "MenungguKonfirmasi",
+                'timeout_at ' => date("Y-m-d H:i:s", strtotime("+ 1 day")),
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
             DB::table('pembayaran')->where('transaksi_idtransaksi',$order_id)->update([
                 'status' => $transaction
@@ -111,7 +113,6 @@ class MidtransController extends Controller
         } else if ($transaction == 'deny') {
             // TODO set payment status in merchant's database to 'Denied'
             echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
-            
             DB::table('pembayaran')->where('transaksi_idtransaksi', $order_id)->update([
                 'status' => $transaction
             ]);
@@ -130,6 +131,15 @@ class MidtransController extends Controller
             DB::table('transaksi')->where('idtransaksi', $order_id)->update([
                 'status_transaksi' => "Batal"
             ]);
+            $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $order_id)->get();
+            foreach ($detailTransaksi as $key => $value) {
+                $produk = Produk::find($value->produk_idproduk);
+                if ($produk->stok == 0) {
+                    $produk->status = "Aktif";
+                }
+                $produk->stok = $produk->stok + $value->jumlah;
+                $produk->save();
+            }
             DB::table('pembayaran')->where('transaksi_idtransaksi', $order_id)->update([
                 'status' => $transaction
             ]);

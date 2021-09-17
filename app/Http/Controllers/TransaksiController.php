@@ -27,10 +27,22 @@ class TransaksiController extends Controller
             ->orderBy('transaksi.idtransaksi', 'desc')
             ->groupBy('transaksi.idtransaksi')
             ->where('transaksi.users_iduser', $user->userid())
-            ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'))
-            //->select('detailtransaksi.*')
+            ->select(
+                'pengiriman.nomor_resi as nomorresi',
+                'pengiriman.kurir_idkurir as idkurir',
+                'pengiriman.idpengiriman as idpengiriman',
+                'pengiriman.keterangan as keteranganpengiriman',
+                'transaksi.*',
+                'merchant.nama as nama_merchant',
+                'produk.nama as nama_produk',
+                'gambarproduk.idgambarproduk as gambar',
+                'detailtransaksi.*',
+                DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'),
+                DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
+            )
             ->paginate(10);
         //dd($transaksi);
+        //return $transaksi;
         return view('user.transaksi.transaksi', compact('transaksi'));
     }
     public function indexPelangganFilter($tanggalAwal, $tanggalAkhir, $status)
@@ -45,7 +57,19 @@ class TransaksiController extends Controller
             ->groupBy('transaksi.idtransaksi')
             ->orderBy('transaksi.idtransaksi', 'desc')
             ->where('transaksi.users_iduser', $user->userid())
-            ->select('pengiriman.nomor_resi as nomorresi', 'pengiriman.kurir_idkurir as idkurir', 'pengiriman.idpengiriman as idpengiriman', 'pengiriman.keterangan as keteranganpengiriman', 'transaksi.*', 'merchant.nama as nama_merchant', 'produk.nama as nama_produk', 'gambarproduk.idgambarproduk as gambar', 'detailtransaksi.*', DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'));
+            ->select(
+                'pengiriman.nomor_resi as nomorresi',
+                'pengiriman.kurir_idkurir as idkurir',
+                'pengiriman.idpengiriman as idpengiriman',
+                'pengiriman.keterangan as keteranganpengiriman',
+                'transaksi.*',
+                'merchant.nama as nama_merchant',
+                'produk.nama as nama_produk',
+                'gambarproduk.idgambarproduk as gambar',
+                'detailtransaksi.*',
+                DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'),
+                DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
+            );
         if ($tanggalAwal != "null" && $tanggalAkhir != "null") {
             $syntax->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir]);
         }

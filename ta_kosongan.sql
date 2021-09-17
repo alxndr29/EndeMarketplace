@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2021 at 06:28 PM
+-- Generation Time: Sep 17, 2021 at 04:30 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -1223,6 +1223,7 @@ CREATE TABLE `transaksi` (
   `merchant_users_iduser` int(11) NOT NULL,
   `alamatpembeli_idalamat` int(11) NOT NULL,
   `tipepembayaran_idtipepembayaran` int(11) NOT NULL,
+  `timeout_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `refund_at` datetime DEFAULT NULL,
@@ -1233,10 +1234,10 @@ CREATE TABLE `transaksi` (
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `waktu_po`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `created_at`, `updated_at`, `refund_at`, `withdraw_at`) VALUES
-(1, '2021-07-06 20:55:54', 'Selesai', 'Langsung', NULL, 86601, 3, 1, 1, 1, '2021-07-06 20:55:54', '2021-08-17 23:58:11', NULL, NULL),
-(7, '2021-09-09 20:44:43', 'Selesai', 'Langsung', NULL, 261601, 3, 1, 1, 1, '2021-09-09 20:44:43', '2021-09-09 20:48:12', NULL, NULL),
-(8, '2021-09-13 13:03:09', 'Selesai', 'PreOrder', 14, 37101, 3, 1, 1, 1, '2021-09-13 13:03:09', '2021-09-13 13:26:07', NULL, NULL);
+INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `waktu_po`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `timeout_at`, `created_at`, `updated_at`, `refund_at`, `withdraw_at`) VALUES
+(1, '2021-07-06 20:55:54', 'Selesai', 'Langsung', NULL, 86601, 3, 1, 1, 1, NULL, '2021-07-06 20:55:54', '2021-08-17 23:58:11', NULL, NULL),
+(7, '2021-09-09 20:44:43', 'Selesai', 'Langsung', NULL, 261601, 3, 1, 1, 1, NULL, '2021-09-09 20:44:43', '2021-09-09 20:48:12', NULL, NULL),
+(8, '2021-09-13 13:03:09', 'Selesai', 'PreOrder', 14, 37101, 3, 1, 1, 1, NULL, '2021-09-13 13:03:09', '2021-09-13 13:26:07', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1555,7 +1556,7 @@ ALTER TABLE `datapengiriman`
 -- AUTO_INCREMENT for table `diskusi`
 --
 ALTER TABLE `diskusi`
-  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `iddiskusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `gambarproduk`
@@ -1754,11 +1755,61 @@ ALTER TABLE `obrolan`
   ADD CONSTRAINT `fk_obrolan_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `pembayaran`
+--
+ALTER TABLE `pembayaran`
+  ADD CONSTRAINT `fk_pembayaran_transaksi1` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `pengiriman`
 --
 ALTER TABLE `pengiriman`
   ADD CONSTRAINT `fk_pengiriman_kurir1` FOREIGN KEY (`kurir_idkurir`) REFERENCES `kurir` (`idkurir`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_pengiriman_transaksi1` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `petugaspengantaran`
+--
+ALTER TABLE `petugaspengantaran`
+  ADD CONSTRAINT `fk_petugaspengantaran_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `produk`
+--
+ALTER TABLE `produk`
+  ADD CONSTRAINT `fk_produk_jenisproduk1` FOREIGN KEY (`jenisproduk_idjenisproduk`) REFERENCES `jenisproduk` (`idjenisproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_produk_kategori1` FOREIGN KEY (`kategori_idkategori`) REFERENCES `kategori` (`idkategori`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_produk_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `reviewproduk`
+--
+ALTER TABLE `reviewproduk`
+  ADD CONSTRAINT `fk_produk_has_transaksi_produk2` FOREIGN KEY (`produk_idproduk`) REFERENCES `produk` (`idproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_produk_has_transaksi_transaksi2` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD CONSTRAINT `fk_transaksi_alamatpembeli1` FOREIGN KEY (`alamatpembeli_idalamat`) REFERENCES `alamatpembeli` (`idalamat`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_transaksi_merchant1` FOREIGN KEY (`merchant_users_iduser`) REFERENCES `merchant` (`users_iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_transaksi_tipepembayaran1` FOREIGN KEY (`tipepembayaran_idtipepembayaran`) REFERENCES `tipepembayaran` (`idtipepembayaran`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_transaksi_user1` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `transaksi_has_penarikandana`
+--
+ALTER TABLE `transaksi_has_penarikandana`
+  ADD CONSTRAINT `fk_transaksi_has_penarikandana_penarikandana1` FOREIGN KEY (`penarikandana_idpenarikandana`) REFERENCES `penarikandana` (`idpenarikandana`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_transaksi_has_penarikandana_transaksi1` FOREIGN KEY (`transaksi_idtransaksi`) REFERENCES `transaksi` (`idtransaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD CONSTRAINT `fk_user_has_produk_produk2` FOREIGN KEY (`produk_idproduk`) REFERENCES `produk` (`idproduk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_user_has_produk_user2` FOREIGN KEY (`users_iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

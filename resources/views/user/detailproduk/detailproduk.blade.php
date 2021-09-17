@@ -381,8 +381,9 @@
 
                 for (i = 0; i < parentBalasan.length; i++) {
                     var idddd = parentBalasan[i].iddiskusi;
-                    var action = "http://localhost:8000/diskusi/balasan/store/" + "{{$data->idproduk}}" + "/" + idddd;
+                    //var action = "http://localhost:8000/diskusi/balasan/store/" + "{{$data->idproduk}}" + "/" + idddd;
                     //alert(action);
+                    var action = "{{url('/')}}/" + "diskusi/balasan/store/" + "{{$data->idproduk}}" + "/" + idddd;
                     $("#custom-tabs-diskusi").append(
                         '<div class="row">' +
                         '<div class="col">' +

@@ -240,7 +240,6 @@
     });
 
     function loadAlamat(id) {
-
         for (i = 0; i < dataAlamat.length; i++) {
             if (dataAlamat[i].idalamat == id) {
                 $("#idalamat").val(id);
@@ -304,7 +303,6 @@
         if (dukunganPengiriman == "2") {
             var split = id.split("-");
             alert(split[0] + " / " + split[1] + " / " + split[2] + " / " + split[3] + split[4] + " / " + split[5] + " / " + split[6] + " / " + split[7]);
-
             if (split[1] == "1") {
                 if (parseInt(jumlah) < parseInt(split[3])) {
                     Swal.fire(

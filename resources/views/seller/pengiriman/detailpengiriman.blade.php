@@ -27,19 +27,19 @@
                 </div>
                 <div class="col">
                     @if($data->status == "MenungguPengiriman")
-                        <div class="form-group">
-                            <label for="inputpengantar">Pilih Pengantar</label>
-                            <select id="inputpengantar" class="form-control">
-                                <option selected>Pilih Pengantar...</option>
-                                @foreach ($dataPengantar as $key => $value)
-                                <option value="{{$value->idpetugaspengantaran}}">{{$value->nama}}.</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <br>
-                        <button id="proseskurir" class="btn btn-success" style="margin-right: 5px;">
-                            <i class="fas fa-edit"></i>Proses ke kurir
-                        </button>
+                    <div class="form-group">
+                        <label for="inputpengantar">Pilih Pengantar</label>
+                        <select id="inputpengantar" class="form-control">
+                            <option selected>Pilih Pengantar...</option>
+                            @foreach ($dataPengantar as $key => $value)
+                            <option value="{{$value->idpetugaspengantaran}}">{{$value->nama}}.</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <br>
+                    <button id="proseskurir" class="btn btn-success" style="margin-right: 5px;">
+                        <i class="fas fa-edit"></i>Proses ke kurir
+                    </button>
                     @endif
                 </div>
             </div>
@@ -90,9 +90,7 @@
         initMap();
     });
     $("#proseskurir").click(function() {
-        // windows.location = 
-        alert($("#inputpengantar").val());
-        window.location.href = "{{url('seller/pengiriman/status')}}/" + "{{$data->idpengiriman}}" + "/" + "ProsesKeKurir" + "/" + "nonAjax" + "/" + 1;
+        window.location.href = "{{url('seller/pengiriman/status')}}/" + "{{$data->idpengiriman}}" + "/" + "ProsesKeKurir" + "/" + "nonAjax" + "/" + $("#inputpengantar").val();
     });
 
     function initMap() {

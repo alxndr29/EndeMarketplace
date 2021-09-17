@@ -191,7 +191,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </div>
                                             </div>
                                             <div class="col">
-                                                <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;">
+                                                <button id="selesaiAntar" class="btn btn-success" style="margin-right: 5px;" disabled>
                                                     <i class="fas fa-edit"></i>Selesai Pengantaran
                                                 </button>
                                             </div>
@@ -343,7 +343,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var marker3;
 
         function iniatMap() {
-            //alert('sekali doang');
+
             myLatlng = new google.maps.LatLng(latitude_destination, longitude_destination);
             latlng = new google.maps.LatLng(latitude_origin, longitude_origin);
             lokasiKurir = new google.maps.LatLng(latitude, longitude);
@@ -362,7 +362,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 title: "Hello World!",
                 label: "Lokasi Pembeli (Tujuan)"
             });
-            // To add the marker to the map, call setMap();
+            
             marker2 = new google.maps.Marker({
                 position: latlng,
                 title: "Hello World!",
@@ -378,31 +378,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             marker2.setMap(map);
             marker3.setMap(map);
         }
-        $("#pindahKurir").click(function() {
-            //-8.845654574032876, 121.66723135955436
-            latitude = "-8.845654574032876";
-            longitude = "121.66723135955436";
-            updateLokasiKurir();
-        });
-        $("#pindahKurir1").click(function() {
-            //-8.844583843790094, 121.67058948594482
-            latitude = "-8.844583843790094";
-            longitude = "121.67058948594482";
-            updateLokasiKurir();
-        });
-        $("#pindahKurir2").click(function() {
-            //-8.838742514074765, 121.67476505158152
-            latitude = "-8.838742514074765";
-            longitude = "121.67476505158152";
-            updateLokasiKurir();
-        });
-        $("#pindahKurir3").click(function() {
-            //-8.834226217513532, 121.67779055355581
-            latitude = "-8.834226217513532";
-            longitude = "121.67779055355581";
-            updateLokasiKurir();
-        });
-
+       
         function updateLokasiKurir() {
             if (marker3 != null) {
                 marker3.setMap(null);
@@ -486,7 +462,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             if (gambar == "") {
                 alert('Mohon pilih file foto terlebih dahulu');
             } else {
-
                 $.ajax({
                     url: "{{url('seller/pengiriman/status')}}/" + "{{$idpengiriman}}" + "/" + "SelesaiAntar" + "/" + "ajax",
                     type: "GET",
@@ -495,7 +470,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             clearInterval(timer);
                             console.log('selesai antar');
                             console.log(response);
-
                             $.ajax({
                                 url: "{{route('merchant.petugas.fotoselesai')}}",
                                 type: "POST",
@@ -527,7 +501,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     gambar = (e.target.result);
-                    alert(gambar);
+                    //alert(gambar);
                 }
                 reader.readAsDataURL(input.files[0]); // convert to base64 string
             }
@@ -563,7 +537,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         //     return d;
         // }
         // alert(haversineDistance(-8.848081830486503, 121.66379357100382, -8.847258240886424, 121.66177493711353));
-
     </script>
 
     @yield('js')
