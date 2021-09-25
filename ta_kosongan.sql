@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 17, 2021 at 04:30 PM
+-- Generation Time: Sep 25, 2021 at 06:01 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -133,7 +133,8 @@ INSERT INTO `detailtransaksi` (`produk_idproduk`, `transaksi_idtransaksi`, `juml
 (3, 7, 1, 125000, 'bbb'),
 (4, 7, 5, 10000, 'ccc'),
 (5, 8, 3, 15000, NULL),
-(8, 8, 1, 500, NULL);
+(8, 8, 1, 500, NULL),
+(8, 9, 1, 500, NULL);
 
 -- --------------------------------------------------------
 
@@ -837,8 +838,7 @@ CREATE TABLE `keranjang` (
 
 INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
 (3, 4, 5),
-(3, 7, 1),
-(3, 8, 1);
+(3, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -981,14 +981,6 @@ CREATE TABLE `penarikandana` (
   `jenis` enum('refund','withdraw') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `penarikandana`
---
-
-INSERT INTO `penarikandana` (`idpenarikandana`, `bank_tujuan`, `nomor_rekening`, `nama_pemilik_rekening`, `total`, `status`, `bukti`, `catatan`, `created_at`, `updated_at`, `jenis`) VALUES
-(6, '002-PT BANK RAKYAT INDONESIA (PERSERO) Tbk', '1232', 'MERCHANTOL', 135000, 'Menunggu', NULL, NULL, '2021-08-28 01:36:14', '2021-08-28 01:36:14', 'withdraw'),
-(8, '002-PT BANK RAKYAT INDONESIA (PERSERO) Tbk', '22', 'eee', 16601, 'Selesai', 'buktiTransfer-8.jpg', NULL, '2021-08-28 01:49:15', '2021-08-28 01:49:15', 'refund');
-
 -- --------------------------------------------------------
 
 --
@@ -1017,7 +1009,8 @@ CREATE TABLE `pengiriman` (
 INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `foto`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
 (1, '2021-07-06', 1, 6601, 'KM-20210706-205809', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', '1.jpg', '2021-07-06 20:55:54', '2021-07-06 20:58:15', 2, 1),
 (7, '2021-09-09', 1, 6601, 'KM-20210909-204542', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', NULL, '2021-09-09 20:44:43', '2021-09-09 20:46:09', 2, 7),
-(8, '2021-09-13', 1, 6601, 'KM-20210913-131850', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', NULL, '2021-09-13 13:03:09', '2021-09-13 13:22:18', 2, 8);
+(8, '2021-09-13', 1, 6601, 'KM-20210913-131850', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-2000-3000-', NULL, '2021-09-13 13:03:09', '2021-09-13 13:22:18', 2, 8),
+(9, NULL, 1, 10000, NULL, 'BelumSelesai', 'CTC/1-2/10000', NULL, '2021-09-17 22:32:56', '2021-09-17 22:32:56', 1, 9);
 
 -- --------------------------------------------------------
 
@@ -1085,7 +1078,7 @@ INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesan
 (5, 'PO - Poster Dinding Custom ', 'Menerima custom, untuk gambar silahkan menghubungi admin. Uk 50x50', 5000, 3, 'Aktif', 497, 50, 50, 50, 5, 'Aktif', 7, NULL, 3, 6, '2021-07-05 22:31:45', '2021-09-13 13:03:09', 1),
 (6, 'Produk Testing', 'deskripsi produk uji coba', 1000, 1, 'Aktif', 49, 1, 2, 3, 4, 'TidakAktif', 0, NULL, 4, 5, '2021-07-05 23:14:20', '2021-09-12 23:48:25', 2),
 (7, 'Lampu Baca USB', 'asdasdas', 5000, 1, 'Aktif', 50, 12, 11, 12, 12, 'TidakAktif', 0, NULL, 1, 7, '2021-08-17 22:24:43', '2021-09-10 12:08:04', 1),
-(8, 'PO - Iphone X', 'Mantap miliki segera', 500, 1, 'Aktif', 19, 300, 10, 20, 30, 'Aktif', 14, NULL, 5, 5, '2021-09-13 00:00:17', '2021-09-13 13:03:09', 1);
+(8, 'PO - Iphone X', 'Mantap miliki segera', 500, 1, 'Aktif', 20, 300, 10, 20, 30, 'Aktif', 14, NULL, 5, 5, '2021-09-13 00:00:17', '2021-09-17 23:58:59', 1);
 
 -- --------------------------------------------------------
 
@@ -1237,7 +1230,8 @@ CREATE TABLE `transaksi` (
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `waktu_po`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `timeout_at`, `created_at`, `updated_at`, `refund_at`, `withdraw_at`) VALUES
 (1, '2021-07-06 20:55:54', 'Selesai', 'Langsung', NULL, 86601, 3, 1, 1, 1, NULL, '2021-07-06 20:55:54', '2021-08-17 23:58:11', NULL, NULL),
 (7, '2021-09-09 20:44:43', 'Selesai', 'Langsung', NULL, 261601, 3, 1, 1, 1, NULL, '2021-09-09 20:44:43', '2021-09-09 20:48:12', NULL, NULL),
-(8, '2021-09-13 13:03:09', 'Selesai', 'PreOrder', 14, 37101, 3, 1, 1, 1, NULL, '2021-09-13 13:03:09', '2021-09-13 13:26:07', NULL, NULL);
+(8, '2021-09-13 13:03:09', 'Selesai', 'PreOrder', 14, 37101, 3, 1, 1, 1, NULL, '2021-09-13 13:03:09', '2021-09-13 13:26:07', NULL, NULL),
+(9, '2021-09-17 22:32:56', 'Batal', 'PreOrder', 14, 25500, 3, 1, 1, 1, '2021-09-18 00:00:00', '2021-09-17 22:32:56', '2021-09-17 22:32:56', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1249,14 +1243,6 @@ CREATE TABLE `transaksi_has_penarikandana` (
   `transaksi_idtransaksi` int(11) NOT NULL,
   `penarikandana_idpenarikandana` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `transaksi_has_penarikandana`
---
-
-INSERT INTO `transaksi_has_penarikandana` (`transaksi_idtransaksi`, `penarikandana_idpenarikandana`) VALUES
-(5, 6),
-(6, 8);
 
 -- --------------------------------------------------------
 
@@ -1286,7 +1272,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `foto_profil`, `notif_wa`, `notif_email`, `remember_token`, `email_verified_at`, `created_at`, `updated_at`) VALUES
 (1, 'Chizuru Mizuhara', 'chizurumizuhara464@gmail.com', '$2y$10$h5q5YdomgDrDMx5DANmSLODF3kwUnvRUgv2XF34gPcdya2Z9CYEN2', '081353522525', NULL, 1, 1, NULL, '2021-08-02 00:00:00', '2021-07-05 22:02:59', '2021-07-05 22:02:59'),
 (2, 'Admin', 'testa@testa.com', '$2y$10$NAnUVN4EFtGgWS/heWKQKOxcHGDxTktIkhiSej1HQO3ug7VETbxv2', '08827371', NULL, 0, 0, NULL, '2021-08-03 00:00:00', '2021-07-05 22:40:25', '2021-08-07 12:49:49'),
-(3, 'alexander evan', 'alexevan2810@gmail.com', '$2y$10$1DKDhNTVwwKvvN2edL3eEOMKXBRG5Rft9ldJwEjuFe064LYeoGC8u', '081353522525', NULL, 1, 1, NULL, '2021-08-22 00:00:00', '2021-07-06 20:35:55', '2021-09-13 23:51:32');
+(3, 'alexander evan', 'alexevan2810@gmail.com', '$2y$10$1DKDhNTVwwKvvN2edL3eEOMKXBRG5Rft9ldJwEjuFe064LYeoGC8u', '081353522525', NULL, 1, 0, NULL, '2021-08-22 00:00:00', '2021-07-06 20:35:55', '2021-09-17 23:27:48');
 
 -- --------------------------------------------------------
 
@@ -1610,7 +1596,7 @@ ALTER TABLE `penarikandana`
 -- AUTO_INCREMENT for table `pengiriman`
 --
 ALTER TABLE `pengiriman`
-  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `petugaspengantaran`
@@ -1640,7 +1626,7 @@ ALTER TABLE `tarifpengiriman`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

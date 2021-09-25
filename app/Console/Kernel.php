@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            //Log::info('Cronjob berhasil dijalankan');
+            Log::info('Cronjob berhasil dijalankan');
             $data = DB::table('transaksi')
                 // ->where('status_transaksi', '=', 'MenungguPembayaran')
                 ->where('status_transaksi', '=', 'MenungguKonfirmasi')

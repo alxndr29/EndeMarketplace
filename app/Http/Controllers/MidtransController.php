@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
+use App\Produk;
 class MidtransController extends Controller
 {
     //
@@ -108,19 +109,22 @@ class MidtransController extends Controller
             // TODO set payment status in merchant's database to 'Pending'
             echo "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
             DB::table('pembayaran')->where('transaksi_idtransaksi', $order_id)->update([
-                'status' => $transaction
+                'status' => $transaction,
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
         } else if ($transaction == 'deny') {
             // TODO set payment status in merchant's database to 'Denied'
             echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
             DB::table('pembayaran')->where('transaksi_idtransaksi', $order_id)->update([
-                'status' => $transaction
+                'status' => $transaction,
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
         } else if ($transaction == 'expire') {
             // TODO set payment status in merchant's database to 'expire'
             echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is expired.";
             DB::table('transaksi')->where('idtransaksi', $order_id)->update([
-                'status_transaksi' => "Batal"
+                'status_transaksi' => "Batal",
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
             DB::table('pembayaran')->where('transaksi_idtransaksi', $order_id)->update([
                 'status' => $transaction
@@ -129,7 +133,8 @@ class MidtransController extends Controller
             // TODO set payment status in merchant's database to 'Denied'
             echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.";
             DB::table('transaksi')->where('idtransaksi', $order_id)->update([
-                'status_transaksi' => "Batal"
+                'status_transaksi' => "Batal",
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
             $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $order_id)->get();
             foreach ($detailTransaksi as $key => $value) {
