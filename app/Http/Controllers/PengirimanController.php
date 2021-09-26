@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Petugaspengantaran;
 use Intervention\Image\ImageManagerStatic as Image;
+
 class PengirimanController extends Controller
 {
     //
@@ -94,7 +95,8 @@ class PengirimanController extends Controller
                         ->where('pengiriman.idpengiriman', $id)
                         ->update([
                             'transaksi.status_transaksi' => 'SampaiTujuan',
-                            'transaksi.updated_at' =>  date('Y-m-d H:i:s')
+                            'transaksi.updated_at' =>  date('Y-m-d H:i:s'),
+                            'transaksi.timeout_at' => date("Y-m-d H:i:s", strtotime("+ 1 day")),
                         ]);
                 }
                 return 'berhasil';
@@ -105,7 +107,11 @@ class PengirimanController extends Controller
                     DB::table('transaksi')
                         ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
                         ->where('pengiriman.idpengiriman', $id)
-                        ->update(['transaksi.status_transaksi' => 'SampaiTujuan']);
+                        ->update([
+                            'transaksi.status_transaksi' => 'SampaiTujuan',
+                            'transaksi.updated_at' =>  date('Y-m-d H:i:s'),
+                            'transaksi.timeout_at ' => date("Y-m-d H:i:s", strtotime("+ 1 day")),
+                        ]);
                 }
                 return redirect()->back()->with('berhasil', 'Berhasil mengubah status pengiriman');
             }
@@ -115,19 +121,19 @@ class PengirimanController extends Controller
     }
     public function uploadFotoSelesai(Request $request)
     {
-        try{
+        try {
             $id = $request->get('idpengiriman');
             $img = $request->get('img');
             $path = public_path('fotoTerima/' . $id . '.jpg');
             Image::make(file_get_contents($img))->encode('jpg', 85)->save($path);
-            DB::table('pengiriman')->where('idpengiriman',$id)->update([
-                'foto' => $id.'.jpg'
+            DB::table('pengiriman')->where('idpengiriman', $id)->update([
+                'foto' => $id . '.jpg'
             ]);
             return 'upload foto berhasil';
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
-     }
+    }
     public function pengantaranMerchant()
     {
         $merchant = new Merchant();

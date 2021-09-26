@@ -2,67 +2,6 @@
 @section('content')
 <div class="container-fluid">
 
-    <!-- <div class="card">
-        <div class="card-header">
-            Daftar Transaksi
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <b>Data Transaksi</b>
-                    <br> ID Transaksi: TRX-{{$transaksi->idtransaksi}}
-                    <br> Tanggal Transaksi:
-                    <br> Status Transaksi: {{$transaksi->status_transaksi}}
-                    <br> Jenis Transaksi: {{$transaksi->jenis_transaksi}}
-                    <br> Nominal Pembayaran: {{$transaksi->nominal_pembayaran}}
-                    <br> Tipe Pembayaran: {{$transaksi->tipe_pembayaran}}
-                    <br> Tipe Pengiriman: {{$transaksi->nama_kurir}}
-                </div>
-                <div class="col">
-                    <b>Alamat Pengiriman</b>
-                    <br> Nama Penerima: {{$alamatPengiriman->nama_penerima}}
-                    <br> Alamat Lengkap: {{$alamatPengiriman->alamatlengkap}}
-                    <br> Telepon: {{$alamatPengiriman->telepon}}
-                    <br> Kode Pos: {{$alamatPengiriman->kode_pos}}
-                    <br> Kabupaten Kota: {{$alamatPengiriman->nama_kota}}
-                    <br> Provinsi: {{$alamatPengiriman->nama_provinsi}}
-                </div>
-            </div>
-            <br>
-            <b>Daftar Produk</b>
-            <div class="row">
-                @foreach ($daftarProduk as $key => $value)
-                <div class="col-4 border">
-                    <div class="row">
-                        <div class="col-4">
-                            <img style="width:150px;height:150px;" class="rounded mx-auto d-block pt-3 img-fluid" alt="..." src="{{asset('gambar/'.$value->gambar.'.jpg')}}">
-                        </div>
-                        <div class="col-8">
-                            <b>{{$value->nama_produk}}</b>
-                            <br> Rp. {{number_format($value->total_harga/$value->jumlah)}}-,
-                            <br> Jumlah: {{$value->jumlah}} pcs
-                            <br> Total: Rp. {{number_format($value->total_harga)}}-,
-                            <br> Catatan: {{$value->catatan}}
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            <br>
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn btn-block btn-danger">Batalkan Transaksi</button>
-                </div>
-                <div class="col">
-                    <button type="button" class="btn btn-block btn-success">Proses Transaksi</button>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer">
-
-        </div>
-    </div> -->
-
     <div class="row">
         <div class="col-12">
             <!-- Main content -->
@@ -91,14 +30,28 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-4 invoice-col">
-                        <b>ID Transaksi: TRX-{{$transaksi->idtransaksi}}</b><br>
+                        <b>ID Transaksi: TRX-{{$transaksi->idtransaksi}}</b>
+                        @if ($transaksi->status_transaksi == "MenungguPembayaran")
+                        <!-- || <span class="badge bg-danger">{{$value->timeout}} Jam</span> -->
+                        @elseif($transaksi->status_transaksi == "MenungguKonfirmasi")
+                        || <span class="badge bg-danger"> {{$transaksi->timeout}} Jam</span>
+                        @elseif($transaksi->status_transaksi == "PesananDiproses")
+                        || <span class="badge bg-danger">{{$transaksi->timeout}} Jam</span>
+                        @elseif($transaksi->status_transaksi == "PesananDikirim")
+
+                        @elseif($transaksi->status_transaksi == "SampaiTujuan")
+                        || <span class="badge bg-danger">{{$transaksi->timeout}} Jam</span>
+                        @elseif($transaksi->status_transaksi == "Selesai")
+
+                        @elseif($transaksi->status_transaksi == "Batal")
+                        @endif
                         <br>
                         Status Transaksi: <b> {{$transaksi->status_transaksi}} </b>
                         <br>
                         Tipe Pembayaran: {{$transaksi->tipe_pembayaran}}
                         <br>
                         Tanggal Pembayaran:
-                        <br>
+
                         <!-- <b>Account:</b> 968-34567 -->
                     </div>
                     <div class="col-sm-4 invoice-col">
@@ -226,22 +179,30 @@
                                 </button>
                             </form>
                         @elseif($transaksi->status_transaksi == "PesananDiproses")
-
-                            @if($transaksi->nama_kurir == "JNE")
-                                <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-jne">
-                                    Masukan Nomor Resi Pengiriman
-                                </button>
-                            @else
-                                <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-kurir">
-                                    Plot Jadwal Pengiriman
-                                </button>
-                            @endif
+                        @if($transaksi->nama_kurir == "JNE")
+                            <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-jne">
+                                Masukan Nomor Resi Pengiriman
+                            </button>
+                        @else
+                            <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-kurir">
+                                Plot Jadwal Pengiriman
+                            </button>
+                        @endif
                         @elseif($transaksi->status_transaksi == "PesananDikirim")
-                        
+                        @if($transaksi->nama_kurir == "JNE")
+                            <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'SampaiTujuan'])}}">
+                                @csrf
+                                @method('put')
+                                <button type="submit" class="btn btn-success float-right">
+                                    <i class="far fa-credit-card"></i>
+                                    Sampai Tujuan
+                                </button>
+                            </form>
+                        @endif
                         @elseif($transaksi->status_transaksi == "SampaiTujuan")
-                            <a href="{{route('pelanggan.transaksi.selesai',$transaksi->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
-                                Terima Paket
-                            </a>
+                            <!-- <a href="{{route('pelanggan.transaksi.selesai',$transaksi->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
+                                Selesai Pesanan
+                            </a> -->
                         @else
 
                         @endif

@@ -59,6 +59,13 @@ class CheckoutController extends Controller
                 ->where('produk.preorder', '=', 'Aktif')
                 ->groupBy('keranjang.produk_idproduk')
                 ->get();
+            $total = DB::table('keranjang')
+                ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
+                ->where('produk.merchant_users_iduser', '=', $id)
+                ->where('keranjang.users_iduser', '=', $user->userid())
+                ->where('produk.preorder', '=', 'Aktif')
+                ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
+                ->first();
         } else {
             $keranjang = DB::table('keranjang')
                 ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
@@ -70,15 +77,15 @@ class CheckoutController extends Controller
                 ->where('produk.preorder', '=', 'TidakAktif')
                 ->groupBy('keranjang.produk_idproduk')
                 ->get();
+            $total = DB::table('keranjang')
+                ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
+                ->where('produk.merchant_users_iduser', '=', $id)
+                ->where('keranjang.users_iduser', '=', $user->userid())
+                ->where('produk.preorder', '=', 'TidakAktif')
+                ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
+                ->first();
         }
-        $total = DB::table('keranjang')
-            ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
-            ->where('produk.merchant_users_iduser', '=', $id)
-            ->where('keranjang.users_iduser', '=', $user->userid())
-            ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
-            ->first();
         $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser', '=', $id)->select('alamatmerchant.*')->first();
-
         return view('user.checkout.checkout', compact('id', 'keranjang', 'dukunganpengiriman', 'dukunganpembayaran', 'total', 'alamatMerchant', 'dukunganTarifPengiriman', 'status'));
     }
     // if (isset($request->po)) {
@@ -123,7 +130,7 @@ class CheckoutController extends Controller
                     }
                 }
             }
-            
+
             $lamaPO = 0;
             foreach ($keranjang as $key => $value) {
                 $produk = Produk::find($value->produk_idproduk);
@@ -139,18 +146,22 @@ class CheckoutController extends Controller
                 $produk->save();
                 DB::table('keranjang')->where('users_iduser', $user->userid())->where('produk_idproduk', $value->produk_idproduk)->delete();
             }
-           
+
             $transaksi = new Transaksi();
             if ($request->get('tipePembayaran') == "2") {
                 $transaksi->status_transaksi = 'MenungguPembayaran';
             } else {
                 $transaksi->status_transaksi = 'MenungguKonfirmasi';
+                // if (isset($request->po)) {
+                //     $transaksi->timeout_at = date("Y-m-d H:i:s", strtotime("+" . $lamaPO . "day"));
+                // } else {
                 $transaksi->timeout_at = date("Y-m-d H:i:s", strtotime("+ 1 day"));
+                // }
             }
             if (isset($request->po)) {
                 $transaksi->waktu_po = $lamaPO;
                 $transaksi->jenis_transaksi = 'PreOrder';
-            }else{
+            } else {
                 $transaksi->jenis_transaksi = 'Langsung';
             }
             $transaksi->nominal_pembayaran = $request->get('nominalpembayaran') + $request->get('biaya_pengiriman');
@@ -241,10 +252,10 @@ class CheckoutController extends Controller
             }
             if (Auth::user()->notif_wa == 1) {
                 try {
-                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=".$dataUser->telepon."&message=".'Hallo '. $dataUser->name.'. Checkout Pesanan Transaksi dengan ID - '.$transaksi->idtransaksi.' telah berhasil. Klik link berikut untuk melihat daftar transaksi. '. url('/user/transaksi/index'));
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $dataUser->telepon . "&message=" . 'Hallo ' . $dataUser->name . '. Checkout Pesanan Transaksi dengan ID - ' . $transaksi->idtransaksi . ' telah berhasil. Klik link berikut untuk melihat daftar transaksi. ' . url('/user/transaksi/index'));
                 } catch (\Exception $a) { }
             }
-            
+
             return redirect('user/transaksi/index');
         } catch (\Exception $e) {
             DB::rollback();

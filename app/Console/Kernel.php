@@ -29,11 +29,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // SELECT hour(timediff(date_add(Now(),interval 8 hour),Now())) as timeout
         $schedule->call(function () {
-            Log::info('Cronjob berhasil dijalankan');
             $data = DB::table('transaksi')
                 // ->where('status_transaksi', '=', 'MenungguPembayaran')
                 ->where('status_transaksi', '=', 'MenungguKonfirmasi')
+                ->orWhere('status_transaksi', '=', 'SampaiTujuan')
+                ->orWhere('status_transaksi', '=', 'PesananDiproses')
                 ->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
                 ->get();
             foreach ($data as $value) {
@@ -74,14 +76,20 @@ class Kernel extends ConsoleKernel
                             } catch (\Exception $a) { }
                         }
                         Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
+                        echo ('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
+                        echo ('<br>');
                     } catch (\Exception $e) {
                         DB::rollback();
                         return $e->getMessage();
                     }
                 } else {
-                    Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu ' . $value->timeout . ' Jam');
+                    Log::info('Transaksi ' . $value->idtransaksi . ' Sisa waktu ' . $value->timeout . ' Jam' . ' Status Saat ini ' . $value->status_transaksi);
+                    echo ('Transaksi ' . $value->idtransaksi . ' Sisa waktu ' . $value->timeout . ' Jam' . ' Status Saat ini ' . $value->status_transaksi);
+                    echo ('<br>');
                 }
             }
+            Log::info('Cronjob Berhasil Dijalankan');
+            echo ('Cronjob Berhasil Dijalankan');
         })->everyTwoMinutes();
     }
 

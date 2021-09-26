@@ -96,8 +96,6 @@ class TransaksiController extends Controller
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran')
             ->where('transaksi.merchant_users_iduser', $merchant->idmerchant());
-        //->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir])
-        //->get();
         if ($tanggalAwal != "null" && $tanggalAkhir != "null") {
             $syntax->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir]);
         }
@@ -129,7 +127,7 @@ class TransaksiController extends Controller
             ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
             ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
-            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*', 'users.iduser as iduser', 'users.name as nama_user')
+            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*', 'users.iduser as iduser', 'users.name as nama_user', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
             ->where('transaksi.idtransaksi', $id)
             ->first();
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
@@ -262,11 +260,27 @@ class TransaksiController extends Controller
                 }
                 $pesan = "Telah Dibatalkan";
             } else {
-                $transaksi->status_transaksi = $action;
-                $transaksi->save();
-                $pesan = $action;
+                if($action == "PesananDiproses"){
+                    $transaksi->status_transaksi = $action;
+                    if($transaksi->jenis_transaksi == "Langsung"){
+                        $transaksi->timeout_at =  date("Y-m-d H:i:s", strtotime("+ 2 day"));
+                    }else{
+                        $transaksi->timeout_at = date("Y-m-d H:i:s", strtotime("+" . $transaksi->waktu_po . "day"));
+                    }
+                    $transaksi->save();
+                    $pesan = $action;
+                }else if($action == "SampaiTujuan"){
+                    $transaksi->status_transaksi = $action;
+                    $transaksi->timeout_at =  date("Y-m-d H:i:s", strtotime("+ 1 day"));
+                    $transaksi->save();
+                    $pesan = $action;
+                }else{
+                    $transaksi->status_transaksi = $action;
+                    $transaksi->timeout_at =  date("Y-m-d H:i:s", strtotime("+ 2 day"));
+                    $transaksi->save();
+                    $pesan = $action;
+                }
             }
-
             $user = DB::table('transaksi')
                 ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
                 ->where('transaksi.idtransaksi', '=', $id)
@@ -287,7 +301,6 @@ class TransaksiController extends Controller
                     $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
                 } catch (\Exception $a) { }
             }
-
             return redirect()->back()->with('berhasil', 'Berhasil ubah status pesanan');
         } catch (\Exception $e) {
             return $e->getMessage();

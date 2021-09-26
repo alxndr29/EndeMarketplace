@@ -18,62 +18,78 @@ use Illuminate\Support\Facades\Log;
 //Route::get('/email','OtpController@send');
 
 Route::get('/log', function () {
-    //return date("Y-m-d H:i:s", strtotime("+ 15 minutes"));
+    // $hr = 1;
+    // return date("Y-m-d H:i:s", strtotime("+".$hr."day"));
+    // return date("Y-m-d H:i:s", strtotime("+ 15 minutes"));
+    // SELECT hour( timediff(date_add(Now(),interval 8 hour),Now() ))+
 
-    // $data = DB::table('transaksi')
-    //     // ->where('status_transaksi', '=', 'MenungguPembayaran')
-    //     ->where('status_transaksi', '=', 'MenungguKonfirmasi')
-    //     ->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
-    //     ->get();
-    // foreach ($data as $value) {
-    //     if ($value->timeout == 0) {
-    //         DB::beginTransaction();
-    //         try{
-    //             DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
-    //                 'status_transaksi' => "Batal"
-    //             ]);
-    //             $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $value->idtransaksi)->get();
-    //             foreach($detailTransaksi as $value1) {
-    //                 $produk = Produk::find($value1->produk_idproduk);
-    //                 if ($produk->stok == 0) {
-    //                     $produk->status = "Aktif";
-    //                 }
-    //                 $produk->stok = $produk->stok + $value1->jumlah;
-    //                 $produk->save();
-    //             }
-    //             //return $value->idtransaksi;
-    //             $user = DB::table('transaksi')
-    //                 ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
-    //                 ->where('transaksi.idtransaksi', '=', $value->idtransaksi)
-    //                 ->select('users.*')
-    //                 ->first();
-    //             $pesan =  "Hallo ".$user->name." Pesanan anda dengan nomor transaksi ".$value->idtransaksi." "." Telah dibatalkan karena telah melewati batas waktu". ' klik link berikut untuk melihat status transaksi anda! '. url('/user/transaksi/index');
-    //             DB::commit();
-    //             if ($user->notif_email == 1) {
-    //                 try {
-    //                     $details = [
-    //                         'title' => '',
-    //                         'body' => $pesan
-    //                     ];
-    //                     \Mail::to($user->email)->send(new \App\Mail\CheckoutMail($details));
-    //                 } catch (\Exception $b) { }
-    //             }
-    //             if ($user->notif_wa == 1) {
-    //                 try {
-    //                     $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
-    //                 } catch (\Exception $a) { }
-    //             }
-    //             Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
-    //         }catch(\Exception $e){
-    //             DB::rollback();
-    //             return $e->getMessage();
-    //         }
-    //     }else{
-    //         Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu '.$value->timeout .' Jam');
-    //     }
+    // $trk = DB::table('transaksi')->where('idtransaksi', 10)->first();
+    // if($trk->jenis_transaksi == "PreOrder"){
+    //     return date("Y-m-d H:i:s", strtotime("+" . $trk->waktu_po . "day"));
+    // }else{
+    //     return date("Y-m-d H:i:s", strtotime("+ 1 day"));
     // }
-    // return $data;
 
+    $data = DB::table('transaksi')
+        // ->where('status_transaksi', '=', 'MenungguPembayaran')
+        ->where('status_transaksi', '=', 'MenungguKonfirmasi')
+        ->orWhere('status_transaksi','=','SampaiTujuan')
+        ->orWhere('status_transaksi','=', 'PesananDiproses')
+        ->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
+        ->get();
+    foreach ($data as $value) {
+        if ($value->timeout == 0) {
+            DB::beginTransaction();
+            try{
+                DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
+                    'status_transaksi' => "Batal"
+                ]);
+                $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $value->idtransaksi)->get();
+                foreach($detailTransaksi as $value1) {
+                    $produk = Produk::find($value1->produk_idproduk);
+                    if ($produk->stok == 0) {
+                        $produk->status = "Aktif";
+                    }
+                    $produk->stok = $produk->stok + $value1->jumlah;
+                    $produk->save();
+                }
+                $user = DB::table('transaksi')
+                    ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
+                    ->where('transaksi.idtransaksi', '=', $value->idtransaksi)
+                    ->select('users.*')
+                    ->first();
+                $pesan =  "Hallo ".$user->name." Pesanan anda dengan nomor transaksi ".$value->idtransaksi." "." Telah dibatalkan karena telah melewati batas waktu". ' klik link berikut untuk melihat status transaksi anda! '. url('/user/transaksi/index');
+                DB::commit();
+                if ($user->notif_email == 1) {
+                    try {
+                        $details = [
+                            'title' => '',
+                            'body' => $pesan
+                        ];
+                        \Mail::to($user->email)->send(new \App\Mail\CheckoutMail($details));
+                    } catch (\Exception $b) { }
+                }
+                if ($user->notif_wa == 1) {
+                    try {
+                        $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
+                    } catch (\Exception $a) { }
+                }
+                Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
+                echo('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
+                echo ('<br>');
+            }catch(\Exception $e){
+                DB::rollback();
+                return $e->getMessage();
+            }
+        }else{
+            Log::info('Transaksi ' . $value->idtransaksi . ' Sisa waktu '.$value->timeout .' Jam'.' Status Saat ini '.$value->status_transaksi);
+            echo('Transaksi ' . $value->idtransaksi . ' Sisa waktu ' . $value->timeout . ' Jam' . ' Status Saat ini '.$value->status_transaksi);
+            echo ('<br>');
+        }
+    }
+    Log::info('Cronjob Berhasil Dijalankan');
+    echo('Cronjob Berhasil Dijalankan');
+    //return $data;
     //echo date("Y-m-d H:i:s", strtotime("+ 1 day"));
 });
 Route::get('/p', function () {

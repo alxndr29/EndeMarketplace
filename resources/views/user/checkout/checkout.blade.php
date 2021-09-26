@@ -131,7 +131,7 @@
                                                 <input type="hidden" name="estimasi" id="estimasi">
 
                                                 @if ($status == "po")
-                                                <input type="hidden" name="po" id="po" value ="po">
+                                                <input type="hidden" name="po" id="po" value="po">
                                                 @endif
 
                                                 <button type="submit" class="btn btn-block btn-default" id="btnCheckout">Buat Transaksi</button>
@@ -298,6 +298,9 @@
             hitungBiaya();
         }
     });
+    $("#dukunganPembayaran").change(function() {
+        validasi();
+    });
     $("#biayaKurir").change(function() {
         var id = $(this).val();
         if (dukunganPengiriman == "2") {
@@ -412,6 +415,15 @@
                 console.table(response);
             }
         });
+    }
+
+    function validasi() {
+        $dPengiriman = $("#dukunganPengiriman").val(); //1 jne // 2 merchant
+        $dPembayaran = $("#dukunganPembayaran").val(); //1 cod // 2 trf  
+        if ($dPembayaran == "1" && $dPengiriman == "1") {
+            alert("Pengiriman melalui JNE tidak mendukung COD");
+            $('#dukunganPembayaran').prop('selectedIndex', 0);
+        }
     }
 </script>
 @endsection

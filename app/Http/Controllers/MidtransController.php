@@ -97,11 +97,22 @@ class MidtransController extends Controller
         } else if ($transaction == 'settlement') {
             // TODO set payment status in merchant's database to 'Settlement'
             echo "Transaction order_id: " . $order_id . " successfully transfered using " . $type;
-            DB::table('transaksi')->where('idtransaksi',$order_id)->update([
-                'status_transaksi' => "MenungguKonfirmasi",
-                'timeout_at ' => date("Y-m-d H:i:s", strtotime("+ 1 day")),
-                'updated_at' => date("Y-m-d H:i:s")
-            ]);
+            $trk = DB::table('transaksi')->where('idtransaksi', $order_id)->first();
+            if ($trk->jenis_transaksi == "PreOrder") {
+                //return date("Y-m-d H:i:s", strtotime("+" . $trk->waktu_po . "day"));
+                DB::table('transaksi')->where('idtransaksi', $order_id)->update([
+                    'status_transaksi' => "MenungguKonfirmasi",
+                    'timeout_at ' => date("Y-m-d H:i:s", strtotime("+" . $trk->waktu_po . "day")),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+            } else {
+                //return date("Y-m-d H:i:s", strtotime("+ 1 day"));
+                DB::table('transaksi')->where('idtransaksi', $order_id)->update([
+                    'status_transaksi' => "MenungguKonfirmasi",
+                    'timeout_at ' => date("Y-m-d H:i:s", strtotime("+ 1 day")),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+            }
             DB::table('pembayaran')->where('transaksi_idtransaksi',$order_id)->update([
                 'status' => $transaction
             ]);
