@@ -41,17 +41,23 @@ Route::get('/log', function () {
         if ($value->timeout == 0) {
             DB::beginTransaction();
             try{
-                DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
-                    'status_transaksi' => "Batal"
-                ]);
-                $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $value->idtransaksi)->get();
-                foreach($detailTransaksi as $value1) {
-                    $produk = Produk::find($value1->produk_idproduk);
-                    if ($produk->stok == 0) {
-                        $produk->status = "Aktif";
+                if($value->status_transaksi == "SampaiTujuan"){
+                    DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
+                        'status_transaksi' => "Selesai"
+                    ]);
+                }else{
+                    DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
+                        'status_transaksi' => "Batal"
+                    ]);
+                    $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $value->idtransaksi)->get();
+                    foreach ($detailTransaksi as $value1) {
+                        $produk = Produk::find($value1->produk_idproduk);
+                        if ($produk->stok == 0) {
+                            $produk->status = "Aktif";
+                        }
+                        $produk->stok = $produk->stok + $value1->jumlah;
+                        $produk->save();
                     }
-                    $produk->stok = $produk->stok + $value1->jumlah;
-                    $produk->save();
                 }
                 $user = DB::table('transaksi')
                     ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')

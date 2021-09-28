@@ -64,8 +64,9 @@ class CheckoutController extends Controller
                 ->where('produk.merchant_users_iduser', '=', $id)
                 ->where('keranjang.users_iduser', '=', $user->userid())
                 ->where('produk.preorder', '=', 'Aktif')
-                ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
+                ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat, SUM(keranjang.jumlah*(produk.panjang * produk.lebar * produk.tinggi)) as volume'))
                 ->first();
+            //dd($total);
         } else {
             $keranjang = DB::table('keranjang')
                 ->join('produk', 'produk.idproduk', '=', 'keranjang.produk_idproduk')
@@ -82,8 +83,9 @@ class CheckoutController extends Controller
                 ->where('produk.merchant_users_iduser', '=', $id)
                 ->where('keranjang.users_iduser', '=', $user->userid())
                 ->where('produk.preorder', '=', 'TidakAktif')
-                ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat'))
+                ->select(DB::raw('SUM(keranjang.jumlah * produk.harga) as jumlah, SUM(produk.berat * keranjang.jumlah) as berat, SUM(keranjang.jumlah*(produk.panjang * produk.lebar * produk.tinggi)) as volume'))
                 ->first();
+            //dd($total);
         }
         $alamatMerchant = DB::table('alamatmerchant')->where('merchant_users_iduser', '=', $id)->select('alamatmerchant.*')->first();
         return view('user.checkout.checkout', compact('id', 'keranjang', 'dukunganpengiriman', 'dukunganpembayaran', 'total', 'alamatMerchant', 'dukunganTarifPengiriman', 'status'));
@@ -194,7 +196,6 @@ class CheckoutController extends Controller
                         ]
                     );
             }
-
             $pengiriman = new Pengiriman();
             $pengiriman->kurir_idkurir = $request->get('kurir');
             $pengiriman->transaksi_idtransaksi = $id;

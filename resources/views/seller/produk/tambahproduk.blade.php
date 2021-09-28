@@ -229,7 +229,6 @@
                 !$("#harga").val() || !$("#beratProduk").val() ||
                 !$("#minimumPemesanan").val() || !$("#stokProduk").val() ||
                 !$("#panjangProduk").val() || !$("#lebarProduk").val() || !$("#tinggiProduk").val()) {
-                // alert('kosong');
                 Swal.fire(
                     'Gagal!',
                     'Pastikan Semua Data Telah Diinput!',

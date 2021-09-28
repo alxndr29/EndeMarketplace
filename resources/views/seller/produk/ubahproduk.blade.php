@@ -200,8 +200,7 @@
     }
 
     $(document).ready(function() {
-
-        getCurrentPicture({{$data->idproduk}});
+        getCurrentPicture("{{$data->idproduk}}");
         //displayCurrentPicture();
     });
     $('#checkboxpreorder').change(function() {
@@ -274,7 +273,7 @@
             // var src = "{{asset('gambar/" + ${test} + ".jpg')}}";
             // alert(src);
 
-            var src = "src="+ "{{asset('/')}}"+"gambar/" + test + '.jpg';
+            var src = "src=" + "{{asset('/')}}" + "gambar/" + test + '.jpg';
             $('#currentPicture').append('<img ' + src + ' id="current-gambar" style="max-width:100px; max-height:100px;" data-id="' + currentGambar[i] + '">');
         }
         console.log('gambar yang tampil');
@@ -287,37 +286,49 @@
     });
 
     function uploadData() {
-        $.ajax({
-            url: "{{url('seller/produk/update')}}" + "/" + {{$data->idproduk}},
-            type: "PUT",
-            data: {
-                "namaProduk": $("#namaProduk").val(),
-                "jenisProduk": $("#jenisProduk").val(),
-                "kategoriProduk": $("#kategoriProduk").val(),
-                "deskripsiProduk": $("#deskripsiProduk").val(),
-                "harga": $("#harga").val(),
-                "beratProduk": $("#beratProduk").val(),
-                "preorder": $("#checkboxpreorder").is(":checked"),
-                "minimumPemesanan": $("#minimumPemesanan").val(),
-                "statusProduk": $("#statusProduk").val(),
-                "stokProduk": $("#stokProduk").val(),
-                "panjang": $("#panjangProduk").val(),
-                "lebar": $("#lebarProduk").val(),
-                "tinggi": $("#tinggiProduk").val(),
-                "waktu_preorder": $("#durasiPreorder").val(),
-                "gambar": JSON.stringify(gambar),
-                "video": $("#video").val(),
-                "hapusGambar": JSON.stringify(hapusGambar)
-            },
-            success: function(response) {
-                alert(response.status);
-                window.location.href = "{{URL::to('seller/produk')}}";
+        if (!$("#namaProduk").val() || !$("#jenisProduk").val() ||
+            !$("#kategoriProduk").val() || !$("#deskripsiProduk").val() ||
+            !$("#harga").val() || !$("#beratProduk").val() ||
+            !$("#minimumPemesanan").val() || !$("#stokProduk").val() ||
+            !$("#panjangProduk").val() || !$("#lebarProduk").val() || !$("#tinggiProduk").val()) {
+            Swal.fire(
+                'Gagal!',
+                'Pastikan Semua Data Telah Diinput!',
+                'error'
+            )
+        } else {
+            $.ajax({
+                url: "{{url('seller/produk/update')}}" + "/" + "{{$data->idproduk}}",
+                type: "PUT",
+                data: {
+                    "namaProduk": $("#namaProduk").val(),
+                    "jenisProduk": $("#jenisProduk").val(),
+                    "kategoriProduk": $("#kategoriProduk").val(),
+                    "deskripsiProduk": $("#deskripsiProduk").val(),
+                    "harga": $("#harga").val(),
+                    "beratProduk": $("#beratProduk").val(),
+                    "preorder": $("#checkboxpreorder").is(":checked"),
+                    "minimumPemesanan": $("#minimumPemesanan").val(),
+                    "statusProduk": $("#statusProduk").val(),
+                    "stokProduk": $("#stokProduk").val(),
+                    "panjang": $("#panjangProduk").val(),
+                    "lebar": $("#lebarProduk").val(),
+                    "tinggi": $("#tinggiProduk").val(),
+                    "waktu_preorder": $("#durasiPreorder").val(),
+                    "gambar": JSON.stringify(gambar),
+                    "video": $("#video").val(),
+                    "hapusGambar": JSON.stringify(hapusGambar)
+                },
+                success: function(response) {
+                    alert(response.status);
+                    window.location.href = "{{URL::to('seller/produk')}}";
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        }
 
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
     }
 </script>
 @endsection

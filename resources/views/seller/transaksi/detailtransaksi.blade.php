@@ -179,26 +179,33 @@
                                 </button>
                             </form>
                         @elseif($transaksi->status_transaksi == "PesananDiproses")
-                        @if($transaksi->nama_kurir == "JNE")
-                            <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-jne">
-                                Masukan Nomor Resi Pengiriman
-                            </button>
-                        @else
-                            <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-kurir">
-                                Plot Jadwal Pengiriman
-                            </button>
-                        @endif
-                        @elseif($transaksi->status_transaksi == "PesananDikirim")
-                        @if($transaksi->nama_kurir == "JNE")
-                            <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'SampaiTujuan'])}}">
+                            @if($transaksi->nama_kurir == "JNE")
+                                <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-jne">
+                                    Masukan Nomor Resi Pengiriman
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-default-kurir">
+                                    Plot Jadwal Pengiriman
+                                </button>
+                            @endif
+                            <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'Batal'])}}">
                                 @csrf
                                 @method('put')
-                                <button type="submit" class="btn btn-success float-right">
-                                    <i class="far fa-credit-card"></i>
-                                    Sampai Tujuan
+                                <button type="submit" class="btn btn-danger float-right" style="margin-right: 5px;">
+                                    <i class="fas fa-download"></i> Batalkan Transaksi
                                 </button>
                             </form>
-                        @endif
+                        @elseif($transaksi->status_transaksi == "PesananDikirim")
+                            @if($transaksi->nama_kurir == "JNE")
+                                <form method="post" action="{{route('merchant.transaksi.update',[$transaksi->idtransaksi,'SampaiTujuan'])}}">
+                                    @csrf
+                                    @method('put')
+                                    <button type="submit" class="btn btn-success float-right">
+                                        <i class="far fa-credit-card"></i>
+                                        Sampai Tujuan
+                                    </button>
+                                </form>
+                            @endif
                         @elseif($transaksi->status_transaksi == "SampaiTujuan")
                             <!-- <a href="{{route('pelanggan.transaksi.selesai',$transaksi->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
                                 Selesai Pesanan

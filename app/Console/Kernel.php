@@ -36,23 +36,29 @@ class Kernel extends ConsoleKernel
                 ->where('status_transaksi', '=', 'MenungguKonfirmasi')
                 ->orWhere('status_transaksi', '=', 'SampaiTujuan')
                 ->orWhere('status_transaksi', '=', 'PesananDiproses')
-                ->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
+                ->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout'))
                 ->get();
             foreach ($data as $value) {
                 if ($value->timeout == 0) {
                     DB::beginTransaction();
                     try {
-                        DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
-                            'status_transaksi' => "Batal"
-                        ]);
-                        $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $value->idtransaksi)->get();
-                        foreach ($detailTransaksi as $value1) {
-                            $produk = Produk::find($value1->produk_idproduk);
-                            if ($produk->stok == 0) {
-                                $produk->status = "Aktif";
+                        if ($value->status_transaksi == "SampaiTujuan") {
+                            DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
+                                'status_transaksi' => "Selesai"
+                            ]);
+                        } else {
+                            DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
+                                'status_transaksi' => "Batal"
+                            ]);
+                            $detailTransaksi = DB::table('detailtransaksi')->where('transaksi_idtransaksi', $value->idtransaksi)->get();
+                            foreach ($detailTransaksi as $value1) {
+                                $produk = Produk::find($value1->produk_idproduk);
+                                if ($produk->stok == 0) {
+                                    $produk->status = "Aktif";
+                                }
+                                $produk->stok = $produk->stok + $value1->jumlah;
+                                $produk->save();
                             }
-                            $produk->stok = $produk->stok + $value1->jumlah;
-                            $produk->save();
                         }
                         $user = DB::table('transaksi')
                             ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')

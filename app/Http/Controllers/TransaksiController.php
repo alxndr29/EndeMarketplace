@@ -17,6 +17,7 @@ class TransaksiController extends Controller
     //
     public function indexPelanggan()
     {
+        //DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout')
         $user = new User();
         $transaksi = DB::table('transaksi')
             ->join('merchant', 'merchant.users_iduser', '=', 'transaksi.merchant_users_iduser')
@@ -218,6 +219,22 @@ class TransaksiController extends Controller
                 }
                 $produk->stok = $produk->stok + $value->jumlah;
                 $produk->save();
+            }
+            $user = DB::table('transaksi')->join('users', 'users.iduser', 'transaksi.users_iduser')->where('transaksi.idtransaksi', $id)->select('users.*')->first();
+            $pesan =  "Hallo " . $user->name . " Pesanan anda dengan nomor transaksi " . $id . " Telah Dibatalkan. " . ' klik link berikut untuk melihat status transaksi anda! ' . url('/user/transaksi/index');
+            if ($user->notif_email == 1) {
+                try {
+                    $details = [
+                        'title' => '',
+                        'body' => $pesan
+                    ];
+                    \Mail::to($user->email)->send(new \App\Mail\CheckoutMail($details));
+                } catch (\Exception $b) { }
+            }
+            if ($user->notif_wa == 1) {
+                try {
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
+                } catch (\Exception $a) { }
             }
             return redirect('user/transaksi/index')->with('berhasil', 'Transaksi Anda Telah DiBatalkan');
         } catch (\Exception $e) {

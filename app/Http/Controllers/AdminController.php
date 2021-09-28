@@ -88,7 +88,7 @@ class AdminController extends Controller
             }else{
 
             }
-            return redirect()->back()->with('berhasil', 'Form Penarikan Anda berhasil.');
+            return redirect()->back()->with('berhasil', 'Status Penarikan Form Berhasil Dirubah.');
         }catch(\Exception $e){
             return $e->getMessage();
         }

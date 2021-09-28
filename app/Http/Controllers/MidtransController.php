@@ -100,16 +100,21 @@ class MidtransController extends Controller
             $trk = DB::table('transaksi')->where('idtransaksi', $order_id)->first();
             if ($trk->jenis_transaksi == "PreOrder") {
                 //return date("Y-m-d H:i:s", strtotime("+" . $trk->waktu_po . "day"));
+                // DB::table('transaksi')->where('idtransaksi', $order_id)->update([
+                //     'status_transaksi' => "MenungguKonfirmasi",
+                //     'timeout_at ' => date("Y-m-d H:i:s", strtotime("+" . $trk->waktu_po . "day")),
+                //     'updated_at' => date("Y-m-d H:i:s")
+                // ]);
                 DB::table('transaksi')->where('idtransaksi', $order_id)->update([
                     'status_transaksi' => "MenungguKonfirmasi",
-                    'timeout_at ' => date("Y-m-d H:i:s", strtotime("+" . $trk->waktu_po . "day")),
+                    'timeout_at' => date("Y-m-d H:i:s", strtotime("+ 1 day")),
                     'updated_at' => date("Y-m-d H:i:s")
                 ]);
             } else {
                 //return date("Y-m-d H:i:s", strtotime("+ 1 day"));
                 DB::table('transaksi')->where('idtransaksi', $order_id)->update([
                     'status_transaksi' => "MenungguKonfirmasi",
-                    'timeout_at ' => date("Y-m-d H:i:s", strtotime("+ 1 day")),
+                    'timeout_at' => date("Y-m-d H:i:s", strtotime("+ 1 day")),
                     'updated_at' => date("Y-m-d H:i:s")
                 ]);
             }

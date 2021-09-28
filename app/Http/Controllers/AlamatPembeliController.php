@@ -99,7 +99,6 @@ class AlamatPembeliController extends Controller
             $alamatPembeli->delete();
             return redirect()->back()->with('berhasil','Berhasil Menghapus Alamat');
         } catch (\Exception $e) {
-            // return $e->getMessage();
             return redirect()->back()->with('gagal', 'Gagal Menghapus Alamat');
         }
     }

@@ -49,7 +49,10 @@ class HomeController extends Controller
         $user = Auth::user();
         $profile = User::find($user->iduser);
         $profile->name = $request->get('name');
-        $profile->email = $request->get('email');
+        if($profile->email !=  $request->get('email')){
+            $profile->email = $request->get('email');
+            $profile->email_verified_at = null;
+        }
         $profile->telepon = $request->get('telepon');
         if($request->get('password') != null){
             $profile->password = Hash::make($request->get('password'));

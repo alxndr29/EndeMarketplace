@@ -80,7 +80,6 @@
                                                     <div class="col-3">
                                                         <b>{{$value->nama}}</b>
                                                         <br> Rp. {{number_format($value->harga)}}-,
-                                                        <!-- <br>Merchant Gaje -->
                                                         <br> Jumlah: {{$value->jumlah}} pcs
                                                         <br> Total: Rp. {{number_format($value->harga * $value->jumlah)}}-,
                                                         <div class="form-group">
@@ -181,9 +180,10 @@
 
     var latitudeMerchant = "{{$alamatMerchant->latitude}}";
     var longitudeMerchant = "{{$alamatMerchant->longitude}}";
+
     var jumlah = "{{$total->jumlah}}";
     var berat = "{{$total->berat}}";
-
+    var volume = "{{$total->volume}}";
 
     $(document).ready(function() {
         $("#displayNominal").val(jumlah);
@@ -305,7 +305,7 @@
         var id = $(this).val();
         if (dukunganPengiriman == "2") {
             var split = id.split("-");
-            alert(split[0] + " / " + split[1] + " / " + split[2] + " / " + split[3] + split[4] + " / " + split[5] + " / " + split[6] + " / " + split[7]);
+            alert(split[0] + " / " + split[1] + " / " + split[2] + " / " + split[3] + " / " + split[4] + " / " + split[5] + " / " + split[6] + " / " + split[7]);
             if (split[1] == "1") {
                 if (parseInt(jumlah) < parseInt(split[3])) {
                     Swal.fire(
@@ -325,7 +325,6 @@
                     );
                     $("#jarakPengiriman").val(result);
                 }
-
             } else if (split[1] == "2") {
                 if (parseInt(jumlah) < parseInt(split[3])) {
                     Swal.fire(
@@ -355,16 +354,39 @@
                         'error'
                     )
                 } else {
-                    //pake jarak
-                    var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
-                    var t_berat = split[5];
-                    var t_volume = split[6];
-                    var t_jarak = split[7];
-                    biayaKurir = Math.round(t_jarak * result);
-                    alert('jarak' + result + " tarif jarak " + t_jarak + ' adalah: ' + biayaKurir + " note: dibulatkan. " + (t_jarak * result));
-                    $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + parseInt(biayaKurir));
+                    //Tarif Standar
+                    for (i = 0; i < 3; i++) {
+                        if (i == 0) {
+                            //jarak
+                            var result = distance(latitudeUser, longitudeUser, latitudeMerchant, longitudeMerchant, "K");
+                            var t_jarak = split[7];
+                            console.log('Tarif Jarak Perkm adalah ' + t_jarak + '. Jaraknya adalah ' + result + 'km. Total Biaya Pengiriman adalah ' + Math.round(t_jarak * result));
+                            if (Math.round(t_jarak * result) > biayaKurir) {
+                                biayaKurir = Math.round(t_jarak * result);
+                                //alert('masuk sini jarak');
+                            }
+                        } else if (i == 1) {
+                            //berat
+                            var t_berat = split[5];
+                            console.log('Tarif Berat Perkilo adalah ' + t_berat + '. Beratnya  adalah ' + (berat / 1000) + 'kg. Total Biaya Pengiriman adalah ' + Math.round(t_berat * (berat / 1000)));
+                            if (Math.round(t_berat * (berat / 1000)) > biayaKurir) {
+                                biayaKurir = Math.round(t_berat * (berat / 1000));
+                                //alert('masuk sini berat');
+                            }
+                        } else {
+                            //volume
+                            var t_volume = split[6];
+                            console.log('Tarif Volume permeter adalah ' + t_volume + '. Volumenya  adalah ' + (volume / 1000) + 'm3. Total Biaya Pengiriman adalah ' + Math.round(t_volume * (volume / 1000)));
+                            if (Math.round(t_volume * (volume / 1000)) > biayaKurir) {
+                                biayaKurir = Math.round(t_volume * (volume / 1000));
+                                //alert('masuk sini volume');
+                            }
+                        }
+                    }
+                    // alert('jarak' + result + " tarif jarak " + t_jarak + ' adalah: ' + biayaKurir + " note: dibulatkan. " + (t_jarak * result));
+                    $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + numberWithCommas(parseInt(biayaKurir)));
                     var te = parseInt(biayaKurir) + parseInt(jumlah);
-                    $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + te);
+                    $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + numberWithCommas(te));
                     $("#biaya").val(biayaKurir);
                     $("#estimasi").val(split[4]);
                     $("#debug").append(
@@ -379,8 +401,8 @@
             $("#biaya").val(split2[2]);
             $("#estimasi").val(split2[1]);
             var ta = parseInt(split2[2]) + parseInt(jumlah);
-            $("#displayNominalPengiriman").html(' Biaya Pengiriman Rp. ' + split2[2]);
-            $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + ta);
+            $("#displayNominalPengiriman").html('Biaya Pengiriman Rp. ' + numberWithCommas(split2[2]));
+            $("#displayNominalTotal").html('Total Keseluruhan Rp. ' + numberWithCommas(ta));
         }
     });
 
@@ -424,6 +446,10 @@
             alert("Pengiriman melalui JNE tidak mendukung COD");
             $('#dukunganPembayaran').prop('selectedIndex', 0);
         }
+    }
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 </script>
 @endsection

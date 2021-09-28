@@ -72,6 +72,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if(count($daftarPenarikan) == 0)
+                            <tr>
+                                <td colspan="6">
+                                    Belum ada data riwayat pengembalian dana
+                                </td>
+                            </tr>
+                            @else
                             @foreach ($daftarPenarikan as $key => $value)
                             <tr>
                                 <td style="width:5%">{{$key+1}}</td>
@@ -84,6 +91,7 @@
                                 </td>
                             </tr>
                             @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -96,7 +104,7 @@
 </div>
 
 <!-- Modal Detail Penarikan -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-detailpenarikan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -241,20 +249,22 @@
                 $("#catatan").append(
                     'Status: <b>' + response.detailPenarikan.status + '</b> <br>'
                 );
-                $("#catatan").append(
-                    'Catatan: <b>' + response.detailPenarikan.catatan + '</b> <br>'
-                );
-                var srcImage = "{{asset('buktiTransfer')}}/" + response.detailPenarikan.bukti;
-                alert(srcImage);
-                $("#catatan").append(
-                    '<a href="#"> <img src="' + srcImage + '" class="img-thumbnail mx-auto d-block" style="max-width:200px; max-height:200px;"> </a>'
-                );
-
+                if (response.detailPenarikan.status == "Gagal") {
+                    $("#catatan").append(
+                        'Catatan: <b>' + response.detailPenarikan.catatan + '</b> <br>'
+                    );
+                }
+                if (response.detailPenarikan.status == "Selesai") {
+                    var srcImage = "{{asset('buktiTransfer')}}/" + response.detailPenarikan.bukti;
+                    $("#catatan").append(
+                        '<a href="#"> <img src="' + srcImage + '" class="img-thumbnail mx-auto d-block" style="max-width:200px; max-height:200px;"> </a>'
+                    );
+                }
                 var nn = "{{route('formrefundedit.user','id')}}";
                 nn = nn.replace('id', id);
                 $("#form-edit").attr('action', nn);
 
-                $("#exampleModal").modal('show');
+                $("#modal-detailpenarikan").modal('show');
             },
             error: function(response) {
                 console.log(response);
