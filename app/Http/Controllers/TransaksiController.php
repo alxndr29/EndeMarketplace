@@ -39,7 +39,8 @@ class TransaksiController extends Controller
                 'gambarproduk.idgambarproduk as gambar',
                 'detailtransaksi.*',
                 DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'),
-                DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
+                //DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
+                DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout')
             )
             ->paginate(10);
         //dd($transaksi);
@@ -69,7 +70,8 @@ class TransaksiController extends Controller
                 'gambarproduk.idgambarproduk as gambar',
                 'detailtransaksi.*',
                 DB::raw('COUNT(detailtransaksi.produk_idproduk) as totalbarang'),
-                DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
+                //DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
+                DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout')
             );
         if ($tanggalAwal != "null" && $tanggalAkhir != "null") {
             $syntax->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir]);
@@ -128,7 +130,8 @@ class TransaksiController extends Controller
             ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
             ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
-            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*', 'users.iduser as iduser', 'users.name as nama_user', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
+            //->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*', 'users.iduser as iduser', 'users.name as nama_user', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
+            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*', 'users.iduser as iduser', 'users.name as nama_user', DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout'))
             ->where('transaksi.idtransaksi', $id)
             ->first();
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
@@ -163,9 +166,10 @@ class TransaksiController extends Controller
             $pembayaran = DB::table('transaksi')
                 ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
                 ->join('pengiriman', 'pengiriman.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
+                ->leftJoin('pembayaran', 'pembayaran.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
                 ->where('transaksi.idtransaksi', $id)
                 ->where('transaksi.users_iduser', $user->userid())
-                ->select('pengiriman.biaya_pengiriman as biaya_pengiriman', 'transaksi.nominal_pembayaran as nominal_pembayaran', 'tipepembayaran.nama as namatipepembayaran')
+                ->select('pengiriman.biaya_pengiriman as biaya_pengiriman', 'transaksi.nominal_pembayaran as nominal_pembayaran', 'tipepembayaran.nama as namatipepembayaran', 'pembayaran.status')
                 ->get();
             $hitungReview = DB::table('reviewproduk')->where('transaksi_idtransaksi', $id)->count();
 
@@ -277,21 +281,21 @@ class TransaksiController extends Controller
                 }
                 $pesan = "Telah Dibatalkan";
             } else {
-                if($action == "PesananDiproses"){
+                if ($action == "PesananDiproses") {
                     $transaksi->status_transaksi = $action;
-                    if($transaksi->jenis_transaksi == "Langsung"){
+                    if ($transaksi->jenis_transaksi == "Langsung") {
                         $transaksi->timeout_at =  date("Y-m-d H:i:s", strtotime("+ 2 day"));
-                    }else{
+                    } else {
                         $transaksi->timeout_at = date("Y-m-d H:i:s", strtotime("+" . $transaksi->waktu_po . "day"));
                     }
                     $transaksi->save();
                     $pesan = $action;
-                }else if($action == "SampaiTujuan"){
+                } else if ($action == "SampaiTujuan") {
                     $transaksi->status_transaksi = $action;
                     $transaksi->timeout_at =  date("Y-m-d H:i:s", strtotime("+ 1 day"));
                     $transaksi->save();
                     $pesan = $action;
-                }else{
+                } else {
                     $transaksi->status_transaksi = $action;
                     $transaksi->timeout_at =  date("Y-m-d H:i:s", strtotime("+ 2 day"));
                     $transaksi->save();

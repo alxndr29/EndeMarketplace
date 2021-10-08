@@ -212,7 +212,6 @@
 @section('js')
 <script type="text/javascript">
     $(document).ready(function() {
-
         $("#kolomchat").empty();
         //loadObrolan();
         $("#send").click(function() {

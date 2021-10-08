@@ -172,7 +172,7 @@
                         '</div>' +
                         '<div class="col">' +
                         '<b>' + nama + '</b>' +
-                        '<br> Rp. ' + harga + '-,' +
+                        '<br> Rp. ' + harga + '-, Total: Rp. ' + (harga * jumlah) +
                         '<br>' + nama_merchant +
                         '<br> Jumlah: <input type="number" class="form-control" data-id="' + idproduk + '" placeholder="Qty" id="qty" value=' + jumlah + '>' +
                         '</div>' +
@@ -219,7 +219,7 @@
                         '</div>' +
                         '<div class="col">' +
                         '<b>' + nama + '</b>' +
-                        '<br> Rp. ' + harga + '-,' +
+                        '<br> Rp. ' + harga + '-, Total: Rp. ' + (harga * jumlah) +
                         '<br>' + nama_merchant +
                         '<br> Jumlah: <input type="number" class="form-control" data-id="' + idproduk + '" placeholder="Qty" id="qty" value=' + jumlah + '>' +
                         '</div>' +
@@ -284,8 +284,15 @@
                 success: function(response) {
                     console.log(response);
                     if (response.status == "berhasil") {
-                        alert(response.status);
-                        location.reload();
+                        // alert(response.status);
+                        // location.reload();
+                        Swal.fire(
+                            'Berhasil!',
+                            'Qty Produk Berhasil Dirubah!',
+                            'success'
+                        ).then((result) => {
+                            location.reload();
+                        });
                     } else {
                         alert(response.status);
                     }

@@ -26,12 +26,12 @@ Value: {{$value}}
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>ENDE's</b>Market</a>
+            <a href="#"><b>ENDE's</b>Market</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p id="pesan" class="login-box-msg">Terdeteksi login dari perangkat baru, silahkan mengisi otp</p>
+                <p id="pesan" class="login-box-msg">Terdeteksi masuk dari perangkat baru, Silahkan mengisi OTP yang dikirimkan.</p>
                 <div class="d-flex flex-column align-items-center justify-content-center" id="spinnerLoading">
 
                 </div>
@@ -51,7 +51,6 @@ Value: {{$value}}
                             Lewat whatsapp
                         </button>
                     </div>
-                    <!-- /.col -->
                 </div>
                 <br>
                 <div class="input-group" id="otpgroup">
@@ -67,9 +66,13 @@ Value: {{$value}}
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary btn-block" id="btnSubmit">Masukan OTP</button>
                     </div>
-                    <!-- /.col -->
                 </div>
-
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block" id="btnKirimUlang" disabled>Kirim Ulang OTP</button>
+                    </div>
+                </div>
             </div>
             <!-- /.login-card-body -->
         </div>
@@ -92,7 +95,30 @@ Value: {{$value}}
     $(document).ready(function() {
         $("#btnSubmit").hide();
         $("#otpgroup").hide();
+        $("#btnKirimUlang").hide();
+    });
+    var second = 5;
 
+    function timerOTP() {
+        second = 5;
+        var x = setInterval(function() {
+            if (second <= 0) {
+                $("#btnKirimUlang").attr("disabled", false);
+                $("#btnKirimUlang").text("Kirim Ulang OTP");
+                clearInterval(x);
+            } else {
+                $("#btnKirimUlang").attr("disabled", true);
+                second--;
+                $("#btnKirimUlang").text("Tunggu " + second + " Detik");
+            }
+        }, 1000);
+    }
+    $("#btnKirimUlang").click(function() {
+        $("#btnSubmit").hide();
+        $("#otpgroup").hide();
+        $("#btnKirimUlang").hide();
+        $("#btnEmail").show();
+        $("#btnWhatsapp").show();
     });
     $("#btnEmail").click(function() {
         $("#spinnerLoading").html('<div class="row"> <div class="spinner-border" role = "status">  </div> </div> <div class="row" id ="pesanLoading" ><strong> Meminta OTP </strong> </div>');
@@ -104,12 +130,14 @@ Value: {{$value}}
             },
             success: function(response) {
                 if (response == "berhasil") {
-                    $("#spinnerLoading").empty();
                     console.log(response);
+                    $("#spinnerLoading").empty();
                     $("#btnEmail").hide();
                     $("#btnWhatsapp").hide();
                     $("#btnSubmit").show();
                     $("#otpgroup").show();
+                    $("#btnKirimUlang").show();
+                    timerOTP();
                 } else {
                     console.log(response);
                     Swal.fire(
@@ -147,6 +175,8 @@ Value: {{$value}}
                     $("#btnWhatsapp").hide();
                     $("#btnSubmit").show();
                     $("#otpgroup").show();
+                    $("#btnKirimUlang").show();
+                    timerOTP();
                 } else {
                     console.log(response);
                     Swal.fire(

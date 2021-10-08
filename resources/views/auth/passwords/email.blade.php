@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Log in</title>
+    <title>Ende's Market | Ubah Kata Sandi</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -31,7 +31,7 @@
                     {{ session('status') }}
                 </div>
                 @endif
-                <p class="login-box-msg">Anda lupa kata sando? Disini anda bisa untuk meminta kata sandi baru.</p>
+                <p class="login-box-msg">Anda lupa kata sandi? Disini anda bisa untuk meminta kata sandi baru.</p>
 
                 <form method="POST" action="{{ route('password.email') }}">
                     <div class="input-group mb-3">
@@ -41,6 +41,11 @@
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
+                        @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="row">
                         <div class="col-12">

@@ -29,23 +29,26 @@ Route::get('/log', function () {
     // }else{
     //     return date("Y-m-d H:i:s", strtotime("+ 1 day"));
     // }
-
+    //DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout')
+    //DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
+    //DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
     $data = DB::table('transaksi')
         // ->where('status_transaksi', '=', 'MenungguPembayaran')
         ->where('status_transaksi', '=', 'MenungguKonfirmasi')
-        ->orWhere('status_transaksi','=','SampaiTujuan')
-        ->orWhere('status_transaksi','=', 'PesananDiproses')
-        ->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
+        ->orWhere('status_transaksi', '=', 'SampaiTujuan')
+        ->orWhere('status_transaksi', '=', 'PesananDiproses')
+        //->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
+        ->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout'))
         ->get();
     foreach ($data as $value) {
         if ($value->timeout == 0) {
             DB::beginTransaction();
-            try{
-                if($value->status_transaksi == "SampaiTujuan"){
+            try {
+                if ($value->status_transaksi == "SampaiTujuan") {
                     DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
                         'status_transaksi' => "Selesai"
                     ]);
-                }else{
+                } else {
                     DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
                         'status_transaksi' => "Batal"
                     ]);
@@ -64,7 +67,7 @@ Route::get('/log', function () {
                     ->where('transaksi.idtransaksi', '=', $value->idtransaksi)
                     ->select('users.*')
                     ->first();
-                $pesan =  "Hallo ".$user->name." Pesanan anda dengan nomor transaksi ".$value->idtransaksi." "." Telah dibatalkan karena telah melewati batas waktu". ' klik link berikut untuk melihat status transaksi anda! '. url('/user/transaksi/index');
+                $pesan =  "Hallo " . $user->name . " Pesanan anda dengan nomor transaksi " . $value->idtransaksi . " " . " Telah dibatalkan karena telah melewati batas waktu" . ' klik link berikut untuk melihat status transaksi anda! ' . url('/user/transaksi/index');
                 DB::commit();
                 if ($user->notif_email == 1) {
                     try {
@@ -81,20 +84,20 @@ Route::get('/log', function () {
                     } catch (\Exception $a) { }
                 }
                 Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
-                echo('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
+                echo ('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
                 echo ('<br>');
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
                 DB::rollback();
                 return $e->getMessage();
             }
-        }else{
-            Log::info('Transaksi ' . $value->idtransaksi . ' Sisa waktu '.$value->timeout .' Jam'.' Status Saat ini '.$value->status_transaksi);
-            echo('Transaksi ' . $value->idtransaksi . ' Sisa waktu ' . $value->timeout . ' Jam' . ' Status Saat ini '.$value->status_transaksi);
+        } else {
+            Log::info('Transaksi ' . $value->idtransaksi . ' Sisa waktu ' . $value->timeout . ' Jam' . ' Status Saat ini ' . $value->status_transaksi);
+            echo ('Transaksi ' . $value->idtransaksi . ' Sisa waktu ' . $value->timeout . ' Jam' . ' Status Saat ini ' . $value->status_transaksi);
             echo ('<br>');
         }
     }
     Log::info('Cronjob Berhasil Dijalankan');
-    echo('Cronjob Berhasil Dijalankan');
+    echo ('Cronjob Berhasil Dijalankan');
     //return $data;
     //echo date("Y-m-d H:i:s", strtotime("+ 1 day"));
 });

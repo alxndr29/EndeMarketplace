@@ -49,11 +49,11 @@ class WishlistController extends Controller
     public function destroy($id)
     {
         try {
-            //$user = new User();
             DB::table('wishlist')->where('produk_idproduk', $id)->delete();
-            return redirect('user/wishlist')->with('berhasil', 'Berhasil hapus wishlist');
+            return redirect('user/wishlist')->with('berhasil', 'Berhasil hapus produk dari wishlist');
         } catch (\Exception $e) {
-            return $e->getMessage();
+            //return $e->getMessage();
+            return redirect('user/wishlist')->with('gagal', 'Gagal hapus produk dari wishlist');
         }
     }
 }

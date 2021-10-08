@@ -61,6 +61,7 @@
                             </p>
                             <p class="h6">Detail Produk: {{$data->deskripsi}}</p>
                             <p class="h6">Stok: {{$data->stok}} Unit</p>
+                            <p class="h6">Minimum pemesanan: {{$data->minimum_pemesanan}} Unit</p>
                             @if ($data->preorder == "Aktif")
                             <p class="h6"> <b>Preorder {{$data->waktu_preorder}} Hari </b> </p>
                             @endif
@@ -167,7 +168,6 @@
                                                     <br>
                                                     Jumlah bintang: {{$value->rating}}
                                                     <i class="fa fa-star"></i>
-
                                                 </div>
                                             </div>
                                             @endforeach

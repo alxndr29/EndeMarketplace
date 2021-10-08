@@ -112,6 +112,7 @@ class ProdukController extends Controller
             ->join('transaksi', 'transaksi.idtransaksi', '=', 'reviewproduk.transaksi_idtransaksi')
             ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
             ->where('reviewproduk.produk_idproduk', $id)
+            ->orderBy('reviewproduk.idreviewproduk','desc')
             ->select('reviewproduk.*', 'users.name as nama_user')
             ->get();
         $jumlahTerjual = DB::table('transaksi')

@@ -58,7 +58,6 @@ class ObrolanController extends Controller
     }
     public function inserObrolanUser(Request $request)
     {
-
         try {
 
             $obrolan = new Obrolan();
@@ -73,7 +72,6 @@ class ObrolanController extends Controller
             $obrolan->save();
             $response = ['status' => 'berhasil'];
             return response()->json($response);
-
             //return $request->all();
         } catch (\Exception $e) {
             $response = ['status' => $e->getMessage()];

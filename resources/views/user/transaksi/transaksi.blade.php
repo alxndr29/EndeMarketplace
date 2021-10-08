@@ -98,21 +98,21 @@
                                         <p>
                                             <b>{{$value->nama_merchant}}</b> || ID Transaksi: {{$value->idtransaksi}} || Tanggal: {{$value->tanggal}}
                                             @if ($value->jenis_transaksi == "Langsung")
-                                            
+
                                             @else
-                                                || <span class="badge bg-success">{{$value->jenis_transaksi}} {{$value->waktu_po}} Hari</span>
+                                            || <span class="badge bg-success">{{$value->jenis_transaksi}} {{$value->waktu_po}} Hari</span>
                                             @endif
-                                            
-                                            @if ($value->status_transaksi == "MenungguPembayaran")        
-                                                <!-- || <span class="badge bg-danger">{{$value->timeout}} Jam</span> -->                                             
-                                            @elseif($value->status_transaksi == "MenungguKonfirmasi")                                         
-                                                || <span class="badge bg-danger"> {{$value->timeout}} Jam</span>                                              
-                                            @elseif($value->status_transaksi == "PesananDiproses")                                            
-                                                || <span class="badge bg-danger">{{$value->timeout}} Jam</span>                                             
+
+                                            @if ($value->status_transaksi == "MenungguPembayaran")
+                                            <!-- || <span class="badge bg-danger">{{$value->timeout}} Jam</span> -->
+                                            @elseif($value->status_transaksi == "MenungguKonfirmasi")
+                                            || <span class="badge bg-danger"> {{$value->timeout}} Jam</span>
+                                            @elseif($value->status_transaksi == "PesananDiproses")
+                                            || <span class="badge bg-danger">{{$value->timeout}} Jam</span>
                                             @elseif($value->status_transaksi == "PesananDikirim")
 
-                                            @elseif($value->status_transaksi == "SampaiTujuan")                                            
-                                                || <span class="badge bg-danger">{{$value->timeout}} Jam</span>                                              
+                                            @elseif($value->status_transaksi == "SampaiTujuan")
+                                            || <span class="badge bg-danger">{{$value->timeout}} Jam</span>
                                             @elseif($value->status_transaksi == "Selesai")
 
                                             @elseif($value->status_transaksi == "Batal")
@@ -133,13 +133,13 @@
                                         <div class="col-5">
                                             <b>
                                                 @if($value->status_transaksi == "Batal")
-                                                    <span class="badge bg-danger">
-                                                        {{$value->status_transaksi}}
-                                                    </span>
+                                                <span class="badge bg-danger">
+                                                    {{$value->status_transaksi}}
+                                                </span>
                                                 @else
-                                                    <span class="badge bg-primary">
-                                                        {{$value->status_transaksi}}
-                                                    </span>
+                                                <span class="badge bg-primary">
+                                                    {{$value->status_transaksi}}
+                                                </span>
                                                 @endif
                                             </b>
                                             <br>
@@ -152,39 +152,39 @@
                                             </button>
 
                                             @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "PesananDiproses" && $value->status_transaksi != "Batal" )
-                                                @if($value->idkurir == "1")
-                                                <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;">
-                                                    Lacak
-                                                </a>
-                                                @else
-                                                <a href="{{route('pelanggan.transaksi.tracking',[$value->idpengiriman,$value->idtransaksi,'Pelanggan'])}}" class="btn btn-success" style="margin-right: 5px;">
-                                                    Lacak
-                                                </a>
-                                                @endif
+                                            @if($value->idkurir == "1")
+                                            <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Lacak
+                                            </a>
+                                            @else
+                                            <a href="{{route('pelanggan.transaksi.tracking',[$value->idpengiriman,$value->idtransaksi,'Pelanggan'])}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Lacak
+                                            </a>
+                                            @endif
                                             @endif
 
                                             @if($value->status_transaksi == "SampaiTujuan")
-                                                <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
-                                                    Selesai
-                                                </a>
+                                            <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Selesai
+                                            </a>
                                             @endif
 
                                             @if($value->idkurir == "1" && $value->status_transaksi == "PesananDikirim")
-                                                <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
-                                                    Terima Paket
-                                                </a>
+                                            <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
+                                                Terima Paket
+                                            </a>
                                             @endif
 
                                             @if($value->status_transaksi == "MenungguPembayaran")
-                                                <button onClick="bayar({{$value->idtransaksi}})" class="btn btn-success" style="margin-right: 5px;">
-                                                    Bayar
-                                                </button>
+                                            <button onClick="bayar({{$value->idtransaksi}})" class="btn btn-success" style="margin-right: 5px;">
+                                                Bayar
+                                            </button>
                                             @endif
 
                                             @if($value->status_transaksi == "MenungguKonfirmasi")
-                                                <a href="{{route('pelanggan.transaksi.batal',$value->idtransaksi)}}" class="btn btn-danger" style="margin-right: 5px;">
-                                                    Batalkan Pesanan
-                                                </a>
+                                            <a href="{{route('pelanggan.transaksi.batal',$value->idtransaksi)}}" class="btn btn-danger" style="margin-right: 5px;">
+                                                Batalkan Pesanan
+                                            </a>
                                             @endif
                                         </div>
                                     </div>

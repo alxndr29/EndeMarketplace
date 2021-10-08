@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 25, 2021 at 06:00 AM
+-- Generation Time: Oct 06, 2021 at 03:16 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -29,14 +29,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `alamatmerchant` (
-  `alamat_lengkap` varchar(45) NOT NULL,
-  `telepon` varchar(45) NOT NULL,
+  `alamat_lengkap` varchar(100) NOT NULL,
+  `telepon` varchar(13) NOT NULL,
   `latitude` varchar(45) DEFAULT NULL,
   `longitude` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `merchant_users_iduser` int(11) NOT NULL,
-  `kabupatenkota_idkabupatenkota` int(11) NOT NULL
+  `kabupatenkota_idkabupatenkota` int(11) NOT NULL DEFAULT 122
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -57,8 +57,8 @@ CREATE TABLE `alamatpembeli` (
   `idalamat` int(11) NOT NULL,
   `simpan_sebagai` varchar(45) NOT NULL,
   `nama_penerima` varchar(45) NOT NULL,
-  `alamatlengkap` varchar(45) NOT NULL,
-  `telepon` varchar(45) NOT NULL,
+  `alamatlengkap` varchar(100) NOT NULL,
+  `telepon` varchar(13) NOT NULL,
   `users_iduser` int(11) NOT NULL,
   `latitude` varchar(45) NOT NULL,
   `longitude` varchar(45) NOT NULL,
@@ -271,7 +271,7 @@ INSERT INTO `gambarproduk` (`idgambarproduk`, `produk_idproduk`, `created_at`, `
 
 CREATE TABLE `jenisproduk` (
   `idjenisproduk` int(11) NOT NULL,
-  `nama` varchar(45) NOT NULL,
+  `nama` varchar(100) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -884,7 +884,7 @@ CREATE TABLE `merchant` (
   `nama` varchar(45) NOT NULL,
   `status_merchant` enum('Aktif','NonAktif') DEFAULT 'NonAktif',
   `foto_profil` varchar(45) DEFAULT NULL,
-  `deskripsi` varchar(45) DEFAULT NULL,
+  `deskripsi` varchar(100) DEFAULT NULL,
   `jam_buka` time DEFAULT NULL,
   `jam_tutup` time DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -927,7 +927,7 @@ CREATE TABLE `obrolan` (
   `idobrolan` int(11) NOT NULL,
   `subject` varchar(45) DEFAULT NULL,
   `waktu` datetime DEFAULT current_timestamp(),
-  `isi_pesan` varchar(45) DEFAULT NULL,
+  `isi_pesan` varchar(100) DEFAULT NULL,
   `status_baca_user` tinyint(4) DEFAULT NULL,
   `status_baca_merchant` tinyint(4) DEFAULT NULL,
   `pengirim` enum('Pembeli','Merchant') DEFAULT NULL,
@@ -988,7 +988,7 @@ CREATE TABLE `pembayaran` (
 --
 
 INSERT INTO `pembayaran` (`idpembayaran`, `token`, `status`, `created_at`, `updated_at`, `transaksi_idtransaksi`) VALUES
-(1, '3271d876-8a12-4c73-a645-726c4a8ae0c2', NULL, '2021-06-02 00:17:31', '2021-06-02 00:17:31', 14);
+(1, '3271d876-8a12-4c73-a645-726c4a8ae0c2', 'settlement', '2021-06-02 00:17:31', '2021-06-02 00:17:31', 14);
 
 -- --------------------------------------------------------
 
@@ -998,13 +998,13 @@ INSERT INTO `pembayaran` (`idpembayaran`, `token`, `status`, `created_at`, `upda
 
 CREATE TABLE `penarikandana` (
   `idpenarikandana` int(11) NOT NULL,
-  `bank_tujuan` varchar(100) DEFAULT NULL,
+  `bank_tujuan` varchar(50) DEFAULT NULL,
   `nomor_rekening` varchar(45) DEFAULT NULL,
   `nama_pemilik_rekening` varchar(45) DEFAULT NULL,
   `total` int(11) DEFAULT NULL,
   `status` enum('Gagal','Menunggu','Diproses','Selesai') DEFAULT NULL,
   `bukti` varchar(45) DEFAULT NULL,
-  `catatan` varchar(255) DEFAULT NULL,
+  `catatan` varchar(100) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `jenis` enum('refund','withdraw') DEFAULT NULL
@@ -1052,11 +1052,11 @@ CREATE TABLE `petugaspengantaran` (
   `nama` varchar(45) DEFAULT NULL,
   `telepon` varchar(45) DEFAULT NULL,
   `nama_kendaraan` varchar(45) DEFAULT NULL,
-  `nomor_polisi` varchar(45) DEFAULT NULL,
+  `nomor_polisi` varchar(9) DEFAULT NULL,
   `username` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
-  `created_at` varchar(45) DEFAULT NULL,
-  `updated_at` varchar(45) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   `merchant_users_iduser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1069,7 +1069,7 @@ CREATE TABLE `petugaspengantaran` (
 CREATE TABLE `produk` (
   `idproduk` int(11) NOT NULL,
   `nama` varchar(45) NOT NULL,
-  `deskripsi` text NOT NULL,
+  `deskripsi` varchar(255) NOT NULL,
   `harga` int(11) NOT NULL,
   `minimum_pemesanan` int(11) NOT NULL,
   `status` enum('Aktif','TidakAktif') NOT NULL,
@@ -1269,7 +1269,7 @@ CREATE TABLE `users` (
   `name` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `telepon` varchar(12) DEFAULT NULL,
+  `telepon` varchar(13) DEFAULT NULL,
   `foto_profil` varchar(45) DEFAULT NULL,
   `notif_wa` tinyint(4) DEFAULT 1,
   `notif_email` tinyint(4) DEFAULT 1,

@@ -3,7 +3,7 @@
 
 <div class="container">
   <div class="jumbotron text-center">
-    <h1 class="display-4">Selamat Datng!</h1>
+    <h1 class="display-4">Selamat Datang!</h1>
     <p class="lead">Ende's Market merupakan website marketplace khusus bagi penjual di kota Ende.</p>
     <hr class="my-4">
     <p class="lead">

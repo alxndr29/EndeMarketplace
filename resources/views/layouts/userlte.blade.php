@@ -141,7 +141,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             @auth
                             <a href="#" class="dropdown-item">
                                 <div class="media">
-                                    <img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                    <img src="{{asset('adminlte/dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                     <div class="media-body">
                                         <h3 class="dropdown-item-title">
                                             {{ Auth::user()->name }}
@@ -379,12 +379,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script type="text/javascript">
         $(document).ready(function() {
             $("#jumlahNotifikasi").html(100);
-
             loginstatus();
-
-            @if(session('berhasil'))
-            alert("{{session('berhasil')}}");
-            @endif
+            
         });
 
         function loginstatus() {

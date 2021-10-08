@@ -158,7 +158,6 @@
 @section('js')
 <script type="text/javascript">
     var gambar = Array();
-
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
