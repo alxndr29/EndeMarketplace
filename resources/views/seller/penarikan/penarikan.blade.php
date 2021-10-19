@@ -134,7 +134,7 @@
                         <label for="exampleFormControlInput1">Nama Pemilik Rekening</label>
                         <input type="text" class="form-control" id="namaPemilikRekening" name="namaPemilikRekening" required>
                     </div>
-                    <button type="submit" class="btn btn-success">Ubah</button>
+                    <button type="submit" id="btnSubmit" class="btn btn-success">Ubah</button>
                 </form>
                 <br>
                 <div id="catatan">
@@ -258,7 +258,11 @@
                     $("#catatan").append(
                         '<a href="#"> <img src="' + srcImage + '" class="img-thumbnail mx-auto d-block" style="max-width:200px; max-height:200px;"> </a>'
                     );
+                    $('#btnSubmit').prop('disabled', true);
+                } else {
+                    $('#btnSubmit').prop('disabled', false);
                 }
+
                 var nn = "{{route('formrefundedit.merchant','id')}}";
                 nn = nn.replace('id', id);
                 $("#form-edit").attr('action', nn);

@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input id="telepon" type="number" class="form-control @error('telepon') is-invalid @enderror" placeholder="Telepon" name="telepon" value="{{ old('telepon') }}">
+                        <input id="telepon" type="number" class="form-control @error('telepon') is-invalid @enderror" placeholder="Telepon" name="telepon" required value="{{ old('telepon') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-phone"></span>

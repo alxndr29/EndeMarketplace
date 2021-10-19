@@ -22,7 +22,7 @@ class DiskusiController extends Controller
             $diskusi->produk_idproduk = $id;
             $diskusi->pesandiskusi = $request->get('pertanyaan');
             $diskusi->save();
-            return redirect()->back()->with('berhasil', 'your message,here');
+            return redirect()->back()->with('berhasil', 'berhasil menambahkan balasan diskusi');
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -39,7 +39,7 @@ class DiskusiController extends Controller
             $diskusi->pesandiskusi = $request->get('pertanyaan');
             $diskusi->balas_ke = $iddiskusi;
             $diskusi->save();
-            return redirect()->back()->with('berhasil', 'your message,here');
+            return redirect()->back()->with('berhasil', 'berhasil menambahkan balasan diskusi');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

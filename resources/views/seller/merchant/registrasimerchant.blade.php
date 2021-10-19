@@ -63,7 +63,7 @@
                 <form action="{{route('merchant.store')}}" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="namamerchant" placeholder="Nama Merchant">
+                        <input type="text" class="form-control" name="namamerchant" placeholder="Nama Merchant" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>

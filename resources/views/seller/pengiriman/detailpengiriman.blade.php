@@ -8,22 +8,40 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
-                    ID Transaksi: <b><a href="{{route('merchant.transaksi.detail',$data->transaksi_idtransaksi)}}">TRX-{{$data->transaksi_idtransaksi}}</a></b>
+
+                <div class="col-2">
+                    ID Transaksi
                     <br>
-                    Tanggal Pengiriman: <b>{{$data->tanggal_pengiriman}}</b>
+                    Tanggal Pengiriman
                     <br>
-                    Nomor Resi: <b> {{$data->nomor_resi}} </b>
+                    Nomor Resi
                     <br>
-                    Status Pengiriman: <b>{{$data->status_pengiriman}}</b>
+                    Status Pengiriman
                     <br>
-                    Biaya pengiriman: <b> Rp. {{number_format($data->biaya_pengiriman)}} </b>
+                    Biaya pengiriman
                     <br>
-                    Keterangan Pengiriman: <b>{{$data->keterangan}}</b>
+                    Keterangan Pengiriman
                     <br>
-                    Tipe Pembayaran: <b>{{$data->tipepembayaran}}</b>
+                    Tipe Pembayaran
                     <br>
-                    Status Kurir: <b> {{$data->status}}
+                    Status Kurir
+                </div>
+                <div class="col-3">
+                    <b><a href="{{route('merchant.transaksi.detail',$data->transaksi_idtransaksi)}}">TRX-{{$data->transaksi_idtransaksi}}</a></b>
+                    <br>
+                    <b>{{$data->tanggal_pengiriman}}</b>
+                    <br>
+                    <b> {{$data->nomor_resi}} </b>
+                    <br>
+                    <b>{{$data->status_pengiriman}}</b>
+                    <br>
+                    <b> Rp. {{number_format($data->biaya_pengiriman)}} </b>
+                    <br>
+                    <b>{{$data->keterangan}}</b>
+                    <br>
+                    <b>{{$data->tipepembayaran}}</b>
+                    <br>
+                    <b> {{$data->status}}
                 </div>
                 <div class="col">
                     @if($data->status == "MenungguPengiriman")
@@ -32,14 +50,15 @@
                         <select id="inputpengantar" class="form-control">
                             <option selected>Pilih Pengantar...</option>
                             @foreach ($dataPengantar as $key => $value)
-                            <option value="{{$value->idpetugaspengantaran}}">{{$value->nama}}.</option>
+                            <option value="{{$value->idpetugaspengantaran}}">{{$value->nama}}</option>
                             @endforeach
                         </select>
                     </div>
-                    <br>
-                    <button id="proseskurir" class="btn btn-success" style="margin-right: 5px;">
-                        <i class="fas fa-edit"></i>Proses ke kurir
-                    </button>
+                    <div class="form-group">
+                        <button id="proseskurir" class="btn btn-success" style="margin-right: 5px;">
+                            <i class="fas fa-edit"></i>Proses ke kurir
+                        </button>
+                    </div>
                     @endif
                 </div>
             </div>
@@ -53,7 +72,7 @@
             Google Maps Pengiriman
         </div>
         <div class="card-body">
-            <div id="map" style="height:250px;width100%;">
+            <div id="map" style="height:350px;width100%;">
             </div>
         </div>
         <div class="card-footer">
@@ -72,21 +91,12 @@
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
-        //toastr.success('{{session('berhasil')}}');
-        alert("{{session('berhasil')}}");
+        Swal.fire(
+            'Berhasil!',
+            '{{session("berhasil")}}',
+            'success'
+        )
         @endif
-        //http://localhost:8000/seller/pengiriman/status/1/ProsesKeKurir/nonAjax
-        //alert("{{url('seller/pengiriman/status')}}/" + "{{$data->idpengiriman}}" + "/" + "ProsesKeKurir" + "/" + "nonAjax");
-        /*
-        var counter = 0;
-        var timer = setInterval(function() {
-            counter++;
-            alert(counter);
-            if (counter >= 10) {
-                clearInterval(timer)
-            }
-        }, 3000);
-        */
         initMap();
     });
     $("#proseskurir").click(function() {
@@ -94,22 +104,6 @@
     });
 
     function initMap() {
-        // const myLatLng = {
-        //     lat: -25.363,
-        //     lng: 131.044
-        // };
-        // const map = new google.maps.Map(document.getElementById("map"), {
-        //     zoom: 4,
-        //     center: myLatLng,
-        // });
-        // new google.maps.Marker({
-        //     position: myLatLng,
-        //     map,
-        //     title: "Hello World!",
-        // });
-
-        //DARI SINI
-
         var myLatlng = new google.maps.LatLng("{{$data->latitude_user}}", "{{$data->longitude_user}}");
         var latlng = new google.maps.LatLng("{{$data->latitude_merchant}}", "{{$data->longitude_merchant}}");
 
@@ -123,10 +117,8 @@
             title: "Hello World!",
             label: "Lokasi Pembeli"
         });
-
         // To add the marker to the map, call setMap();
         marker.setMap(map);
-
         var marker2 = new google.maps.Marker({
             position: latlng,
             title: "Hello World!",
@@ -134,28 +126,6 @@
         });
         marker.setMap(map);
         marker2.setMap(map);
-
-        //SAMPE SINI
-
-        // let infoWindow = new google.maps.InfoWindow({
-        //     content: "Sentuh Peta Untuk Memilih Lokasi",
-        //     position: myLatlng,
-        // });
-        // infoWindow.open(map);
-        // // Configure the click listener.
-        // map.addListener("click", (mapsMouseEvent) => {
-        //     // Close the current InfoWindow.
-        //     infoWindow.close();
-        //     // Create a new InfoWindow.
-        //     infoWindow = new google.maps.InfoWindow({
-        //         position: mapsMouseEvent.latLng,
-        //     });
-        //     infoWindow.setContent(
-        //         JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
-        //     );
-        //     infoWindow.open(map);
-        // });
-
     }
 </script>
 @endsection

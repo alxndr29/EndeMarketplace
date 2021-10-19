@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2021 at 03:16 PM
+-- Generation Time: Oct 19, 2021 at 11:16 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -111,7 +111,7 @@ INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_us
 (7, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', '-8.8441896', '121.66777899999998', '1.6480056702595327', 1, 12, NULL, NULL),
 (8, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', NULL, NULL, NULL, NULL, 13, NULL, NULL),
 (9, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', '-10.1628', '123.5816', '255.8449135785993', 1, 14, NULL, NULL),
-(10, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', '-10.1628', '123.5816', '255.8449135785993', 1, 15, NULL, NULL);
+(10, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'MenungguPengiriman', '-10.1628', '123.5816', '255.8449135785993', 1, 15, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -135,7 +135,7 @@ INSERT INTO `detailtransaksi` (`produk_idproduk`, `transaksi_idtransaksi`, `juml
 (1, 1, 2, 80000, 'mantap'),
 (1, 7, 3, 120000, 'aaa'),
 (1, 10, 3, 120000, NULL),
-(2, 1, 0, 0, NULL),
+(2, 1, 1, 95000, NULL),
 (3, 7, 1, 125000, 'bbb'),
 (4, 7, 5, 10000, 'ccc'),
 (4, 13, 5, 10000, NULL),
@@ -830,7 +830,7 @@ INSERT INTO `kategori` (`idkategori`, `nama_kategori`, `created_at`, `updated_at
 (2, 'Kipas mini', '2021-07-05 22:11:43', '2021-07-05 22:11:43', 1),
 (3, 'Poster dinding', '2021-07-05 22:11:55', '2021-07-05 22:11:55', 1),
 (4, 'Ngetest', '2021-07-05 23:11:37', '2021-07-05 23:11:37', 2),
-(5, 'HandPhone', '2021-09-12 23:59:22', '2021-09-12 23:59:22', 1);
+(5, 'HandPhone', '2021-09-12 23:59:22', '2021-10-08 23:19:32', 1);
 
 -- --------------------------------------------------------
 
@@ -849,7 +849,7 @@ CREATE TABLE `keranjang` (
 --
 
 INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
-(3, 4, 5),
+(3, 4, 6),
 (3, 7, 3),
 (3, 8, 1);
 
@@ -1105,7 +1105,7 @@ CREATE TABLE `produk` (
 
 INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesanan`, `status`, `stok`, `berat`, `panjang`, `lebar`, `tinggi`, `preorder`, `waktu_preorder`, `video`, `kategori_idkategori`, `jenisproduk_idjenisproduk`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
 (1, 'Kipas Meja Portable USB 5v', 'Dapatkan sekarang kipas angin portable, kuat dan tahan lama.', 40000, 2, 'Aktif', 42, 100, 5, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/PcOxunbXlf4', 2, 8, '2021-07-05 22:22:56', '2021-09-26 15:39:05', 1),
-(2, 'Lampu Baca Aestetik', 'Lampunya cocok untuk belajar dan pajangan.', 95000, 1, 'Aktif', 6, 100, 10, 20, 30, 'TidakAktif', 0, 'https://www.youtube.com/embed/ciZb0nJffa8', 1, 7, '2021-07-05 22:25:55', '2021-08-11 23:42:55', 1),
+(2, 'Lampu Baca Aestetik Edit', 'Lampunya cocok untuk belajar dan pajangan.', 75000, 1, 'Aktif', 6, 100, 10, 20, 30, 'TidakAktif', 0, 'https://www.youtube.com/embed/ciZb0nJffa8', 1, 7, '2021-07-05 22:25:55', '2021-10-08 23:26:08', 1),
 (3, 'Lampu Baca Miniso', 'Bagus produknya mereknya miniso keren dah', 125000, 1, 'Aktif', 8, 40, 20, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/BFn6RZkwGR4', 1, 7, '2021-07-05 22:27:43', '2021-09-09 20:44:43', 1),
 (4, 'Poster Dinding Sepeda', 'Bagus ukuran 50cm x 50cm', 2000, 5, 'Aktif', 45, 50, 50, 50, 2, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:29:54', '2021-09-27 00:29:20', 1),
 (5, 'PO - Poster Dinding Custom ', 'Menerima custom, untuk gambar silahkan menghubungi admin. Uk 50x50', 5000, 3, 'Aktif', 494, 50, 50, 50, 5, 'Aktif', 7, NULL, 3, 6, '2021-07-05 22:31:45', '2021-09-26 16:48:06', 1),
@@ -1330,15 +1330,6 @@ CREATE TABLE `wishlist` (
   `users_iduser` int(11) NOT NULL,
   `produk_idproduk` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `wishlist`
---
-
-INSERT INTO `wishlist` (`users_iduser`, `produk_idproduk`) VALUES
-(1, 1),
-(3, 1),
-(3, 3);
 
 --
 -- Indexes for dumped tables
@@ -1606,7 +1597,7 @@ ALTER TABLE `jenisproduk`
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `kurir`

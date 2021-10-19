@@ -378,7 +378,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             marker2.setMap(map);
             marker3.setMap(map);
         }
-       
+		
+		var notif_selesaipelanggan = false;
         function updateLokasiKurir() {
             if (marker3 != null) {
                 marker3.setMap(null);
@@ -402,9 +403,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     "jarak": jarak
                 },
                 success: function(response) {
-                    if (response.pengiriman == "SelesaiAntar") {
-                        alert('Pengantaran sudah diselesaikan oleh pembeli');
-                        location.reload();
+                    if (response.pengiriman == "SelesaiAntar" && notif_selesaipelanggan == false) {
+						notif_selesaipelanggan = true;
+                        //alert('Pengantaran telah diselesaikan oleh pembeli');
+						Swal.fire(
+							'Berhasil!',
+							'Pengantaran telah diselesaikan oleh pembeli!',
+							'success'
+						).then((result) => {
+							location.reload();
+						});
                     }
                     console.log(response.pengiriman);
                 },
@@ -480,8 +488,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 },
                                 success: function(response) {
                                     console.log(response);
-                                    alert("Selesai melakukan pengantaran");
-                                    location.reload();
+                                    //alert("Selesai melakukan pengantaran");
+									Swal.fire(
+										'Berhasil!',
+										'Selesai melakukan pengantaran!',
+										'success'
+									).then((result) => {
+										location.reload();
+									});
                                 },
                                 error: function(response) {
                                     console.log(response);
@@ -501,7 +515,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     gambar = (e.target.result);
-                    //alert(gambar);
                 }
                 reader.readAsDataURL(input.files[0]); // convert to base64 string
             }

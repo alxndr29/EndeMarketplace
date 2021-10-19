@@ -320,8 +320,13 @@
                     "hapusGambar": JSON.stringify(hapusGambar)
                 },
                 success: function(response) {
-                    alert(response.status);
-                    window.location.href = "{{URL::to('seller/produk')}}";
+                    Swal.fire(
+                        'Berhasil!',
+                        'Ubah Produk!',
+                        'success'
+                    ).then((result) => {
+                        window.location.href = "{{URL::to('seller/produk')}}";
+                    });
                 },
                 error: function(response) {
                     console.log(response);

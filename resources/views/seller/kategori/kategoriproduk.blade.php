@@ -44,25 +44,13 @@
                             </tr>
                             @endforeach
                         </tbody>
-                        <!-- 
-                        <tfoot>
-                            <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
-                            </tr>
-                        </tfoot>
-                        -->
+
                     </table>
                 </div>
                 <!-- /.card-body -->
             </div>
         </div>
     </div>
-
-    <!-- Modal Start -->
     <!-- Modal untuk Edit -->
     @foreach ($kategori as $key => $value )
     <div class="modal fade" id="modal-edit-{{$value->idkategori}}">
@@ -92,10 +80,6 @@
         </div>
     </div>
     @endforeach
-
-    <!-- Modal End -->
-
-    <!-- Modal Start -->
     <!-- Modal untuk tambah -->
     <div class="modal fade" id="modal-tambahkategori">
         <div class="modal-dialog modal-dialog-centered">
@@ -130,20 +114,19 @@
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
-        //toastr.success('{{session('berhasil')}}');
-        alert('{{session('berhasil')}}');
+            Swal.fire(
+                'Berhasil!',
+                "{{session('berhasil')}}",
+                'success'
+            )
         @endif
-
-        /*
-        var counter = 0;
-        var timer = setInterval(function() {
-            counter++;
-            alert(counter);
-            if (counter >= 10) {
-                clearInterval(timer)
-            }
-        }, 3000);
-        */
+        @if(session('gagal'))
+            Swal.fire(
+                'Gagal!',
+                "{{session('gagal')}}",
+                'error'
+            )
+        @endif
     });
 </script>
 @endsection

@@ -325,7 +325,7 @@
             <div class="modal-body">
                 <p>Kirim ke: <span class="badge badge-secondary"> {{$data->nama_merchant}}</span></p>
                 <div class="form-group">
-                    <textarea class="form-control" name="pesan" id="txtpesan" rows="3">Link Produk: {{ Request::fullUrl() }}</textarea>
+                    <textarea class="form-control" name="pesan" id="txtpesan" rows="3" required>Link Produk: {{ Request::fullUrl() }}</textarea>
                 </div>
 
             </div>
@@ -348,7 +348,12 @@
     $(document).ready(function() {
         @if(session('berhasil'))
         //toastr.success('{{session('berhasil')}}');
-        alert("{{session('berhasil')}}");
+        //alert("{{session('berhasil')}}");
+        Swal.fire(
+            'Berhasil!',
+            "{{session('berhasil')}}",
+            'success'
+        )
         @endif
 
         loadKomentar(idproduk);
@@ -404,7 +409,7 @@
                         '<form action="' + action + '" method="post"> @csrf' +
                         '<img class="img-fluid img-circle img-sm" src="{{asset("adminlte/dist/img/user4-128x128.jpg")}}" alt="Alt Text">' +
                         '<div class="img-push">' +
-                        '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment">' +
+                        '<input type="text" name="pertanyaan" class="form-control form-control-sm" placeholder="Press enter to post comment" required>' +
                         '</div>' +
                         '</form>' +
                         '</div>' +
@@ -500,30 +505,35 @@
     });
     $("#kirimPesan").click(function() {
         var pesan = $("#txtpesan").val();
-        var idmerchant = "{{$data->merchant_users_iduser}}";
-        $.ajax({
-            url: "{{route('obrolan.user.store')}}",
-            type: "POST",
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "subject": "cobasubject",
-                "isipesan": pesan,
-                "idmerchant": idmerchant
-            },
-            success: function(response) {
-                if (response.status == "berhasil") {
-                    Swal.fire(
-                        'Berhasil!',
-                        'Pesan Berhasil Dikirim!',
-                        'success'
-                    )
-                    $("#modal-chatpenjual").modal('hide');
+        if (pesan == "") {
+            alert("Pesan tidak boleh kosong.");
+        } else {
+            var idmerchant = "{{$data->merchant_users_iduser}}";
+            $.ajax({
+                url: "{{route('obrolan.user.store')}}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "subject": "cobasubject",
+                    "isipesan": pesan,
+                    "idmerchant": idmerchant
+                },
+                success: function(response) {
+                    if (response.status == "berhasil") {
+                        Swal.fire(
+                            'Berhasil!',
+                            'Pesan Berhasil Dikirim!',
+                            'success'
+                        )
+                        $("#modal-chatpenjual").modal('hide');
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
                 }
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
+            });
+        }
+
     });
     $("#qty").change(function() {
         var qty = $(this).val();

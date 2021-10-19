@@ -29,9 +29,9 @@ class KategoriProdukController extends Controller
             $kategori->nama_kategori = $request->get('namakategori');
             $kategori->merchant_users_iduser = $merchant->idmerchant();
             $kategori->save();
-            return redirect('seller/kategori')->with('berhasil', 'Berhasil Menambah Data Kategori');
+            return redirect()->back()->with('berhasil', 'Berhasil Menambah Data Kategori');
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return redirect()->back()->with('gagal', 'Gagal Menambah Data Kategori');
         }
     }
     public function edit($id)
@@ -44,9 +44,9 @@ class KategoriProdukController extends Controller
             $kategori = Kategori::findOrFail($id);
             $kategori->nama_kategori = $request->get('namakategori');
             $kategori->save();
-            return redirect('seller/kategori')->with('berhasil', 'Berhasil mengubah data kategori');
+            return redirect()->back()->with('berhasil', 'Berhasil mengubah data kategori');
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return redirect()->back()->with('gagal', 'Gagal Mengubah Data Kategori');
         }
     }
     public function destroy($id)
@@ -54,9 +54,9 @@ class KategoriProdukController extends Controller
         try {
             $kategori = Kategori::find($id);
             $kategori->delete();
-            return redirect('seller/kategori')->with('berhasil', 'Berhasil menghapus data kategori');
+            return redirect()->back()->with('berhasil', 'Berhasil menghapus data kategori');
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return redirect()->back()->with('gagal', 'Gagal Menghapus Data Kategori');
         }
     }
 }

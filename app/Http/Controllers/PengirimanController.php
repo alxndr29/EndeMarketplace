@@ -25,6 +25,24 @@ class PengirimanController extends Controller
             ->where('transaksi.merchant_users_iduser', '=', $merchant->idmerchant())
             ->where('kurir.idkurir', '=', 2)
             ->where('pengiriman.nomor_resi', '!=', null)
+            ->orderBy('transaksi.idtransaksi')
+            ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
+            ->get();
+        return view('seller.pengiriman.pengiriman', compact('data'));
+    }
+    public function indexMerhcantParam($tglAwal, $tglAkhir)
+    {
+        $merchant = new Merchant();
+        $data = DB::table('pengiriman')
+            ->leftJoin('datapengiriman', 'datapengiriman.pengiriman_idpengiriman', '=', 'pengiriman.idpengiriman')
+            ->join('transaksi', 'transaksi.idtransaksi', '=', 'pengiriman.transaksi_idtransaksi')
+            ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
+            ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
+            ->where('transaksi.merchant_users_iduser', '=', $merchant->idmerchant())
+            ->where('kurir.idkurir', '=', 2)
+            ->where('pengiriman.nomor_resi', '!=', null)
+            ->whereBetween('pengiriman.tanggal_pengiriman', [$tglAwal, $tglAkhir])
+            ->orderBy('transaksi.idtransaksi')
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->get();
         return view('seller.pengiriman.pengiriman', compact('data'));
@@ -43,23 +61,6 @@ class PengirimanController extends Controller
             ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
             ->get();
         return view('seller.petugaspengantaran.daftarpengantaran', compact('data'));
-    }
-    public function indexMerhcantParam($tglAwal, $tglAkhir)
-    {
-        $merchant = new Merchant();
-        $data = DB::table('pengiriman')
-            ->leftJoin('datapengiriman', 'datapengiriman.pengiriman_idpengiriman', '=', 'pengiriman.idpengiriman')
-            ->join('transaksi', 'transaksi.idtransaksi', '=', 'pengiriman.transaksi_idtransaksi')
-            ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
-            ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
-            ->where('transaksi.merchant_users_iduser', '=', $merchant->idmerchant())
-            ->where('kurir.idkurir', '=', 2)
-            ->where('pengiriman.nomor_resi', '!=', null)
-            ->whereBetween('pengiriman.tanggal_pengiriman', [$tglAwal, $tglAkhir])
-            ->select('pengiriman.*', 'datapengiriman.*', 'tipepembayaran.nama as tipepembayaran')
-            ->get();
-
-        return view('seller.pengiriman.pengiriman', compact('data'));
     }
     public function detailPengirimanMerchant($id)
     {

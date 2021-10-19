@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2021 at 03:16 PM
+-- Generation Time: Oct 19, 2021 at 11:16 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -827,8 +827,7 @@ CREATE TABLE `kategori` (
 INSERT INTO `kategori` (`idkategori`, `nama_kategori`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
 (3, 'eqwe', '2021-04-15 00:00:00', '2021-04-16 00:00:00', 1),
 (5, 'kategori satu', '2021-04-15 14:11:55', '2021-05-03 14:55:48', 4),
-(8, 'kategori dua', '2021-05-03 03:49:22', '2021-05-03 14:55:54', 4),
-(9, 'kategori waktu', '2021-05-04 20:39:49', '2021-05-04 20:39:49', 4);
+(8, 'kategori dua', '2021-05-03 03:49:22', '2021-05-03 14:55:54', 4);
 
 -- --------------------------------------------------------
 

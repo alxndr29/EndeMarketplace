@@ -208,7 +208,7 @@
         longitude = "121.67779055355581";
         updateLokasiKurir();
     });
-
+	var notif_selesaipelanggan = false;
     function updateLokasiKurir() {
         if (marker3 != null) {
             marker3.setMap(null);
@@ -233,8 +233,9 @@
                 "jarak": jarak
             },
             success: function(response) {
-                if (response.pengiriman == "SelesaiAntar") {
-                    alert('Pengantaran sudah diselesaikan oleh pembeli');
+               if (response.pengiriman == "SelesaiAntar" && notif_selesaipelanggan == false) {
+					notif_selesaipelanggan = true;
+					alert('Pengantaran telah diselesaikan oleh pembeli');
                     location.reload();
                 }
                 console.log(response.pengiriman);

@@ -158,12 +158,11 @@
 @section('js')
 <script type="text/javascript">
     var gambar = Array();
+
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                /*$('#blah').attr('src', e.target.result);*/
-                //$('#preview').append('<img src="' + e.target.result + '" id="' + e.target.result + '">')
                 gambar.push(e.target.result);
                 previewGambar();
             }
@@ -214,10 +213,8 @@
     $(document).ready(function() {
         $('#checkboxpreorder').change(function() {
             if (this.checked) {
-                //alert(this.checked);
                 $("#durasiPreorder").attr("disabled", false);
             } else {
-                //alert(this.checked);
                 $("#durasiPreorder").attr("disabled", true);
             }
         });
@@ -264,9 +261,15 @@
                     },
                     success: function(response) {
                         if (response.status == "berhasil") {
-                            alert(response.status);
-                            window.location.href = "{{URL::to('seller/produk')}}";
-
+                            // alert(response.status);
+                            // window.location.href = "{{URL::to('seller/produk')}}";
+                            Swal.fire(
+                                'Berhasil!',
+                                'Tambah Produk!',
+                                'success'
+                            ).then((result) => {
+                                window.location.href = "{{URL::to('seller/produk')}}";
+                            });
                         } else {
                             alert(response.status);
                         }
