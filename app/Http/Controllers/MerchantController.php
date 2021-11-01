@@ -23,14 +23,22 @@ class MerchantController extends Controller
         $this->middleware(['cekdevice']);
         //$this->middleware(['cekmerchant']);
     }
-    
+
     public function index()
-    { 
-       return view('seller.index');
+    {
+        $merchant = new Merchant();
+        $jumlahMenungguKonfirmasi = DB::table('transaksi')->where('transaksi.status_transaksi', '=', 'MenungguKonfirmasi')
+            ->where('merchant_users_iduser', $merchant->idmerchant())
+            ->where('transaksi.komplain', '=', 0)
+            ->get();
+        $jumlahPesananDiproses = DB::table('transaksi')->where('transaksi.status_transaksi', '=', 'PesananDiproses')
+            ->where('merchant_users_iduser', $merchant->idmerchant())
+            ->where('transaksi.komplain', '=', 0)
+            ->get();
+        return view('seller.index', compact('jumlahMenungguKonfirmasi', 'jumlahPesananDiproses'));
     }
     public function create()
     {
-
         return view('seller.merchant.registrasimerchant');
     }
     public function store(Request $request)
@@ -41,17 +49,16 @@ class MerchantController extends Controller
             $merchantid = DB::table('merchant')->where('users_iduser', '=', $user->userid())->get();
             return $merchantid[0]->idmerchant;
             */
-            try{
+            try {
                 $merchant = new Merchant();
                 $user = new User();
                 $merchant->nama = $request->get('namamerchant');
                 $merchant->users_iduser = $user->userid();
                 $merchant->save();
                 return redirect('seller/merchant');
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
                 return $e->getMessage();
             }
-           
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -130,11 +137,11 @@ class MerchantController extends Controller
             $merchant = Merchant::where('users_iduser', $id)->first();
 
             $alamat = DB::table('alamatmerchant')
-            ->join('kabupatenkota','kabupatenkota.idkabupatenkota','=','alamatmerchant.kabupatenkota_idkabupatenkota')
-            ->join('provinsi','provinsi.idprovinsi','kabupatenkota.provinsi_idprovinsi')
-            ->where('alamatmerchant.merchant_users_iduser','=',$id)
-            ->select('alamatmerchant.*','kabupatenkota.nama as nama_kabupaten','kabupatenkota.kodepos as kode_pos','provinsi.nama as nama_provinsi')
-            ->first();
+                ->join('kabupatenkota', 'kabupatenkota.idkabupatenkota', '=', 'alamatmerchant.kabupatenkota_idkabupatenkota')
+                ->join('provinsi', 'provinsi.idprovinsi', 'kabupatenkota.provinsi_idprovinsi')
+                ->where('alamatmerchant.merchant_users_iduser', '=', $id)
+                ->select('alamatmerchant.*', 'kabupatenkota.nama as nama_kabupaten', 'kabupatenkota.kodepos as kode_pos', 'provinsi.nama as nama_provinsi')
+                ->first();
             $pembayaran = DB::table('dukunganpembayaran')
                 ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'dukunganpembayaran.tipepembayaran_idtipepembayaran')
                 ->where('dukunganpembayaran.merchant_users_iduser', $id)
@@ -159,30 +166,30 @@ class MerchantController extends Controller
             $reviewProduk = DB::table('reviewproduk')
                 ->join('transaksi', 'transaksi.idtransaksi', '=', 'reviewproduk.transaksi_idtransaksi')
                 ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
-                ->join('produk','produk.idproduk','=','reviewproduk.produk_idproduk')
-                ->rightJoin('gambarproduk','gambarproduk.produk_idproduk','=','produk.idproduk')
+                ->join('produk', 'produk.idproduk', '=', 'reviewproduk.produk_idproduk')
+                ->rightJoin('gambarproduk', 'gambarproduk.produk_idproduk', '=', 'produk.idproduk')
                 ->groupBy('reviewproduk.idreviewproduk')
-                ->where('transaksi.merchant_users_iduser',$id)
-                ->select('reviewproduk.*', 'users.name as nama_user','produk.nama as namaproduk','produk.idproduk as idproduk','gambarproduk.idgambarproduk')
+                ->where('transaksi.merchant_users_iduser', $id)
+                ->select('reviewproduk.*', 'users.name as nama_user', 'produk.nama as namaproduk', 'produk.idproduk as idproduk', 'gambarproduk.idgambarproduk')
                 ->get();
 
             $jumlahProdukTerjual = DB::table('detailtransaksi')
                 ->join('transaksi', 'transaksi.idtransaksi', '=', 'detailtransaksi.transaksi_idtransaksi')
                 ->join('produk', 'produk.idproduk', '=', 'detailtransaksi.produk_idproduk')
                 ->where('produk.merchant_users_iduser', '=', $id)
-                ->where('transaksi.status_transaksi','=','Selesai')
+                ->where('transaksi.status_transaksi', '=', 'Selesai')
                 ->sum('detailtransaksi.jumlah');
             $rataRataUlasan = DB::table('reviewproduk')
-            ->join('produk','produk.idproduk','=','reviewproduk.produk_idproduk')
-            ->where('produk.merchant_users_iduser','=',$id)
-            ->avg('rating');
-        
-            return view('user.merchant.merchant', compact('merchant','id2','data', 'kategori','alamat', 'pembayaran', 'pengiriman', 'reviewProduk', 'jumlahProdukTerjual', 'rataRataUlasan'));
+                ->join('produk', 'produk.idproduk', '=', 'reviewproduk.produk_idproduk')
+                ->where('produk.merchant_users_iduser', '=', $id)
+                ->avg('rating');
+
+            return view('user.merchant.merchant', compact('merchant', 'id2', 'data', 'kategori', 'alamat', 'pembayaran', 'pengiriman', 'reviewProduk', 'jumlahProdukTerjual', 'rataRataUlasan'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
-    public function etalase($id1, $id2=null, $id3 = null)
+    public function etalase($id1, $id2 = null, $id3 = null)
     {
         try {
             $merchant = Merchant::where('users_iduser', $id1)->first();
@@ -215,8 +222,8 @@ class MerchantController extends Controller
                 ->where('transaksi.merchant_users_iduser', $id1)
                 ->select('reviewproduk.*', 'users.name as nama_user', 'produk.nama as namaproduk', 'produk.idproduk as idproduk', 'gambarproduk.idgambarproduk')
                 ->get();
-           
-            if($id3 == null){
+
+            if ($id3 == null) {
                 $data = DB::table('produk')
                     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
@@ -225,7 +232,7 @@ class MerchantController extends Controller
                     ->where('produk.kategori_idkategori', $id2)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                     ->paginate(10);
-            }else{
+            } else {
                 $data = DB::table('produk')
                     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
@@ -246,7 +253,7 @@ class MerchantController extends Controller
                 ->join('produk', 'produk.idproduk', '=', 'reviewproduk.produk_idproduk')
                 ->where('produk.merchant_users_iduser', '=', $id1)
                 ->avg('rating');
-            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2','alamat', 'pembayaran', 'pengiriman', 'reviewProduk', 'jumlahProdukTerjual', 'rataRataUlasan'));
+            return view('user.merchant.merchant', compact('merchant', 'data', 'kategori', 'id2', 'alamat', 'pembayaran', 'pengiriman', 'reviewProduk', 'jumlahProdukTerjual', 'rataRataUlasan'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -263,8 +270,8 @@ class MerchantController extends Controller
 
                 Merchant::where('users_iduser', $id)
                     ->update([
-                        'foto_profil' => 'merchant-fotoprofil-' . $id .".". $extension
-                ]);
+                        'foto_profil' => 'merchant-fotoprofil-' . $id . "." . $extension
+                    ]);
             }
             if ($request->hasFile('fotoSampul')) {
                 $extension = $request->fotoSampul->extension();
@@ -275,16 +282,16 @@ class MerchantController extends Controller
                 Merchant::where('users_iduser', $id)
                     ->update([
                         'foto_sampul' => 'merchant-fotosampul-' . $id . "." . $extension
-                ]);
+                    ]);
             }
-            Merchant::where('users_iduser',$id)
-            ->update([
-                'deskripsi' => $request->get('deskripsiMerchant'),
-                'status_merchant' => $request->get('statusMerchant'),
-                'jam_buka' => $request->get('jamBuka'),
-                'jam_tutup' => $request->get('jamTutup'),
-                'nama' => $request->get('namaMerchant')
-            ]);
+            Merchant::where('users_iduser', $id)
+                ->update([
+                    'deskripsi' => $request->get('deskripsiMerchant'),
+                    'status_merchant' => $request->get('statusMerchant'),
+                    'jam_buka' => $request->get('jamBuka'),
+                    'jam_tutup' => $request->get('jamTutup'),
+                    'nama' => $request->get('namaMerchant')
+                ]);
             DB::table('alamatmerchant')
                 ->updateOrInsert(
                     ['merchant_users_iduser' => $id],
@@ -295,7 +302,7 @@ class MerchantController extends Controller
                         'longitude' => $request->get('dataLongitude')
                     ]
                 );
-           
+
             if ($request->has('checkboxBebasOngkir')) {
                 DB::table('dukungantarifpengiriman')->updateOrInsert(
                     ['merchant_users_iduser' => $id, 'tarifpengiriman_idtarifpengiriman' => $request->get('checkboxBebasOngkir')],
@@ -322,13 +329,13 @@ class MerchantController extends Controller
             }
 
             //ekspedisi pengiriman
-            if($request->has('checkboxJNE')){
+            if ($request->has('checkboxJNE')) {
                 DB::table('dukunganpengiriman')->updateOrInsert([
                     'merchant_users_iduser' => $id,
                     'kurir_idkurir' => 1
                 ]);
-            }else{
-                DB::table('dukunganpengiriman')->where('merchant_users_iduser',$id)->where('kurir_idkurir',1)->delete();
+            } else {
+                DB::table('dukunganpengiriman')->where('merchant_users_iduser', $id)->where('kurir_idkurir', 1)->delete();
             }
             if ($request->has('checkboxKurirMerchant')) {
                 DB::table('dukunganpengiriman')->updateOrInsert([

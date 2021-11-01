@@ -320,3 +320,8 @@ Route::group(['middleware' => ['cekadmin']], function () {
     Route::get('admin/refund/detail/{id}', 'AdminController@detailRefund')->name('refunddetail.admin');
     Route::post('admin/refund/update/status/{id}/{status}', 'AdminController@ubahStatusRefund')->name('refundstatus.admin');
 });
+
+//Komplain Pelanggan
+Route::post('user/komplain/insert/','KomplainController@insertPelanggan')->name('user.komplain.insert');
+Route::get('user/komplain/produk/{id}','KomplainController@daftarProdukKomplain');
+// Komplain Penjual

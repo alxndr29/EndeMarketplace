@@ -89,6 +89,7 @@ class TransaksiController extends Controller
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran')
             ->where('transaksi.merchant_users_iduser', $merchant->idmerchant())
+            //->where('transaksi.komplain' ,'=', 0)
             ->get();
         return view('seller.transaksi.transaksi', compact('transaksi'));
     }
@@ -98,6 +99,7 @@ class TransaksiController extends Controller
         $syntax = DB::table('transaksi')
             ->join('tipepembayaran', 'tipepembayaran.idtipepembayaran', '=', 'transaksi.tipepembayaran_idtipepembayaran')
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran')
+            //->where('transaksi.komplain', '=', 0)
             ->where('transaksi.merchant_users_iduser', $merchant->idmerchant());
         if ($tanggalAwal != "null" && $tanggalAkhir != "null") {
             $syntax->whereBetween('transaksi.tanggal', [$tanggalAwal, $tanggalAkhir]);

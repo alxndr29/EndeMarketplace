@@ -96,23 +96,23 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <p>
-                                            <b>{{$value->nama_merchant}}</b> || ID Transaksi: {{$value->idtransaksi}} || Tanggal: {{$value->tanggal}}
+                                            <b>{{$value->nama_merchant}}</b> | ID: {{$value->idtransaksi}} | Tanggal: {{$value->tanggal}}
                                             @if ($value->jenis_transaksi == "Langsung")
 
                                             @else
-                                            || <span class="badge bg-success">{{$value->jenis_transaksi}} {{$value->waktu_po}} Hari</span>
+                                            | <span class="badge bg-success">{{$value->jenis_transaksi}} {{$value->waktu_po}} Hari</span>
                                             @endif
 
                                             @if ($value->status_transaksi == "MenungguPembayaran")
                                             <!-- || <span class="badge bg-danger">{{$value->timeout}} Jam</span> -->
                                             @elseif($value->status_transaksi == "MenungguKonfirmasi")
-                                            || <span class="badge bg-danger"> {{$value->timeout}} Jam</span>
+                                            | <span class="badge bg-danger"> {{$value->timeout}} Jam</span>
                                             @elseif($value->status_transaksi == "PesananDiproses")
-                                            || <span class="badge bg-danger">{{$value->timeout}} Jam</span>
+                                            | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
                                             @elseif($value->status_transaksi == "PesananDikirim")
 
                                             @elseif($value->status_transaksi == "SampaiTujuan")
-                                            || <span class="badge bg-danger">{{$value->timeout}} Jam</span>
+                                            | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
                                             @elseif($value->status_transaksi == "Selesai")
 
                                             @elseif($value->status_transaksi == "Batal")
@@ -151,7 +151,7 @@
                                                 Detail Transaksi
                                             </button>
 
-                                            @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "PesananDiproses" && $value->status_transaksi != "Batal" )
+                                            @if($value->status_transaksi != "MenungguKonfirmasi" && $value->status_transaksi != "MenungguPembayaran" && $value->status_transaksi != "Selesai" && $value->status_transaksi != "PesananDiproses" && $value->status_transaksi != "Batal" )
                                             @if($value->idkurir == "1")
                                             <a href="https://cekresi.com/?noresi={{$value->nomorresi}}" class="btn btn-success" style="margin-right: 5px;">
                                                 Lacak
@@ -167,6 +167,9 @@
                                             <a href="{{route('pelanggan.transaksi.selesai',$value->idtransaksi)}}" class="btn btn-success" style="margin-right: 5px;">
                                                 Selesai
                                             </a>
+                                            <button onClick="komplain({{$value->idtransaksi}})" class="btn btn-danger" style="margin-right: 5px;">
+                                                Komplain
+                                            </button>
                                             @endif
 
                                             @if($value->idkurir == "1" && $value->status_transaksi == "PesananDikirim")
@@ -349,12 +352,41 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalKomplain" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Komplain</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{route('user.komplain.insert')}}">
+                    @csrf
+                    <div class="form-check" id="produkKomplain">
+
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section('js')
 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-ZXG2YBvaF0n8pvHq"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
-        alert('{{session('berhasil')}}');
+        alert("{{session('berhasil')}}");
+        @endif
+        @if(session('gagal'))
+        alert("{{session('berhasil')}}");
         @endif
     });
     $("#btnFilter").click(function() {
@@ -380,6 +412,31 @@
         $("#modaldetail").modal('hide');
         $("#modalreview").modal('show');
     });
+
+    function komplain(id) {
+        //alert(id);
+        $.ajax({
+            url: "{{url('user/komplain/produk')}}/" + id,
+            type: 'GET',
+            success: function(response) {
+                //    console.log(response[0].nama);
+                $("#produkKomplain").empty();
+                for (i = 0; i < response.length; i++) {
+                    $("#produkKomplain").append('<input class="form-check-input" type="checkbox" name="checkboxproduk[]" value="' + response[i].idproduk + '">' +
+                        '<label class="form-check-label">' +
+                        response[i].nama +
+                        '</label>' +
+                        '<input class="form-control form-control-sm" type="text" placeholder="Masukan alasan komplain" name="catatanProduk[' + response[i].idproduk + ']" >'
+                    )
+                }
+                $("#produkKomplain").append('<input type="hidden" name="id" value="' + id + '">');
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+        $("#modalKomplain").modal('show');
+    }
 
     function bayar(id) {
         $.ajax({
