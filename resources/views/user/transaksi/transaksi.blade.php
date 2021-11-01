@@ -354,8 +354,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         @if(session('berhasil'))
-        alert('{{session('
-            berhasil ')}}');
+        alert('{{session('berhasil')}}');
         @endif
     });
     $("#btnFilter").click(function() {
