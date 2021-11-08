@@ -10,7 +10,7 @@
                         </div>
                         @else
                         <div class="alert alert-warning text-center" role="alert">
-                            Merchant ini sedang diluar jam operasional.
+                            Toko ini sedang diluar jam operasional.
                         </div>
                         @endif
 
@@ -26,11 +26,6 @@
                             <div class="col">
                                 <div class="align-middle">
                                     <p class="h5">{{$merchant->nama}}</p>
-                                    <!--
-                                <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modaldetail">
-                                    Chat Penjual
-                                </button>
-                                -->
                                     <button type="submit" class="btn btn-success text-right" style="margin-right: 5px;" data-toggle="modal" data-target="#modaldetail">
                                         Info Merchant
                                     </button>
@@ -261,13 +256,18 @@
 @section('js')
 <script type="text/javascript">
     $(document).ready(function() {
-        alert("{{$id2}}");
+        //alert("{{$id2}}");
     });
     $("#inputSearch").keyup(function(e) {
-        if (e.keyCode == 13) {
-            var url = "{{url('user/merchant/etalase')}}/" + "{{$merchant->users_iduser}}" + "/" + "{{$id2}}" + "/" + $("#inputSearch").val();
-            window.location = url;
+        if ("{{$id2}}" == "") {
+
+        } else {
+            if (e.keyCode == 13) {
+                var url = "{{url('user/merchant/etalase')}}/" + "{{$merchant->users_iduser}}" + "/" + "{{$id2}}" + "/" + $("#inputSearch").val();
+                window.location = url;
+            }
         }
+
     });
     $("#btnSearch").click(function() {
         var url = "{{url('user/merchant/etalase')}}/" + "{{$merchant->users_iduser}}" + "/" + "{{$id2}}" + "/" + $("#inputSearch").val();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2021 at 06:55 PM
+-- Generation Time: Nov 07, 2021 at 11:42 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -106,7 +106,7 @@ CREATE TABLE `datapengiriman` (
 
 INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`, `pengiriman_idpengiriman`, `created_at`, `updated_at`) VALUES
 (15, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789061, 0, 0, 'SelesaiAntar', '-8.8441742', '121.6677333', '1.6500223824023275', 1, 21, NULL, NULL),
-(21, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789, 0, 0, 'MenungguPengiriman', NULL, NULL, NULL, NULL, 27, NULL, NULL);
+(21, '-8.833018681178274', '121.67763721167303', '-8.8441914', '121.66774939999999', 1.6502955323789, 0, 0, 'SelesaiAntar', '-8.8441742', '121.6677333', '1.6500223824023275', 1, 27, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -269,7 +269,7 @@ INSERT INTO `jenisproduk` (`idjenisproduk`, `nama`, `created_at`, `updated_at`) 
 (2, 'Minuman', NULL, NULL),
 (3, 'Susu', NULL, NULL),
 (4, 'Beras', NULL, NULL),
-(5, 'Elektronik - Handphone', NULL, NULL),
+(5, 'Elektronik ', NULL, NULL),
 (6, 'Hiasan', NULL, NULL),
 (7, 'Lampu', NULL, NULL),
 (8, 'Peralatan Rumah Tangga', NULL, NULL);
@@ -960,6 +960,14 @@ CREATE TABLE `pembayaran` (
   `transaksi_idtransaksi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `pembayaran`
+--
+
+INSERT INTO `pembayaran` (`idpembayaran`, `token`, `status`, `created_at`, `updated_at`, `transaksi_idtransaksi`) VALUES
+(4, 'rwe', 'settlement', NULL, NULL, 32),
+(5, 'aasd', 'settlement', NULL, NULL, 26);
+
 -- --------------------------------------------------------
 
 --
@@ -1007,7 +1015,7 @@ CREATE TABLE `pengiriman` (
 
 INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `foto`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
 (21, '2021-11-02', 1, 69504, 'KM-20211102-014035', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-3000-2000-', NULL, '2021-11-02 01:39:08', '2021-11-02 01:40:37', 2, 26),
-(27, NULL, 1, 69504, NULL, 'BelumSelesai', 'Kurir Merchant-3-Tarif Standar-0-1-3000-2000-', NULL, '2021-11-02 01:51:08', '2021-11-02 01:51:08', 2, 32);
+(27, '2021-11-03', 1, 69504, 'KM-20211103-203653', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-3000-2000-', NULL, '2021-11-02 01:51:08', '2021-11-03 20:37:03', 2, 32);
 
 -- --------------------------------------------------------
 
@@ -1071,7 +1079,7 @@ INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesan
 (1, 'Kipas Meja Portable USB 5v', 'Dapatkan sekarang kipas angin portable, kuat dan tahan lama.', 40000, 2, 'Aktif', 42, 100, 5, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/PcOxunbXlf4', 2, 8, '2021-07-05 22:22:56', '2021-09-26 15:39:05', 1),
 (2, 'Lampu Baca Aestetik Edit', 'Lampunya cocok untuk belajar dan pajangan.', 75000, 1, 'Aktif', 6, 100, 10, 20, 30, 'TidakAktif', 0, 'https://www.youtube.com/embed/ciZb0nJffa8', 1, 7, '2021-07-05 22:25:55', '2021-10-08 23:26:08', 1),
 (3, 'Lampu Baca Miniso', 'Bagus produknya mereknya miniso keren dah', 125000, 1, 'Aktif', 8, 40, 20, 10, 15, 'TidakAktif', 0, 'https://www.youtube.com/embed/BFn6RZkwGR4', 1, 7, '2021-07-05 22:27:43', '2021-09-09 20:44:43', 1),
-(4, 'Poster Dinding Sepeda', 'Bagus ukuran 50cm x 50cm', 2000, 5, 'Aktif', 45, 50, 50, 50, 2, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:29:54', '2021-11-02 01:51:43', 1),
+(4, 'Poster Dinding Sepeda', 'Bagus ukuran 50cm x 50cm', 2000, 5, 'Aktif', 63, 50, 50, 50, 2, 'TidakAktif', 0, NULL, 3, 6, '2021-07-05 22:29:54', '2021-11-03 20:33:11', 1),
 (5, 'PO - Poster Dinding Custom ', 'Menerima custom, untuk gambar silahkan menghubungi admin. Uk 50x50', 5000, 3, 'Aktif', 494, 50, 50, 50, 5, 'Aktif', 7, NULL, 3, 6, '2021-07-05 22:31:45', '2021-09-26 16:48:06', 1),
 (6, 'Produk Testing', 'deskripsi produk uji coba', 1000, 1, 'Aktif', 49, 1, 2, 3, 4, 'TidakAktif', 0, NULL, 4, 5, '2021-07-05 23:14:20', '2021-09-12 23:48:25', 2),
 (7, 'Lampu Baca USB', 'asdasdas', 5000, 1, 'Aktif', 47, 12, 11, 12, 12, 'TidakAktif', 0, NULL, 1, 7, '2021-08-17 22:24:43', '2021-11-02 01:39:08', 1),
@@ -1214,8 +1222,8 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `waktu_po`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `timeout_at`, `created_at`, `updated_at`, `refund_at`, `withdraw_at`, `komplain`) VALUES
-(26, '2021-11-02 01:39:08', 'SampaiTujuan', 'Langsung', NULL, 96504, 3, 1, 1, 1, '2021-11-03 01:41:33', '2021-11-02 01:39:08', '2021-11-02 01:41:33', NULL, NULL, 0),
-(32, '2021-11-02 01:51:08', 'Batal', 'Langsung', NULL, 96504, 3, 1, 1, 1, NULL, '2021-11-02 01:51:08', '2021-11-02 01:51:08', NULL, NULL, 1);
+(26, '2021-11-02 01:39:08', 'Selesai', 'Langsung', NULL, 96504, 3, 1, 1, 2, '2021-11-03 19:00:00', '2021-11-02 01:39:08', '2021-11-02 01:41:33', NULL, NULL, 0),
+(32, '2021-11-02 01:51:08', 'Selesai', 'Langsung', NULL, 96504, 3, 1, 1, 2, '2021-11-04 20:38:36', '2021-11-02 01:51:08', '2021-11-03 20:38:36', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1559,7 +1567,7 @@ ALTER TABLE `obrolan`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `penarikandana`

@@ -103,19 +103,25 @@
                                             | <span class="badge bg-success">{{$value->jenis_transaksi}} {{$value->waktu_po}} Hari</span>
                                             @endif
 
-                                            @if ($value->status_transaksi == "MenungguPembayaran")
-                                            <!-- || <span class="badge bg-danger">{{$value->timeout}} Jam</span> -->
-                                            @elseif($value->status_transaksi == "MenungguKonfirmasi")
-                                            | <span class="badge bg-danger"> {{$value->timeout}} Jam</span>
-                                            @elseif($value->status_transaksi == "PesananDiproses")
-                                            | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
-                                            @elseif($value->status_transaksi == "PesananDikirim")
+                                            @if ($value->komplain == 1)
+                                            | <span class="badge bg-warning">Komplain</span>
+                                            @endif
 
-                                            @elseif($value->status_transaksi == "SampaiTujuan")
-                                            | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
-                                            @elseif($value->status_transaksi == "Selesai")
+                                            @if($value->timeout != null)
+                                                @if ($value->status_transaksi == "MenungguPembayaran")
+                                                <!-- || <span class="badge bg-danger">{{$value->timeout}} Jam</span> -->
+                                                @elseif($value->status_transaksi == "MenungguKonfirmasi")
+                                                | <span class="badge bg-danger"> {{$value->timeout}} Jam</span>
+                                                @elseif($value->status_transaksi == "PesananDiproses")
+                                                | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
+                                                @elseif($value->status_transaksi == "PesananDikirim")
 
-                                            @elseif($value->status_transaksi == "Batal")
+                                                @elseif($value->status_transaksi == "SampaiTujuan")
+                                                | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
+                                                @elseif($value->status_transaksi == "Selesai")
+
+                                                @elseif($value->status_transaksi == "Batal")
+                                                @endif
                                             @endif
                                         </p>
                                     </div>

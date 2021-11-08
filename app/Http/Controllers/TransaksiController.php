@@ -136,6 +136,7 @@ class TransaksiController extends Controller
             ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*', 'users.iduser as iduser', 'users.name as nama_user', DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout'))
             ->where('transaksi.idtransaksi', $id)
             ->first();
+        //dd($transaksi);
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
     }
     public function detailPelanggan($id)

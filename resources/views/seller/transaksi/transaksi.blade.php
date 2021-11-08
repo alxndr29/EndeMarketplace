@@ -45,6 +45,7 @@
                                 <th>Jenis Transaksi</th>
                                 <th>Jenis Pembayaran</th>
                                 <th>Nomimal</th>
+                                <th>Komplain</th>
                                 <th>Detail</th>
                             </tr>
                         </thead>
@@ -60,6 +61,13 @@
                                 </td>
                                 <td>
                                     Rp. {{number_format($value->nominal_pembayaran)}}
+                                </td>
+                                <td>
+                                    @if ($value->komplain == 1)
+                                    <span class="badge bg-warning">Ya</span>
+                                    @else
+                                    -
+                                    @endif
                                 </td>
                                 <td>
                                     <a href="{{route('merchant.transaksi.detail',$value->idtransaksi)}}" class="btn btn-sm btn-success"> <i class="fas fa-edit"></i> </a>

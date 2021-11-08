@@ -27,7 +27,7 @@
                     Status Kurir
                 </div>
                 <div class="col-3">
-                    <b><a href="{{route('merchant.transaksi.detail',$data->transaksi_idtransaksi)}}">TRX-{{$data->transaksi_idtransaksi}}</a></b>
+                    <b><a href="{{route('merchant.transaksi.detail',$data->transaksi_idtransaksi)}}">ID-{{$data->transaksi_idtransaksi}}</a></b>
                     <br>
                     <b>{{$data->tanggal_pengiriman}}</b>
                     <br>

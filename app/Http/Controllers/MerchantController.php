@@ -35,7 +35,11 @@ class MerchantController extends Controller
             ->where('merchant_users_iduser', $merchant->idmerchant())
             ->where('transaksi.komplain', '=', 0)
             ->get();
-        return view('seller.index', compact('jumlahMenungguKonfirmasi', 'jumlahPesananDiproses'));
+        $jumlahPesananKomplain = DB::table('transaksi')->where('transaksi.status_transaksi', '=', 'MenungguKonfirmasi')
+            ->where('merchant_users_iduser', $merchant->idmerchant())
+            ->where('transaksi.komplain', '=', 1)
+            ->get();;
+        return view('seller.index', compact('jumlahMenungguKonfirmasi', 'jumlahPesananDiproses', 'jumlahPesananKomplain'));
     }
     public function create()
     {

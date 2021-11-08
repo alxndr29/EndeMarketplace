@@ -40,8 +40,9 @@ Route::get('/log', function () {
         //->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
         ->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout'))
         ->get();
+   // dd($data);
     foreach ($data as $value) {
-        if ($value->timeout == 0) {
+        if ($value->timeout === 0) {
             DB::beginTransaction();
             try {
                 if ($value->status_transaksi == "SampaiTujuan") {
@@ -83,8 +84,8 @@ Route::get('/log', function () {
                         $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
                     } catch (\Exception $a) { }
                 }
-                Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
-                echo ('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');
+                Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 ');
+                echo ('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 ');
                 echo ('<br>');
             } catch (\Exception $e) {
                 DB::rollback();
