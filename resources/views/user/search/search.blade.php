@@ -2,8 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-
-        <div class="col-3">
+        <div class="col col-lg-3">
             <div class="card">
                 <div class="card-header">
                     <div class="card-tittle">
@@ -74,7 +73,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-9">
+        <div class="col col-lg-9">
             <div class="card">
                 <div class="card-header">
                     <div class="card-tittle">
@@ -96,7 +95,7 @@
                     <div class="row">
                         @foreach($data as $key => $value)
                         <div class="col-6 col-lg-3">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body text-center">
                                     <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
                                     <b class="text-truncate d-inline-block" style="max-width: 150px;">{{$value->nama}}</b>
@@ -104,7 +103,15 @@
                                     <br>
                                     <small class="text-muted">Oleh: {{$value->nama_merchant}}</small>
                                     <br>
-                                    <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat</a>
+                                        </div>
+                                        <div class="col-6">
+                                            <button class="btn btn-success" onclick="keranjangSearch('{{$value->idproduk}}')"><i class="fa fa-shopping-cart"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -135,7 +142,41 @@
         jenis = url.searchParams.get('jenis');
         $("#txtSearchProduk").val(key);
     });
-    
+
+    function keranjangSearch(id) {
+        //alert(id);
+        $.ajax({
+            url: "{{route('keranjang.store')}}",
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "idproduk": id,
+                'jumlah': 1
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.status == "berhasil") {
+                    console.log(response.status);
+                    loadKeranjang();
+                    Swal.fire(
+                        'Berhasil!',
+                        'Tambah produk ke keranjang!',
+                        'success'
+                    )
+                } else {
+                    console.log(response.status);
+                    Swal.fire(
+                        'Gagal!',
+                        'Tambah produk ke keranjang!',
+                        'error'
+                    )
+                }
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    }
     $(function() {
         $('.slider').bootstrapSlider()
     });

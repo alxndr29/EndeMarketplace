@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped text-center">
+                    <table id="example1" class="table table-responsive-sm table-bordered table-striped text-center">
                         <thead>
                             <tr>
                                 <th style="width:5%">No</th>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped text-center">
+                    <table id="example1" class="table table-responsive-sm table-bordered table-striped text-center">
                         <thead>
                             <tr>
                                 <th style="width:5%">No</th>

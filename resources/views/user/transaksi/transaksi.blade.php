@@ -57,10 +57,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-12 col-lg">
                             Daftar Transaksi
                         </div>
-                        <div class="col-2">
+                        <div class="col-12 col-lg-2">
                             <select class="form-control" id="status">
                                 <option value="pilih">Pilih...</option>
                                 <option value="MenungguPembayara">Menunggu Pembayaran</option>
@@ -71,13 +71,13 @@
                                 <option value="Batal">Batal</option>
                             </select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-12 col-lg-2">
                             <input class="form-control" type="date" id="tanggalAwal">
                         </div>
-                        <div class="col-2">
+                        <div class="col-12 col-lg-2">
                             <input class="form-control" type="date" id="tanggalAkhir">
                         </div>
-                        <div class="col-2">
+                        <div class="col-12 col-lg-2">
                             <button type="button" class="btn btn-block btn-default" id="btnFilter">Cari</button>
                         </div>
                     </div>
@@ -108,35 +108,35 @@
                                             @endif
 
                                             @if($value->timeout != null)
-                                                @if ($value->status_transaksi == "MenungguPembayaran")
-                                                <!-- || <span class="badge bg-danger">{{$value->timeout}} Jam</span> -->
-                                                @elseif($value->status_transaksi == "MenungguKonfirmasi")
-                                                | <span class="badge bg-danger"> {{$value->timeout}} Jam</span>
-                                                @elseif($value->status_transaksi == "PesananDiproses")
-                                                | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
-                                                @elseif($value->status_transaksi == "PesananDikirim")
+                                            @if ($value->status_transaksi == "MenungguPembayaran")
+                                            <!-- || <span class="badge bg-danger">{{$value->timeout}} Jam</span> -->
+                                            @elseif($value->status_transaksi == "MenungguKonfirmasi")
+                                            | <span class="badge bg-danger"> {{$value->timeout}} Jam</span>
+                                            @elseif($value->status_transaksi == "PesananDiproses")
+                                            | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
+                                            @elseif($value->status_transaksi == "PesananDikirim")
 
-                                                @elseif($value->status_transaksi == "SampaiTujuan")
-                                                | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
-                                                @elseif($value->status_transaksi == "Selesai")
+                                            @elseif($value->status_transaksi == "SampaiTujuan")
+                                            | <span class="badge bg-danger">{{$value->timeout}} Jam</span>
+                                            @elseif($value->status_transaksi == "Selesai")
 
-                                                @elseif($value->status_transaksi == "Batal")
-                                                @endif
+                                            @elseif($value->status_transaksi == "Batal")
+                                            @endif
                                             @endif
                                         </p>
                                     </div>
                                     <div class="row">
-                                        <div class="col-1">
+                                        <div class="co-lg-1">
                                             <img style="width:75px;height:100px;" class="rounded" alt="..." src="{{asset('gambar/'.$value->gambar.'.jpg')}}">
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-lg-6">
                                             <b> {{$value->nama_produk}} </b>
                                             <br>
                                             {{$value->jumlah}} barang Rp.{{number_format($value->total_harga)}}
                                             <br>
                                             + {{$value->totalbarang}} lainnya.
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-lg-5">
                                             <b>
                                                 @if($value->status_transaksi == "Batal")
                                                 <span class="badge bg-danger">
