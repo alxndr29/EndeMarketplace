@@ -75,6 +75,7 @@ class KomplainController extends Controller
                         ]
                     );
                 }
+                $totalHargaProdukKomplain = 0;
                 foreach ($daftarProduk as $value) {
                   $da = DB::table('detailtransaksi')->where('produk_idproduk',$value)->where('transaksi_idtransaksi',$request->get('id'))->first();
                   DB::table('detailtransaksi')->insert([
@@ -83,7 +84,11 @@ class KomplainController extends Controller
                         'jumlah' => $da->jumlah,
                         'total_harga' => $da->total_harga
                   ]);
+                  $totalHargaProdukKomplain = $totalHargaProdukKomplain + $da->total_harga;
                 }
+                DB::table('transaksi')->where('transaksi.idtransaksi','=', $komplaint->idtransaksi)->update([
+                    'nominal_pembayaran' => $totalHargaProdukKomplain
+                ]);
                 $daftarCatatan = $request->get('catatanProduk');
                 foreach ($daftarCatatan as $key => $value1) {
                     DB::table('detailtransaksi')->where('produk_idproduk', $key)->where('transaksi_idtransaksi',$komplaint->idtransaksi)->update([

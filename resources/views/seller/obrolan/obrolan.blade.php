@@ -17,12 +17,6 @@
                             </div>
                             <div class="product-info">
                                 <a href="javascript:void(0)" id="pilihUser" data-id="{{$value->iduser}}" class="product-title">{{$value->nama_user}}
-                                <!-- @if($value->status_baca_merchant == 0)
-                                    <span class="badge badge-warning float-right">Baru</span></a>
-                                @endif
-                                <span class="product-description">
-                                    {{$value->isi_pesan}}
-                                </span> -->
                             </div>
                         </li>
                         @endforeach
@@ -215,7 +209,6 @@
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    "subject": "cobasubject",
                     "isipesan": pesan,
                     "iduser": iduser
                 },

@@ -16,7 +16,6 @@ class ObrolanController extends Controller
     {
         $user = new User();
         $userid = $user->userid();
-
         $data = DB::table('obrolan')->join('merchant', 'obrolan.merchant_users_iduser', 'merchant.users_iduser')
             ->join('users', 'obrolan.users_iduser', 'users.iduser')
             ->select('obrolan.*', 'users.name as nama_user', 'users.iduser as iduser', 'merchant.nama as nama_merchant', 'merchant.users_iduser as idmerchant')
@@ -62,11 +61,11 @@ class ObrolanController extends Controller
 
             $obrolan = new Obrolan();
             $user = new User();
-            $obrolan->subject = $request->get('subject');
+            //$obrolan->subject = $request->get('subject');
             $obrolan->isi_pesan = $request->get('isipesan');
             $obrolan->pengirim = 'Pembeli';
-            $obrolan->status_baca_user = 1;
-            $obrolan->status_baca_merchant = 0;
+            //$obrolan->status_baca_user = 1;
+            //$obrolan->status_baca_merchant = 0;
             $obrolan->users_iduser = $user->userid();
             $obrolan->merchant_users_iduser = $request->get('idmerchant');
             $obrolan->save();
@@ -83,11 +82,11 @@ class ObrolanController extends Controller
         try {
             $obrolan = new Obrolan();
             $merchant = new Merchant();
-            $obrolan->subject = $request->get('subject');
+            //$obrolan->subject = $request->get('subject');
             $obrolan->isi_pesan = $request->get('isipesan');
             $obrolan->pengirim = 'Merchant';
-            $obrolan->status_baca_user = 0;
-            $obrolan->status_baca_merchant = 1;
+            //$obrolan->status_baca_user = 0;
+            //$obrolan->status_baca_merchant = 1;
             $obrolan->users_iduser = $request->get('iduser');
             $obrolan->merchant_users_iduser = $merchant->idmerchant();
             $obrolan->save();
@@ -102,7 +101,7 @@ class ObrolanController extends Controller
     {
         try {
             $user = new User();
-            Obrolan::where('users_iduser', $user->userid())->where('merchant_users_iduser', $id)->update(['status_baca_user' => 1]);
+            //Obrolan::where('users_iduser', $user->userid())->where('merchant_users_iduser', $id)->update(['status_baca_user' => 1]);
             $data = DB::table('obrolan')->join('merchant', 'obrolan.merchant_users_iduser', 'merchant.users_iduser')
                 ->join('users', 'obrolan.users_iduser', 'users.iduser')
                 ->select('obrolan.*', 'users.name as nama_user', 'users.iduser as iduser', 'merchant.nama as nama_merchant', 'merchant.users_iduser as idmerchant')
@@ -120,7 +119,7 @@ class ObrolanController extends Controller
         try {
             //$user = new User();
             $merchant = new Merchant();
-            Obrolan::where('users_iduser', $id)->where('merchant_users_iduser', $merchant->idmerchant())->update(['status_baca_merchant' => 1]);
+            //Obrolan::where('users_iduser', $id)->where('merchant_users_iduser', $merchant->idmerchant())->update(['status_baca_merchant' => 1]);
             $data = DB::table('obrolan')->join('merchant', 'obrolan.merchant_users_iduser', 'merchant.users_iduser')
                 ->join('users', 'obrolan.users_iduser', 'users.iduser')
                 ->select('obrolan.*', 'users.name as nama_user', 'users.iduser as iduser', 'merchant.nama as nama_merchant', 'merchant.users_iduser as idmerchant')

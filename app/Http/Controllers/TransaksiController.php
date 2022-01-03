@@ -43,8 +43,6 @@ class TransaksiController extends Controller
                 DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout')
             )
             ->paginate(10);
-        //dd($transaksi);
-        //return $transaksi;
         return view('user.transaksi.transaksi', compact('transaksi'));
     }
     public function indexPelangganFilter($tanggalAwal, $tanggalAkhir, $status)
@@ -133,10 +131,18 @@ class TransaksiController extends Controller
             ->join('kurir', 'kurir.idkurir', '=', 'pengiriman.kurir_idkurir')
             ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
             //->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*', 'users.iduser as iduser', 'users.name as nama_user', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
-            ->select('transaksi.*', 'tipepembayaran.nama as tipe_pembayaran', 'kurir.nama as nama_kurir', 'pengiriman.*', 'users.iduser as iduser', 'users.name as nama_user', DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout'))
+            ->select(
+                'transaksi.*',
+                'tipepembayaran.nama as tipe_pembayaran',
+                'kurir.nama as nama_kurir',
+                'pengiriman.*',
+                'users.iduser as iduser',
+                'users.name as nama_user',
+                //DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
+                DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout')
+            )
             ->where('transaksi.idtransaksi', $id)
             ->first();
-        //dd($transaksi);
         return view('seller.transaksi.detailtransaksi', compact('daftarProduk', 'alamatPengiriman', 'transaksi'));
     }
     public function detailPelanggan($id)
@@ -205,10 +211,9 @@ class TransaksiController extends Controller
             }
             if ($user->notif_wa == 1) {
                 try {
-                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=NirUvUwRNAl1wbpCCnTsfg2fqLycFqmIel8ir6K5DpYJSVe6vExEgrL7IEeVqp4O&phone=" . $user->telepon . "&message=" . $pesan);
                 } catch (\Exception $a) { }
             }
-
             return redirect('user/transaksi/index')->with('berhasil', 'Transaksi Anda Telah Terselesaikan.');
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -240,7 +245,7 @@ class TransaksiController extends Controller
             }
             if ($user->notif_wa == 1) {
                 try {
-                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=NirUvUwRNAl1wbpCCnTsfg2fqLycFqmIel8ir6K5DpYJSVe6vExEgrL7IEeVqp4O&phone=" . $user->telepon . "&message=" . $pesan);
                 } catch (\Exception $a) { }
             }
             return redirect('user/transaksi/index')->with('berhasil', 'Transaksi Anda Telah DiBatalkan');
@@ -322,7 +327,7 @@ class TransaksiController extends Controller
             }
             if ($user->notif_wa == 1) {
                 try {
-                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=NirUvUwRNAl1wbpCCnTsfg2fqLycFqmIel8ir6K5DpYJSVe6vExEgrL7IEeVqp4O&phone=" . $user->telepon . "&message=" . $pesan);
                 } catch (\Exception $a) { }
             }
             return redirect()->back()->with('berhasil', 'Berhasil ubah status pesanan');

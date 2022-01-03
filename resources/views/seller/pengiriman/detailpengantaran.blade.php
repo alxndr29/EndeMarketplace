@@ -58,9 +58,9 @@
                     <br>
                     @if(isset($data->foto))
                     Foto Pengantaran:
-                        <a href="{{asset('fotoTerima/'.$data->foto)}}">
-                            <img src="{{asset('fotoTerima/'.$data->foto)}}" class="rounded mx-auto d-block" style="width:50px; height:50px;">
-                        </a>
+                    <a href="{{asset('fotoTerima/'.$data->foto)}}">
+                        <img src="{{asset('fotoTerima/'.$data->foto)}}" class="rounded mx-auto d-block" style="width:50px; height:50px;">
+                    </a>
                     @endif
                 </div>
             </div>
@@ -208,7 +208,8 @@
         longitude = "121.67779055355581";
         updateLokasiKurir();
     });
-	var notif_selesaipelanggan = false;
+    var notif_selesaipelanggan = false;
+
     function updateLokasiKurir() {
         if (marker3 != null) {
             marker3.setMap(null);
@@ -233,9 +234,9 @@
                 "jarak": jarak
             },
             success: function(response) {
-               if (response.pengiriman == "SelesaiAntar" && notif_selesaipelanggan == false) {
-					notif_selesaipelanggan = true;
-					alert('Pengantaran telah diselesaikan oleh pembeli');
+                if (response.pengiriman == "SelesaiAntar" && notif_selesaipelanggan == false) {
+                    notif_selesaipelanggan = true;
+                    alert('Pengantaran telah diselesaikan oleh pembeli');
                     location.reload();
                 }
                 console.log(response.pengiriman);
@@ -246,33 +247,51 @@
         });
     }
 
-    function jarakKeTujuan(lat1, lon1, lat2, lon2, unit) {
-        var radlat1 = Math.PI * lat1 / 180
-        var radlat2 = Math.PI * lat2 / 180
-        var theta = lon1 - lon2
-        var radtheta = Math.PI * theta / 180
-        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-        dist = Math.acos(dist)
-        dist = dist * 180 / Math.PI
-        dist = dist * 60 * 1.1515
-        if (unit == "K") {
-            dist = dist * 1.609344
+    function jarakKeTujuan(lat1, lot1, lat2, lot2, unit) {
+        // var radlat1 = Math.PI * lat1 / 180
+        // var radlat2 = Math.PI * lat2 / 180
+        // var theta = lon1 - lon2
+        // var radtheta = Math.PI * theta / 180
+        // var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        // if (dist > 1) {
+        //     dist = 1;
+        // }
+        // dist = Math.acos(dist)
+        // dist = dist * 180 / Math.PI
+        // dist = dist * 60 * 1.1515
+        // if (unit == "K") {
+        //     dist = dist * 1.609344
+        // }
+        // if (unit == "N") {
+        //     dist = dist * 0.8684
+        // }
+        function toRad(x) {
+            return x * Math.PI / 180;
         }
-        if (unit == "N") {
-            dist = dist * 0.8684
-        }
-        if (dist < 0.2) {
-            //$("#demo2").html('kirim notif kalau sdh dekat');
+        var lon1 = lot1;
+        var lat1 = lat1;
+        var lon2 = lot2;
+        var lat2 = lat2;
+        var R = 6371; // km
+        var x1 = lat2 - lat1;
+        var dLat = toRad(x1);
+        var x2 = lon2 - lon1;
+        var dLon = toRad(x2)
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+
+        if (d < 0.2) {
             $('#selesaiAntar').prop('disabled', false);
             console.log('kurir sdh dekat < 200 m');
-            //alert(dist);
         } else {
-            $("#demo2").html('masih jauh');
-            console.log('kurir jauh > 200 m');
+            console.log('kurir msh jauh > 200 m');
             $('#selesaiAntar').prop('disabled', true);
         }
-        jarak = dist;
-        return dist;
+        jarak = d;
+        return d;
     }
     $("#antarSekarang").click(function() {
         $("#antarSekarang").prop('disabled', true);

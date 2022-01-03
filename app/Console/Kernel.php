@@ -78,7 +78,7 @@ class Kernel extends ConsoleKernel
                         }
                         if ($user->notif_wa == 1) {
                             try {
-                                $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $user->telepon . "&message=" . $pesan);
+                                $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=NirUvUwRNAl1wbpCCnTsfg2fqLycFqmIel8ir6K5DpYJSVe6vExEgrL7IEeVqp4O&phone=" . $user->telepon . "&message=" . $pesan);
                             } catch (\Exception $a) { }
                         }
                         Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 dibatalkan');

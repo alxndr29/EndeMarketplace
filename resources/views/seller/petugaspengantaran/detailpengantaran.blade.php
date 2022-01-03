@@ -292,7 +292,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         $(document).ready(function() {
             $("#formSelesaiAntar").hide();
-
             if ("{{$data->status}}" == "SedangDiantar") {
                 getLocation();
             } else {
@@ -362,7 +361,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 title: "Hello World!",
                 label: "Lokasi Pembeli (Tujuan)"
             });
-            
+
             marker2 = new google.maps.Marker({
                 position: latlng,
                 title: "Hello World!",
@@ -378,8 +377,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             marker2.setMap(map);
             marker3.setMap(map);
         }
-		
-		var notif_selesaipelanggan = false;
+
+        var notif_selesaipelanggan = false;
+
         function updateLokasiKurir() {
             if (marker3 != null) {
                 marker3.setMap(null);
@@ -404,15 +404,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 },
                 success: function(response) {
                     if (response.pengiriman == "SelesaiAntar" && notif_selesaipelanggan == false) {
-						notif_selesaipelanggan = true;
+                        notif_selesaipelanggan = true;
                         //alert('Pengantaran telah diselesaikan oleh pembeli');
-						Swal.fire(
-							'Berhasil!',
-							'Pengantaran telah diselesaikan oleh pembeli!',
-							'success'
-						).then((result) => {
-							location.reload();
-						});
+                        Swal.fire(
+                            'Berhasil!',
+                            'Pengantaran telah diselesaikan oleh pembeli!',
+                            'success'
+                        ).then((result) => {
+                            location.reload();
+                        });
                     }
                     console.log(response.pengiriman);
                 },
@@ -423,32 +423,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
 
         function jarakKeTujuan(lat1, lon1, lat2, lon2, unit) {
-            var radlat1 = Math.PI * lat1 / 180
-            var radlat2 = Math.PI * lat2 / 180
-            var theta = lon1 - lon2
-            var radtheta = Math.PI * theta / 180
-            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-            if (dist > 1) {
-                dist = 1;
+            // var radlat1 = Math.PI * lat1 / 180
+            // var radlat2 = Math.PI * lat2 / 180
+            // var theta = lon1 - lon2
+            // var radtheta = Math.PI * theta / 180
+            // var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            // if (dist > 1) {
+            //     dist = 1;
+            // }
+            // dist = Math.acos(dist)
+            // dist = dist * 180 / Math.PI
+            // dist = dist * 60 * 1.1515
+            // if (unit == "K") {
+            //     dist = dist * 1.609344
+            // }
+            // if (unit == "N") {
+            //     dist = dist * 0.8684
+            // }
+            function toRad(x) {
+                return x * Math.PI / 180;
             }
-            dist = Math.acos(dist)
-            dist = dist * 180 / Math.PI
-            dist = dist * 60 * 1.1515
-            if (unit == "K") {
-                dist = dist * 1.609344
-            }
-            if (unit == "N") {
-                dist = dist * 0.8684
-            }
-            if (dist < 0.2) {
+            // var lon1 = lot1;
+            // var lat1 = lat1;
+            // var lon2 = lot2;
+            // var lat2 = lat2;
+            var R = 6371; // km
+            var x1 = lat2 - lat1;
+            var dLat = toRad(x1);
+            var x2 = lon2 - lon1;
+            var dLon = toRad(x2)
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var d = R * c;
+
+            if (d < 0.2) {
                 $('#selesaiAntar').prop('disabled', false);
                 console.log('kurir sdh dekat < 200 m');
             } else {
                 console.log('kurir msh jauh > 200 m');
                 $('#selesaiAntar').prop('disabled', true);
             }
-            jarak = dist;
-            return dist;
+            jarak = d;
+            return d;
         }
         $("#antarSekarang").click(function() {
             $("#antarSekarang").prop('disabled', true);
@@ -489,13 +507,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 success: function(response) {
                                     console.log(response);
                                     //alert("Selesai melakukan pengantaran");
-									Swal.fire(
-										'Berhasil!',
-										'Selesai melakukan pengantaran!',
-										'success'
-									).then((result) => {
-										location.reload();
-									});
+                                    Swal.fire(
+                                        'Berhasil!',
+                                        'Selesai melakukan pengantaran!',
+                                        'success'
+                                    ).then((result) => {
+                                        location.reload();
+                                    });
                                 },
                                 error: function(response) {
                                     console.log(response);
@@ -527,15 +545,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         //     function toRad(x) {
         //         return x * Math.PI / 180;
         //     }
-
         //     var lon1 = lot1;
         //     var lat1 = lat1;
-
         //     var lon2 = lot2;
         //     var lat2 = lat2;
-
         //     var R = 6371; // km
-
         //     var x1 = lat2 - lat1;
         //     var dLat = toRad(x1);
         //     var x2 = lon2 - lon1;
@@ -545,8 +559,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         //         Math.sin(dLon / 2) * Math.sin(dLon / 2);
         //     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         //     var d = R * c;
-
-
         //     return d;
         // }
         // alert(haversineDistance(-8.848081830486503, 121.66379357100382, -8.847258240886424, 121.66177493711353));

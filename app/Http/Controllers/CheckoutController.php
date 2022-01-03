@@ -253,7 +253,7 @@ class CheckoutController extends Controller
             }
             if (Auth::user()->notif_wa == 1) {
                 try {
-                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=qTfb6jdlzQ9sWE50NM2p9kDIO7x4OjrTY3mIuusw3ec5ZCcPICJcgU8NfOzPdY6b&phone=" . $dataUser->telepon . "&message=" . 'Hallo ' . $dataUser->name . '. Checkout Pesanan Transaksi dengan ID - ' . $transaksi->idtransaksi . ' telah berhasil. Klik link berikut untuk melihat daftar transaksi. ' . url('/user/transaksi/index'));
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=NirUvUwRNAl1wbpCCnTsfg2fqLycFqmIel8ir6K5DpYJSVe6vExEgrL7IEeVqp4O&phone=" . $dataUser->telepon . "&message=" . 'Hallo ' . $dataUser->name . '. Checkout Pesanan Transaksi dengan ID - ' . $transaksi->idtransaksi . ' telah berhasil. Klik link berikut untuk melihat daftar transaksi. ' . url('/user/transaksi/index'));
                 } catch (\Exception $a) { }
             }
 

@@ -258,21 +258,39 @@
     }
 
     function distance(lat1, lon1, lat2, lon2, unit) {
-        var radlat1 = Math.PI * lat1 / 180
-        var radlat2 = Math.PI * lat2 / 180
-        var theta = lon1 - lon2
-        var radtheta = Math.PI * theta / 180
-        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-        dist = Math.acos(dist)
-        dist = dist * 180 / Math.PI
-        dist = dist * 60 * 1.1515
-        if (unit == "K") {
-            dist = dist * 1.609344
+        // var radlat1 = Math.PI * lat1 / 180
+        // var radlat2 = Math.PI * lat2 / 180
+        // var theta = lon1 - lon2
+        // var radtheta = Math.PI * theta / 180
+        // var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        // dist = Math.acos(dist)
+        // dist = dist * 180 / Math.PI
+        // dist = dist * 60 * 1.1515
+        // if (unit == "K") {
+        //     dist = dist * 1.609344
+        // }
+        // if (unit == "N") {
+        //     dist = dist * 0.8684
+        // }
+        // return dist;
+        function toRad(x) {
+            return x * Math.PI / 180;
         }
-        if (unit == "N") {
-            dist = dist * 0.8684
-        }
-        return dist;
+        var lon1 = lon1;
+        var lat1 = lat1;
+        var lon2 = lon2;
+        var lat2 = lat2;
+        var R = 6371; // km
+        var x1 = lat2 - lat1;
+        var dLat = toRad(x1);
+        var x2 = lon2 - lon1;
+        var dLon = toRad(x2)
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        return d;
     }
     var dukunganPengiriman = "";
     $("#dukunganPengiriman").change(function() {
