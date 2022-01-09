@@ -30,9 +30,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 </head>
 
-<body class="hold-transition sidebar-collapse layout-top-nav">
+<body class="sidebar-collapse layout-top-nav">
     <div class="wrapper">
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
@@ -83,10 +82,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
+                        <!-- <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="far fa-bell"></i>
-                            <!-- <span class="badge badge-warning navbar-badge" id="jumlahNotifikasi">15</span> -->
-                        </a>
+                          <span class="badge badge-warning navbar-badge" id="jumlahNotifikasi">15</span> 
+                        </a> -->
+                        
                         <!-- <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <span class="dropdown-header">15 Notifications</span>
                             <div class="dropdown-divider"></div>
@@ -380,7 +380,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $(document).ready(function() {
             $("#jumlahNotifikasi").html(100);
             loginstatus();
-            
         });
 
         function loginstatus() {

@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label>Jenis Produk</label>
                         <select class="form-control" id="jenisProduk">
-                            <option selected>Pilih Jenis Produk</option>
+                            <option value="none" selected>Pilih Jenis Produk</option>
                             @foreach ($jenisproduk as $key => $value )
                             <option value="{{$value->idjenisproduk}}">{{$value->nama}}</option>
                             @endforeach
@@ -224,7 +224,7 @@
                 !$("#kategoriProduk").val() || !$("#deskripsiProduk").val() ||
                 !$("#harga").val() || !$("#beratProduk").val() ||
                 !$("#minimumPemesanan").val() || !$("#stokProduk").val() ||
-                !$("#panjangProduk").val() || !$("#lebarProduk").val() || !$("#tinggiProduk").val()) {
+                !$("#panjangProduk").val() || !$("#lebarProduk").val() || !$("#tinggiProduk").val() || $("#jenisProduk").val() == "none" || $("#kategoriProduk").val() == "none") {
                 Swal.fire(
                     'Gagal!',
                     'Pastikan Semua Data Telah Diinput!',

@@ -97,19 +97,18 @@
                         <div class="col-6 col-lg-3">
                             <div class="card h-100">
                                 <div class="card-body text-center">
-                                    <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
+                                    <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-1 img-fluid" alt="...">
                                     <b class="text-truncate d-inline-block" style="max-width: 150px;">{{$value->nama}}</b>
                                     <br> Rp. {{number_format($value->harga)}}-,
                                     <br>
                                     <small class="text-muted">Oleh: {{$value->nama_merchant}}</small>
                                     <br>
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col">
                                             <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat</a>
-                                        </div>
-                                        <div class="col-6">
                                             <button class="btn btn-success" onclick="keranjangSearch('{{$value->idproduk}}')"><i class="fa fa-shopping-cart"></i></button>
                                         </div>
+
                                     </div>
 
                                 </div>
@@ -143,31 +142,46 @@
         $("#txtSearchProduk").val(key);
     });
 
+
     function keranjangSearch(id) {
-        //alert(id);
         $.ajax({
-            url: "{{route('keranjang.store')}}",
-            type: "POST",
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "idproduk": id,
-                'jumlah': 1
-            },
+            url: "{{route('loginstatus')}}",
+            type: "GET",
             success: function(response) {
-                console.log(response);
-                if (response.status == "berhasil") {
-                    console.log(response.status);
-                    loadKeranjang();
-                    Swal.fire(
-                        'Berhasil!',
-                        'Tambah produk ke keranjang!',
-                        'success'
-                    )
+                if (response == "1") {
+                    $.ajax({
+                        url: "{{route('keranjang.store')}}",
+                        type: "POST",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "idproduk": id,
+                            'jumlah': 1
+                        },
+                        success: function(response) {
+                            //console.log(response);
+                            if (response.status == "berhasil") {
+                                loadKeranjang();
+                                Swal.fire(
+                                    'Berhasil!',
+                                    'Tambah produk ke keranjang!',
+                                    'success'
+                                )
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    'Tambah produk ke keranjang!',
+                                    'error'
+                                )
+                            }
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
                 } else {
-                    console.log(response.status);
                     Swal.fire(
                         'Gagal!',
-                        'Tambah produk ke keranjang!',
+                        'Tambah produk ke keranjang! Login Dulu',
                         'error'
                     )
                 }
@@ -176,6 +190,7 @@
                 console.log(response);
             }
         });
+
     }
     $(function() {
         $('.slider').bootstrapSlider()

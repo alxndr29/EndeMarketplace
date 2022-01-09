@@ -5,14 +5,21 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    @if($merchant->jam_buka <= date('H:i:s') && $merchant->jam_tutup >= date('H:i:s')) <div class="alert alert-success text-center" role="alert">
-                            Toko Buka
+                    @if($merchant->status_merchant == "NonAktif")
+                        <div class="alert alert-warning text-center" role="alert">
+                            Toko Sedang Non Aktif.
+                        </div>
+                    @else
+                        @if($merchant->jam_buka <= date('H:i:s') && $merchant->jam_tutup >= date('H:i:s')) <div class="alert alert-success text-center" role="alert">
+                            Toko Buka.
                         </div>
                         @else
                         <div class="alert alert-warning text-center" role="alert">
-                            Toko ini sedang diluar jam operasional.
+                            Sedang berada diluar jam operasional.
                         </div>
                         @endif
+                    @endif
+
 
                         <div class="row">
                             <div class="col-2">
@@ -221,6 +228,8 @@
                         {{$alamat->nama_kabupaten}}, {{$alamat->kode_pos}}
                         <br>
                         {{$alamat->nama_provinsi}}
+                        <br>
+                        <b>Telp:</b> {{$alamat->telepon}}
                         <br>
                         <br>
                         <a href="https://www.google.com/maps/search/?api=1&query={{$alamat->latitude}},{{$alamat->longitude}}" class="btn btn-success">

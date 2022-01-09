@@ -88,15 +88,6 @@ class ProdukController extends Controller
     }
     public function show($id)
     {
-
-        // $diskusi = DB::table('diskusi')
-        //     ->join('produk', 'produk.idproduk', '=', 'diskusi.produk_idproduk')
-        //     ->join('users', 'users.iduser', '=', 'diskusi.users_iduser')
-        //     ->select('diskusi.*', 'users.name as nama_user')
-        //     ->orderBy('diskusi.iddiskusi', 'ASC')
-        //     ->where('diskusi.produk_idproduk', '=', $id)
-        //     ->get();
-
         $data = DB::table('produk')
             ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
             ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
@@ -132,16 +123,12 @@ class ProdukController extends Controller
             }
             array_push($array[$item->transaksi_idtransaksi], $item->produk_idproduk);
         }
-        //return $array;
-       //return $da;
-
-        // // $samples = [
-        // //     ['alpha', 'beta', 'epsilon'], 
-        // //     ['alpha', 'beta', 'theta'], 
-        // //     ['alpha', 'beta', 'epsilon'], 
-        // //     ['alpha', 'beta', 'theta']
-        // // ];
-
+        // $samples = [
+        //     ['alpha', 'beta', 'epsilon'], 
+        //     ['alpha', 'beta', 'theta'], 
+        //     ['alpha', 'beta', 'epsilon'], 
+        //     ['alpha', 'beta', 'theta']
+        // ];
         // $samples = [
         //     10 => ['pena', 'roti', 'mentega'],
         //     12 => ['roti', 'mentega', 'telur'],
@@ -157,7 +144,6 @@ class ProdukController extends Controller
         $associator->train($array, $labels);
         $data1 =  $associator->getRules();
 
-        //return $data;
         $rekomendasi = [];
         foreach ($data1 as $value) {
             if ($value['antecedent'][0] == $id) {
@@ -171,7 +157,6 @@ class ProdukController extends Controller
                 }
             }
         }
-        //return $rekomendasi;
         $hasilAkhirRekomendasi = [];
         foreach ($rekomendasi as $rek) {
             $a = DB::table('produk')->where('produk.idproduk', $rek)
@@ -181,7 +166,6 @@ class ProdukController extends Controller
                 ->first();
             array_push($hasilAkhirRekomendasi, $a);
         }
-        //return $hasilAkhirRekomendasi;
         return view('user.detailproduk.detailproduk', compact('data', 'gambar', 'reviewProduk', 'jumlahTerjual', 'jumlahUlasan', 'jumlahDiskusi', 'hasilAkhirRekomendasi'));
     }
     public function edit($id)
@@ -232,6 +216,7 @@ class ProdukController extends Controller
                     ->where('produk.nama', 'like', '%' . $request->key . '%')
                     ->whereBetween('harga', [$minimum, $maksimum])
                     ->where('jenisproduk_idjenisproduk', $jenis)
+                    ->where('merchant.status_merchant','!=','NonAktif')
                     ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
                     ->paginate($paginate);
@@ -241,6 +226,7 @@ class ProdukController extends Controller
                     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
                     ->groupBy('produk.idproduk')
                     ->where('produk.nama', 'like', '%' . $request->key . '%')
+                    ->where('merchant.status_merchant', '!=', 'NonAktif')
                     ->whereBetween('harga', [$minimum, $maksimum])
                     ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
@@ -252,6 +238,7 @@ class ProdukController extends Controller
                     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
                     ->where('jenisproduk_idjenisproduk', $jenis)
+                    ->where('merchant.status_merchant', '!=', 'NonAktif')
                     ->whereBetween('harga', [$minimum, $maksimum])
                     ->groupBy('produk.idproduk')
                     ->orderBy('produk.harga', $order)
@@ -262,6 +249,7 @@ class ProdukController extends Controller
                     ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
                     ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
                     ->whereBetween('harga', [$minimum, $maksimum])
+                    ->where('merchant.status_merchant', '!=', 'NonAktif')
                     ->groupBy('produk.idproduk')
                     ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')

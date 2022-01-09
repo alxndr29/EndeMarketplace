@@ -4,10 +4,10 @@
 <div class="container">
   <div class="jumbotron text-center">
     <h1 class="display-4">Selamat Datang!</h1>
-    <p class="lead">Ende's Market merupakan website marketplace khusus bagi penjual di kota Ende.</p>
+    <p class="lead">Ende's Market Merupakan Website Marketplace Penjual di Kota Ende.</p>
     <hr class="my-4">
     <p class="lead">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Cari Produk</a>
+      <a class="btn btn-primary btn-lg" href="{{route('produk.search')}}" role="button">Cari Produk</a>
     </p>
   </div>
   <div class="row">

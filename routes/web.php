@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Log;
 |
 */
 //Route::get('/email','OtpController@send');
-
 Route::get('/log', function () {
     // $hr = 1;
     // return date("Y-m-d H:i:s", strtotime("+".$hr."day"));
@@ -31,7 +30,6 @@ Route::get('/log', function () {
     // }
     //DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout')
     //DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
-    //DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout')
     $data = DB::table('transaksi')
         // ->where('status_transaksi', '=', 'MenungguPembayaran')
         ->where('status_transaksi', '=', 'MenungguKonfirmasi')
@@ -40,7 +38,6 @@ Route::get('/log', function () {
         //->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('HOUR(TIMEDIFF(transaksi.timeout_at, NOW() )) as timeout'))
         ->select('transaksi.idtransaksi', 'transaksi.status_transaksi', DB::raw('hour(timediff(date_add(Now(),interval 8 hour),transaksi.timeout_at)) as timeout'))
         ->get();
-   // dd($data);
     foreach ($data as $value) {
         if ($value->timeout === 0) {
             DB::beginTransaction();
@@ -49,6 +46,7 @@ Route::get('/log', function () {
                     DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
                         'status_transaksi' => "Selesai"
                     ]);
+                    $intiPesan = "terselesaikan";
                 } else {
                     DB::table('transaksi')->where('idtransaksi', $value->idtransaksi)->update([
                         'status_transaksi' => "Batal"
@@ -62,13 +60,14 @@ Route::get('/log', function () {
                         $produk->stok = $produk->stok + $value1->jumlah;
                         $produk->save();
                     }
+                    $intiPesan = "dibatalkan";
                 }
                 $user = DB::table('transaksi')
                     ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
                     ->where('transaksi.idtransaksi', '=', $value->idtransaksi)
                     ->select('users.*')
                     ->first();
-                $pesan =  "Hallo " . $user->name . " Pesanan anda dengan nomor transaksi " . $value->idtransaksi . " " . " Telah dibatalkan karena telah melewati batas waktu" . ' klik link berikut untuk melihat status transaksi anda! ' . url('/user/transaksi/index');
+                $pesan =  "Hallo " . $user->name . ". Pesanan anda dengan nomor transaksi " . $value->idtransaksi . " " . " Telah"  . $intiPesan . ' karena telah melewati batas waktu klik link berikut untuk melihat status transaksi anda! ' . url('/user/transaksi/index');
                 DB::commit();
                 if ($user->notif_email == 1) {
                     try {
@@ -84,22 +83,18 @@ Route::get('/log', function () {
                         $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=NirUvUwRNAl1wbpCCnTsfg2fqLycFqmIel8ir6K5DpYJSVe6vExEgrL7IEeVqp4O&phone=" . $user->telepon . "&message=" . $pesan);
                     } catch (\Exception $a) { }
                 }
-                Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 ');
-                echo ('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 ');
-                echo ('<br>');
+                Log::info('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0');
+                echo ('Transaksi ' . $value->idtransaksi . 'Sisa waktu 0 '); echo ('<br>');
             } catch (\Exception $e) {
                 DB::rollback();
                 return $e->getMessage();
             }
         } else {
             Log::info('Transaksi ' . $value->idtransaksi . ' Sisa waktu ' . $value->timeout . ' Jam' . ' Status Saat ini ' . $value->status_transaksi);
-            echo ('Transaksi ' . $value->idtransaksi . ' Sisa waktu ' . $value->timeout . ' Jam' . ' Status Saat ini ' . $value->status_transaksi);
-            echo ('<br>');
+            echo ('Transaksi ' . $value->idtransaksi . ' Sisa waktu ' . $value->timeout . ' Jam' . ' Status Saat ini ' . $value->status_transaksi); echo ('<br>');
         }
     }
-    Log::info('Cronjob Berhasil Dijalankan');
-    echo ('Cronjob Berhasil Dijalankan');
-    //return $data;
+    Log::info('Cronjob Berhasil Dijalankan'); echo ('Cronjob Berhasil Dijalankan');
     //echo date("Y-m-d H:i:s", strtotime("+ 1 day"));
 });
 Route::get('/p', function () {

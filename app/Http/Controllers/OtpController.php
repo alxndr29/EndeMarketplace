@@ -34,12 +34,13 @@ class OtpController extends Controller
         $dataUser = User::where('iduser', $id)->first();
         $otp = $request->session()->get('otp');
         try {
-			return "berhasil";
+            return "berhasil";
             $details = [
                 'title' => 'OTP Untuk Login pada Website',
                 'body' => 'Hallo, '.$dataUser->name.' Berikut merupakan kode OTP untuk login pada website. '.$otp.' Terimakasih!'
             ];
             \Mail::to($dataUser->email)->send(new \App\Mail\MailOTP($details));
+            
         } catch (\Exception $e) {
             return $e->getMessage();
         }

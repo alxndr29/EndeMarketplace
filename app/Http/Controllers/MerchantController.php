@@ -118,7 +118,6 @@ class MerchantController extends Controller
 
         $alamat = DB::table('alamatmerchant')->where('merchant_users_iduser', '=', $merchant->idmerchant())->first();
 
-
         return view('seller.merchant.pengaturanmerchant', compact(
             'merchant',
             'kurir',
@@ -265,7 +264,6 @@ class MerchantController extends Controller
     public function update(Request $request, $id)
     {
         try {
-
             if ($request->hasFile('fotoProfil')) {
                 $extension = $request->fotoProfil->extension();
                 $destinationPath = public_path('fotoProfil');

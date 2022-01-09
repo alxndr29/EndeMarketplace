@@ -154,11 +154,7 @@ class CheckoutController extends Controller
                 $transaksi->status_transaksi = 'MenungguPembayaran';
             } else {
                 $transaksi->status_transaksi = 'MenungguKonfirmasi';
-                // if (isset($request->po)) {
-                //     $transaksi->timeout_at = date("Y-m-d H:i:s", strtotime("+" . $lamaPO . "day"));
-                // } else {
                 $transaksi->timeout_at = date("Y-m-d H:i:s", strtotime("+ 1 day"));
-                // }
             }
             if (isset($request->po)) {
                 $transaksi->waktu_po = $lamaPO;
@@ -220,7 +216,6 @@ class CheckoutController extends Controller
                     ]
                 );
             }
-
             if ($request->get('tipePembayaran') == "2") {
                 $this->config();
                 $user = Auth::user();
@@ -257,6 +252,24 @@ class CheckoutController extends Controller
                 } catch (\Exception $a) { }
             }
 
+            $notifMerchant = DB::table('merchant')
+                ->join('users', 'merchant.users_iduser', '=', 'users.iduser')
+                ->where('merchant.users_iduser', '=', $request->get('idmerchant'))
+                ->first();
+            if ($notifMerchant->notif_wa == "1") {
+                try {
+                    $result = file_get_contents("https://sambi.wablas.com/api/send-message?token=NirUvUwRNAl1wbpCCnTsfg2fqLycFqmIel8ir6K5DpYJSVe6vExEgrL7IEeVqp4O&phone=" . $notifMerchant->telepon . "&message=" . 'Hallo ' . $notifMerchant->nama . '. Terdapat Pesanan Baru Dengan ID - ' . $transaksi->idtransaksi . '. Silahkan kunjungi halaman penjual untuk memproses pesanan.');
+                } catch (\Exception $a) { }
+            }
+            if ($notifMerchant->notif_email == "1") {
+                try {
+                    $details = [
+                        'title' => 'Pesanan Baru Dengan ID -' . $transaksi->idtransaksi,
+                        'body' => 'Hallo, '.$notifMerchant->nama .'. Terdapat Pesanan Baru Dengan ID - '. $transaksi->idtransaksi .'. Silahkan kunjungi halaman penjual untuk memproses pesanan. '
+                    ];
+                    \Mail::to($notifMerchant->email)->send(new \App\Mail\CheckoutMail($details));
+                } catch (\Exception $b) { }
+            }
             return redirect('user/transaksi/index');
         } catch (\Exception $e) {
             DB::rollback();

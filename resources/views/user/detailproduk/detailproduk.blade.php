@@ -9,10 +9,9 @@
         <div class="card-body">
             @if($data->status == "TidakAktif")
             <div class="alert alert-warning text-center" role="alert">
-                Produk sedang tidak aktif
+                Produk sedang tidak dapat dibeli.
             </div>
             @endif
-
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card">

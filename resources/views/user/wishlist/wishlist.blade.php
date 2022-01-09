@@ -17,7 +17,7 @@
                         <div class="col-6 col-lg-3">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid">
+                                    <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-1 img-fluid">
                                     <b class="text-truncate d-inline-block" style="max-width: 150px;">{{$value->nama}}</b>
                                     <br> Rp. {{number_format($value->harga)}}-,
                                     <br>
@@ -28,7 +28,7 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-primary">Hapus</button>
                                     </form>
-                                    <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary ">Lihat Produk</a>
+                                    <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
 
                                 </div>
                             </div>
