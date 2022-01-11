@@ -69,7 +69,6 @@ class PetugasPengantaranController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-        //return $id;
     }
     public function login(Request $request)
     {
@@ -77,13 +76,12 @@ class PetugasPengantaranController extends Controller
         // return $d->idmerchant(1);
         if ($request->session()->has('pengantar-id')) {
             //echo $request->session()->get('pengantar');
-            //return redirect('seller/petugas/daftarpengantaran');
+            return redirect('seller/petugas/daftarpengantaran');
         } else {
             return view('seller.petugaspengantaran.login');
         }
         return view('seller.petugaspengantaran.login');
         //$request->session()->forget('pengantar');
-
     }
     public function loginProses(Request $request)
     {

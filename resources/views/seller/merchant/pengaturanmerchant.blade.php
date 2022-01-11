@@ -448,21 +448,6 @@
     });
 
     function initMap() {
-        // const myLatLng = {
-        //     lat: -25.363,
-        //     lng: 131.044
-        // };
-        // const map = new google.maps.Map(document.getElementById("map"), {
-        //     zoom: 4,
-        //     center: myLatLng,
-        // });
-        // new google.maps.Marker({
-        //     position: myLatLng,
-        //     map,
-        //     title: "Hello World!",
-        // });
-
-
         var myLatlng = new google.maps.LatLng(lat, lot);
         var mapOptions = {
             zoom: 15,
@@ -496,7 +481,6 @@
         });
 
     }
-
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
@@ -505,16 +489,15 @@
             alert("Geolocation is not supported by this browser.");
         }
     }
-
     function showPosition(position) {
-        alert("Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude);
+        // alert("Latitude: " + position.coords.latitude +
+        //     "<br>Longitude: " + position.coords.longitude);
         lat = position.coords.latitude;
         lot = position.coords.longitude;
         $("#longitude").val(position.coords.longitude);
         $("#latitude").val(position.coords.latitude);
-        console.log(lat);
-        console.log(lot);
+        // console.log(lat);
+        // console.log(lot);
         initMap();
     }
 </script>

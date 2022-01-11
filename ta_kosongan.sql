@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2022 at 04:53 PM
+-- Generation Time: Jan 11, 2022 at 03:14 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -797,7 +797,7 @@ CREATE TABLE `keranjang` (
 --
 
 INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
-(4, 10, 1);
+(4, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -902,7 +902,7 @@ CREATE TABLE `penarikandana` (
   `nama_pemilik_rekening` varchar(45) NOT NULL,
   `total` int(11) NOT NULL,
   `status` enum('Gagal','Menunggu','Diproses','Selesai') DEFAULT NULL,
-  `bukti` varchar(45) DEFAULT NULL,
+  `bukti` varchar(100) DEFAULT NULL,
   `catatan` varchar(100) DEFAULT NULL,
   `jenis` enum('refund','withdraw') NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -939,15 +939,22 @@ CREATE TABLE `pengiriman` (
 CREATE TABLE `petugaspengantaran` (
   `idpetugaspengantaran` int(11) NOT NULL,
   `nama` varchar(45) NOT NULL,
-  `telepon` varchar(45) NOT NULL,
+  `telepon` varchar(13) NOT NULL,
   `nama_kendaraan` varchar(45) NOT NULL,
   `nomor_polisi` varchar(9) NOT NULL,
   `username` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `merchant_users_iduser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `petugaspengantaran`
+--
+
+INSERT INTO `petugaspengantaran` (`idpetugaspengantaran`, `nama`, `telepon`, `nama_kendaraan`, `nomor_polisi`, `username`, `password`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
+(6, 'Fabianus', '0846523154', 'Yamaha Mio S', 'EB6969AE', 'fab', 'fab', '2022-01-11 22:11:48', '2022-01-11 22:11:48', 5);
 
 -- --------------------------------------------------------
 
@@ -982,7 +989,7 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesanan`, `status`, `stok`, `berat`, `panjang`, `lebar`, `tinggi`, `preorder`, `waktu_preorder`, `video`, `kategori_idkategori`, `jenisproduk_idjenisproduk`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
-(10, 'Ballpoint Snowman V5', 'Harga adalah per pack dengan isi 12pcs', 25000, 1, 'Aktif', 499, 200, 15, 10, 5, 'TidakAktif', 0, NULL, 8, 8, '2022-01-09 13:17:26', '2022-01-09 23:49:34', 5);
+(10, 'Ballpoint Snowman V5', 'Harga adalah per pack dengan isi 12pcs', 25000, 1, 'Aktif', 499, 200, 15, 10, 5, 'TidakAktif', 0, NULL, 8, 8, '2022-01-09 13:17:26', '2022-01-11 21:08:37', 5);
 
 -- --------------------------------------------------------
 
@@ -1046,7 +1053,7 @@ CREATE TABLE `reviewproduk` (
   `produk_idproduk` int(11) NOT NULL,
   `transaksi_idtransaksi` int(11) NOT NULL,
   `tanggal_waktu` datetime NOT NULL,
-  `komentar` varchar(45) NOT NULL,
+  `komentar` varchar(100) NOT NULL,
   `rating` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1468,7 +1475,7 @@ ALTER TABLE `pengiriman`
 -- AUTO_INCREMENT for table `petugaspengantaran`
 --
 ALTER TABLE `petugaspengantaran`
-  MODIFY `idpetugaspengantaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idpetugaspengantaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `produk`

@@ -255,7 +255,6 @@
                 success: function(response) {
                     console.log(response);
                     if (response == "berhasil") {
-
                         location.reload();
                     } else {
                         alert(response);

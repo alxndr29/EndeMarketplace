@@ -128,7 +128,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <!-- <a href="#" class="d-block">Alexander Pierce</a> -->
                         <a class="d-block" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
@@ -351,6 +351,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
+
+            });
+            $('#example3').DataTable({
 
             });
         });

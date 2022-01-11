@@ -36,6 +36,8 @@ class HomeController extends Controller
         $produkBaruTambah = DB::table('produk')
             ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
             ->join('gambarproduk', 'produk.idproduk', '=', 'gambarproduk.produk_idproduk')
+            ->where('merchant.status_merchant', '!=', 'NonAktif')
+            ->where('produk.status', '!=', 'TidakAktif')
             ->groupBy('produk.idproduk')
             ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
             ->orderBy('produk.created_at','desc')
