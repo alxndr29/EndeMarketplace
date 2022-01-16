@@ -13,7 +13,8 @@ class AdminController extends Controller
     {
         return view('admin.login');
     }
-    public function home(){
+    public function home()
+    {
         return view('admin.home');
     }
     public function loginProses(Request $request)
@@ -36,20 +37,36 @@ class AdminController extends Controller
         return redirect()->back();
     }
     public function refund()
-    { 
+    {
         $data = DB::table('penarikandana')->get();
-        return view('admin.refund',compact('data'));
+        return view('admin.refund', compact('data'));
     }
     public function detailRefund($id)
     {
         try {
-            $detailPenarikan = DB::table('penarikandana')
-            ->where('idpenarikandana', '=', $id)
-            ->join('transaksi_has_penarikandana','penarikandana.idpenarikandana','=','transaksi_has_penarikandana.penarikandana_idpenarikandana')
-            ->join('transaksi','transaksi.idtransaksi','=','transaksi_has_penarikandana.transaksi_idtransaksi')
-            ->join('users','users.iduser','transaksi.users_iduser')
-            ->select('penarikandana.*','users.name','users.email','users.telepon')
-            ->first();
+            $cek = DB::table('penarikandana')
+                ->where('idpenarikandana', '=', $id)
+                ->select('jenis')
+                ->first();
+            
+            if ($cek->jenis == "withdraw") {
+                $detailPenarikan = DB::table('penarikandana')
+                    ->where('idpenarikandana', '=', $id)
+                    ->join('transaksi_has_penarikandana', 'penarikandana.idpenarikandana', '=', 'transaksi_has_penarikandana.penarikandana_idpenarikandana')
+                    ->join('transaksi', 'transaksi.idtransaksi', '=', 'transaksi_has_penarikandana.transaksi_idtransaksi')
+                    ->join('merchant', 'merchant.users_iduser', '=', 'transaksi.merchant_users_iduser')
+                    ->join('users', 'users.iduser', 'merchant.users_iduser')
+                    ->select('penarikandana.*', 'users.name', 'users.email', 'users.telepon')
+                    ->first();
+            } else {
+                $detailPenarikan = DB::table('penarikandana')
+                    ->where('idpenarikandana', '=', $id)
+                    ->join('transaksi_has_penarikandana', 'penarikandana.idpenarikandana', '=', 'transaksi_has_penarikandana.penarikandana_idpenarikandana')
+                    ->join('transaksi', 'transaksi.idtransaksi', '=', 'transaksi_has_penarikandana.transaksi_idtransaksi')
+                    ->join('users', 'users.iduser', 'transaksi.users_iduser')
+                    ->select('penarikandana.*', 'users.name', 'users.email', 'users.telepon')
+                    ->first();
+            }
             $daftarTransaksi = DB::table('transaksi')
                 ->join('transaksi_has_penarikandana', 'transaksi.idtransaksi', '=', 'transaksi_has_penarikandana.transaksi_idtransaksi')
                 ->where('transaksi_has_penarikandana.penarikandana_idpenarikandana', '=', $id)
@@ -61,11 +78,12 @@ class AdminController extends Controller
             return $e->getMessage();
         }
     }
-    public function ubahStatusRefund(Request $request, $id, $status){
-        try{
-            if($status == "Selesai"){
-                if($request->hasFile('buktiTransfer')){
-                    
+    public function ubahStatusRefund(Request $request, $id, $status)
+    {
+        try {
+            if ($status == "Selesai") {
+                if ($request->hasFile('buktiTransfer')) {
+
                     $extension = $request->buktiTransfer->extension();
                     $destinationPath = public_path('buktiTransfer');
                     $file = $request->file('buktiTransfer');
@@ -73,25 +91,23 @@ class AdminController extends Controller
 
                     DB::table('penarikandana')->where('idpenarikandana', '=', $id)->update([
                         'status' => $status,
-                        'bukti' => 'buktiTransfer-'.$id.".".$extension
+                        'bukti' => 'buktiTransfer-' . $id . "." . $extension
                     ]);
                 }
-            }else if($status == "Diproses"){
+            } else if ($status == "Diproses") {
                 DB::table('penarikandana')->where('idpenarikandana', '=', $id)->update([
                     'status' => $status
                 ]);
-            }else if($status == "Gagal"){
+            } else if ($status == "Gagal") {
                 DB::table('penarikandana')->where('idpenarikandana', '=', $id)->update([
                     'status' => $status,
                     'catatan' => $request->get('catatan')
                 ]);
-            }else{
-
-            }
+            } else { }
             return redirect()->back()->with('berhasil', 'Status Penarikan Form Berhasil Dirubah.');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
-        return $id.$status;
+        return $id . $status;
     }
 }

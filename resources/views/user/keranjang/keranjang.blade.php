@@ -113,7 +113,7 @@
             method: "GET",
             success: function(data) {
                 if (data.length == 0) {
-                    $("#isikeranjang").html('<p class="text-center"> Belum ada produk didalam keranjang.</p>');
+                    $("#isikeranjangPO").html('<p class="text-center"> Belum ada produk didalam keranjang.</p>');
                 } else {
                     for (i = 0; i < data.length; i++) {
                         dataMerchantPO[i] = {};

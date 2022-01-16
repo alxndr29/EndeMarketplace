@@ -57,7 +57,7 @@
                         <br>
                         Tipe Pembayaran: {{$transaksi->tipe_pembayaran}}
                         <br>
-                        Tanggal Pembayaran:
+                        <!-- Tanggal Pembayaran: -->
 
                         <!-- <b>Account:</b> 968-34567 -->
                     </div>

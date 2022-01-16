@@ -94,15 +94,15 @@
                                             Semua
                                         </a>
                                         @foreach($kategori as $key => $value)
-                                        @if(isset($id2))
-                                        @if($id2 == $value->idkategori)
-                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action active">{{$value->nama_kategori}}</a>
-                                        @else
-                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
-                                        @endif
-                                        @else
-                                        <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
-                                        @endif
+                                            @if(isset($id2))
+                                                @if($id2 == $value->idkategori)
+                                                    <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action active">{{$value->nama_kategori}}</a>
+                                                @else
+                                                    <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
+                                                @endif
+                                            @else
+                                                <a href="{{route('merchant.etalase',[$merchant->users_iduser,$value->idkategori])}}" class="list-group-item list-group-item-action">{{$value->nama_kategori}}</a>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -126,23 +126,23 @@
                                         <div class="card-body">
                                             <div class="row" id="listProduk">
                                                 @if(count($data) > 0)
-                                                @foreach ($data as $key => $value )
-                                                <div class="col-6 col-lg-3">
-                                                    <div class="card">
-                                                        <div class="card-body text-center">
-                                                            <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
-                                                            <b class="text-truncate d-inline-block" style="max-width: 150px;">{{$value->nama}}</b>
-                                                            <br> Rp. {{number_format($value->harga)}}-,
-                                                            <br>
-                                                            <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
+                                                    @foreach ($data as $key => $value )
+                                                        <div class="col-6 col-lg-3">
+                                                            <div class="card">
+                                                                <div class="card-body text-center">
+                                                                    <img style="width:150px;height:200px;" src="{{asset('gambar/'.$value->idgambarproduk.'.jpg')}}" class="rounded mx-auto d-block pt-3 img-fluid" alt="...">
+                                                                    <b class="text-truncate d-inline-block" style="max-width: 150px;">{{$value->nama}}</b>
+                                                                    <br> Rp. {{number_format($value->harga)}}-,
+                                                                    <br>
+                                                                    <a href="{{route('produk.show',$value->idproduk)}}" class="btn btn-primary">Lihat Produk</a>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                                @else
-                                                <div class="col text-center">
-                                                    Tidak ada produk dengan kata kunci tersebut
-                                                </div>
+                                                    @endforeach
+                                                    @else
+                                                        <div class="col text-center">
+                                                            Tidak ada produk dengan kata kunci tersebut
+                                                        </div>
                                                 @endif
 
                                             </div>
@@ -159,7 +159,6 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
-
                             @if(count($reviewProduk) == 0)
                             <div class="row">
                                 <div class="col">

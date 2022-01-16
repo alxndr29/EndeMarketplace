@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 11, 2022 at 03:14 PM
+-- Generation Time: Jan 16, 2022 at 09:41 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -44,7 +44,7 @@ CREATE TABLE `alamatmerchant` (
 --
 
 INSERT INTO `alamatmerchant` (`alamat_lengkap`, `telepon`, `latitude`, `longitude`, `created_at`, `updated_at`, `merchant_users_iduser`, `kabupatenkota_idkabupatenkota`) VALUES
-('Jln. Sultan Hassanudin, Wolowona', '038121474', '-8.833086812883863', '121.67770384916767', NULL, NULL, 5, 122);
+('Jln. Sultan Hassanudin, Wolowona', '038121474', '-8.844154', '121.6677393', NULL, NULL, 5, 122);
 
 -- --------------------------------------------------------
 
@@ -71,7 +71,7 @@ CREATE TABLE `alamatpembeli` (
 --
 
 INSERT INTO `alamatpembeli` (`idalamat`, `simpan_sebagai`, `nama_penerima`, `alamatlengkap`, `telepon`, `users_iduser`, `latitude`, `longitude`, `created_at`, `updated_at`, `kabupatenkota_idkabupatenkota`) VALUES
-(6, 'Alamat Rumah', 'Evan', 'Jln. Kokos Raya No 34', '081353522525', 4, '-8.8441826', '121.6677643', '2022-01-09 13:40:27', '2022-01-09 13:40:27', 122);
+(7, 'Alamat Kantor', 'Alexander', 'Jln. Sultan Hassanudin Wolowona', '081353522525', 4, '-8.832864255872456', '121.67788623479775', '2022-01-12 00:22:46', '2022-01-15 11:12:14', 122);
 
 -- --------------------------------------------------------
 
@@ -98,6 +98,13 @@ CREATE TABLE `datapengiriman` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `datapengiriman`
+--
+
+INSERT INTO `datapengiriman` (`iddatapengiriman`, `latitude_user`, `longitude_user`, `latitude_merchant`, `longitude_merchant`, `jarak`, `volume`, `berat`, `status`, `latitude_sekarang`, `longitude_sekarang`, `jarak_sekarang`, `petugaspengantaran_idpetugaspengantaran`, `pengiriman_idpengiriman`, `created_at`, `updated_at`) VALUES
+(23, '-8.832864255872456', '121.67788623479775', '-8.844154', '121.6677393', 1.6789619759359726, 0, 0, 'SelesaiAntar', '-8.844154', '121.6677393', '1.6789619759359726', 6, 29, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -111,6 +118,13 @@ CREATE TABLE `detailtransaksi` (
   `total_harga` int(11) NOT NULL,
   `catatan` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `detailtransaksi`
+--
+
+INSERT INTO `detailtransaksi` (`produk_idproduk`, `transaksi_idtransaksi`, `jumlah`, `total_harga`, `catatan`) VALUES
+(11, 34, 5, 35000, 'Cek jangan sampai kering');
 
 -- --------------------------------------------------------
 
@@ -210,7 +224,18 @@ CREATE TABLE `gambarproduk` (
 --
 
 INSERT INTO `gambarproduk` (`idgambarproduk`, `produk_idproduk`, `created_at`, `updated_at`) VALUES
-(11, 10, '2022-01-09 13:17:26', '2022-01-09 13:17:26');
+(11, 10, '2022-01-09 13:17:26', '2022-01-09 13:17:26'),
+(12, 11, '2022-01-15 10:58:23', '2022-01-15 10:58:23'),
+(13, 11, '2022-01-15 10:58:23', '2022-01-15 10:58:23'),
+(14, 12, '2022-01-15 11:03:05', '2022-01-15 11:03:05'),
+(15, 13, '2022-01-15 12:11:43', '2022-01-15 12:11:43'),
+(16, 14, '2022-01-15 12:12:52', '2022-01-15 12:12:52'),
+(17, 15, '2022-01-15 12:14:49', '2022-01-15 12:14:49'),
+(18, 16, '2022-01-15 12:20:04', '2022-01-15 12:20:04'),
+(19, 17, '2022-01-15 12:22:42', '2022-01-15 12:22:42'),
+(20, 18, '2022-01-15 12:24:47', '2022-01-15 12:24:47'),
+(21, 19, '2022-01-15 12:30:24', '2022-01-15 12:30:24'),
+(22, 20, '2022-01-15 12:36:31', '2022-01-15 12:36:31');
 
 -- --------------------------------------------------------
 
@@ -230,14 +255,13 @@ CREATE TABLE `jenisproduk` (
 --
 
 INSERT INTO `jenisproduk` (`idjenisproduk`, `nama`, `created_at`, `updated_at`) VALUES
-(1, 'Makanan', NULL, NULL),
-(2, 'Minuman', NULL, NULL),
-(3, 'Susu', NULL, NULL),
+(1, 'Makanan dan Minuman', NULL, NULL),
 (4, 'Beras', NULL, NULL),
 (5, 'Elektronik ', NULL, NULL),
 (6, 'Hiasan', NULL, NULL),
 (7, 'Lampu', NULL, NULL),
-(8, 'Peralatan Rumah Tangga', NULL, NULL);
+(8, 'Peralatan Rumah Tangga', NULL, NULL),
+(9, 'Alat Tulis Kantor', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -767,7 +791,7 @@ INSERT INTO `kabupatenkota` (`idkabupatenkota`, `nama`, `kodepos`, `provinsi_idp
 
 CREATE TABLE `kategori` (
   `idkategori` int(11) NOT NULL,
-  `nama_kategori` varchar(45) NOT NULL,
+  `nama_kategori` varchar(100) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `merchant_users_iduser` int(11) NOT NULL
@@ -778,7 +802,8 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`idkategori`, `nama_kategori`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
-(8, 'Alat Tulis', '2022-01-09 13:11:24', '2022-01-09 13:11:24', 5);
+(8, 'Alat Tulis', '2022-01-09 13:11:24', '2022-01-09 13:11:24', 5),
+(9, 'Makanan dan Minuman', '2022-01-15 12:15:55', '2022-01-15 12:15:55', 5);
 
 -- --------------------------------------------------------
 
@@ -791,13 +816,6 @@ CREATE TABLE `keranjang` (
   `produk_idproduk` int(11) NOT NULL,
   `jumlah` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `keranjang`
---
-
-INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
-(4, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -830,7 +848,7 @@ CREATE TABLE `merchant` (
   `nama` varchar(45) NOT NULL,
   `status_merchant` enum('Aktif','NonAktif') DEFAULT 'NonAktif',
   `foto_profil` varchar(45) DEFAULT NULL,
-  `deskripsi` varchar(100) NOT NULL,
+  `deskripsi` varchar(255) NOT NULL,
   `jam_buka` time NOT NULL,
   `jam_tutup` time NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -843,7 +861,7 @@ CREATE TABLE `merchant` (
 --
 
 INSERT INTO `merchant` (`nama`, `status_merchant`, `foto_profil`, `deskripsi`, `jam_buka`, `jam_tutup`, `created_at`, `updated_at`, `users_iduser`) VALUES
-('Toko Sinjai', 'Aktif', NULL, 'Menjual kebutuhan harian, perlengkapan sekolah, dan bahan bangunan.', '07:00:00', '17:00:00', '2022-01-09 13:08:41', '2022-01-09 23:48:42', 5);
+('Toko Sinjai', 'Aktif', NULL, 'Menjual kebutuhan harian, perlengkapan sekolah, dan bahan bangunan.', '07:00:00', '17:00:00', '2022-01-09 13:08:41', '2022-01-15 11:14:45', 5);
 
 -- --------------------------------------------------------
 
@@ -861,6 +879,14 @@ CREATE TABLE `obrolan` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `obrolan`
+--
+
+INSERT INTO `obrolan` (`idobrolan`, `waktu`, `isi_pesan`, `pengirim`, `users_iduser`, `merchant_users_iduser`, `created_at`, `updated_at`) VALUES
+(8, '2022-01-15 11:18:43', 'Hallo mas', 'Merchant', 4, 5, '2022-01-15 11:18:43', '2022-01-15 11:18:43'),
+(9, '2022-01-15 11:18:54', 'Iya', 'Pembeli', 4, 5, '2022-01-15 11:18:54', '2022-01-15 11:18:54');
 
 -- --------------------------------------------------------
 
@@ -889,6 +915,13 @@ CREATE TABLE `pembayaran` (
   `transaksi_idtransaksi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `pembayaran`
+--
+
+INSERT INTO `pembayaran` (`idpembayaran`, `token`, `status`, `created_at`, `updated_at`, `transaksi_idtransaksi`) VALUES
+(6, 'sdasdasda', 'settlement', NULL, NULL, 34);
+
 -- --------------------------------------------------------
 
 --
@@ -902,7 +935,7 @@ CREATE TABLE `penarikandana` (
   `nama_pemilik_rekening` varchar(45) NOT NULL,
   `total` int(11) NOT NULL,
   `status` enum('Gagal','Menunggu','Diproses','Selesai') DEFAULT NULL,
-  `bukti` varchar(100) DEFAULT NULL,
+  `bukti` varchar(45) DEFAULT NULL,
   `catatan` varchar(100) DEFAULT NULL,
   `jenis` enum('refund','withdraw') NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -929,6 +962,13 @@ CREATE TABLE `pengiriman` (
   `kurir_idkurir` int(11) NOT NULL,
   `transaksi_idtransaksi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pengiriman`
+--
+
+INSERT INTO `pengiriman` (`idpengiriman`, `tanggal_pengiriman`, `estimasi`, `biaya_pengiriman`, `nomor_resi`, `status_pengiriman`, `keterangan`, `foto`, `created_at`, `updated_at`, `kurir_idkurir`, `transaksi_idtransaksi`) VALUES
+(29, '2022-01-15', 1, 11753, 'KM-20220115-112244', 'Selesai', 'Kurir Merchant-3-Tarif Standar-0-1-5000-6000-', NULL, '2022-01-15 11:16:37', '2022-01-15 11:22:52', 2, 34);
 
 -- --------------------------------------------------------
 
@@ -964,7 +1004,7 @@ INSERT INTO `petugaspengantaran` (`idpetugaspengantaran`, `nama`, `telepon`, `na
 
 CREATE TABLE `produk` (
   `idproduk` int(11) NOT NULL,
-  `nama` varchar(45) NOT NULL,
+  `nama` varchar(100) NOT NULL,
   `deskripsi` varchar(255) NOT NULL,
   `harga` int(11) NOT NULL,
   `minimum_pemesanan` int(11) NOT NULL,
@@ -989,7 +1029,17 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesanan`, `status`, `stok`, `berat`, `panjang`, `lebar`, `tinggi`, `preorder`, `waktu_preorder`, `video`, `kategori_idkategori`, `jenisproduk_idjenisproduk`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
-(10, 'Ballpoint Snowman V5', 'Harga adalah per pack dengan isi 12pcs', 25000, 1, 'Aktif', 499, 200, 15, 10, 5, 'TidakAktif', 0, NULL, 8, 8, '2022-01-09 13:17:26', '2022-01-11 21:08:37', 5);
+(10, 'Ballpoint Snowman V5', 'Harga adalah per pack dengan isi 12pcs', 25000, 1, 'Aktif', 499, 200, 15, 10, 5, 'TidakAktif', 0, NULL, 8, 9, '2022-01-09 13:17:26', '2022-01-15 10:52:34', 5),
+(11, 'Kenko Correction Pen', 'Produk berkualitas tinggi, sangat banyak digunakan orang untuk menghapus tulisan.', 7000, 2, 'Aktif', 95, 50, 4, 5, 7, 'TidakAktif', 0, NULL, 8, 9, '2022-01-15 10:58:23', '2022-01-15 11:16:37', 5),
+(12, 'Buku Tulis Sinar Dunia - 58 Lbr', 'Harga adalah harga per pak isi 5 Buku, 1 buku 58 lembar.', 45000, 1, 'Aktif', 100, 500, 20, 15, 6, 'TidakAktif', 0, NULL, 8, 9, '2022-01-15 11:03:05', '2022-01-15 11:03:22', 5),
+(13, 'Boardmarker Snowman', 'Tersedia warna merah, hitam, dan biru. Produk dijamin asli. Harga adalah per pcs', 10000, 2, 'Aktif', 75, 75, 10, 2, 5, 'TidakAktif', 0, NULL, 8, 9, '2022-01-15 12:11:43', '2022-01-15 12:11:43', 5),
+(14, 'Penggaris Besi 30cm', 'Bahan bagus, anti karat. Panjang total 30cm.', 15000, 1, 'Aktif', 100, 50, 30, 2, 1, 'TidakAktif', 0, NULL, 8, 9, '2022-01-15 12:12:52', '2022-01-15 12:12:52', 5),
+(15, 'Pensil Faber Castell 2B', 'ORIGINAL Pensil kayu Faber Castell 2B', 3000, 2, 'Aktif', 200, 25, 15, 2, 2, 'TidakAktif', 0, NULL, 8, 9, '2022-01-15 12:14:49', '2022-01-15 12:14:49', 5),
+(16, 'Indomie Goreng - Karton', 'Indomie goreng original. Harga perkarton 48pcs. Exp masih lama', 120000, 1, 'Aktif', 50, 2000, 30, 20, 15, 'TidakAktif', 0, NULL, 9, 1, '2022-01-15 12:20:04', '2022-01-15 12:20:04', 5),
+(17, 'Mie Sedap Goreng - Karton', 'Mie Sedap rasa ayam. 1 karton 48pcs. Expired masih lama', 95000, 1, 'Aktif', 50, 2000, 30, 20, 15, 'TidakAktif', 0, NULL, 9, 1, '2022-01-15 12:22:42', '2022-01-15 12:22:42', 5),
+(18, 'Mie Gelas - Renceng', 'Mie Gelas aneka rasa baso sapi, ayam, dan sop buntut. Mohon tuliskan di deskripsi. 1 renceng 10 bungkus', 15000, 1, 'Aktif', 80, 100, 15, 10, 5, 'TidakAktif', 0, NULL, 9, 1, '2022-01-15 12:24:47', '2022-01-15 12:24:47', 5),
+(19, 'Pensil Warna Faber Castell', '24 warna. Produk original', 35000, 1, 'Aktif', 25, 75, 30, 15, 5, 'TidakAktif', 0, NULL, 8, 9, '2022-01-15 12:30:24', '2022-01-15 12:30:24', 5),
+(20, 'Bimoli Minyal Goreng 5L', 'Bimoli uk 5 liter. Expired masih lama', 95000, 1, 'Aktif', 50, 3000, 30, 15, 8, 'TidakAktif', 0, NULL, 9, 1, '2022-01-15 12:36:31', '2022-01-15 12:36:31', 5);
 
 -- --------------------------------------------------------
 
@@ -1057,6 +1107,13 @@ CREATE TABLE `reviewproduk` (
   `rating` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `reviewproduk`
+--
+
+INSERT INTO `reviewproduk` (`idreviewproduk`, `produk_idproduk`, `transaksi_idtransaksi`, `tanggal_waktu`, `komentar`, `rating`) VALUES
+(7, 11, 34, '2022-01-15 11:25:18', 'Mantap banget, Jos Gandos', 5);
+
 -- --------------------------------------------------------
 
 --
@@ -1118,10 +1175,17 @@ CREATE TABLE `transaksi` (
   `timeout_at` datetime NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `refund_at` datetime DEFAULT NULL,
-  `withdraw_at` datetime DEFAULT NULL,
+  `refund` tinyint(4) DEFAULT 0,
+  `withdraw` tinyint(4) DEFAULT 0,
   `komplain` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `waktu_po`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `timeout_at`, `created_at`, `updated_at`, `refund`, `withdraw`, `komplain`) VALUES
+(34, '2022-01-15 11:16:37', 'Batal', 'Langsung', NULL, 46753, 4, 5, 7, 2, '2022-01-16 11:24:30', '2022-01-15 11:16:37', '2022-01-15 11:24:30', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1160,8 +1224,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`iduser`, `name`, `email`, `password`, `telepon`, `foto_profil`, `notif_wa`, `notif_email`, `remember_token`, `email_verified_at`, `created_at`, `updated_at`) VALUES
-(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$UR1uHRLZaJ189lWbmzq3AOhKVmf4ZUEfOw1oaRFwhsxY/Ej5bRema', '081353522525', NULL, 1, 1, NULL, '2022-01-09 00:32:46', '2022-01-09 00:30:47', '2022-01-09 00:33:07'),
-(5, 'Marianus Yohanes', 'sinjaiwolowona@gmail.com', '$2y$10$lU/5FAL4limsnSOHfoupQOP2gfWQE1lfgCPqNKRYEU9ZfavR2Lgvq', '081353522525', NULL, 1, 1, NULL, '2022-01-09 13:08:28', '2022-01-09 13:07:17', '2022-01-09 13:08:28');
+(4, 'Alexander Evan', 'alexevan2810@gmail.com', '$2y$10$UR1uHRLZaJ189lWbmzq3AOhKVmf4ZUEfOw1oaRFwhsxY/Ej5bRema', '081353522525', NULL, 1, 0, NULL, '2022-01-09 00:32:46', '2022-01-09 00:30:47', '2022-01-15 11:21:52'),
+(5, 'Marianus Yohanes', 'sinjaiwolowona@gmail.com', '$2y$10$lU/5FAL4limsnSOHfoupQOP2gfWQE1lfgCPqNKRYEU9ZfavR2Lgvq', '081353522525', NULL, 1, 0, NULL, '2022-01-09 13:08:28', '2022-01-09 13:07:17', '2022-01-15 11:06:24');
 
 -- --------------------------------------------------------
 
@@ -1409,13 +1473,13 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `alamatpembeli`
 --
 ALTER TABLE `alamatpembeli`
-  MODIFY `idalamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idalamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `datapengiriman`
 --
 ALTER TABLE `datapengiriman`
-  MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `iddatapengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `diskusi`
@@ -1427,19 +1491,19 @@ ALTER TABLE `diskusi`
 -- AUTO_INCREMENT for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
-  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `jenisproduk`
 --
 ALTER TABLE `jenisproduk`
-  MODIFY `idjenisproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idjenisproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `kurir`
@@ -1451,25 +1515,25 @@ ALTER TABLE `kurir`
 -- AUTO_INCREMENT for table `obrolan`
 --
 ALTER TABLE `obrolan`
-  MODIFY `idobrolan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idobrolan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idpembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `penarikandana`
 --
 ALTER TABLE `penarikandana`
-  MODIFY `idpenarikandana` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idpenarikandana` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `pengiriman`
 --
 ALTER TABLE `pengiriman`
-  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `idpengiriman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `petugaspengantaran`
@@ -1481,13 +1545,13 @@ ALTER TABLE `petugaspengantaran`
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `reviewproduk`
 --
 ALTER TABLE `reviewproduk`
-  MODIFY `idreviewproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idreviewproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tarifpengiriman`
@@ -1499,7 +1563,7 @@ ALTER TABLE `tarifpengiriman`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `idtransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `users`

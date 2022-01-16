@@ -301,12 +301,12 @@
             $("#biayaKurir").empty();
             $("#biayaKurir").append('<option selected>Pilih Biaya Pengiriman</option>');
             @foreach($dukunganTarifPengiriman as $key => $value)
-            $("#biayaKurir").append(
-                '<option value="' + 'Kurir Merchant' + '-' + '{{$value->tarifpengiriman_idtarifpengiriman}}' + '-' + '{{$value->nama}}' + '-' + '{{$value->minimum_belanja}}' + '-' +
-                '{{$value->etd}}' + '-' + '{{$value->tarif_berat}}' + '-' + '{{$value->tarif_volume}}' + '-' + '{{$value->tarif_jarak}}' + '">' +
-                '{{$value->nama}}' + '- ETD: ' +
-                '{{$value->etd}} Hari' + '</option>'
-            );
+                $("#biayaKurir").append(
+                    '<option value="' + 'Kurir Merchant' + '-' + '{{$value->tarifpengiriman_idtarifpengiriman}}' + '-' + '{{$value->nama}}' + '-' + '{{$value->minimum_belanja}}' + '-' +
+                    '{{$value->etd}}' + '-' + '{{$value->tarif_berat}}' + '-' + '{{$value->tarif_volume}}' + '-' + '{{$value->tarif_jarak}}' + '">' +
+                    '{{$value->nama}}' + '- ETD: ' +
+                    '{{$value->etd}} Hari' + '</option>'
+                );
             @endforeach
         }
         if (val == 1) {

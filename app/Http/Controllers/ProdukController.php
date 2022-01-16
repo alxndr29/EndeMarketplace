@@ -92,7 +92,7 @@ class ProdukController extends Controller
             ->join('kategori', 'kategori.idkategori', '=', 'produk.kategori_idkategori')
             ->join('jenisproduk', 'jenisproduk.idjenisproduk', 'produk.jenisproduk_idjenisproduk')
             ->join('merchant', 'merchant.users_iduser', '=', 'produk.merchant_users_iduser')
-            ->select('produk.*', 'kategori.nama_kategori as nama_kategori', 'jenisproduk.nama as nama_jenis', 'merchant.nama as nama_merchant')
+            ->select('produk.*', 'kategori.nama_kategori as nama_kategori', 'jenisproduk.nama as nama_jenis', 'merchant.nama as nama_merchant', 'merchant.users_iduser as id_merchant')
             ->where('produk.idproduk', $id)
             ->first();
         $gambar = DB::table('produk')->join('gambarproduk', 'gambarproduk.produk_idproduk', 'produk.idproduk')
@@ -103,7 +103,7 @@ class ProdukController extends Controller
             ->join('transaksi', 'transaksi.idtransaksi', '=', 'reviewproduk.transaksi_idtransaksi')
             ->join('users', 'users.iduser', '=', 'transaksi.users_iduser')
             ->where('reviewproduk.produk_idproduk', $id)
-            ->orderBy('reviewproduk.idreviewproduk','desc')
+            ->orderBy('reviewproduk.idreviewproduk', 'desc')
             ->select('reviewproduk.*', 'users.name as nama_user')
             ->get();
         $jumlahTerjual = DB::table('transaksi')
@@ -114,8 +114,11 @@ class ProdukController extends Controller
         $jumlahUlasan = DB::table('reviewproduk')->where('produk_idproduk', '=', $id)->count();
         $jumlahDiskusi = DB::table('diskusi')->where('produk_idproduk', '=', $id)->count();
 
-        
-        $da = DB::table('detailtransaksi')->orderBy('transaksi_idtransaksi')->get();
+        $da = DB::table('detailtransaksi')
+            ->join('transaksi', 'transaksi.idtransaksi', '=', 'detailtransaksi.transaksi_idtransaksi')
+            ->select('detailtransaksi.*')
+            ->where('transaksi.merchant_users_iduser', '=', $data->id_merchant)
+            ->orderBy('transaksi_idtransaksi')->get();
         $array = [];
         foreach ($da as $item) {
             if (!array_key_exists($item->transaksi_idtransaksi, $array)) {
@@ -136,23 +139,50 @@ class ProdukController extends Controller
         //     17 => ['roti', 'mentega'],
         //     1 => ['roti', 'mentega', 'kecap', 'telur', 'susu']
         // ];
+        // $samples = [
+        //     ['Bolpoin', 'Buku Tulis'],
+        //     ['Buku Tulis', 'Pensil', 'Penghapus'],
+        //     ['Pensil', 'Penghapus'],
+        //     ['Pensil', 'Buku Gambar', 'Penghapus'],
+        //     ['Pensil', 'Penghapus', 'Bolpoin', 'Buku Tulis']
+        // ];
 
         $labels  = [];
-        $support = 0;
-        $confidence = 0;
+        $support = 0.4;
+        $confidence = 0.8;
         $associator = new Apriori($support, $confidence);
         $associator->train($array, $labels);
         $data1 =  $associator->getRules();
+        //return $data1;
+
+        // foreach ($data1 as $key => $item) {
+        //     foreach ($item as $isi => $value) {
+        //         if ($isi == "antecedent") {
+        //             foreach ($value as $dalam) {
+        //                 echo $dalam . ", ";
+        //             }
+        //         } else if ($isi == "consequent") {
+        //             echo "=>";
+        //             foreach ($value as $dalam) {
+        //                 echo $dalam . ", ";
+        //                 echo " : ";
+        //             }
+        //         } else {
+        //             echo $isi . " " . $value . " , ";
+        //         }
+        //     }
+        //     echo '<br>';
+        // }
 
         $rekomendasi = [];
         foreach ($data1 as $value) {
-            if ($value['antecedent'][0] == $id) {
-                //return "dapet";
-                foreach ($value['consequent'] as $kon) {
-                    if(in_array($kon,$rekomendasi)){
-                        
-                    }else{
-                        array_push($rekomendasi, $kon);
+            if (count($value['antecedent']) == 1) {
+                if ($value['antecedent'][0] == $id) {
+                    //return "dapet";
+                    foreach ($value['consequent'] as $kon) {
+                        if (in_array($kon, $rekomendasi)) { } else {
+                            array_push($rekomendasi, $kon);
+                        }
                     }
                 }
             }
@@ -200,10 +230,10 @@ class ProdukController extends Controller
                 $jenis = $request->jenis;
             }
         }
-        if(isset($request->order)){
-            if($request->order == "Pilih" || $request->order == "hargaterendah"){
+        if (isset($request->order)) {
+            if ($request->order == "Pilih" || $request->order == "hargaterendah") {
                 $order = "asc";
-            }else{
+            } else {
                 $order = "desc";
             }
         }
@@ -216,7 +246,7 @@ class ProdukController extends Controller
                     ->where('produk.nama', 'like', '%' . $request->key . '%')
                     ->whereBetween('harga', [$minimum, $maksimum])
                     ->where('jenisproduk_idjenisproduk', $jenis)
-                    ->where('merchant.status_merchant','!=','NonAktif')
+                    ->where('merchant.status_merchant', '!=', 'NonAktif')
                     ->where('produk.status', '!=', 'TidakAktif')
                     ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')
@@ -228,7 +258,7 @@ class ProdukController extends Controller
                     ->groupBy('produk.idproduk')
                     ->where('produk.nama', 'like', '%' . $request->key . '%')
                     ->where('merchant.status_merchant', '!=', 'NonAktif')
-                    ->where('produk.status','!=','TidakAktif')
+                    ->where('produk.status', '!=', 'TidakAktif')
                     ->whereBetween('harga', [$minimum, $maksimum])
                     ->orderBy('produk.harga', $order)
                     ->select('produk.*', 'merchant.nama as nama_merchant', 'gambarproduk.idgambarproduk as idgambarproduk')

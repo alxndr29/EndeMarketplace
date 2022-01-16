@@ -18,7 +18,7 @@ class PenarikanController extends Controller
         $daftarTransaksi = DB::table('transaksi')
             ->join('pembayaran', 'pembayaran.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->where('pembayaran.status', '=', 'settlement')
-            ->where('transaksi.refund_at', '=', null)
+            ->where('transaksi.refund', '=', 0)
             ->where('transaksi.users_iduser', $user->userid())
             ->where('transaksi.status_transaksi', 'Batal')
             ->get();
@@ -56,7 +56,7 @@ class PenarikanController extends Controller
                     'transaksi_idtransaksi' => $value,
                     'penarikandana_idpenarikandana' => $id
                 ]);
-                DB::table('transaksi')->where('transaksi.idtransaksi', $value)->update(['transaksi.refund_at' => date('Y-m-d H:i:s')]);
+                DB::table('transaksi')->where('transaksi.idtransaksi', $value)->update(['transaksi.refund' => 1]);
             }
             return redirect()->back()->with('berhasil', 'Form Penarikan Anda berhasil.');
         } catch (\Exception $e) {
@@ -100,7 +100,7 @@ class PenarikanController extends Controller
         $daftarTransaksi = DB::table('transaksi')
             ->join('pembayaran', 'pembayaran.transaksi_idtransaksi', '=', 'transaksi.idtransaksi')
             ->where('pembayaran.status', '=', 'settlement')
-            ->where('transaksi.withdraw_at', '=', null)
+            ->where('transaksi.withdraw', '=', 0)
             ->where('transaksi.merchant_users_iduser', $merchant->idmerchant())
             ->where('transaksi.status_transaksi', 'Selesai')
             //->whereNotIn('transaksi.idtransaksi', DB::table('transaksi_has_penarikandana')->pluck('transaksi_idtransaksi'))
@@ -138,7 +138,7 @@ class PenarikanController extends Controller
                     'transaksi_idtransaksi' => $value,
                     'penarikandana_idpenarikandana' => $id
                 ]);
-                DB::table('transaksi')->where('transaksi.idtransaksi', $value)->update(['transaksi.withdraw_at' => date('Y-m-d H:i:s')]);
+                DB::table('transaksi')->where('transaksi.idtransaksi', $value)->update(['transaksi.withdraw' => 1]);
             }
             return redirect()->back()->with('berhasil', 'Form Penarikan Anda berhasil.');
         } catch (\Exception $e) {

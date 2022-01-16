@@ -167,10 +167,10 @@
                     if (notif_selesai == false) {
                         Swal.fire(
                             'Berhasil!',
-                            'Pengiriman anda telah terselesaikan',
+                            'Pengiriman anda telah terselesaikan oleh kurir.',
                             'success'
                         ).then((result) => {
-                            //location.reload();
+                            location.reload();
                         });
                     }
                     notif_selesai = true;
