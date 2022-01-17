@@ -148,13 +148,12 @@ class ProdukController extends Controller
         // ];
 
         $labels  = [];
-        $support = 0.4;
-        $confidence = 0.8;
+        $support = 0;
+        $confidence = 0;
         $associator = new Apriori($support, $confidence);
         $associator->train($array, $labels);
         $data1 =  $associator->getRules();
         //return $data1;
-
         // foreach ($data1 as $key => $item) {
         //     foreach ($item as $isi => $value) {
         //         if ($isi == "antecedent") {
@@ -180,13 +179,16 @@ class ProdukController extends Controller
                 if ($value['antecedent'][0] == $id) {
                     //return "dapet";
                     foreach ($value['consequent'] as $kon) {
-                        if (in_array($kon, $rekomendasi)) { } else {
+                        if (in_array($kon, $rekomendasi)) {
+
+                         } else {
                             array_push($rekomendasi, $kon);
                         }
                     }
                 }
             }
         }
+        //dd($rekomendasi);
         $hasilAkhirRekomendasi = [];
         foreach ($rekomendasi as $rek) {
             $a = DB::table('produk')->where('produk.idproduk', $rek)

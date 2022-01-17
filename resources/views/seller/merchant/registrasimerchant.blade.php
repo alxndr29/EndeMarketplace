@@ -58,7 +58,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Anda Belum Memiliki Merchant yang Terdaftar. <b>Silahkan isi data dibawah ini untuk membuka toko </b> </p>
+                <p class="login-box-msg">Anda Belum Memiliki Toko yang Terdaftar. <b>Silahkan isi data dibawah ini untuk membuka toko </b> </p>
 
                 <form action="{{route('merchant.store')}}" method="post">
                     @csrf

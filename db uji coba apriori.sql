@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2022 at 12:00 PM
+-- Generation Time: Jan 16, 2022 at 05:12 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -124,7 +124,17 @@ CREATE TABLE `detailtransaksi` (
 --
 
 INSERT INTO `detailtransaksi` (`produk_idproduk`, `transaksi_idtransaksi`, `jumlah`, `total_harga`, `catatan`) VALUES
-(11, 34, 5, 35000, 'Cek jangan sampai kering');
+(10, 35, 0, 0, NULL),
+(10, 38, 0, 0, NULL),
+(11, 34, 5, 35000, 'Cek jangan sampai kering'),
+(11, 39, 0, 0, NULL),
+(13, 35, 0, 0, NULL),
+(13, 38, 0, 0, NULL),
+(14, 39, 0, 0, NULL),
+(14, 40, 0, 0, NULL),
+(15, 40, 0, 0, NULL),
+(19, 38, 0, 0, NULL),
+(19, 40, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -235,10 +245,7 @@ INSERT INTO `gambarproduk` (`idgambarproduk`, `produk_idproduk`, `created_at`, `
 (19, 17, '2022-01-15 12:22:42', '2022-01-15 12:22:42'),
 (20, 18, '2022-01-15 12:24:47', '2022-01-15 12:24:47'),
 (21, 19, '2022-01-15 12:30:24', '2022-01-15 12:30:24'),
-(22, 20, '2022-01-15 12:36:31', '2022-01-15 12:36:31'),
-(23, 21, '2022-01-17 14:15:41', '2022-01-17 14:15:41'),
-(24, 22, '2022-01-17 14:19:53', '2022-01-17 14:19:53'),
-(25, 22, '2022-01-17 14:19:53', '2022-01-17 14:19:53');
+(22, 20, '2022-01-15 12:36:31', '2022-01-15 12:36:31');
 
 -- --------------------------------------------------------
 
@@ -806,8 +813,7 @@ CREATE TABLE `kategori` (
 
 INSERT INTO `kategori` (`idkategori`, `nama_kategori`, `created_at`, `updated_at`, `merchant_users_iduser`) VALUES
 (8, 'Alat Tulis', '2022-01-09 13:11:24', '2022-01-09 13:11:24', 5),
-(9, 'Makanan dan Minuman', '2022-01-15 12:15:55', '2022-01-15 12:15:55', 5),
-(10, 'Rice Cooker', '2022-01-17 14:12:28', '2022-01-17 14:12:28', 5);
+(9, 'Makanan dan Minuman', '2022-01-15 12:15:55', '2022-01-15 12:15:55', 5);
 
 -- --------------------------------------------------------
 
@@ -820,13 +826,6 @@ CREATE TABLE `keranjang` (
   `produk_idproduk` int(11) NOT NULL,
   `jumlah` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `keranjang`
---
-
-INSERT INTO `keranjang` (`users_iduser`, `produk_idproduk`, `jumlah`) VALUES
-(4, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -1050,9 +1049,7 @@ INSERT INTO `produk` (`idproduk`, `nama`, `deskripsi`, `harga`, `minimum_pemesan
 (17, 'Mie Sedap Goreng - Karton', 'Mie Sedap rasa ayam. 1 karton 48pcs. Expired masih lama', 95000, 1, 'Aktif', 50, 2000, 30, 20, 15, 'TidakAktif', 0, NULL, 9, 1, '2022-01-15 12:22:42', '2022-01-15 12:22:42', 5),
 (18, 'Mie Gelas - Renceng', 'Mie Gelas aneka rasa baso sapi, ayam, dan sop buntut. Mohon tuliskan di deskripsi. 1 renceng 10 bungkus', 15000, 1, 'Aktif', 80, 100, 15, 10, 5, 'TidakAktif', 0, NULL, 9, 1, '2022-01-15 12:24:47', '2022-01-15 12:24:47', 5),
 (19, 'Pensil Warna Faber Castell', '24 warna. Produk original', 35000, 1, 'Aktif', 25, 75, 30, 15, 5, 'TidakAktif', 0, NULL, 8, 9, '2022-01-15 12:30:24', '2022-01-15 12:30:24', 5),
-(20, 'Bimoli Minyal Goreng 5L', 'Bimoli uk 5 liter. Expired masih lama', 95000, 1, 'Aktif', 50, 3000, 30, 15, 8, 'TidakAktif', 0, NULL, 9, 1, '2022-01-15 12:36:31', '2022-01-15 12:36:31', 5),
-(21, 'Rice Cooker Miyako Magic Com  Kapasitas 1,8', 'Nikmati fungsi 3in1 untuk memasak nasi, mengukus dan menghangatkan makanan.', 350000, 1, 'Aktif', 20, 3000, 30, 30, 30, 'Aktif', 3, 'https://www.youtube.com/embed/9OTTGjazQTw', 10, 8, '2022-01-17 14:15:41', '2022-01-17 14:15:41', 5),
-(22, 'Rice Cooker Miyako Magic Com Kapasitas 0.8', 'Fitur 3 in 1 : memasak, menghangatkan dan mengukus\nKapasitas : beras 0.6 liter dan nasi 1.85 liter', 250000, 1, 'Aktif', 15, 2500, 25, 25, 25, 'Aktif', 2, 'https://www.youtube.com/embed/4iCEpckyITU', 10, 8, '2022-01-17 14:19:53', '2022-01-17 14:19:53', 5);
+(20, 'Bimoli Minyal Goreng 5L', 'Bimoli uk 5 liter. Expired masih lama', 95000, 1, 'Aktif', 50, 3000, 30, 15, 8, 'TidakAktif', 0, NULL, 9, 1, '2022-01-15 12:36:31', '2022-01-15 12:36:31', 5);
 
 -- --------------------------------------------------------
 
@@ -1198,7 +1195,11 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`idtransaksi`, `tanggal`, `status_transaksi`, `jenis_transaksi`, `waktu_po`, `nominal_pembayaran`, `users_iduser`, `merchant_users_iduser`, `alamatpembeli_idalamat`, `tipepembayaran_idtipepembayaran`, `timeout_at`, `created_at`, `updated_at`, `refund`, `withdraw`, `komplain`) VALUES
-(34, '2022-01-15 11:16:37', 'Batal', 'Langsung', NULL, 46753, 4, 5, 7, 2, '2022-01-16 11:24:30', '2022-01-15 11:16:37', '2022-01-15 11:24:30', 0, 0, 0);
+(34, '2022-01-15 11:16:37', 'Batal', 'Langsung', NULL, 46753, 4, 5, 7, 2, '2022-01-16 11:24:30', '2022-01-15 11:16:37', '2022-01-15 11:24:30', 0, 0, 0),
+(35, '2022-01-16 23:53:51', 'MenungguPembayaran', 'Langsung', NULL, 456, 4, 5, 7, 2, '2022-01-01 00:00:00', NULL, NULL, 0, 0, 0),
+(38, '2022-01-16 23:54:32', 'MenungguKonfirmasi', 'Langsung', NULL, 5, 4, 5, 7, 2, '2022-01-16 00:00:00', NULL, NULL, 0, 0, 0),
+(39, '2022-01-16 23:55:51', 'MenungguPembayaran', 'Langsung', NULL, 5, 5, 5, 7, 2, '2022-01-07 00:00:00', NULL, NULL, 0, 0, 0),
+(40, '2022-01-16 23:55:53', 'MenungguPembayaran', 'Langsung', NULL, 5, 5, 5, 7, 2, '2022-01-07 00:00:00', NULL, NULL, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1504,7 +1505,7 @@ ALTER TABLE `diskusi`
 -- AUTO_INCREMENT for table `gambarproduk`
 --
 ALTER TABLE `gambarproduk`
-  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `idgambarproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `jenisproduk`
@@ -1516,7 +1517,7 @@ ALTER TABLE `jenisproduk`
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `kurir`
@@ -1558,7 +1559,7 @@ ALTER TABLE `petugaspengantaran`
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `reviewproduk`
