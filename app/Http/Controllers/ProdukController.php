@@ -368,15 +368,19 @@ class ProdukController extends Controller
             if ($counter != 0) {
                 return redirect('seller/produk')->with('gagal', 'Gagal Hapus Produk');
             } else {
+                DB::beginTransaction();
                 $data =  Gambarproduk::where('produk_idproduk', $id)->get();
+                Gambarproduk::where('produk_idproduk', $id)->delete();
+                Produk::where('idproduk', $id)->delete();
+                DB::commit();
                 foreach ($data as $key => $value) {
                     $this->removeImage($value->idgambarproduk);
                 }
-                Gambarproduk::where('produk_idproduk', $id)->delete();
-                Produk::where('idproduk', $id)->delete();
                 return redirect('seller/produk')->with('berhasil', 'Berhasil Hapus Produk');
             }
         } catch (\Exception $e) {
+            DB::rollback();
+            return redirect('seller/produk')->with('gagal', 'Gagal Hapus Produk');
             return $e->getMessage();
         }
     }

@@ -32,7 +32,9 @@
                     <br>
                     Biaya Pengiriman: <b>Rp. {{number_format($alamatPengiriman->biaya_pengiriman)}}</b>
                     <br>
-                    Nominal Penagihan: <b>Rp. {{number_format($alamatPengiriman->nominal_pembayaran)}}</b>
+                    @if($alamatPengiriman->namatipepembayaran == "COD")
+                        Nominal Penagihan: <b>Rp. {{number_format($alamatPengiriman->nominal_pembayaran)}}</b>
+                    @endif
                     <br>
                     Status Pengiriman: <b>{{$data->status}}</b>
                     <br>
