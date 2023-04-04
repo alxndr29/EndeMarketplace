@@ -135,7 +135,7 @@ Route::get('cost/{origin}/{destination}/{courier}/{berat}', 'RajaOngkirControlle
 //Auth Bawaan Laravel
 //Auth::routes();
 
-Auth::routes(['verify' => true]);
+Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('user/home', 'HomeController@homeUser')->name('user.home')->middleware('verified');
 
