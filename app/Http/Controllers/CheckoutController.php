@@ -273,7 +273,7 @@ class CheckoutController extends Controller
             return redirect('user/transaksi/index');
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('gagal', 'Tidak dapat melakukan checkout');
+            return redirect()->back()->with('gagal', 'Tidak dapat melakukan checkou t');
         }
     }
 }
